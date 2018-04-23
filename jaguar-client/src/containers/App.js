@@ -71,6 +71,10 @@ const AsyncCreateTeam = Loadable({
     loader: () => import('./org_team/TeamForm'),
     loading: Loading,
 });
+const AsyncOrgAdmin = Loadable({
+    loader: () => import('./adminPages/orgAdmin'),
+    loading: Loading,
+});
 
 
 
@@ -88,6 +92,7 @@ class App extends Component {
                     <PrivateRoute path="/update-user" exact component={AsyncUpdateUser} />
                     <PrivateRoute path="/create-org" exact component={AsyncCreateOrg} />
                     <PrivateRoute path="/create-team" exact component={AsyncCreateTeam} />
+                    <PrivateRoute path="/orgAdmin" exact component={AsyncOrgAdmin} />
                 </Switch>
                 </div>
             </Router>
