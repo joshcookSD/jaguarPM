@@ -1,0 +1,39 @@
+{
+  "name": "jaguar-server",
+  "version": "2018.2.0",
+  "description": "Server for jaguar project",
+  "main": "server.js",
+  "dependencies": {
+    "apollo-server-express": "^1.3.0",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "casual": "^1.5.17",
+    "connect-mongo": "^2.0.1",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.1",
+    "express-session": "^1.15.6",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^2.13.0",
+    "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.4",
+    "mongodb": "^3.0.5",
+    "mongoose": "^5.0.12",
+    "node-fetch": "^1.7.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "nodemon": "^1.12.1"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "scripts": {
+    "start": "nodemon ./server.js --exec babel-node"
+  },
+  "author": "Jaguar"
+}
