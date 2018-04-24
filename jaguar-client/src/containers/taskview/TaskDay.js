@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { List,Header, Segment, Transition, Dimmer, Loader} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
-import {tasksByDay, tasksToday} from "../apollo-graphql/taskQueries";
+import {tasksByDay} from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
 

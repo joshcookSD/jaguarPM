@@ -48,6 +48,10 @@ const projectSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Requirements"
         }],
+        comments: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }],
         projecttime: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Time"

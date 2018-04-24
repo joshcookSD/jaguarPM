@@ -14,6 +14,7 @@ import {MilestoneMutation, MilestoneQuery, MilestoneType} from "./types/mileston
 import {ProjectMutation, ProjectQuery, ProjectType} from "./types/project";
 import {RequirementMutation, RequirementQuery, RequirementType} from "./types/requirement";
 import {TeamMutation, TeamQuery, TeamType} from "./types/team";
+import {CommentMutation, CommentQuery, CommentType} from "./types/comment";
 
 //schema for graphql
 const typeDefs = `
@@ -29,6 +30,7 @@ const typeDefs = `
     ${ProjectType}
     ${RequirementType}
     ${TeamType}
+    ${CommentType}
     
     type Query {
         ${UserQuery}
@@ -43,6 +45,7 @@ const typeDefs = `
         ${ProjectQuery}
         ${RequirementQuery}
         ${TeamQuery}
+        ${CommentQuery}
     }
     type Mutation {
         ${TaskMutation}
@@ -57,6 +60,7 @@ const typeDefs = `
         ${ProjectMutation}
         ${RequirementMutation}
         ${TeamMutation}
+        ${CommentMutation}
     }
 `;
 

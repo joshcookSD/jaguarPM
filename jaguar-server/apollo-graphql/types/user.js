@@ -4,6 +4,7 @@ import PlannedTime from '../../models/plannedtime';
 import UserTypeOrg from '../../models/usertypeorg';
 import Organization from '../../models/organization';
 import Team from '../../models/team';
+import Comment from '../../models/comment';
 require("dotenv").load();
 import bcrypt from 'bcrypt';
 import { tryLogin, refreshLogin } from '../auth';
@@ -18,6 +19,7 @@ const UserType = `
         password: String
         profileImageUrl: String
         tasks: [Task]
+        comments: [Comment]
         time: [Time]
         plannedtime: [PlannedTime]
         usertypeorg: [UserTypeOrg]
@@ -93,6 +95,9 @@ const UserQueryResolver = {
 const UserNested =  {
     tasks: async ({_id}) => {
         return (await Task.find({taskcurrentowner: _id}))
+    },
+    comments: async ({_id}) => {
+        return (await Comment.find({user: _id}))
     },
     time: async ({_id}) => {
         return (await Time.find({user: _id}))

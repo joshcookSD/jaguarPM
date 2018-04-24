@@ -6,7 +6,7 @@ const TimeType = `
         _id: String
         time: Float
         date: String
-        comment: String
+        timecomment: String
         user: User
         task: Task
     }
@@ -20,7 +20,7 @@ const TimeQuery = `
 const TimeMutation = `
     createTimeTask(
         time: Float
-        comment: String
+        timecomment: String
         date: String
         user: String
         task: String
@@ -50,8 +50,8 @@ const TimeNested = {
 };
 
 const TimeMutationResolver ={
-    createTimeTask: async (parent, {time, comment, date, task, user}, { Time, Task, User }) => {
-        let newtime = await new Time({time, comment, user, task, date}).save();
+    createTimeTask: async (parent, {time, timecomment, date, task, user}, { Time, Task, User }) => {
+        let newtime = await new Time({time, timecomment, user, task, date}).save();
         let usertime = await User.findById(user);
         console.log(usertime);
         usertime.time.push(newtime._id);

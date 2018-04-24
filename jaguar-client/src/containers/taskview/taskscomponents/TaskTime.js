@@ -14,7 +14,7 @@ class TaskTime extends Component {
         const { time, comment } = this.state;
         const _addTime = async () => {
             await this.props.addTime({
-                variables: {task: taskId, user: userId, date:date, time, comment}
+                variables: {task: taskId, user: userId, date:date, time, timecomment: comment}
             })
         };
         return(

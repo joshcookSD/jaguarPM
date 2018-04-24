@@ -37,6 +37,10 @@ const taskSchema = new mongoose.Schema(
         taskstatus: {
           type: String,
         },
+        comments: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }],
         tasktime: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Time"

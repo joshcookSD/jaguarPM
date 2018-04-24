@@ -1,13 +1,16 @@
 import User from "../../models/user";
-import Time from "../../models/time";
-
+import Task from "../../models/task";
+import Group from "../../models/group";
+import Project from "../../models/project";
 
 const CommentType = `
     type Comment {
         _id: String
-        time: Time
         date: String
         user: User
+        task: Task
+        group: Group
+        project: Project
     }
 `;
 
@@ -17,11 +20,12 @@ const CommentQuery = `
 `;
 
 const CommentMutation = `
-    createComment(
+    createTaskComment(
          _id: String
         comment: Float
         date: String
         user: String
+        task: String
 ) : Comment
 `;
 
@@ -40,15 +44,21 @@ const CommentQueryResolver = {
 
 const CommentNested = {
     task: async ({ _id }) => {
-        return (await Task.find({ time: _id }))
+        return (await Task.find({ comments: _id }))
     },
     user: async ({ _id }) => {
-        return (await User.find({ time: _id }))
+        return (await User.find({ comments: _id }))
+    },
+    group: async ({ _id }) => {
+        return (await Group.find({ comments: _id }))
+    },
+    project: async ({ _id }) => {
+        return (await Project.find({ comments: _id }))
     },
 };
 
 const CommentMutationResolver = {
-    createComment: async (parent, args, { Comment, Task, User }) => {
+    createTaskComment: async (parent, args, { Comment, Task, User }) => {
         let comment = await new Comment(args).save();
         let user = await User.findById(args.user);
         user.comment.push(comment._id);

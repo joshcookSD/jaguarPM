@@ -13,7 +13,7 @@ const timeSchema = new mongoose.Schema(
           type: Date,
           required: true
         },
-        comment: {
+        timecomment: {
           type: String,
           required: true
         },
