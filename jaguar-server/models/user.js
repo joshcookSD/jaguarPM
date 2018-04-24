@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Task"
         }],
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment"
+    }],
     time: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Time"

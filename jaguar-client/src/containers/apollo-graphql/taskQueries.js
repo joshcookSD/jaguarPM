@@ -14,10 +14,28 @@ const allTasks= gql`
  `;
 
 const task = gql`
- {
-  task {
+ query task($_id: String!){
+  task(_id: $_id) {
     _id
     tasktitle
+    taskdescription
+    taskstatus
+    iscompleted
+    plandate
+    duedate
+    completeddate
+    priority{
+        _id
+        priority
+        }
+    group {
+        _id
+        grouptitle
+        }
+    team {
+        _id
+        teamtitle
+    }
     taskcurrentowner {
       _id
       username
@@ -87,6 +105,21 @@ const tasksByTeam = gql`
 const createTask = gql`
 mutation createTask($tasktitle: String, $taskcurrentowner: String, $plandate: String, $iscompleted: Boolean) {
     createTask(tasktitle: $tasktitle, taskcurrentowner: $taskcurrentowner, plandate: $plandate, iscompleted: $iscompleted) {
+        _id
+        tasktitle
+        iscompleted
+        plandate
+        taskcurrentowner {
+          _id
+          username
+            }
+        }
+    }
+`;
+
+const updateTask = gql`
+mutation updateTask($tasktitle: String, $taskdescription: String, $taskcurrentowner: String, $plandate: String,$plandate: String, $iscompleted: Boolean) {
+    updateTask(tasktitle: $tasktitle, taskdescription: $taskdescription, taskcurrentowner: $taskcurrentowner, plandate: $plandate, iscompleted: $iscompleted) {
         _id
         tasktitle
         iscompleted

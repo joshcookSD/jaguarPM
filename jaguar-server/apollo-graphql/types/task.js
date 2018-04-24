@@ -15,6 +15,7 @@ const TaskType = `
         completeddate: String
         plandate: String
         taskstatus: String
+        comments: [Comment]
         taskcurrentowner: User
         taskpriorowners: [User]
         tasktime: [Time]
@@ -44,6 +45,19 @@ const TaskMutation = `
         taskcurrentowner: String,
         plandate: String,
         iscompleted: Boolean
+) : Task
+    updateTask(
+        tasktitle: String,
+        taskdescription: String,
+        taskstatus: String,
+        duedate: String,
+        priority: String,
+        group: String,
+        team: String,
+        taskcurrentowner: String,
+        plandate: String,
+        iscompleted: Boolean,
+        completeddate: String
 ) : Task
     completeTask(
         _id: String!
@@ -82,6 +96,9 @@ const TaskQueryResolver = {
 };
 
 const TaskNested = {
+    comments: async ({_id}) => {
+        return await Comment.find({task: _id})
+    },
     taskcurrentowner: async ({taskcurrentowner}) => {
         return await User.findById(taskcurrentowner)
     },
@@ -91,14 +108,14 @@ const TaskNested = {
     taskplannedtime: async ({_id}) => {
         return (await PlannedTime.find({task: _id}))
     },
-    priority: async ({_id}) => {
-        return (await Priority.find({task: _id}))
+    priority: async ({priority}) => {
+        return (await Priority.findById(priority))
     },
-    group: async ({_id}) => {
-        return (await Group.find({task: _id}))
+    group: async ({group}) => {
+        return (await Group.findById(group))
     },
-    team: async ({_id}) => {
-        return (await Team.find({task: _id}))
+    team: async ({team}) => {
+        return (await Team.findById(team))
     },
     organization: async ({_id}) => {
         return (await Organization.find({task: _id}))
@@ -111,6 +128,22 @@ const TaskMutationResolver ={
         let owner = await User.findById(args.taskcurrentowner);
         owner.tasks.push(task._id);
         await owner.save();
+        return task
+    },
+    updateTask: async (parent, args, { Task, User }) => {
+        let task = await new Task(args).save();
+        let owner = await User.findById(args.taskcurrentowner);
+        owner.tasks.push(task._id);
+        await owner.save();
+        let taskteam = await Team.findById(args.team);
+        taskteam.tasks.push(task._id);
+        await taskteam.save();
+        let taskgroup = await Group.findById(args.group);
+        taskgroup.tasks.push(task._id);
+        await taskgroup.save();
+        let taskpriority = await Priority.findById(args.priority);
+        taskpriority.tasks.push(task._id);
+        await taskpriority.save();
         return task
     },
     completeTask: async (parent, args, {Task}) =>{

@@ -13,6 +13,7 @@ const ProjectType = `
         projecttitle: String
         projectdescription: String
         task: [Task]
+        comments: [Comment]
         group: [Group]
         milestone: [Milestone]
         requirement: [Requirement] 
@@ -69,6 +70,9 @@ const ProjectNested = {
     },
     priority: async ({priority}) => {
         return (await Priority.find({priority: _id}))
+    },
+    comments: async ({comment}) => {
+        return (await Comment.find({comment}))
     },
     task: async ({task}) => {
         return (await Task.find({task: _id}))

@@ -75,6 +75,10 @@ const AsyncOrgAdmin = Loadable({
     loader: () => import('./adminPages/orgAdmin'),
     loading: Loading,
 });
+const AsyncTaskDetail = Loadable({
+    loader: () => import('./taskview/TaskDetail'),
+    loading: Loading,
+});
 
 
 
@@ -93,6 +97,7 @@ class App extends Component {
                     <PrivateRoute path="/create-org" exact component={AsyncCreateOrg} />
                     <PrivateRoute path="/create-team" exact component={AsyncCreateTeam} />
                     <PrivateRoute path="/orgAdmin" exact component={AsyncOrgAdmin} />
+                    <PrivateRoute path="/task-detail" exact component={AsyncTaskDetail} />
                 </Switch>
                 </div>
             </Router>

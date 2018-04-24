@@ -43,6 +43,6 @@ class TaskForm extends Component {
             </Mutation>
         );
     }
-};
+}
 
 export default TaskForm;

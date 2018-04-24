@@ -13,6 +13,7 @@ import UsertypeOrg from "../models/usertypeorg";
 import Milestone from "../models/milestone";
 import Organization from "../models/organization";
 import Team from "../models/team";
+import Comment from "../models/comment";
 
 //resolver imports from types files
 import {UserQueryResolver, UserMutationResolver, UserNested} from "./types/user";
@@ -27,6 +28,7 @@ import {MilestoneQueryResolver, MilestoneMutationResolver, MilestoneNested} from
 import {ProjectQueryResolver, ProjectMutationResolver, ProjectNested} from "./types/project";
 import {RequirementQueryResolver, RequirementMutationResolver, RequirementNested} from "./types/requirement";
 import {TeamQueryResolver, TeamMutationResolver, TeamNested} from "./types/team";
+import {CommentQueryResolver, CommentMutationResolver, CommentNested} from "./types/comment";
 
 //Merged Query Resolvers
 const Queries =
@@ -42,7 +44,8 @@ const Queries =
         MilestoneQueryResolver,
         ProjectQueryResolver,
         RequirementQueryResolver,
-        TeamQueryResolver
+        TeamQueryResolver,
+        CommentQueryResolver
     );
 
 //merged mutation resolvers
@@ -59,7 +62,8 @@ const Mutations =
         MilestoneMutationResolver,
         ProjectMutationResolver,
         RequirementMutationResolver,
-        TeamMutationResolver
+        TeamMutationResolver,
+        CommentMutationResolver
     );
 
 // final product for graphql resolvers
@@ -90,6 +94,8 @@ const resolvers = {
         RequirementNested,
     Team:
         TeamNested,
+    Comment:
+        CommentNested,
     Mutation:
         Mutations,
 };

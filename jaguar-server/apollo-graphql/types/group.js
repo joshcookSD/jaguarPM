@@ -11,6 +11,7 @@ const GroupType = `
         groupdescription: String
         task: [Task]
         users: [User]
+        comments: [Comment]
         grouptime: [Time]
         groupplannedtime: [PlannedTime]
         plannedcompletiondate: String
@@ -52,20 +53,23 @@ const GroupMutationResolver ={
 };
 
 const GroupNested = {
+    comments: async ({comment}) => {
+        return (await Comment.find({group: comment}))
+    },
     task: async ({task}) => {
-        return (await Task.find({task: _id}))
+        return (await Task.find({task: task}))
     },
     users: async ({users}) => {
-        return (await User.find({users: _id}))
+        return (await User.find({users}))
     },
-    grouptime: async ({grouptime}) => {
-        return (await Time.find({grouptime: _id}))
+    grouptime: async ({time}) => {
+        return (await Time.find({time}))
     },
     groupplannedtime: async ({groupplannedtime}) => {
-        return (await PlannedTime.find({groupplannedtime: _id}))
+        return (await PlannedTime.find({groupplannedtime}))
     },
     priority: async ({priority}) => {
-        return (await Priority.find({priority: _id}))
+        return (await Priority.find({priority}))
     },
 };
 

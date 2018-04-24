@@ -23,14 +23,9 @@ const groupSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }],
-        groupcomments: [{
-            commentuser: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User"
-            },
-            commentuser: {
-                type: String
-            }
+        comments: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
         }],
         grouptime: [{
             type: mongoose.Schema.Types.ObjectId,
