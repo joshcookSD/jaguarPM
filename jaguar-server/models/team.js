@@ -14,15 +14,6 @@ const teamSchema = new mongoose.Schema(
             type: String,
             maxLength: 160
         },
-        // organizationcomments: [{
-        //     commentuser: {
-        //         type: mongoose.Schema.Types.ObjectId,
-        //         ref: "User"
-        //     },
-        //     organizationcomment: {
-        //         type: String
-        //     }
-        // }],
         users: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
@@ -43,10 +34,6 @@ const teamSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Organization"
         },
-        // client: [{
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "Client"
-        // }]
     },
     {
         timestamps:true

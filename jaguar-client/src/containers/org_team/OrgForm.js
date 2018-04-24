@@ -3,10 +3,15 @@ import gql from "graphql-tag";
 // import { Link } from 'react-router-dom';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Container, Header, Icon } from 'semantic-ui-react';
+import decode from 'jwt-decode';
+
+const token = localStorage.getItem('token');
+const { user } = decode(token);
+const userId = user._id;
 
 const CREATE_ORG = gql`
-    mutation createOrganization( $orgtitle: String!, $orgdescription: String) {
-        createOrganization(orgtitle: $orgtitle, orgdescription: $orgdescription) {
+    mutation createOrganization( $orgtitle: String!, $orgdescription: String, $owner: String!) {
+        createOrganization(orgtitle: $orgtitle, orgdescription: $orgdescription, owner: $owner) {
             ok
             errors {
                 path
@@ -37,12 +42,15 @@ class OrgForm extends Component {
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
+                                console.log(userId);
+                                
                                 const response = await createOrganization({
-                                    variables: {orgdescription: orgdescription,orgtitle: orgtitle, owner: '5ac7c890e6b7a32be7554cc1'}
+                                    variables: { orgdescription: orgdescription, orgtitle: orgtitle, owner: userId}
                                 });
                                 const {ok, errors,} = response.data.createOrganization;
                                 if(ok) {
-                                    this.props.history.push('/');
+                                    // this.props.history.push('/');
+                                    alert('New Organization Created')
                                 } else {
                                 const err = {};
                                 errors.forEach(({ path, message }) => {

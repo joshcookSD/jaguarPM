@@ -24,6 +24,7 @@ const TeamType = `
 const TeamQuery = `
     allTeams: [Team]
     team(_id: String): Team
+    teamsByOrg(organization: String): [Team]
 `;
 
 const TeamMutation = `
@@ -31,7 +32,7 @@ const TeamMutation = `
         teamtitle: String!,
         teamdescription: String,
         owner: String,
-        organization: String,
+        organization: String!,
     ) : CreateTeamResponse
 `;
 
@@ -46,6 +47,10 @@ const TeamQueryResolver = {
     team: async (parent, args, {Team}) => {
         return await Team.findById(args._id.toString())
     },
+    teamsByOrg: async (parent, { organization }, { Team }) => {
+        const teamOrg = await Organization.findById( organization )
+        return await Team.find({ organization: teamOrg })
+    },
 };
 
 const TeamNested = {
@@ -56,7 +61,7 @@ const TeamNested = {
         return (await User.find({team: _id}))
     },
     organization: async ({organization}) => {
-        return (await Organization.findById(organization))
+        return await Organization.findById(organization)
     },
 };
 

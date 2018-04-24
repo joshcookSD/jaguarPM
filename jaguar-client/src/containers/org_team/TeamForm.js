@@ -29,6 +29,7 @@ class TeamForm extends Component {
     };
 
     render() {
+        const {orgId} = this.props;
         const { teamtitle, teamdescription, teamtitleerror } = this.state;
         const errorList = [];
         if (teamtitleerror) { errorList.push(teamtitleerror); }
@@ -45,11 +46,9 @@ class TeamForm extends Component {
                                 console.log(user);
                                 
                                 const response = await createTeam({
-                                    variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: "5ad0f425b6544f0ef8d6f601", owner: user._id }
+                                    variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: orgId, owner: user._id }
                                 });
-                                const { ok, errors, } = response.data.createTeam;
-                                
-                                
+                                const { ok, errors, } = response.data.createTeam;                                                          
                                 if (ok) {
                                     // this.props.history.push('/');
                                     this.setState({
@@ -67,7 +66,6 @@ class TeamForm extends Component {
                                     this.setState(err);
                                 }
                             }}>
-
                             <Form.Field error={!!teamtitleerror}>
                                 <i className="material-icons prefix">group_add</i>
                                 <Input
@@ -93,18 +91,6 @@ class TeamForm extends Component {
                                 />
                             </Form.Field>   
 
-                            {/* <Form.Field>
-                                <Input
-                                    placeholder="organization"
-                                    value={organization}
-                                    type="text"
-                                    id="organization"
-                                    name="organization"
-                                    fluid
-                                    onChange={e => this.setState({ organization: e.target.value })}
-                                />
-                            </Form.Field> */}
-                         
                             <Button floated='right' icon labelPosition='left'><Icon name='plus' />create</Button>
                         </Form>
                         {errorList.length ? (
