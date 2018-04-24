@@ -1,3 +1,5 @@
+const User = require("./user");
+
 const mongoose = require("mongoose");
 
 const organizationSchema = new mongoose.Schema(
@@ -8,7 +10,7 @@ const organizationSchema = new mongoose.Schema(
             maxLength: 50,
             minLength: 3
         },
-        orgDescription: {
+        orgdescription: {
             type: String,
             maxLength: 160
         },

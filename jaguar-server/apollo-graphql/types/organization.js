@@ -7,11 +7,11 @@ import requiresAuth from '../permissions';
 const OrganizationType = `
     type Organization {
         _id: String
-        orgtitle: String!
+        orgtitle: String
         orgdescription: String
-        usertypes: [UserTypeOrg]
         owner: User
         users: [User]
+        usertypes: [UserTypeOrg]
         teams: [Team]
     }
     
@@ -25,6 +25,7 @@ const OrganizationType = `
 const OrganizationQuery = `
     allOrganizations: [Organization]
     organization(_id: String): Organization
+    orgByOwner( owner: String ): [Organization]
 `;
 
 const OrganizationMutation = `
@@ -46,14 +47,18 @@ const OrganizationQueryResolver = {
     organization: async (parent, args, {Organization}) => {
         return await Organization.findById(args._id.toString())
     },
+    orgByOwner: async (parent, args, { Organization }) => {
+        const orgowner = await User.findById(args.owner.toString());
+        return await Organization.find({ owner: orgowner })
+    }
 };
 
 const OrganizationNested = {
-    owner: async ({_id}) => {
-        return (await User.findById(_id))
+    owner: async ({owner}) => {
+        return await User.findById(owner)
     },
     users: async ({_id}) => {
-        return (await User.find({organization: _id}))
+        return await User.find({organization: _id})
     },
     teams: async ({_id}) => {
         return (await Team.find({organization: _id}))
@@ -64,7 +69,7 @@ const OrganizationNested = {
 };
 
 const OrganizationMutationResolver ={
-    createOrganization: requiresAuth.createResolver(async (parent, {orgtitle, orgdescription, owner}, {Organization}) => {
+    createOrganization: async (parent, {orgtitle, orgdescription, owner}, {Organization}) => {
         try {
             const err = [];
             let orgtitleErr = await orgError(orgtitle);
@@ -91,7 +96,7 @@ const OrganizationMutationResolver ={
                 errors: [{path: 'orgtitle', message: 'something did not go well'}]
             }
         }
-    })
-};
+    }
+};  
 
 export {OrganizationType, OrganizationMutation, OrganizationQuery, OrganizationQueryResolver, OrganizationNested, OrganizationMutationResolver};

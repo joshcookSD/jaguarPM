@@ -8,6 +8,7 @@ const NavSideWrapper = styled.div`
   background-color: #362234;
   color: #958993;
 `;
+
 const NavList = styled.ul`
   width: 100%;
   padding-left: 0px;
