@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import cors from 'cors';
 const MongoStore = require('connect-mongo')(session);
 import jwt from 'jsonwebtoken';
+import path from 'path';
 
 
 // mongoose models for graphql context
