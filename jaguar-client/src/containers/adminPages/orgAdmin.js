@@ -32,7 +32,6 @@ const OrgAdmin = ({ owner }) => (
             <TaskToday />
             </MainSidebar>
             <OrgAdminHeader/>
-
             </AppLayout>
                     )
       }} 
