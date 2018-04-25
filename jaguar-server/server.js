@@ -26,8 +26,11 @@ import Organization from "./models/organization";
 import Team from "./models/team";
 
 import { refreshTokens } from './apollo-graphql/auth';
-const mongo_uri = `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`;
-// 'mongodb://localhost:27017/jaguar'
+const mongo_uri = `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`
+//`mongodb://localhost:27017/jaguar`
+
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+console.log('process.env.PORT', process.env.PORT);
 
 mongoose.set("debug", true);
 mongoose.Promise = Promise;
@@ -35,8 +38,8 @@ mongoose.connect(mongo_uri, {
     keepAlive: true
 });
 
-const PORT = 3001;
 const app = express();
+app.set('port', (process.env.PORT || 3001));
 
 const SECRET = 'jikbNIUAR7984349HQIJBEOQW8Gionedibjgsidfl';
 const SECRET2 = 'asiodfhoi1hoi23jnl1kejasdjlkfasdd';
@@ -72,7 +75,14 @@ app.use(session({
     })
 }));
 
-app.use('*', cors({ origin: 'http://localhost:3000' }));
+const isNotProduction = process.env.NODE_ENV !== 'production';
+if (isNotProduction) {
+    app.use('*', cors({ origin: 'http://localhost:3000' }));
+}
+
+const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
+app.use(staticFiles);
+
 app.use('/graphql', bodyParser.json(),
     graphqlExpress(req => ({ schema,
     context: {
@@ -84,8 +94,10 @@ app.use('/graphql', bodyParser.json(),
 })));
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
-app.listen(PORT, function() {
-    console.log(`GraphiQL is now running on http://localhost:${PORT}/graphiql`);
+app.use('/*', staticFiles);
+
+app.listen(app.get('port'), function() {
+    console.log(`Listening on ${app.get('port')}`);
 });
 
 
