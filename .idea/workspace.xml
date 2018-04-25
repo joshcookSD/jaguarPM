@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4fb954e-ae3c-4ad3-89fc-88cbaa90a5d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/.env" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/apollo.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/apollo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-server/server.js" afterDir="false" />
-    </list>
+    <list default="true" id="f4fb954e-ae3c-4ad3-89fc-88cbaa90a5d5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -22,7 +17,7 @@
       <file leaf-file-name="server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jaguar-server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
+            <state relative-caret-position="307">
               <caret line="99" column="47" selection-start-line="99" selection-start-column="47" selection-end-line="99" selection-end-column="47" />
               <folding>
                 <element signature="e#28#58#0" expanded="true" />
@@ -180,16 +175,15 @@
       <workItem from="1524539522832" duration="1979000" />
       <workItem from="1524541554209" duration="91000" />
       <workItem from="1524585436742" duration="11273000" />
-      <workItem from="1524676088967" duration="4084000" />
+      <workItem from="1524676088967" duration="4967000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15217000" />
+    <option name="totallyTimeSpent" value="16100000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="22" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info id="DB Browser" order="2" />
@@ -624,7 +618,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-server/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
+        <state relative-caret-position="307">
           <caret line="99" column="47" selection-start-line="99" selection-start-column="47" selection-end-line="99" selection-end-column="47" />
           <folding>
             <element signature="e#28#58#0" expanded="true" />
