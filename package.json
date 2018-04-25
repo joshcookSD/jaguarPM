@@ -12,6 +12,11 @@
   "bugs": {
     "url": "https://github.com/joshcookSD/jaguarPM/issues"
   },
+  "engines": {
+    "node": "9.9.0",
+    "npm": "5.6.0",
+    "yarn": "1.5.1"
+  },
   "homepage": "https://github.com/joshcookSD/jaguarPM#readme",
   "dependencies": {
     "concurrently": "^3.5.1",
