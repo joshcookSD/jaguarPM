@@ -1,0 +1,105 @@
+.ui.tab.active {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ui.secondary.menu .active.item:hover {
+    box-shadow: none;
+    background: rgba(0, 0, 0, .05);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.ui.secondary.menu .dropdown.item:hover,
+.ui.secondary.menu .link.item:hover,
+.ui.secondary.menu a.item:hover {
+    background: rgba(0, 0, 0, .05);
+    color: rgb(255, 255, 255);
+}
+
+.ui.secondary.menu .active.item {
+    box-shadow: none;
+    background: rgba(0, 0, 0, .05);
+    color: rgba(255, 255, 255, 0.95);
+    border-radius: .28571429rem;
+}
+
+.ui.menu .active.item:hover,
+.ui.vertical.menu .active.item:hover {
+    background-color: rgba(0, 0, 0, .05);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.ui.link.menu .item:hover,
+.ui.menu .dropdown.item:hover,
+.ui.menu .link.item:hover,
+.ui.menu a.item:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, .03);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.ui.secondary.menu .item {
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
+    align-self: center;
+    box-shadow: none;
+    border: none;
+    padding: .78571429em .92857143em;
+    margin: 0 .35714286em;
+    background: 0 0;
+    -webkit-transition: color .1s ease;
+    transition: color .1s ease;
+    border-radius: .28571429rem;
+}
+
+.ui.menu .active.item {
+    background: rgba(0, 0, 0, .05);
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 400;
+    box-shadow: none;
+}
+
+.ui.menu>.item:first-child {
+    border-radius: .28571429rem 0 0 .28571429rem;
+}
+
+.ui.menu:not(.vertical) .item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.ui.menu .item {
+    position: relative;
+    vertical-align: middle;
+    line-height: 1;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: 0 0;
+    padding: .92857143em 1.14285714em;
+    text-transform: none;
+    color: rgba(255, 255, 255, 0.87);
+    font-weight: 400;
+    -webkit-transition: background .1s ease, box-shadow .1s ease, color .1s ease;
+    transition: background .1s ease, box-shadow .1s ease, color .1s ease;
+}
+
+.orgTitle {
+    color: black;
+}
+
+.ui.text.container {
+    font-size: 1.14285714rem;
+    width: 40%;
+}

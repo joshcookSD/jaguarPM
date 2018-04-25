@@ -51,6 +51,7 @@ const loginUser = gql`
 const getOrgByOwner = gql`
     query orgByOwner($owner: String ){
     orgByOwner(owner: $owner ){
+        _id
         orgtitle
         orgdescription
         owner{
