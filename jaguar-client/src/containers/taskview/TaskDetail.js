@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import { Card, Dimmer, Loader} from 'semantic-ui-react';
 import { task} from "../apollo-graphql/taskQueries";
-
+import moment from 'moment';
 
 
 class TaskDetail extends Component {
 
     render() {
-        const {taskId} = this.props.location.state;
+        const {taskId} = this.props;
         const variables = {_id: taskId};
         return(
             <Query query={task} variables={variables}>
@@ -24,13 +24,10 @@ class TaskDetail extends Component {
                         <Card>
                             <Card.Content>
                                 <Card.Header>{data.task.tasktitle}</Card.Header>
-                                <Card.Meta>{data.task.tasktitle}</Card.Meta>
-                                <Card.Description>
-                                    {data.task.plandate}
-                                    {data.task.duedate}
-                                    {data.task.completeddate}
-                                    {data.task.taskcurrentowner.username}
-                                    </Card.Description>
+                                <Card.Meta>{data.task.taskdescription}</Card.Meta>
+                                <Card.Description>Plan Date: {moment(data.task.plandate).format('YYYY-MM-DD')}</Card.Description>
+                                <Card.Description>Due Date: {moment(data.task.duedate).format('YYYY-MM-DD')}</Card.Description>
+                                <Card.Description>Assigned: {data.task.taskcurrentowner.username}</Card.Description>
                             </Card.Content>
                         </Card>
                     )
