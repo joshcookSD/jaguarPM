@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import gql from "graphql-tag";
 // import { Link } from 'react-router-dom';
 import { Mutation } from "react-apollo";
-import { Message, Form, Button, Input, Container, Header, Icon } from 'semantic-ui-react';
+import { Message, Form, Button, Input, Container, Header, Icon, } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 const token = localStorage.getItem('token');
 
@@ -30,6 +30,7 @@ class TeamForm extends Component {
 
     render() {
         const {orgId} = this.props;
+        console.log(orgId)
         const { teamtitle, teamdescription, teamtitleerror } = this.state;
         const errorList = [];
         if (teamtitleerror) { errorList.push(teamtitleerror); }
@@ -37,14 +38,13 @@ class TeamForm extends Component {
         return (
             <Mutation mutation={CREATE_TEAM}>
                 {(createTeam, { data }) => (
-                    <Container text>
+                    <Container  text>
                         <br />
-                        <Header as="h2">Create Team</Header>
+                        {/* <Header as="h2">Create New Team For </Header> */}
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
-                                console.log(user);
-                                
+                                console.log(user);                                
                                 const response = await createTeam({
                                     variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: orgId, owner: user._id }
                                 });
@@ -69,7 +69,7 @@ class TeamForm extends Component {
                             <Form.Field error={!!teamtitleerror}>
                                 <i className="material-icons prefix">group_add</i>
                                 <Input
-                                    placeholder="teamtitle"
+                                    placeholder="team title"
                                     value={teamtitle}
                                     type="text"
                                     id="teamtitle"
@@ -84,7 +84,7 @@ class TeamForm extends Component {
                                     placeholder="team description"
                                     value={teamdescription}
                                     type="text"
-                                    id="teamdescription"
+                                    id="team description"
                                     name="teamdescription"
                                     fluid
                                     onChange={e => this.setState({ teamdescription: e.target.value })}
