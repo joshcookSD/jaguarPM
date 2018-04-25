@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 import Organization from './organization';
+import User from './user';
 
 
 const teamSchema = new mongoose.Schema(

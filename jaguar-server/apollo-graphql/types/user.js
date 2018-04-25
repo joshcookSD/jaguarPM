@@ -89,7 +89,6 @@ const UserQueryResolver = {
     userEmail: async (parent, args, {User}) => {
         return await User.findOne(args)
     },
-
 };
 
 const UserNested =  {
@@ -109,7 +108,7 @@ const UserNested =  {
         return (await UserTypeOrg.find({user: _id}))
     },
     organization: async ({_id}) => {
-        return (await Organization.find({user: _id}))
+        return (await Organization.find({users: _id}))
     },
     team: async ({_id}) => {
         return (await Team.find({team: _id}))
