@@ -8,7 +8,7 @@ class TaskItem extends Component {
     state = {
         opened: false
     };
-
+    closeTime = () => this.setState({ opened: !this.state.opened });
 
     render() {
         const {taskId, tasktitle, userId, completeddate, variables, updateQuery} = this.props;
@@ -27,7 +27,7 @@ class TaskItem extends Component {
                     <List.Header as='a'><Link to={{ pathname: '/task-detail', state: {taskId: taskId} }}>{tasktitle}</Link></List.Header>
                     <List.Description as='a'>text tbd</List.Description>
                 </List.Content>
-                { opened && (<TaskTime userId={userId} taskId={taskId} date={completeddate} />)}
+                { opened && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime}/>)}
             </List.Item>
         )
     }
