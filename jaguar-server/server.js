@@ -80,7 +80,7 @@ if (isNotProduction) {
     app.use('*', cors({ origin: 'http://localhost:3000' }));
 }
 
-const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
+const staticFiles = express.static(path.join(__dirname, '../jaguar-client/build'));
 app.use(staticFiles);
 
 app.use('/graphql', bodyParser.json(),
