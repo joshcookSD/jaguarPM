@@ -120,4 +120,15 @@
 
 .formTeamDiv{
     display: flex;
+     flex-direction: column;
+
+}
+
+.currentUserOrgList {
+    display: flex;
+    flex-direction: column;
+}
+
+.orgUsers {
+    margin: 0px;
 }
