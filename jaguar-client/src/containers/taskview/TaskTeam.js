@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { List,Header, Segment, Dimmer, Loader, Transition} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
-import {tasksByUser} from "../apollo-graphql/taskQueries";
+import { tasksByTeam } from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
 
@@ -12,13 +12,13 @@ const token = localStorage.getItem('token');
 class TaskTeam extends Component {
 
     render() {
-
+        const { teamtitle, teamId } = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
-        const variables = {taskcurrentowner: user._id, iscompleted: false};
+        const variables = {team: teamId, iscompleted: false};
 
         return(
-            <Query query={tasksByUser} variables={variables}>
+            <Query query={tasksByTeam} variables={variables}>
                 { ({ loading, error, data }) => {
                     if (loading) return (
                         <div>
@@ -28,7 +28,12 @@ class TaskTeam extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <Segment style={{width: '100%'}}>
-                        <Header>Team Tasks</Header>
+                        <Header>Team {teamtitle}</Header>
+                        <TaskForm
+                            team={teamId}
+                            updateQuery={tasksByTeam}
+                            variables={variables}
+                        />
                         <Transition.Group
                             as={List}
                             duration={200}
@@ -37,13 +42,13 @@ class TaskTeam extends Component {
                             size='large'
                             style={{overflowY: 'auto', overflowX: 'hidden', minHeight: '300px', maxHeight: '325px'}}
                         >
-                            {data.tasksByUser.map(({_id, tasktitle}) => (
+                            {data.tasksByTeam.map(({_id, tasktitle}) => (
                                 <TaskItem
                                     key={_id}
                                     taskId={_id}
                                     tasktitle={tasktitle}
                                     completeddate={today}
-                                    updateQuery={tasksByUser}
+                                    updateQuery={tasksByTeam}
                                     variables={variables}
                                     userId={user._id}
                                     date={today}

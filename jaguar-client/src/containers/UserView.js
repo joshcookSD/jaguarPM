@@ -49,9 +49,8 @@ class UserView extends Component {
                 <Section><TaskDay day={plus5}/></Section>
                 <Section><TaskUnplanned/></Section>
                     {data.user.team.map(({_id, teamtitle}) => (
-                <Section>
+                <Section key={_id}>
                     <TaskTeam
-                        key={_id}
                         teamId={_id}
                         teamtitle={teamtitle}
                     />
