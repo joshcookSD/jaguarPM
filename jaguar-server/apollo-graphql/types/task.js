@@ -44,9 +44,11 @@ const TaskMutation = `
         taskdescription: String,
         taskcurrentowner: String,
         plandate: String,
-        iscompleted: Boolean
+        iscompleted: Boolean,
+        team: String
 ) : Task
     updateTask(
+        _id: String,
         tasktitle: String,
         taskdescription: String,
         taskstatus: String,
@@ -123,27 +125,54 @@ const TaskNested = {
 };
 
 const TaskMutationResolver ={
-    createTask: async (parent, args, { Task, User }) => {
+    createTask: async (parent, args, { Task, User, Team }) => {
         let task = await new Task(args).save();
-        let owner = await User.findById(args.taskcurrentowner);
-        owner.tasks.push(task._id);
-        await owner.save();
+        if(args.taskcurrentowner) {
+            let owner = await User.findById(args.taskcurrentowner);
+            owner.tasks.push(task._id);
+            await owner.save();
+        }
+
+        if(args.team) {
+            let teamTask = await Team.findById(args.team);
+            teamTask.tasks.push(task._id);
+            await teamTask.save();
+        }
         return task
     },
     updateTask: async (parent, args, { Task, User }) => {
-        let task = await new Task(args).save();
-        let owner = await User.findById(args.taskcurrentowner);
-        owner.tasks.push(task._id);
-        await owner.save();
-        let taskteam = await Team.findById(args.team);
-        taskteam.tasks.push(task._id);
-        await taskteam.save();
-        let taskgroup = await Group.findById(args.group);
-        taskgroup.tasks.push(task._id);
-        await taskgroup.save();
-        let taskpriority = await Priority.findById(args.priority);
-        taskpriority.tasks.push(task._id);
-        await taskpriority.save();
+        let task = await Task.findByIdAndUpdate(args._id, {
+            $set: { tasktitle: args.tasktitle, taskdescription: args.taskdescription}},
+            {new: true}
+        );
+        if(args.taskcurrentowner) {
+            let owner = await User.findById(args.taskcurrentowner);
+            await task.taskcurrentowner.save(owner._id);
+            owner.tasks.push(task._id);
+            await owner.save();
+        }
+
+        if(args.team) {
+            let taskteam = await Team.findById(args.team);
+            await task.team.save(taskteam._id);
+            taskteam.tasks.push(task._id);
+            await taskteam.save();
+        }
+
+        if(args.group) {
+            let taskgroup = await Group.findById(args.group);
+            await task.group.save(taskgroup._id);
+            taskgroup.tasks.push(task._id);
+            await taskgroup.save();
+        }
+
+        if(args.priority) {
+            let taskpriority = await Priority.findById(args.priority);
+            await task.priority.save(taskpriority._id);
+            taskpriority.tasks.push(task._id);
+            await taskpriority.save();
+        }
+
         return task
     },
     completeTask: async (parent, args, {Task}) =>{

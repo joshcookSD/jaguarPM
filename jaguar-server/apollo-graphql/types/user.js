@@ -111,7 +111,7 @@ const UserNested =  {
         return (await Organization.find({users: _id}))
     },
     team: async ({_id}) => {
-        return (await Team.find({team: _id}))
+        return (await Team.find({users: _id}))
     }
 };
 
