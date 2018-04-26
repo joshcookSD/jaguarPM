@@ -16,6 +16,7 @@ import { Section } from '../layout/Section'
 import TopRowContent from '../layout/TopRowContent';
 
 
+
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
@@ -27,13 +28,13 @@ const OrgAdmin = ({ owner }) => (
             if (error) return `Error!: ${error}`;
             return (
             <AppLayout>
-            <NavSidebar/>
-            <MainSidebar>
-            <TaskToday />
-            </MainSidebar>
-            <OrgAdminHeader/>
+                <NavSidebar/>
+                <MainSidebar>
+                    <TaskToday />
+                </MainSidebar>
+                <OrgAdminHeader />
             </AppLayout>
-                    )
+            )
       }} 
     </Query>
 );
