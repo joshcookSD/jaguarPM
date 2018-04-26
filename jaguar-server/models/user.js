@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Organization from './organization'
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -50,7 +51,7 @@ const userSchema = new mongoose.Schema({
     }],
     team: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "team"
+        ref: "Team"
     }],
     organization: [{
         type: mongoose.Schema.Types.ObjectId,

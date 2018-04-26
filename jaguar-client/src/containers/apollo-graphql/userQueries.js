@@ -66,7 +66,17 @@ const getOrgByOwner = gql`
           username
           }
         }
-      }
-`
+}`;
 
-export { addUser, getCurrentUser, loginUser, getOrgByOwner};
+const userTeams = gql`
+    query user($_id: String ){
+    user(_id: $_id){
+        team {
+           _id
+           teamtitle 
+        }
+    }
+}`;
+
+
+export { addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams};

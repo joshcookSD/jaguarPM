@@ -50,10 +50,15 @@ const link = split(
     httpLinkWithMiddleware,
 );
 
+const isNotProduction = process.env.NODE_ENV !== 'production';
+const uri = isNotProduction ? 'http://localhost:3001/graphql' : process.env.REACT_APP_GRAPHQL_URI;
 
+// Log
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+console.log('GRAPHQL_URI', uri);
 
 export default new ApolloClient({
-    uri: 'http://localhost:3001/graphql',
+    uri,
     link,
     cache,
     clientState: {}

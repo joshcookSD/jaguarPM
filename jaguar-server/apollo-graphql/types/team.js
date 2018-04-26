@@ -34,6 +34,10 @@ const TeamMutation = `
         owner: String,
         organization: String!,
     ) : CreateTeamResponse
+    addTeamUser(
+        _id: String
+        user: String,
+    ) : Team
 `;
 
 const TeamQueryResolver = {
@@ -65,20 +69,21 @@ const TeamNested = {
     },
 };
 
-const TeamMutationResolver ={
+const TeamMutationResolver = {
     createTeam: async (parent, {teamtitle, teamdescription, owner, organization}, {Team}) => {
         try {
             const err = [];
             let teamtitleErr = await teamError(teamtitle);
-            console.log(teamtitleErr)
-            if(teamtitleErr) { err.push(teamtitleErr)}
-            if(!err.length) {
-            let team = await new Team({
-                teamtitle,
-                teamdescription,
-                owner,
-                organization
-            }).save();
+            if (teamtitleErr) {
+                err.push(teamtitleErr)
+            }
+            if (!err.length) {
+                let team = await new Team({
+                    teamtitle,
+                    teamdescription,
+                    owner,
+                    organization
+                }).save();
                 let teamorganization = await Organization.findById(organization);
                 teamorganization.team.push(team._id);
                 await teamorganization.save();
@@ -88,8 +93,8 @@ const TeamMutationResolver ={
                 };
             } else {
                 return {
-                ok: false,
-                errors: err,
+                    ok: false,
+                    errors: err,
                 }
             }
         } catch (e) {
@@ -98,7 +103,16 @@ const TeamMutationResolver ={
                 errors: [{path: 'teamtitle', message: 'something did not go well'}]
             }
         }
-    }
+    },
+    addTeamUser: async (parent, {_id, user}, {Team}) => {
+        let teamuser = await User.findById(user);
+        let teams = await Team.findById(_id);
+        teamuser.team.push(teams._id);
+        await teamuser.save();
+        teams.users.push(teamuser._id);
+        await teams.save();
+        return teams
+    },
 };
 
 export {TeamType, TeamMutation, TeamQuery, TeamQueryResolver, TeamNested, TeamMutationResolver};
