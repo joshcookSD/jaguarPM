@@ -51,14 +51,22 @@ const loginUser = gql`
 const getOrgByOwner = gql`
     query orgByOwner($owner: String ){
     orgByOwner(owner: $owner ){
-        _id
-        orgtitle
-        orgdescription
-        owner{
-        username
+      _id
+      orgtitle
+      orgdescription
+          teams{
+            teamtitle
+            teamdescription
+          users{
+            username
+            profileImageUrl
+          }
         }
-    }
-    }`;
+          owner{
+          username
+          }
+        }
+}`;
 
 const userTeams = gql`
     query user($_id: String ){
@@ -69,5 +77,6 @@ const userTeams = gql`
         }
     }
 }`;
+
 
 export { addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams};
