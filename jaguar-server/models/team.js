@@ -11,7 +11,7 @@ const teamSchema = new mongoose.Schema(
             maxLength: 50,
             minLength: 3
         },
-        teamDescription: {
+        teamdescription: {
             type: String,
             maxLength: 160
         },

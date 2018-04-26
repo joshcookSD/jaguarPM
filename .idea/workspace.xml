@@ -34,6 +34,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="46">
               <caret line="2" column="43" selection-start-line="2" selection-start-column="43" selection-end-line="2" selection-end-column="43" />
+
             </state>
           </provider>
         </entry>
@@ -373,6 +374,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
+          <folding>
+            <element signature="e#28#58#0" expanded="true" />
+            <element signature="e#370#401#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -455,6 +460,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="353">
           <caret line="57" column="27" lean-forward="true" selection-start-line="57" selection-start-column="27" selection-end-line="57" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+            <element signature="e#127#190#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -500,10 +509,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/App.js">
+    <entry file="file://$PROJECT_DIR$/jaguar-server/apollo-graphql/types/priority.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskToday.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="99" column="86" selection-start-line="99" selection-start-column="86" selection-end-line="99" selection-end-column="86" />
+        <state relative-caret-position="69">
+          <caret line="25" column="42" lean-forward="true" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -692,6 +707,7 @@
           <caret line="164" column="43" selection-start-line="164" selection-start-column="43" selection-end-line="164" selection-end-column="43" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
+
           </folding>
         </state>
       </provider>
