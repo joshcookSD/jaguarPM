@@ -1,5 +1,5 @@
 .ui.tab.active {
-    height: 600px;
+    height: 800px;
     display: flex;
     flex-direction: column;
 }
@@ -55,7 +55,7 @@
 
 .ui.menu .active.item {
     background: rgba(0, 0, 0, .05);
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(218, 218, 218, 0.87);
     font-weight: 400;
     box-shadow: none;
 }
@@ -126,6 +126,7 @@
 .currentUserOrgList {
     display: flex;
     flex-direction: column;
+    margin-left: 20px;
 }
 
 .orgUsers {
@@ -133,7 +134,7 @@
 }
 
 .dropDownDiv {
-    margin:10px;
+    width: 100% !important;
     padding:10px;
     width: 30%;
 }
@@ -151,4 +152,43 @@
         display: flex;
         align-items: center;
         flex-direction: column;
+}
+
+.topOrgLabel{
+    margin: 0;
+}
+
+.cardRight{
+        height: 100%;
+}
+
+.cardLeft{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.orgCardTitle{
+    margin: 10px;
+}
+
+.ui.secondary.menu .active.item {
+    color: rgba(181, 177, 177, 0.95);
+   
+}
+
+.teamInfo{
+    width: 100%;
+    padding: 10px;
+    height: 300;
+    overflow: auto;
+
+}
+
+.ui.text.container{
+    width: 80%;
+}
+
+.ui.card{
+    height: 100%;
 }

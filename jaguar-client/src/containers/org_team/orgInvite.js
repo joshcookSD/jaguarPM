@@ -1,88 +1,50 @@
 import React, { Component } from 'react';
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'
-import { allUsers } from "../apollo-graphql/userQueries";
-
-let friendOptions=  [];
-
-const DropdownExampleSelection = () => (
-    
-    <Query query={allUsers} >
-            {({ loading, error, data }) => {  
-            {
-                data.allUsers ? data.allUsers.map(user => (
-                    friendOptions.push({text : user.username, _id : user._id})
-                )) : 'No Data'
-            }           
-            return (
-                <div className="dropDownDiv">
-                <h3>Add User</h3>
-                    <Dropdown text='Add user' icon='add user' floating labeled button className='icon'>
-                        <Dropdown.Menu>
-                            <Dropdown.Header content='People You Might Know' />
-                            {friendOptions.map(option => 
-                                <Dropdown.Item 
-                                    key={option.value} 
-                                    value={option._id}
-                                    {...option} 
-                                    onClick={async e => {
-                                        e.preventDefault();
-                                        // await createTask({
-                                            // variables: { tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, team },
-                                            // refetchQueries: [{ query: updateQuery, variables: variables }]
-                                        // });
-                                        // this.setState({ newTask: "" });
-                                        // console.log(value)
-                                        
-                                    }}
-                                    />)}
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </div>
-            );
-        }}
-    </Query >
-);
-
-// class DropdownExampleSelection extends Component {
-//     render() {
-//         return (
-//             ({ loading, error, data }) => {
-//             {
-//                 data.allUsers ? data.allUsers.map(user => (
-//                     friendOptions.push({ text: user.username, _id: user._id })
-//                 )) : 'No Data'
-//             }
-//                 <Query query={allUsers} >
-//                     <div className="dropDownDiv">
-//                         <h3>Add User</h3>
-//                         <Dropdown text='Add user' icon='add user' floating labeled button className='icon'>
-//                             <Dropdown.Menu>
-//                                 <Dropdown.Header content='People You Might Know' />
-//                                 {friendOptions.map(option =>
-//                                     <Dropdown.Item
-//                                         key={option.value}
-//                                         value={option._id}
-//                                         {...option}
-//                                         onClick={async e => {
-//                                             e.preventDefault();
-//                                             // await createTask({
-//                                             // variables: { tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, team },
-//                                             // refetchQueries: [{ query: updateQuery, variables: variables }]
-//                                             // });
-//                                             // this.setState({ newTask: "" });
-//                                             console.log(value)
-
-//                                         }}
-//                                     />)}
-//                             </Dropdown.Menu>
-//                         </Dropdown>
-//                     </div>
-//                 </Query>
-//             );
-//         }
-//     }
-// }
+import { allUsers, addOrgUser } from "../apollo-graphql/userQueries";
 
 
-export default DropdownExampleSelection
+class DropdownSelection extends Component {
+
+    render() {
+        const { orgId, variables, getOrgByOwner } = this.props;
+        
+        
+        return (
+            <Query query={allUsers} >
+                {({ loading, error, data }) => {
+                    let friendOptions = (data.allUsers || []).map(user => ({ text: user.username, _id: user._id }))                                     
+                    return (
+                        <div className="dropDownDiv">
+                            <Mutation mutation={addOrgUser}>
+                                {(addOrgUser, { data }) => (
+                                    <Dropdown text='Add user' icon='add user' scrolling floating labeled button className='icon'>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Header content='People You Might Know' />
+                                        {friendOptions.map(option =>
+                                            <Dropdown.Item
+                                                key={option.value}
+                                                value={option._id}
+                                                {...option}
+                                                onClick={async e => {                                          
+                                                    e.preventDefault();
+                                                    await addOrgUser({
+                                                    variables: { _id: orgId, user: option._id},
+                                                    refetchQueries: [{ query: getOrgByOwner, variables: variables}]
+                                                    });
+                                                }}
+                                            />)}
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                                )}
+                            </Mutation>
+                        </div>
+                    );
+                }}
+            </Query >
+        );
+    }
+}
+
+
+export default DropdownSelection
