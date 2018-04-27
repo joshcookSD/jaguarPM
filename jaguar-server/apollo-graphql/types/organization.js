@@ -2,7 +2,6 @@ import User from "../../models/user";
 import UserTypeOrg from "../../models/usertypeorg";
 import Team from "../../models/team";
 import {orgError} from "../formatErrors";
-import requiresAuth from '../permissions';
 
 const OrganizationType = `
     type Organization {
@@ -34,6 +33,10 @@ const OrganizationMutation = `
         orgdescription: String,
         owner: String,
     ) : CreateOrgResponse
+    addOrgUser(
+        _id: String
+        user: String,
+    ) : Organization
 `;
 
 const OrganizationQueryResolver = {
@@ -96,7 +99,16 @@ const OrganizationMutationResolver ={
                 errors: [{path: 'orgtitle', message: 'something did not go well'}]
             }
         }
-    }
+    },
+    addOrgUser: async (parent, {_id, user}, {Organization}) => {
+        let orguser = await User.findById(user);
+        let orgs = await Organization.findById(_id);
+        orguser.organization.push(orgs._id);
+        await orguser.save();
+        orgs.users.push(orguser._id);
+        await orgs.save();
+        return orgs
+    },
 };  
 
 export {OrganizationType, OrganizationMutation, OrganizationQuery, OrganizationQueryResolver, OrganizationNested, OrganizationMutationResolver};

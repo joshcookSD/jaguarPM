@@ -12,16 +12,18 @@ const ProjectType = `
         _id: String
         projecttitle: String
         projectdescription: String
-        task: [Task]
-        comments: [Comment]
-        group: [Group]
-        milestone: [Milestone]
-        requirement: [Requirement] 
-        users: [User]
-        projecttime: [Time]
-        projectplannedtime: [PlannedTime]
         plannedcompletiondate: String
         duedate: String
+        tasks: [Task]
+        comments: [Comment]
+        groups: [Group]
+        milestone: [Milestone]
+        requirements: [Requirement] 
+        users: [User]
+        leader: User
+        team: Team
+        projecttime: [Time]
+        projectplannedtime: [PlannedTime]
         priority: Priority
     }
 `;
@@ -34,7 +36,10 @@ const ProjectQuery = `
 const ProjectMutation = `
     createProject(
         projecttitle: String,
-        projectdescription: String
+        projectdescription: String,
+        team: String!
+        leader: String
+        users: String
 ) : Project
 `;
 
@@ -54,13 +59,15 @@ const ProjectQueryResolver = {
 const ProjectMutationResolver ={
     createProject: async (parent, args, { Project}) => {
         let project = await new Project(args).save();
+        let user = await User.findById(args.users);
+        user.projects.push(project._id);
         return project
     }
 };
 
 const ProjectNested = {
-    users: async ({users}) => {
-        return (await User.find({users: _id}))
+    users: async ({_id}) => {
+        return (await User.find({project: _id}))
     },
     projecttime: async ({projecttime}) => {
         return (await Time.find({projecttime: _id}))
@@ -74,16 +81,16 @@ const ProjectNested = {
     comments: async ({comment}) => {
         return (await Comment.find({comment}))
     },
-    task: async ({task}) => {
+    tasks: async ({task}) => {
         return (await Task.find({task: _id}))
     },
-    group: async ({group}) => {
+    groups: async ({group}) => {
         return (await Group.find({group: _id}))
     },
     milestone: async ({milestone}) => {
         return (await Milestone.find({milestone: _id}))
     },
-    requirement: async ({requirement}) => {
+    requirements: async ({requirement}) => {
         return (await Requirement.find({requirement: _id}))
     },
 };

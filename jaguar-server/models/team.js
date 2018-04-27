@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 import Organization from './organization';
+import User from './user';
 
 
 const teamSchema = new mongoose.Schema(
@@ -10,7 +11,7 @@ const teamSchema = new mongoose.Schema(
             maxLength: 50,
             minLength: 3
         },
-        teamDescription: {
+        teamdescription: {
             type: String,
             maxLength: 160
         },

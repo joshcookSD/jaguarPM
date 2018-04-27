@@ -1,5 +1,5 @@
 .ui.tab.active {
-    height: 400px;
+    height: 600px;
     display: flex;
     flex-direction: column;
 }
@@ -102,4 +102,53 @@
 .ui.text.container {
     font-size: 1.14285714rem;
     width: 40%;
+}
+
+.orgTab {
+    color: black;
+}
+
+
+@media only screen and (min-width: 1200px){
+    .ui.container {
+        width: 1127px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+} 
+
+.formTeamDiv{
+    display: flex;
+    margin: 40px;
+}
+
+.currentUserOrgList {
+    display: flex;
+    flex-direction: column;
+}
+
+.orgUsers {
+    margin: 0px;
+}
+
+.dropDownDiv {
+    margin:10px;
+    padding:10px;
+    width: 30%;
+}
+
+.userDropDownOrgList {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+}
+
+.teamFormTeamInfo {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
 }

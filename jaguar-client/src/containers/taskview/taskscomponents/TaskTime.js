@@ -7,6 +7,7 @@ class TaskTime extends Component {
     state = {
         time: '',
         comment: '',
+        check: false,
     };
 
     render() {
@@ -15,17 +16,18 @@ class TaskTime extends Component {
         const _addTime = async () => {
             await this.props.addTime({
                 variables: {task: taskId, user: userId, date:date, time, timecomment: comment}
-            })
+            });
             this.props.closeTime();
         };
         return(
             <Form
                   onSubmit={async e => {
                 e.preventDefault();
+
                 await _addTime();
                 this.setState({time: '', comment: '',});
             }}>
-                <Form.Group style={{marginBottom: '0', paddingBottom: '0'}} inline>
+                <Form.Group style={{marginBottom: '2px'}} inline>
                 <Form.Field width='six'>
                     <Input
                         value={time}
@@ -43,6 +45,7 @@ class TaskTime extends Component {
                         onChange={e => this.setState({comment: e.target.value})}
                     />
                 </Form.Field>
+
                 </Form.Group>
             </Form>
         )

@@ -4,10 +4,11 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Container, Header, Icon, } from 'semantic-ui-react';
 import decode from 'jwt-decode';
+import {getOrgByOwner} from '../apollo-graphql/userQueries'
 const token = localStorage.getItem('token');
 
 const CREATE_TEAM = gql`
-    mutation createTeam( $teamtitle: String!, $teamdescription: String!, $owner: String, $organization: String!) {
+    mutation createTeam( $teamtitle: String!, $teamdescription: String, $owner: String, $organization: String!) {
         createTeam(teamtitle: $teamtitle, teamdescription: $teamdescription, owner: $owner, organization: $organization) {
             ok
             errors {
@@ -23,14 +24,12 @@ class TeamForm extends Component {
     state = {
         teamtitle: "",
         teamdescription: "",
-        // organization: "",
         errors: {},
         teamtitleerror: ""
     };
 
     render() {
         const {orgId} = this.props;
-        console.log(orgId)
         const { teamtitle, teamdescription, teamtitleerror } = this.state;
         const errorList = [];
         if (teamtitleerror) { errorList.push(teamtitleerror); }
@@ -39,22 +38,18 @@ class TeamForm extends Component {
             <Mutation mutation={CREATE_TEAM}>
                 {(createTeam, { data }) => (
                     <Container  text>
-                        <br />
-                        {/* <Header as="h2">Create New Team For </Header> */}
                         <Form
                             onSubmit={async e => {
-                                e.preventDefault();
-                                console.log(user);                                
+                                e.preventDefault();                 
                                 const response = await createTeam({
-                                    variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: orgId, owner: user._id }
+                                    variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: orgId, owner: user._id },
+                                    refetchQueries: [{ query: getOrgByOwner, variables: {owner: user._id }}]
                                 });
                                 const { ok, errors, } = response.data.createTeam;                                                          
                                 if (ok) {
-                                    // this.props.history.push('/');
                                     this.setState({
                                         teamtitle: "",
                                         teamdescription: "",
-                                        // organization: "",
                                         errors: {},
                                         teamtitleerror: ""
                                     })
@@ -78,7 +73,6 @@ class TeamForm extends Component {
                                     onChange={e => this.setState({ teamtitle: e.target.value })}
                                 />
                             </Form.Field>
-
                             <Form.Field>
                                 <Input
                                     placeholder="team description"
@@ -90,7 +84,6 @@ class TeamForm extends Component {
                                     onChange={e => this.setState({ teamdescription: e.target.value })}
                                 />
                             </Form.Field>   
-
                             <Button floated='right' icon labelPosition='left'><Icon name='plus' />create</Button>
                         </Form>
                         {errorList.length ? (

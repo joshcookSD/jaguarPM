@@ -26,8 +26,9 @@ import Organization from "./models/organization";
 import Team from "./models/team";
 
 import { refreshTokens } from './apollo-graphql/auth';
-const mongo_uri = `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`
+const mongo_uri = `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`;
 //`mongodb://localhost:27017/jaguar`
+//     `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 console.log('process.env.PORT', process.env.PORT);
