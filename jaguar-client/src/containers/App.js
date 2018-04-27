@@ -71,16 +71,20 @@ const AsyncCreateTeam = Loadable({
     loader: () => import('./org_team/TeamForm'),
     loading: Loading,
 });
-const AsyncOrgAdmin = Loadable({
-    loader: () => import('./adminPages/orgAdmin'),
-    loading: Loading,
-});
 const AsyncProjectAdmin = Loadable({
     loader: () => import('./proj_group/ProjectView'),
     loading: Loading,
 });
 const AsyncTaskDetail = Loadable({
     loader: () => import('./taskview/TaskDetail'),
+    loading: Loading,
+});
+const AsyncOrgAdmin = Loadable({
+    loader: () => import('./adminPages/orgAdmin'),
+    loading: Loading,
+});
+const AsyncTeamAdmin = Loadable({
+    loader: () => import('./adminPages/teamAdmin'),
     loading: Loading,
 });
 
@@ -98,11 +102,12 @@ class App extends Component {
                     <PrivateRoute path="/view-users" exact component={AsyncViewUsers} />
                     <PrivateRoute path="/view" exact component={AsyncView} />
                     <PrivateRoute path="/update-user" exact component={AsyncUpdateUser} />
-                    <PrivateRoute path="/create-org" exact component={AsyncCreateOrg} />
                     <PrivateRoute path="/create-team" exact component={AsyncCreateTeam} />
                     <PrivateRoute path="/org-admin" exact component={AsyncOrgAdmin} />
                     <PrivateRoute path="/task-detail" exact component={AsyncTaskDetail} />
                     <PrivateRoute path="/project-admin" exact component={AsyncProjectAdmin} />
+                    <PrivateRoute path="/create-org" exact component={AsyncCreateOrg} />
+                    <PrivateRoute path="/team-admin" exact component={AsyncTeamAdmin} />
                 </Switch>
                 </div>
             </Router>

@@ -12,24 +12,27 @@ const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
 
-console.log(userId)
-
-const OrgAdmin = ({ owner }) => (
+const TeamAdmin = ({ owner }) => (
     <Query query={getOrgByOwner} variables={{ owner: userId }}>
         {({ loading, error, data }) => {
             if (loading) return null;
             if (error) return `Error!: ${error}`;
             return (
-            <AppLayout>
-                <NavSidebar/>
-                <MainSidebar>
-                    <TaskToday />
-                </MainSidebar>
-                <OrgAdminHeader />
-            </AppLayout>
+                <AppLayout>
+                    <NavSidebar />
+                    <MainSidebar>
+                        <TaskToday />
+                    </MainSidebar>
+                    {/* <OrgAdminHeader /> */}
+                </AppLayout>
             )
-      }} 
+        }}
     </Query>
 );
 
-export default OrgAdmin;
+
+export default TeamAdmin;
+
+
+
+
