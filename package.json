@@ -19,7 +19,6 @@
   },
   "scripts": {
     "clean": "concurrently \"rimraf node_modules yarn.lock\" \"cd jaguar-client && rimraf node_modules build yarn.lock\" \"cd jaguar-server && rimraf node_modules build yarn.lock\"",
-    "heroku-postbuild": "yarn build",
     "install": "(cd jaguar-client && yarn) && (cd jaguar-server && yarn)",
     "start": "concurrently \"cd jaguar-client && yarn start\" \"cd jaguar-server && yarn start\"",
     "start:prod": "cd jaguar-server && yarn start:prod"
