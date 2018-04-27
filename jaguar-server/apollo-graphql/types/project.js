@@ -38,8 +38,8 @@ const ProjectMutation = `
     createProject(
         projecttitle: String,
         projectdescription: String,
-        team: String!
-        leader: String
+        team: String!,
+        leader: String,
         users: String
 ) : Project
 `;

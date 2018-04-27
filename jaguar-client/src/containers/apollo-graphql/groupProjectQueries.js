@@ -15,4 +15,25 @@ const userTeamProjects = gql`
     }
 }`;
 
-export {userTeamProjects}
+const createProject = gql`
+mutation createProject(
+    $projecttitle: String,
+    $projectdescription: String,
+    $team: String!,
+    $leader: String,
+    $users: String
+) { CreateProject(
+        projecttitle: $projecttitle,
+        projectdescription: $projectdescription,
+        team: $team,
+        leader: $leader,
+        users: $users
+        ) {
+            _id
+            projecttitle
+        }
+}
+
+`;
+
+export {userTeamProjects, createProject}
