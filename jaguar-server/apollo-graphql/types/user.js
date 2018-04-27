@@ -5,6 +5,7 @@ import UserTypeOrg from '../../models/usertypeorg';
 import Organization from '../../models/organization';
 import Team from '../../models/team';
 import Comment from '../../models/comment';
+import Project from '../../models/project';
 require("dotenv").load();
 import bcrypt from 'bcrypt';
 import { tryLogin, refreshLogin } from '../auth';
@@ -24,6 +25,7 @@ const UserType = `
         plannedtime: [PlannedTime]
         usertypeorg: [UserTypeOrg]
         team: [Team]
+        projects: [Project]
         organization: [Organization]
         jwt: String
     }
@@ -100,6 +102,9 @@ const UserNested =  {
     },
     time: async ({_id}) => {
         return (await Time.find({user: _id}))
+    },
+    projects: async ({_id}) => {
+        return (await Project.find({users: _id}))
     },
     plannedtime: async ({_id}) => {
         return (await PlannedTime.find({user: _id}))

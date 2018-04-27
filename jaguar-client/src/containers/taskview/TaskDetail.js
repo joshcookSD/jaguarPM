@@ -24,7 +24,14 @@ class TaskDetail extends Component {
             await this.props.updateTask({
                 variables: {_id: taskId, tasktitle, taskdescription: description, assigned},
                 refetchQueries: [{query: task, variables: queryVariables}]
-            })};
+            });
+            this.setState({
+                descriptionInput: false,
+                planDateInput: false,
+                dueDateInput: false,
+                assignedInput: false,
+            })
+        };
 
             return (
                 <Query query={task} variables={queryVariables}>
@@ -82,8 +89,8 @@ class TaskDetail extends Component {
                                             onChange={e => this.setState({assigned: e.target.value})}
                                         />}
                                     </Card.Content>
-                                    <Card.Content>
-                                        <Button type='submit'>update</Button>
+                                    <Card.Content extra>
+                                        <Button size='small' fluid type='submit'>update</Button>
                                     </Card.Content>
                                 </Card>
                             </Form>

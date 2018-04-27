@@ -60,7 +60,7 @@ const AsyncUpdateUser = Loadable({
     loading: Loading,
 });
 const AsyncView = Loadable({
-    loader: () => import('./UserView'),
+    loader: () => import('./taskview/TaskView'),
     loading: Loading,
 });
 const AsyncCreateOrg = Loadable({

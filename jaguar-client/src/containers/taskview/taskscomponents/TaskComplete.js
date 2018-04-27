@@ -4,8 +4,14 @@ import {completeTask} from '../../apollo-graphql/taskQueries';
 import { List} from 'semantic-ui-react';
 
 class TaskComplete extends Component {
+    state={
+        taskComplete: false,
+    }
+
     render() {
+        const {taskComplete} =this.state;
         const _complete = async () => {
+            this.setState({taskComplete: !taskComplete});
             await this.props.complete({
                 variables: {_id: this.props._id, iscompleted: true, completeddate: this.props.completeddate},
                 refetchQueries: [{ query: this.props.updateQuery, variables: this.props.variables}]
@@ -13,7 +19,7 @@ class TaskComplete extends Component {
         };
         return(
             <List.Icon
-                name='check circle'
+                name={taskComplete ? 'check circle':'square outline'}
                 size='large'
                 color='green'
                 verticalAlign='middle'
