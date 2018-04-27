@@ -6,6 +6,7 @@ import User from "../../models/user";
 import Time from "../../models/time";
 import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
+import Team from "../../models/team";
 
 const ProjectType = `
     type Project {
@@ -61,22 +62,29 @@ const ProjectMutationResolver ={
         let project = await new Project(args).save();
         let user = await User.findById(args.users);
         user.projects.push(project._id);
+        await user.save();
+        let projectteam = await Team.findById(args.team);
+        projectteam.projects.push(project._id);
+        await projectteam.save();
         return project
     }
 };
 
 const ProjectNested = {
     users: async ({_id}) => {
-        return (await User.find({project: _id}))
+        return (await User.find({projects: _id}))
     },
-    projecttime: async ({projecttime}) => {
-        return (await Time.find({projecttime: _id}))
+    leader: async ({leader}) => {
+        return (await User.findById(leader))
     },
-    projectplannedtime: async ({projectplannedtime}) => {
-        return (await PlannedTime.find({projectplannedtime: _id}))
+    projecttime: async ({_id}) => {
+        return (await Time.find({project: _id}))
+    },
+    projectplannedtime: async ({_id}) => {
+        return (await PlannedTime.find({project: _id}))
     },
     priority: async ({priority}) => {
-        return (await Priority.find({priority: _id}))
+        return (await Priority.findById(priority))
     },
     comments: async ({comment}) => {
         return (await Comment.find({comment}))
@@ -92,6 +100,9 @@ const ProjectNested = {
     },
     requirements: async ({requirement}) => {
         return (await Requirement.find({requirement: _id}))
+    },
+    team: async ({team}) => {
+        return (await Team.findById(team))
     },
 };
 

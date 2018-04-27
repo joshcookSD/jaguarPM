@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 import Organization from './organization';
 import User from './user';
+import Project from './project';
 
 
 const teamSchema = new mongoose.Schema(
@@ -27,7 +28,7 @@ const teamSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        project: [{
+        projects: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Project"
         }],
