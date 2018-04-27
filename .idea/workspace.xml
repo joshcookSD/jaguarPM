@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4fb954e-ae3c-4ad3-89fc-88cbaa90a5d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaguar-server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-server/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -99,20 +99,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="322">
-              <caret line="20" column="182" selection-start-line="20" selection-start-column="182" selection-end-line="20" selection-end-column="182" />
+              <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="98" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jaguar-server/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="36" column="46" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="46" />
+            <state relative-caret-position="391">
+              <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -165,6 +165,7 @@
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectForm.js" />
         <option value="$PROJECT_DIR$/jaguar-server/server.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/jaguar-server/package.json" />
       </list>
     </option>
   </component>
@@ -319,12 +320,12 @@
       <workItem from="1524768357754" duration="626000" />
       <workItem from="1524770974574" duration="95000" />
       <workItem from="1524771593341" duration="231000" />
-      <workItem from="1524793070445" duration="4446000" />
+      <workItem from="1524793070445" duration="5007000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51927000" />
+    <option name="totallyTimeSpent" value="52488000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="22" width="1936" height="1066" extended-state="6" />
@@ -762,17 +763,17 @@
         <state relative-caret-position="-4631" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-server/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="36" column="46" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
-          <caret line="20" column="182" selection-start-line="20" selection-start-column="182" selection-end-line="20" selection-end-column="182" />
+          <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
         </state>
       </provider>
     </entry>
