@@ -5,8 +5,9 @@ import {getMainDefinition} from 'apollo-utilities'
 import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
 
-
-const httpLink = new createFileLink({ uri: `http://localhost:3001/graphfql` });
+const isNotProduction = process.env.NODE_ENV !== 'production';
+const uri =  isNotProduction ? 'http://localhost:3001/graphql' :'https://jaguarpm.herokuapp.com/graphql';
+const httpLink = new createFileLink({ uri });
 
 const cache = new InMemoryCache({});
 persistCache({
@@ -50,8 +51,7 @@ const link = split(
     httpLinkWithMiddleware,
 );
 
-const isNotProduction = process.env.NODE_ENV !== 'production';
-const uri = isNotProduction ? 'http://localhost:3001/graphql' : process.env.REACT_APP_GRAPHQL_URI;
+
 
 // Log
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);

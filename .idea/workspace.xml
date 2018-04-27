@@ -2,6 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4fb954e-ae3c-4ad3-89fc-88cbaa90a5d5" name="Default" comment="">
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaguar-client/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaguar-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaguar-server/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaguar-server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+=======
+>>>>>>> joshua
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -15,6 +25,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+=======
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="project.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jaguar-server/models/project.js">
@@ -111,6 +124,7 @@
         </entry>
       </file>
     </leaf>
+>>>>>>> joshua
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -133,6 +147,9 @@
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/userQueries.js" />
         <option value="$PROJECT_DIR$/jaguar-server/models/team.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskForm.js" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskItem.js" />
+=======
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskTeam.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/UserView.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/layout/AppLayout.js" />
@@ -142,6 +159,7 @@
         <option value="$PROJECT_DIR$/jaguar-server/apollo-graphql/types/task.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/taskQueries.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDetail.js" />
+>>>>>>> joshua
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskTime.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskItem.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskComplete.js" />
@@ -159,6 +177,11 @@
         <option value="$PROJECT_DIR$/jaguar-server/package.json" />
         <option value="$PROJECT_DIR$/jaguar-server/server.js" />
         <option value="$PROJECT_DIR$/Procfile" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/jaguar-server/package.json" />
+        <option value="$PROJECT_DIR$/jaguar-client/package.json" />
+=======
+>>>>>>> joshua
         <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
@@ -244,6 +267,9 @@
       <workItem from="1524539522832" duration="1979000" />
       <workItem from="1524541554209" duration="91000" />
       <workItem from="1524585436742" duration="11273000" />
+<<<<<<< HEAD
+      <workItem from="1524676088967" duration="7684000" />
+=======
       <workItem from="1524676088967" duration="1645000" />
       <workItem from="1524692708530" duration="9975000" />
       <workItem from="1524752065063" duration="12512000" />
@@ -251,15 +277,23 @@
       <workItem from="1524770974574" duration="95000" />
       <workItem from="1524771593341" duration="231000" />
       <workItem from="1524793070445" duration="7037000" />
+>>>>>>> joshua
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="18817000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1912" y="22" width="1936" height="1066" extended-state="6" />
+=======
     <option name="totallyTimeSpent" value="54518000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="22" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
+>>>>>>> joshua
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info id="DB Browser" order="2" />
@@ -323,6 +357,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/jaguar-server/apollo-graphql/types/comment.js" />
+    <entry file="file://$PROJECT_DIR$/jaguar-server/server.js">
+=======
     <entry file="file://$PROJECT_DIR$/jaguar-server/models/group.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="621">
@@ -357,6 +395,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/Navbar.js">
+>>>>>>> joshua
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
           <caret line="1" column="38" lean-forward="true" selection-start-line="1" selection-end-line="1" selection-end-column="38" />
@@ -624,6 +663,9 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/taskQueries.js">
+=======
     <entry file="file://$PROJECT_DIR$/jaguar-server/models/project.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
@@ -632,6 +674,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-server/apollo-graphql/types/team.js">
+>>>>>>> joshua
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-322">
           <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
@@ -687,6 +730,48 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
+<<<<<<< HEAD
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-207">
+          <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-client/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="26" column="22" lean-forward="true" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yarn.lock">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3105" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="82" column="57" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
+          <folding>
+            <element signature="e#28#58#0" expanded="true" />
+            <element signature="e#370#401#0" expanded="true" />
+          </folding>
+=======
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="20" selection-start-column="20" selection-end-column="20" />
@@ -704,6 +789,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
           <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+>>>>>>> joshua
         </state>
       </provider>
     </entry>

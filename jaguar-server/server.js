@@ -1,4 +1,5 @@
 require('dotenv').config();
+import 'babel-polyfill';
 import express from 'express';
 import session from 'express-session';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
@@ -83,7 +84,7 @@ if (isNotProduction) {
     app.use('*', cors({ origin: 'http://localhost:3000' }));
 }
 
-const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
+const staticFiles = express.static(path.join(__dirname, '../jaguar-client/build'));
 app.use(staticFiles);
 
 app.use('/graphql', bodyParser.json(),
