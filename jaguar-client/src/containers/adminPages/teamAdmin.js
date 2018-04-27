@@ -23,7 +23,7 @@ const TeamAdmin = ({ owner }) => (
                     <MainSidebar>
                         <TaskToday />
                     </MainSidebar>
-                    {/* <OrgAdminHeader /> */}
+                    <OrgAdminHeader />
                 </AppLayout>
             )
         }}
