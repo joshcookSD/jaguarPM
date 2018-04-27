@@ -1,5 +1,6 @@
 import User from "../../models/user";
 import Task from "../../models/task";
+import Project from "../../models/project";
 import {teamError} from "../formatErrors";
 import Organization from '../../models/organization';
 
@@ -11,6 +12,7 @@ const TeamType = `
         owner: User
         users: [User]
         tasks: [Task]
+        projects: [Project]
         organization: Organization
     }
     
@@ -60,6 +62,9 @@ const TeamQueryResolver = {
 const TeamNested = {
     tasks: async ({_id}) => {
         return (await Task.find({team: _id}))
+    },
+    projects: async ({_id}) => {
+        return (await Project.find({team: _id}))
     },
     users: async ({_id}) => {
         return (await User.find({team: _id}))

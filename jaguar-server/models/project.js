@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 const User = require("./user");
+const Task = require("./task");
+const Group = require("./group");
+const Requirement = require("./requirement");
+const Team = require("./team");
+const Comment = require("./comment");
 
 const projectSchema = new mongoose.Schema(
     {
@@ -19,34 +24,29 @@ const projectSchema = new mongoose.Schema(
         duedate: {
             type: Date
         },
-        // projectcomments: [{
-        //     commentuser: {
-        //         type: mongoose.Schema.Types.ObjectId,
-        //         ref: "User"
-        //     },
-        //     projectcomment: {
-        //         type: String
-        //     }
-        // }],
         users: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }],
-        task: [{
+        leader: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        tasks: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Task"
         }],
-        group: [{
+        groups: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group"
         }],
-        milestone: [{
+        milestones: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Milestone"
         }],
-        requirement: [{
+        requirements: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Requirements"
+            ref: "Requirement"
         }],
         comments: [{
             type: mongoose.Schema.Types.ObjectId,

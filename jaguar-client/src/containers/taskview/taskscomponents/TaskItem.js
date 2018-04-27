@@ -23,7 +23,7 @@ class TaskItem extends Component {
                     updateQuery={updateQuery}
                     variables={variables}
                 />
-                <List.Icon name='hourglass empty' size='large' verticalAlign='middle' onClick={() => { this.setState({opened: !opened}) }}/>
+                <List.Icon name='clock' size='large' verticalAlign='middle' onClick={() => { this.setState({opened: !opened}) }}/>
                 <List.Content>
                     <List.Header as='a' onClick={() => { this.setState({detail: !detail}) }}>{tasktitle}</List.Header>
 
