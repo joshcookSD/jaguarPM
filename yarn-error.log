@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\JoshuaCook\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Users\JoshuaCook\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js build
 
 PATH: 
   C:\Users\JoshuaCook\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\JoshuaCook\bin;C:\Users\JoshuaCook\MongoDB\Server\3.6\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\HP\HP Performance Advisor;C:\Program Files (x86)\Google\Google Apps Sync;C:\Program Files (x86)\Google\Google Apps Migration;C:\Program Files\Git\cmd;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files\nodejs;C:\Users\JoshuaCook\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Heroku\bin;C:\Users\JoshuaCook\AppData\Roaming\npm;C:\Users\JoshuaCook\AppData\Local\GitHubDesktop\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
@@ -207,7 +207,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: C:\WINDOWS\system32\cmd.exe
-  Arguments: /d /s /c (cd jaguar-client && yarn) && (cd jaguar-server && yarn)
+  Arguments: /d /s /c concurrently "cd jaguar-client && yarn build" "cd jaguar-server && yarn build"
   Directory: C:\Users\JoshuaCook\jaguarPM
   Output:
   
