@@ -40,8 +40,9 @@ const NavSidebar = () => (
         <NavList>
             <NavItems><Link to='/view'>t</Link></NavItems>
             <NavItems><Link to='/view-users'>u</Link></NavItems>
-            <NavItems><Link to='/org-admin'>oa</Link></NavItems>
             <NavItems><Link to='/project-admin'>p</Link></NavItems>
+            <NavItems><Link to='/org-admin'>oa</Link></NavItems>
+            <NavItems><Link to='/team-admin'>ot</Link></NavItems>
         </NavList>
     </NavSideWrapper>
 );
