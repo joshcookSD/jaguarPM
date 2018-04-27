@@ -92,5 +92,15 @@ const userTeams = gql`
     }
 }`;
 
+const addOrgUser = gql`
+    mutation addOrgUser($_id: String $user: String) {
+        addOrgUser(_id: $_id, user: $user){
+            _id
+            orgtitle
+            orgdescription
+        }
+    }`;
 
-export { addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers};
+
+
+export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers};
