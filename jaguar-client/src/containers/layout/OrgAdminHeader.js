@@ -35,25 +35,29 @@ const OrgAdminHeader = ({ owner }) => (
                                     <h2 className="orgTitle">OD: {org.orgdescription}</h2>
                             </div> 
                             <div className="formTeamDiv">
-                                <TeamForm orgId={org._id} />                            
-                                <div className="teamInfo">
-                                    <h3>Team Info</h3>
-                                    {  org.teams.map(team => (
-                                    <ul>
-                                    <li> Team title: {team.teamtitle}</li>
-                                        <li>Teamdescription: {team.teamdescription}</li>
-                                        </ul>
-                                        ))}
-                                </div>
-                                <div className="currentUserOrgList"> 
-                                    <h3>Org Users</h3>  
-                                    {org.users.map(user => (
-                                            <ul className="orgUsers">
-                                            <li>{user.username}</li>
+                                <div className="teamFormTeamInfo">
+                                    <TeamForm orgId={org._id} />                            
+                                    <div className="teamInfo">
+                                        <h3>Team Info</h3>
+                                        {  org.teams.map(team => (
+                                        <ul>
+                                        <li> Team title: {team.teamtitle}</li>
+                                            <li>Teamdescription: {team.teamdescription}</li>
                                             </ul>
-                                    ))}
+                                            ))}
+                                    </div>
                                 </div>
-                            <DropdownExampleSelection />
+                                <div className="userDropDownOrgList">
+                                <DropdownExampleSelection />
+                                        <div className="currentUserOrgList"> 
+                                            <h3>Org Users</h3>  
+                                            {org.users.map(user => (
+                                                    <ul className="orgUsers">
+                                                    <li>{user.username}</li>
+                                                    </ul>
+                                            ))}
+                                        </div>
+                                </div>
                             </div>
                     </Tab.Pane>
                 }

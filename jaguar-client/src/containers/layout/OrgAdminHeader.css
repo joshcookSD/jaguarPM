@@ -120,8 +120,7 @@
 
 .formTeamDiv{
     display: flex;
-     flex-direction: column;
-
+    margin: 40px;
 }
 
 .currentUserOrgList {
@@ -131,4 +130,25 @@
 
 .orgUsers {
     margin: 0px;
+}
+
+.dropDownDiv {
+    margin:10px;
+    padding:10px;
+    width: 30%;
+}
+
+.userDropDownOrgList {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+}
+
+.teamFormTeamInfo {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
 }
