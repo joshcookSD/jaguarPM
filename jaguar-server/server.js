@@ -26,7 +26,7 @@ import Organization from "./models/organization";
 import Team from "./models/team";
 
 import { refreshTokens } from './apollo-graphql/auth';
-const mongo_uri = `mongodb://localhost:27017/jaguar`;
+const mongo_uri = `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`;
 //`mongodb://localhost:27017/jaguar`
 //     `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`
 
