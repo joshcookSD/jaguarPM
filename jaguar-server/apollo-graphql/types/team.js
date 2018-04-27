@@ -92,6 +92,9 @@ const TeamMutationResolver = {
                 let teamorganization = await Organization.findById(organization);
                 teamorganization.team.push(team._id);
                 await teamorganization.save();
+                let teamuser = await User.findById(owner);
+                teamuser.team.push(team._id);
+                await teamuser.save();
                 return {
                     ok: true,
                     team,
