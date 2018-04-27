@@ -1,4 +1,5 @@
 require('dotenv').config();
+import 'babel-polyfill';
 import express from 'express';
 import session from 'express-session';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
