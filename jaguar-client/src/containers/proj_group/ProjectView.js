@@ -8,6 +8,7 @@ import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
 import Header from '../layout/Header'
 import ContentArea from '../layout/ContentArea'
+import ProjectList from './projectcomponents/ProjectList'
 import {Section} from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 
