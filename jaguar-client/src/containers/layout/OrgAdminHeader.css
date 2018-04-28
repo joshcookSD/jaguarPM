@@ -146,6 +146,7 @@
     width: 100% !important;
     padding:10px;
     width: 30%;
+margin-bottom: 20px;
 }
 
 .userDropDownOrgList {
@@ -169,16 +170,27 @@
 
 .cardRight{
         height: 100%;
+        padding-top:10px;
+}
+
+.ui.cardLeft{
+    padding: 10px;
+}
+
+.ui.cardRight {
+    padding: 10px;
 }
 
 .cardLeft{
     display: flex;
     align-items: center;
     height: 100%;
+    padding-top: 10px;
 }
 
 .orgCardTitle{
     margin: 10px;
+    margin-bottom: 0px;
 }
 
 .ui.secondary.menu .active.item {
@@ -200,4 +212,48 @@
 
 .ui.card{
     height: 100%;
+}
+
+.headerName{
+    font-size: 30px;
+   /* line-height: 1; */
+    margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+         margin-bottom: 5px;
+           
+}
+
+.headerTitle {
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.orgDescrip{
+    margin-top: 10px;
+}
+
+.projectList{
+      
+       
+}
+
+ul {
+    list-style-type: none;
+}
+
+.ui.list{
+
+font-size: 1em;
+margin-top: 0px;
+}
+
+.ui.labeled.icon.button,
+.ui.labeled.icon.buttons .button {
+    background: #21ba45;
+    color: white;
 }
