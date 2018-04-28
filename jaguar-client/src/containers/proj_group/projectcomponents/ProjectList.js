@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import {Header, Dimmer, Loader, Modal, Icon, List, Transition, Divider} from 'semantic-ui-react';
-import moment from 'moment';
 import decode from 'jwt-decode';
 import { userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
 import ProjectItem from './ProjectItem'
@@ -20,7 +19,6 @@ class ProjectList extends Component {
     render() {
 
         const { user } = decode(token);
-        const today = moment(Date.now()).format('YYYY-MM-DD');
         const variables = {_id: user._id};
         const { open } = this.state;
         return(
@@ -54,15 +52,12 @@ class ProjectList extends Component {
                                         size='large'
                                     >
                                     { team.projects.map(project => {
-                                        let projectId = project._id;
                                         return (
                                             <ProjectItem
                                                 key={project._id}
                                                 projectId={project._id}
                                                 projecttitle={project.projecttitle}
                                                 projectdescription={project.projectdescription}
-                                                value={this.state.}
-                                                onClick={}
                                             />
                                         )})
                                     }
