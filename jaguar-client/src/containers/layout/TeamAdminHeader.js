@@ -5,7 +5,7 @@ import { Image, Tab, Header, Card } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { teamsByOwner } from "../apollo-graphql/userQueries";
 import TeamForm from '../org_team/TeamForm';
-import DropdownSelection from '../org_team/orgInvite';
+import DropdownSelection from '../org_team/teamInvite';
 import Logo from '../../images/jaguarwhite.png';
 import './OrgAdminHeader.css';
 
@@ -29,15 +29,17 @@ const TeamAdminHeader = ({ owner }) => (
 
     <Query query={teamsByOwner} variables={variables}>
         {({ loading, error, data }) => {
+            console.log(data);
+            
             console.log()
-            const dataPane = data.teamsByOwner.map(org => (
+            const dataPane = data.teamsByOwner.map(team => (
                 {
-                    menuItem: org.orgtitle, render: () =>
+                    menuItem: team.teamtitle, render: () =>
                         <Tab.Pane className="orgTab" attached={false} >
                             <div className="orgHeader">
                                 <Header as='h3' block>
-                                    <h3 className="topOrgLabel">Organization Title:</h3> {org.orgtitle}<br />
-                                    <h3>Organization Description:</h3> {org.orgdescription}
+                                    <h3 className="topOrgLabel">Team Title:</h3> {team.teamtitle}<br />
+                                    <h3>Team Description:</h3> {team.teamdescription}
                                 </Header>
                             </div>
 
@@ -57,19 +59,19 @@ const TeamAdminHeader = ({ owner }) => (
                                     </Card>
                                 </div>
 
-                                <div className="userDropDownOrgList">
-                                    <Card className="cardRight">
-                                        <div className="currentUserOrgList">
-                                            <h3 className="orgCardTitle">Org Users</h3>
-                                            <DropdownSelection orgId={org._id} teamsByOwner={teamsByOwner} variables={variables} />
-                                            {org.users.map(user => (
-                                                <ul className="orgUsers">
-                                                    <li>{user.username}</li>
-                                                </ul>
-                                            ))}
-                                        </div>
-                                    </Card>
-                                </div>
+                            <div className="userDropDownOrgList">
+                                <Card className="cardRight">
+                                    <div className="currentUserOrgList">
+                                        <h3 className="orgCardTitle">Users In Project Team</h3>
+                                        <DropdownSelection teamId={team._id} teamsByOwner={teamsByOwner} variables={variables} />
+                                        {team.users.map(user => (
+                                            <ul className="orgUsers">
+                                                <li>{user.username}</li>
+                                            </ul>
+                                        ))}
+                                    </div>
+                                </Card>
+                            </div>
                             </div>
                         </Tab.Pane>
                 }
