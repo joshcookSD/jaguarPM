@@ -9,15 +9,21 @@ import MainSidebar from '../layout/MainSidebar'
 import Header from '../layout/Header'
 import ContentArea from '../layout/ContentArea'
 import ProjectList from './projectcomponents/ProjectList'
+import ProjectDetails from './projectcomponents/ProjectDetails'
 import {Section, TopSection} from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 
 const token = localStorage.getItem('token');
 
 class ProjectView extends Component {
+    state = {
+        projectId: "",
+    };
+    selectProject = (project) => this.setState({ projectId: project });
 
     render() {
         const { user } = decode(token);
+        const {projectId} = this.state;
         return(
             <Query query={userTeams} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
@@ -31,11 +37,11 @@ class ProjectView extends Component {
                     return <div>
                         <AppLayout>
                             <NavSidebar/>
-                            <MainSidebar><ProjectList/></MainSidebar>
+                            <MainSidebar><ProjectList selectProject={this.selectProject}/></MainSidebar>
                             <Header/>
                             <ContentArea>
                                 <TopSection>
-
+                                    <ProjectDetails projectId={projectId}/>
                                 </TopSection>
                             </ContentArea>
                         </AppLayout>

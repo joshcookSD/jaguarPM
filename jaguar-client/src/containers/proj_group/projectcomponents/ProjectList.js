@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import {Header, Dimmer, Loader, Modal, Icon, List, Transition} from 'semantic-ui-react';
+import {Header, Dimmer, Loader, Modal, Icon, List, Transition, Divider} from 'semantic-ui-react';
 import moment from 'moment';
 import decode from 'jwt-decode';
 import { userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
@@ -51,15 +51,20 @@ class ProjectList extends Component {
                                         relaxed
                                         size='large'
                                     >
-                                    { team.projects.map(project => (
-                                         <ProjectItem
-                                            key={project._id}
-                                            projectId={project._id}
-                                            projecttitle={project.projecttitle}
-                                            projectdescription={project.projectdescription}
+                                    { team.projects.map(project => {
+                                        let projectId = project._id;
+                                        return (
+                                            <ProjectItem
+                                                key={project._id}
+                                                projectId={project._id}
+                                                projecttitle={project.projecttitle}
+                                                projectdescription={project.projectdescription}
+                                                onClick={() => this.props.selectProject(projectId)}
                                             />
-                                        ))}
+                                        )})
+                                    }
                                     </Transition.Group>
+                                    <Divider />
                                 </div>))}
 
                     </div>;
