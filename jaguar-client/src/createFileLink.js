@@ -56,7 +56,7 @@ export default ({ uri, includeExtensions, ...requestOptions } = {}) => {
                 headers,
                 credentials,
                 fetchOptions = {},
-                uri: contextURI,
+                uri,
                 http: httpOptions = {},
             } = operation.getContext();
             const {
@@ -112,7 +112,7 @@ export default ({ uri, includeExtensions, ...requestOptions } = {}) => {
             }
             if (headers) fetcherOptions.headers = { ...fetcherOptions.headers, ...headers };
 
-            fetcher(contextURI || uri, fetcherOptions)
+            fetcher(uri, fetcherOptions)
             // attach the raw response to the context for usage
                 .then((response) => {
                     operation.setContext({ response });
