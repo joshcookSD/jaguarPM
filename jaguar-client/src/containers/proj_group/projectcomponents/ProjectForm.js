@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
+import { Mutation } from "react-apollo";
 import {createProject} from "../../apollo-graphql/groupProjectQueries";
 
 
@@ -10,7 +11,7 @@ class ProjectForm extends Component {
     };
 
     render() {
-        const {teamId, userId, updateQuery, variables} = this.props;
+        const {team, userId, updateQuery, variables} = this.props;
 
         const { newProject, newProjectDescription } = this.state;
 
@@ -23,21 +24,32 @@ class ProjectForm extends Component {
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createProject({
-                                        variables: {projecttitle: newProject, projectdescription: newProjectDescription, team: teamId, leader: userId, users: userId},
+                                        variables: {projecttitle: newProject, projectdescription: newProjectDescription, team, leader: userId, users: userId},
                                         refetchQueries: [{ query: updateQuery, variables: variables}]
                                     });
-                                    this.setState({newTask: ""});
+                                    this.props.onClose();
+                                    this.setState({newProject: "", newProjectDescription: ""});
                                 }}
                             >
                                 <Form.Field>
                                     <label>Name</label>
-                                    <Form.Input placeholder='Project Name' />
+                                    <Form.Input
+                                        placeholder='Project Name'
+                                        value={newProject}
+                                        type='text'
+                                        onChange={e => this.setState({newProject: e.target.value})}
+                                    />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Description</label>
-                                    <Form.Input placeholder='Project Description' />
+                                    <Form.Input
+                                        placeholder='Project Description'
+                                        value={newProjectDescription}
+                                        type='text'
+                                        onChange={e => this.setState({newProjectDescription: e.target.value})}
+                                    />
                                 </Form.Field>
-                                <Button type='submit'>Submit</Button>
+                                <Button type='submit' positive icon='checkmark' labelPosition='right' content='New Project!' />
                             </Form>
                         </div>
                             )

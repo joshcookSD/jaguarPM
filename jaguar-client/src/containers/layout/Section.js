@@ -9,4 +9,10 @@ const Section = styled.div`
     display: flex;
 `;
 
-export {Section};
+const TopSection = styled.div`
+    min-height: 400px
+    max-height: 450px
+    width: 100%
+`;
+
+export {Section, TopSection};

@@ -22,7 +22,7 @@ mutation createProject(
     $team: String!,
     $leader: String,
     $users: String
-) { CreateProject(
+) { createProject(
         projecttitle: $projecttitle,
         projectdescription: $projectdescription,
         team: $team,
@@ -32,8 +32,24 @@ mutation createProject(
             _id
             projecttitle
         }
-}
+}`;
 
-`;
+const projectDetails = gql`
+query project($_id: String!) {
+    project(_id: $_id) {
+        projecttitle
+        projectdescription
+        plannedcompletiondate
+        duedate
+        leader {
+        _id
+        username
+        }    
+        team {
+        _id
+        teamtitle
+        }
+    }
+}`;
 
-export {userTeamProjects, createProject}
+export {userTeamProjects, createProject, projectDetails}
