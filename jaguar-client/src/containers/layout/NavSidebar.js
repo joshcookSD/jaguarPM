@@ -6,7 +6,7 @@ const NavSideWrapper = styled.div`
   grid-column: 1;
   grid-row-start: 1;
   grid-row-end: 10;
-  background-color: #362234;
+  background-color: black;
   color: #958993;
 `;
 
@@ -19,8 +19,8 @@ const NavList = styled.ul`
 const NavItems = styled.li`
   height: 50px;
   width: 50px;
-  background-color: #676066;
-  color: #fff;
+  background-color: #232929;
+  color: #958993;
   margin: auto;
   margin-bottom: 10px;
   display: flex;
