@@ -10,7 +10,9 @@ import ProjectForm from './ProjectForm'
 const token = localStorage.getItem('token');
 
 class ProjectList extends Component {
-    state = { open: false };
+    state = {
+        open: false,
+    };
 
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
@@ -59,7 +61,8 @@ class ProjectList extends Component {
                                                 projectId={project._id}
                                                 projecttitle={project.projecttitle}
                                                 projectdescription={project.projectdescription}
-                                                onClick={() => this.props.selectProject(projectId)}
+                                                value={this.state.}
+                                                onClick={}
                                             />
                                         )})
                                     }

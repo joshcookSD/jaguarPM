@@ -19,7 +19,11 @@ class ProjectView extends Component {
     state = {
         projectId: "",
     };
-    selectProject = (project) => this.setState({ projectId: project });
+    selectProject = (project) => {
+        this.setState({projectId: project});
+        console.log('has been clicked');
+        console.log(project);
+    };
 
     render() {
         const { user } = decode(token);
