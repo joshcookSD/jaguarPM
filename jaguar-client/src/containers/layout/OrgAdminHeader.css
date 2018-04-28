@@ -4,30 +4,38 @@
     flex-direction: column;
 }
 
+.ui.secondary.menu {
+    margin-left: 0; 
+    margin-right: 0;
+}
+
 .ui.secondary.menu .active.item:hover {
     box-shadow: none;
-    background: rgba(0, 0, 0, .05);
+    background: rgba(40, 80, 172, 1);
     color: rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
 }
 
 .ui.secondary.menu .dropdown.item:hover,
 .ui.secondary.menu .link.item:hover,
 .ui.secondary.menu a.item:hover {
-    background: rgba(0, 0, 0, .05);
+    background: rgba(40, 80, 172, 1);
     color: rgb(255, 255, 255);
+    border-radius: 11px;
 }
 
 .ui.secondary.menu .active.item {
     box-shadow: none;
-    background: rgba(0, 0, 0, .05);
+    background: black;
     color: rgba(255, 255, 255, 0.95);
-    border-radius: .28571429rem;
+   border-radius: 11px;
 }
 
 .ui.menu .active.item:hover,
 .ui.vertical.menu .active.item:hover {
-    background-color: rgba(0, 0, 0, .05);
+    background-color: rgba(74, 142, 203, 1);
     color: rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
 }
 
 .ui.link.menu .item:hover,
@@ -37,6 +45,7 @@
     cursor: pointer;
     background: rgba(0, 0, 0, .03);
     color: rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
 }
 
 .ui.secondary.menu .item {
@@ -50,7 +59,7 @@
     background: 0 0;
     -webkit-transition: color .1s ease;
     transition: color .1s ease;
-    border-radius: .28571429rem;
+    /* border-radius: .28571429rem; */
 }
 
 .ui.menu .active.item {

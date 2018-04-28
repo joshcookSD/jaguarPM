@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Image, Tab, Header, Card } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { teamsByOwner } from "../apollo-graphql/userQueries";
-import TeamForm from '../org_team/TeamForm';
+import ProjectForm from '../proj_group/projectcomponents/ProjectForm';
 import DropdownSelection from '../org_team/teamInvite';
 import Logo from '../../images/jaguarwhite.png';
 import './OrgAdminHeader.css';
@@ -29,14 +29,12 @@ const TeamAdminHeader = ({ owner }) => (
 
     <Query query={teamsByOwner} variables={variables}>
         {({ loading, error, data }) => {
-            console.log(data);
-            
-            console.log()
             const dataPane = data.teamsByOwner.map(team => (
                 {
                     menuItem: team.teamtitle, render: () =>
                         <Tab.Pane className="orgTab" attached={false} >
                             <div className="orgHeader">
+                                {console.log(team)}
                                 <Header as='h3' block>
                                     <h3 className="topOrgLabel">Team Title:</h3> {team.teamtitle}<br />
                                     <h3>Team Description:</h3> {team.teamdescription}
@@ -46,6 +44,19 @@ const TeamAdminHeader = ({ owner }) => (
                             <div className="formTeamDiv">
                                 <div className="teamFormTeamInfo">
                                     <Card className="cardLeft">
+                                                   
+                                        <ProjectForm className="teamForm" teamsByOwner={teamsByOwner} team={team._id} variables={variables} />
+                                        <div className="teamInfo">
+                                            <h3 className="orgTeamTitle">Team Info</h3>
+                                            {team.projects.map(team => (
+                                                <ul>
+                                                    <li> Team title: {team.projecttitle}</li>
+                                                    <li>Teamdescription: {team.projectdescription}</li>
+                                                </ul>
+                                            ))}
+                                        </div>
+
+
                                     </Card>
                                 </div>
 
