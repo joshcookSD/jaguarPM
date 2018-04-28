@@ -62,6 +62,7 @@ class TeamForm extends Component {
                                 }
                             }}>
                             <Form.Field error={!!teamtitleerror}>
+                           
                                 <i className="material-icons prefix">group_add</i>
                                 <Input
                                     placeholder="team title"
@@ -84,7 +85,7 @@ class TeamForm extends Component {
                                     onChange={e => this.setState({ teamdescription: e.target.value })}
                                 />
                             </Form.Field>   
-                            <Button floated='right' icon labelPosition='left'><Icon name='plus' />create</Button>
+                            <Button floated='right' icon labelPosition='left'><Icon name='plus' />Add Team</Button>
                         </Form>
                         {errorList.length ? (
                             <Message error header="There was some errors with your submission" list={errorList} />
