@@ -6,7 +6,7 @@ import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
 
 const isNotProduction = process.env.NODE_ENV !== 'production';
-const uri =  isNotProduction ? 'http://localhost:3001/graphql' : '/graphql';
+const uri =  isNotProduction ? 'http://localhost:5000/graphql' : 'https://jaguarpm.herokuapp.com/graphql';
 
 const httpLink = new createFileLink({ uri });
 
