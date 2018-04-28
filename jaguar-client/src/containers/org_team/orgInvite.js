@@ -18,7 +18,8 @@ class DropdownSelection extends Component {
                         <div className="dropDownDiv">
                             <Mutation mutation={addOrgUser}>
                                 {(addOrgUser, { data }) => (
-                                    <Dropdown text='Add user' icon='add user' scrolling floating labeled button className='icon'>
+                                   
+                                    <Dropdown color='Green 'text='Add user' icon='add user' scrolling floating labeled button className='icon'>
                                     <Dropdown.Menu>
                                         <Dropdown.Header content='People You Might Know' />
                                         {friendOptions.map(option =>

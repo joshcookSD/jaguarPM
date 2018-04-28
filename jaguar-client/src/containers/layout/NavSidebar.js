@@ -42,7 +42,7 @@ const NavSidebar = () => (
             <NavItems><Link to='/view-users'>u</Link></NavItems>
             <NavItems><Link to='/project-admin'>p</Link></NavItems>
             <NavItems><Link to='/org-admin'>oa</Link></NavItems>
-            <NavItems><Link to='/team-admin'>ot</Link></NavItems>
+            <NavItems><Link to='/team-admin'>ta</Link></NavItems>
         </NavList>
     </NavSideWrapper>
 );

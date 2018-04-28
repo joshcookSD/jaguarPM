@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import styled from 'styled-components';
-import { Image, Tab, Header, Card } from 'semantic-ui-react';
+import { Image, Tab, Header, Card, List } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { teamsByOwner } from "../apollo-graphql/userQueries";
 import ProjectForm from '../proj_group/projectcomponents/ProjectForm';
@@ -34,11 +34,10 @@ const TeamAdminHeader = ({ owner }) => (
                     menuItem: team.teamtitle, render: () =>
                         <Tab.Pane className="orgTab" attached={false} >
                             <div className="orgHeader">
-                                {console.log(team)}
-                                <Header as='h3' block>
-                                    <h3 className="topOrgLabel">Team Title:</h3> {team.teamtitle}<br />
-                                    <h3>Team Description:</h3> {team.teamdescription}
-                                </Header>
+                                <div><span className="headerTitle " >Title: </span>
+                                    <span className="headerName">{team.teamtitle}</span></div>
+                                <div className="orgDescrip"><span className="headerTitle" >Description: </span>
+                                    <span className="headerName">{team.teamdescription}</span></div>           
                             </div>
 
                             <div className="formTeamDiv">
@@ -47,27 +46,46 @@ const TeamAdminHeader = ({ owner }) => (
                                                    
                                         <ProjectForm className="teamForm" teamsByOwner={teamsByOwner} team={team._id} variables={variables} />
                                         <div className="teamInfo">
-                                            <h3 className="orgTeamTitle">Team Info</h3>
+                                            {/* <h3 className="orgTeamTitle">Team Info</h3> */}
                                             {team.projects.map(team => (
                                                 <ul>
-                                                    <li> Team title: {team.projecttitle}</li>
-                                                    <li>Teamdescription: {team.projectdescription}</li>
+                                                    {/* <li> Team title: {team.projecttitle}</li>
+                                                    <li>Teamdescription: {team.projectdescription}</li> */}
+                                                    <li>
+                                                    <List>
+                                                        <List.Item>
+                                                                
+                                                            <List.Content>
+                                                                    <List.Header as='a'><List.Icon name='cubes' />{team.projecttitle}</List.Header>
+                                                                    <List.Description>{team.projectdescription}</List.Description>
+                                                            </List.Content>
+                                                        </List.Item>
+                                                    </List>
+                                                    </li>    
                                                 </ul>
                                             ))}
                                         </div>
-
-
                                     </Card>
                                 </div>
 
                             <div className="userDropDownOrgList">
                                 <Card className="cardRight">
                                     <div className="currentUserOrgList">
-                                        <h3 className="orgCardTitle">Users In Project Team</h3>
+                                        <h3 className="orgCardTitle">Add User To Project</h3>
                                         <DropdownSelection teamId={team._id} teamsByOwner={teamsByOwner} variables={variables} />
                                         {team.users.map(user => (
-                                            <ul className="orgUsers">
-                                                <li>{user.username}</li>
+                                            <ul className="orgUsers">                                 
+                                            <li className=" projectList">{
+                                                <List>
+                                                    <List.Item>
+                                                        <List.Content>
+                                                                <List.Header as='a'><List.Icon name='user' />{user.username}</List.Header>
+                                                            {/* <List.Description>{team.projectdescription}</List.Description> */}
+                                                        </List.Content>
+                                                    </List.Item>
+                                                </List>
+                                            }
+                                            </li>
                                             </ul>
                                         ))}
                                     </div>
@@ -93,3 +111,4 @@ const TeamAdminHeader = ({ owner }) => (
 );
 
 export default TeamAdminHeader;
+
