@@ -8,7 +8,7 @@ class ProjectItem extends Component {
         const {projectId, projecttitle, projectdescription} = this.props;
 
         return(
-            <List.Item key={projectId}>
+            <List.Item key={projectId} >
                 <List.Icon color='blue' name='cubes' size='large' verticalAlign='middle'/>
                 <List.Content>
                     <List.Header>{projecttitle}</List.Header>

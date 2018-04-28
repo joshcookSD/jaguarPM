@@ -46,16 +46,6 @@ const TeamAdminHeader = ({ owner }) => (
                             <div className="formTeamDiv">
                                 <div className="teamFormTeamInfo">
                                     <Card className="cardLeft">
-                                        <TeamForm className="teamForm" orgId={org._id} />
-                                        <div className="teamInfo">
-                                            <h3 className="orgTeamTitle">Team Info</h3>
-                                            {org.teams.map(team => (
-                                                <ul>
-                                                    <li> Team title {team.teamtitle}</li>
-                                                    <li>Teamdescription {team.teamdescription}</li>
-                                                </ul>
-                                            ))}
-                                        </div>
                                     </Card>
                                 </div>
 
