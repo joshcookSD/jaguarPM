@@ -58,7 +58,7 @@ const TeamQueryResolver = {
         const teamOrg = await Organization.findById( organization )
         return await Team.find({ organization: teamOrg })
     },
-    orgByOwner: async (parent, args, { Team }) => {
+    teamsByOwner: async (parent, args, { Team }) => {
         const teamowner = await User.findById(args.owner.toString());
         return await Team.find({ owner: teamowner })
     }

@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import styled from 'styled-components';
 import { Image, Tab, Header, Card } from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import { getOrgByOwner } from "../apollo-graphql/userQueries";
+import { teamsByOwner } from "../apollo-graphql/userQueries";
 import TeamForm from '../org_team/TeamForm';
 import DropdownSelection from '../org_team/orgInvite';
 import Logo from '../../images/jaguarwhite.png';
@@ -25,11 +25,12 @@ const HeaderWrapper = styled.div`
 
 const variables = { owner: userId };
 
-const OrgAdminHeader = ({ owner }) => (
+const TeamAdminHeader = ({ owner }) => (
 
-    <Query query={getOrgByOwner} variables={variables}>
+    <Query query={teamsByOwner} variables={variables}>
         {({ loading, error, data }) => {
-            const dataPane = data.orgByOwner.map(org => (
+            console.log()
+            const dataPane = data.teamsByOwner.map(org => (
                 {
                     menuItem: org.orgtitle, render: () =>
                         <Tab.Pane className="orgTab" attached={false} >
@@ -60,7 +61,7 @@ const OrgAdminHeader = ({ owner }) => (
                                     <Card className="cardRight">
                                         <div className="currentUserOrgList">
                                             <h3 className="orgCardTitle">Org Users</h3>
-                                            <DropdownSelection orgId={org._id} getOrgByOwner={getOrgByOwner} variables={variables} />
+                                            <DropdownSelection orgId={org._id} teamsByOwner={teamsByOwner} variables={variables} />
                                             {org.users.map(user => (
                                                 <ul className="orgUsers">
                                                     <li>{user.username}</li>
@@ -88,4 +89,4 @@ const OrgAdminHeader = ({ owner }) => (
     </Query>
 );
 
-export default OrgAdminHeader;
+export default TeamAdminHeader;

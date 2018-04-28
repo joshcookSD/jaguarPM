@@ -3,17 +3,17 @@ import TaskToday from '../taskview/TaskToday'
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
-import OrgAdminHeader from '../layout/OrgAdminHeader'
+import TeamAdminHeader from '../layout/TeamAdminHeader'
 import decode from 'jwt-decode';
 import { Query } from "react-apollo";
-import { getOrgByOwner } from "../apollo-graphql/userQueries";
+import { teamsByOwner } from "../apollo-graphql/userQueries";
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
 
 const TeamAdmin = ({ owner }) => (
-    <Query query={getOrgByOwner} variables={{ owner: userId }}>
+    <Query query={teamsByOwner } variables={{ owner: userId }}>
         {({ loading, error, data }) => {
             if (loading) return null;
             if (error) return `Error!: ${error}`;
@@ -23,7 +23,7 @@ const TeamAdmin = ({ owner }) => (
                     <MainSidebar>
                         <TaskToday />
                     </MainSidebar>
-                    <OrgAdminHeader />
+                    <TeamAdminHeader />
                 </AppLayout>
             )
         }}

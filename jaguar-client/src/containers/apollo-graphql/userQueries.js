@@ -73,6 +73,26 @@ const getOrgByOwner = gql`
         }
 }`;
 
+const teamsByOwner = gql`
+    query teamsByOwner($owner: String ){
+    teamsByOwner( owner: $owner ){
+                    _id
+            teamtitle
+            teamdescription
+                projects{
+            _id
+            projecttitle
+            projectdescription
+            users{
+                _id
+                username
+                profileImageUrl
+                }   
+            }
+        }
+    }`;
+    
+
 const allUsers = gql `
 {
   allUsers{
@@ -103,4 +123,4 @@ const addOrgUser = gql`
 
 
 
-export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers};
+export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner};
