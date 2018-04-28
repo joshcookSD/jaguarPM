@@ -6,7 +6,7 @@ import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
 
 // const isNotProduction = process.env.NODE_ENV !== 'production';
-const uri =  'http://localhost:5000/graphql;';
+// const uri =  'http://localhost:5000/graphql;';
 // isNotProduction ? 'http://localhost:3001/graphql' :
 const httpLink = new createFileLink({ uri });
 
@@ -59,7 +59,7 @@ console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 console.log('GRAPHQL_URI', uri);
 
 export default new ApolloClient({
-    uri,
+    uri: 'http://localhost:5000/graphql',
     link,
     cache,
     clientState: {}
