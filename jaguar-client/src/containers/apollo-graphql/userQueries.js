@@ -48,6 +48,8 @@ const loginUser = gql`
         }
     }`;
 
+    
+
 const getOrgByOwner = gql`
     query orgByOwner($owner: String ){
     orgByOwner(owner: $owner ){
@@ -79,15 +81,13 @@ const teamsByOwner = gql`
                     _id
             teamtitle
             teamdescription
-                projects{
+            users{
+            username
+            }
+            projects{
             _id
             projecttitle
             projectdescription
-            users{
-                _id
-                username
-                profileImageUrl
-                }   
             }
         }
     }`;

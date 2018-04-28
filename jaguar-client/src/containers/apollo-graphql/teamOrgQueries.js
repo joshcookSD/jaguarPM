@@ -14,4 +14,14 @@ const teamsByUser = gql`
 }
  `;
 
-export {teamsByUser};
+const addTeamUser = gql`
+    mutation addTeamUser( $_id: String, $user: String!) {
+      addTeamUser(user: $user, _id: $_id) {
+      teamtitle
+      users{
+        username
+      }
+    }
+  }`
+
+export { teamsByUser, addTeamUser };
