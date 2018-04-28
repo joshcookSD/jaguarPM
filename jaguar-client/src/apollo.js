@@ -6,7 +6,7 @@ import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
 
 // const isNotProduction = process.env.NODE_ENV !== 'production';
-const uri =  'http://localhost:5000/graphql;'
+const uri =  'http://localhost:5000/graphql;';
 // isNotProduction ? 'http://localhost:3001/graphql' :
 const httpLink = new createFileLink({ uri });
 
