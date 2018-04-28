@@ -31,11 +31,11 @@ class ProjectForm extends Component {
                             >
                                 <Form.Field>
                                     <label>Name</label>
-                                    <input placeholder='Project Name' />
+                                    <Form.Input placeholder='Project Name' />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Description</label>
-                                    <input placeholder='Project Description' />
+                                    <Form.Input placeholder='Project Description' />
                                 </Form.Field>
                                 <Button type='submit'>Submit</Button>
                             </Form>
