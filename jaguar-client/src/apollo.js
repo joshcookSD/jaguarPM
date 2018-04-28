@@ -6,11 +6,9 @@ import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
 
 const isNotProduction = process.env.NODE_ENV !== 'production';
-const uri = '/graphql'
-// const uri =  isNotProduction ? 'http://localhost:3001/graphql':'http://localhost:5000/graphql';
+const uri =  isNotProduction ? 'http://localhost:3001/graphql' : '/graphql';
 
-// isNotProduction ? 'http://localhost:3001/graphql' :
-const httpLink = new createFileLink({ uri: '/graphql' });
+const httpLink = new createFileLink({ uri });
 
 const cache = new InMemoryCache({});
 persistCache({
@@ -61,6 +59,7 @@ console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 console.log('GRAPHQL_URI', uri);
 
 export default new ApolloClient({
+    uri,
     link,
     cache,
     clientState: {}
