@@ -11,11 +11,11 @@ class ProjectForm extends Component {
     };
 
     render() {
-        const { team, userId, teamsByOwner, variables} = this.props;
+        const { team, teamsByOwner, variables} = this.props;
 
         const { newProject, newProjectDescription } = this.state;
-        console.log(variables.owner)
-        console.log(team)
+        console.log(variables.owner);
+        console.log(team);
 
         return(
             <Mutation mutation={createProject}>

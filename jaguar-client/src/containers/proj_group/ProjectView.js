@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import moment from 'moment';
 import decode from 'jwt-decode';
 import {Dimmer, Loader} from 'semantic-ui-react';
 import AppLayout from '../layout/AppLayout'
@@ -10,7 +9,7 @@ import Header from '../layout/Header'
 import ContentArea from '../layout/ContentArea'
 import ProjectList from './projectcomponents/ProjectList'
 import ProjectDetails from './projectcomponents/ProjectDetails'
-import {Section, TopSection} from '../layout/Section'
+import { TopSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 
 const token = localStorage.getItem('token');
