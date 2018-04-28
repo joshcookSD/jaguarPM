@@ -52,4 +52,24 @@ query project($_id: String!) {
     }
 }`;
 
-export {userTeamProjects, createProject, projectDetails}
+const updateProject = gql`
+    mutation updateProject(
+        $projecttitle: String,
+        $projectdescription: String,
+        $plannedcompletiondate: String,
+        $duedate: String,
+        $leader: String, 
+        $team: String
+    ){ updateProject(
+        projecttitle: $projecttitle,
+        projectdescription: $projectdescription,
+        plannedcompletiondate: $plannedcompletiondate,
+        duedate: $duedate,
+        leader: $leader, 
+        team: $team 
+    ) {
+        projecttitle
+    }
+}`;
+
+export {userTeamProjects, createProject, projectDetails, updateProject}

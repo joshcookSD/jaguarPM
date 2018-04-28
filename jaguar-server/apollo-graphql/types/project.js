@@ -42,6 +42,14 @@ const ProjectMutation = `
         leader: String,
         users: String
 ) : Project
+    updateProject(
+        projecttitle: String,
+        projectdescription: String,
+        plannedcompletiondate: String,
+        duedate: String,
+        leader: String, 
+        team: String
+    ) : Project
 `;
 
 const ProjectQueryResolver = {
@@ -67,6 +75,24 @@ const ProjectMutationResolver ={
         projectteam.projects.push(project._id);
         await projectteam.save();
         return project
+    },
+    updateProject: async (parent, args, { Project}) => {
+        let project = await Project.findByIdAndUpdate(args._id, {
+                $set: { projecttitle: args.projecttitle, projectdescription: args.projectdescription}},
+            {new: true}
+        );
+        if(args.leader) {
+            let leader = await User.findById(args.leader);
+            await project.leader.save(leader._id);
+        }
+
+        if(args.team) {
+            let projectteam = await Team.findById(args.team);
+            await project.team.save(projectteam._id);
+            projectteam.projects.push(project._id);
+            await projectteam.save();
+        }
+
     }
 };
 

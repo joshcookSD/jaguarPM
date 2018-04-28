@@ -44,6 +44,7 @@ const TeamAdminHeader = ({ owner }) => (
                             <div className="formTeamDiv">
                                 <div className="teamFormTeamInfo">
                                     <Card className="cardLeft">
+                                                   
                                         <ProjectForm className="teamForm" teamsByOwner={teamsByOwner} team={team._id} variables={variables} />
                                         <div className="teamInfo">
                                             <h3 className="orgTeamTitle">Team Info</h3>
@@ -54,6 +55,8 @@ const TeamAdminHeader = ({ owner }) => (
                                                 </ul>
                                             ))}
                                         </div>
+
+
                                     </Card>
                                 </div>
 

@@ -1,15 +1,8 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { projectDetails} from "../../apollo-graphql/groupProjQueries";
+import { projectDetails, updateProject} from "../../apollo-graphql/groupProjectQueries";
 import moment from 'moment';
-
-// projecttitle: String
-// projectdescription: String
-// plannedcompletiondate: String
-// duedate: String
-// leader: User
-// team: Team
 
 class ProjectDetail extends Component {
     state = {
@@ -27,13 +20,13 @@ class ProjectDetail extends Component {
 
     render() {
         const {projectId} = this.props;
-        const queryVariables = {_id: projectId};
-        const {title, titleInput, descriptionInput, planDateInput, dueDateInput, leaderInput, description, leader, teamInput, team} = this.state;
+        const queryVariables = {_id: projectId };
+        const {title, titleInput, descriptionInput, planDateInput, plandate, dueDateInput, duedate, leaderInput, description, leader, teamInput, team} = this.state;
 
         const _updateProject = async () => {
             await this.props.updateProject({
-                variables: {_id: projectId, tasktitle, taskdescription: description, assigned},
-                refetchQueries: [{query: task, variables: queryVariables}]
+                variables: {_id: "5ae3e72927df1637dc1fb46f", projecttitle: title, projectdescription: description, plannedcompletiondate: plandate, duedate, leader, team},
+                refetchQueries: [{query: projectDetails, variables: queryVariables}]
             });
             this.setState({
                 titleInput: false,
@@ -48,6 +41,7 @@ class ProjectDetail extends Component {
         return (
             <Query query={projectDetails} variables={queryVariables}>
                 {({loading, error, data}) => {
+                    console.log(data);
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -79,13 +73,13 @@ class ProjectDetail extends Component {
                                     />}
                                     <Card.Description
                                         onClick={() => this.setState({planDateInput: !planDateInput})}>
-                                        Plan Date: {!planDateInput && data.project.plandate ? moment(data.project.plandate).format('YYYY-MM-DD') : 'project needs to be planned'}
+                                        Plan Completion: {!planDateInput && data.project.plannedcompletiondate ? moment(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'project needs to be planned'}
                                     </Card.Description>
                                     {planDateInput &&
                                     <Form.Input
                                         fluid
                                         type='date'
-                                        placeholder={moment(data.project.plandate).format('YYYY-MM-DD')}
+                                        placeholder={moment(data.project.plannedcompletiondate).format('YYYY-MM-DD')}
                                     />}
                                     <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
                                         Due Date: {!dueDateInput && data.project.duedate ? moment(data.project.duedate).format('YYYY-MM-DD') : 'No due date set'}
@@ -97,15 +91,26 @@ class ProjectDetail extends Component {
                                         placeholder={moment(data.project.duedate).format('YYYY-MM-DD')}
                                     />}
                                     <Card.Description
-                                        onClick={() => this.setState({assignedInput: !assignedInput})}>
-                                        Assigned: {!assignedInput && data.project.projectcurrentowner.username}
+                                        onClick={() => this.setState({leaderInput: !leaderInput})}>
+                                        Assigned: {!leaderInput && data.project.leader.username}
                                     </Card.Description>
-                                    {assignedInput &&
+                                    {leaderInput &&
                                     <Form.Input
                                         fluid
-                                        placeholder={data.project.projectcurrentowner.username}
-                                        value={assigned}
-                                        onChange={e => this.setState({assigned: e.target.value})}
+                                        placeholder={data.project.leader.username}
+                                        value={leader}
+                                        onChange={e => this.setState({leader: e.target.value})}
+                                    />}
+                                    <Card.Description
+                                        onClick={() => this.setState({teamInput: !teamInput})}>
+                                        Assigned: {!teamInput && data.project.team.username}
+                                    </Card.Description>
+                                    {teamInput &&
+                                    <Form.Input
+                                        fluid
+                                        placeholder={data.project.team.teamtitle}
+                                        value={team}
+                                        onChange={e => this.setState({team: e.target.value})}
                                     />}
                                 </Card.Content>
                                 <Card.Content extra>
