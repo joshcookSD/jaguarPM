@@ -310,7 +310,7 @@
     stream-events "^1.0.1"
     through2 "^2.0.3"
 
-"@google-cloud/storage@^1.0.0":
+"@google-cloud/storage@^1.0.0", "@google-cloud/storage@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-1.6.0.tgz#3dea740e24bf097d91f16596e2915052907679a2"
   dependencies:

@@ -37,8 +37,8 @@
     ]
   },
   "scripts": {
-    "start": "nodemon ./server.js --exec babel-node",
-    "build": "babel . --ignore node_modules,build --out-dir build",
+    "start": "nodemon ./src/server.js --exec babel-node",
+    "build": "babel src -d build",
     "start:prod": "node build/server.js"
   },
   "author": "Jaguar"

@@ -5,8 +5,8 @@ import {getMainDefinition} from 'apollo-utilities'
 import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
 
-const isNotProduction = process.env.NODE_ENV !== 'production';
-const uri =  isNotProduction ? 'http://localhost:5000/graphql' : 'https://jaguarpm.herokuapp.com/graphql';
+
+const uri =  'http://localhost:3001/graphql';
 
 const httpLink = new createFileLink({ uri });
 
@@ -51,12 +51,6 @@ const link = split(
     },
     httpLinkWithMiddleware,
 );
-
-
-
-// Log
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-console.log('GRAPHQL_URI', uri);
 
 export default new ApolloClient({
     uri,

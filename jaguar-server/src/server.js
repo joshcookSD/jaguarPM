@@ -28,13 +28,10 @@ import Team from "./models/team";
 
 import { refreshTokens } from './apollo-graphql/auth';
 
-const mongo_uri =`mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar` 
-
+const mongo_uri =`mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`;
 //`mongodb://localhost:27017/jaguar`
 //     `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-console.log('process.env.PORT', process.env.PORT);
 
 mongoose.set("debug", true);
 mongoose.Promise = Promise;
@@ -99,6 +96,9 @@ app.use('/graphql', bodyParser.json(),
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 app.use('/*', staticFiles);
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.listen(app.get('port'), function() {
     console.log(`Listening on ${app.get('port')}`);
