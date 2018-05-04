@@ -28,7 +28,6 @@
     "build": "cd jaguar-client && yarn && yarn build && cd .. && cd jaguar-server && yarn && yarn build && cd ..",
     "clean": "concurrently \"rimraf node_modules yarn.lock\" \"cd jaguar-client && rimraf node_modules build yarn.lock\" \"cd jaguar-server && rimraf node_modules build yarn.lock\"",
     "postinstall": "yarn build",
-    "start": "concurrently \"cd jaguar-client && yarn start\" \"cd jaguar-server && yarn start\"",
-    "start:prod": "cd jaguar-server && yarn start:prod"
+    "start": "cd jaguar-server && yarn start:prod"
   }
 }
