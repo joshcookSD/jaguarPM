@@ -1,3 +1,4 @@
+'use strict';
 require('dotenv').config();
 import 'babel-polyfill';
 import express from 'express';
@@ -10,7 +11,9 @@ import cors from 'cors';
 const MongoStore = require('connect-mongo')(session);
 import jwt from 'jsonwebtoken';
 import path from 'path';
+const nconf = require('nconf');
 
+nconf.argv().env().file('keys.json');
 
 // mongoose models for graphql context
 import User from './models/user'
@@ -28,14 +31,22 @@ import Team from "./models/team";
 
 import { refreshTokens } from './apollo-graphql/auth';
 
-const mongo_uri =`mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`;
 //`mongodb://localhost:27017/jaguar`
-//     `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`
 
+const user = nconf.get('mongoUser');
+const pass = nconf.get('mongoPass');
+const host = nconf.get('mongoHost');
+const port = nconf.get('mongoPort');
+
+let uri = `mongodb://${user}:${pass}@${host}:${port}`;
+if (nconf.get('mongoDatabase')) {
+    uri = `${uri}/${nconf.get('mongoDatabase')}`;
+}
+console.log(uri);
 
 mongoose.set("debug", true);
 mongoose.Promise = Promise;
-mongoose.connect(mongo_uri, {
+mongoose.connect(uri, {
     keepAlive: true
 });
 
@@ -71,7 +82,7 @@ app.use(session({
     secret: SECRET,
     saveUninitialized: true,
     store: new MongoStore({
-        url: mongo_uri,
+        url: uri,
         autoReconnect: true
     })
 }));
@@ -81,7 +92,7 @@ if (isNotProduction) {
     app.use('*', cors({ origin: 'http://localhost:3000' }));
 }
 
-const staticFiles = express.static(path.join(__dirname, '../jaguar-client/build'));
+const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
 app.use(staticFiles);
 
 app.use('/graphql', bodyParser.json(),
@@ -104,5 +115,3 @@ app.listen(app.get('port'), function() {
     console.log(`Listening on ${app.get('port')}`);
 });
 
-
-    // ? User.findOne({ where: { id: req.user.id } }) : Promise.resolve(null)
