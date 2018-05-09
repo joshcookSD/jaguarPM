@@ -55,7 +55,6 @@ class OrgForm extends Component {
                                     type="text"
                                     id="orgtitle"
                                     name="orgtitle"
-                                    fluid
                                     onChange={e => this.setState({ orgtitle: e.target.value })}
                                 />
                             </Form.Field>
@@ -67,7 +66,6 @@ class OrgForm extends Component {
                                     type="text"
                                     id="orgdescription"
                                     name="orgdescription"
-                                    fluid
                                     onChange={e => this.setState({ orgdescription: e.target.value })}
                                 />
                             </Form.Field>
