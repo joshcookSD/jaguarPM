@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import Organization from './organization'
 import Project from './project'
+import Team from './team'
+import Group from './group'
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -53,6 +55,10 @@ const userSchema = new mongoose.Schema({
     projects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Project"
+    }],
+    groups: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Group"
     }],
     team: [{
         type: mongoose.Schema.Types.ObjectId,
