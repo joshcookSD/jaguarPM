@@ -74,6 +74,14 @@ const ProjectMutationResolver ={
         let projectteam = await Team.findById(args.team);
         projectteam.projects.push(project._id);
         await projectteam.save();
+        let group = await new Group({
+            grouptitle: 'General',
+            groupdescription: `General Group`,
+            project: project._id,
+            users: user._id
+        }).save();
+        user.groups.push(group._id);
+        await user.save();
         return project
     },
     updateProject: async (parent, args, { Project}) => {
@@ -115,11 +123,11 @@ const ProjectNested = {
     comments: async ({comment}) => {
         return (await Comment.find({comment}))
     },
-    tasks: async ({task}) => {
-        return (await Task.find({task: _id}))
+    tasks: async ({_id}) => {
+        return (await Task.find({project: _id}))
     },
-    groups: async ({group}) => {
-        return (await Group.find({group: _id}))
+    groups: async ({_id}) => {
+        return (await Group.find({project: _id}))
     },
     milestone: async ({milestone}) => {
         return (await Milestone.find({milestone: _id}))

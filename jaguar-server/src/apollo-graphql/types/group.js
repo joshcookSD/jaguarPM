@@ -1,6 +1,7 @@
 import Task from "../../models/task";
 import User from "../../models/user";
 import Time from "../../models/time";
+import Project from "../../models/project";
 import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
 
@@ -9,6 +10,7 @@ const GroupType = `
         _id: String
         grouptitle: String
         groupdescription: String
+        project: Project
         task: [Task]
         users: [User]
         comments: [Comment]
@@ -55,6 +57,9 @@ const GroupMutationResolver ={
 const GroupNested = {
     comments: async ({comment}) => {
         return (await Comment.find({group: comment}))
+    },
+    project: async ({project}) => {
+        return (await Project.findById({project}))
     },
     task: async ({task}) => {
         return (await Task.find({task: task}))
