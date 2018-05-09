@@ -1,6 +1,7 @@
 import User from "../../models/user";
 import Task from "../../models/task";
 import Project from "../../models/project";
+import Group from "../../models/group";
 import {teamError} from "../formatErrors";
 import Organization from '../../models/organization';
 
@@ -88,21 +89,37 @@ const TeamMutationResolver = {
                 err.push(teamtitleErr)
             }
             if (!err.length) {
-                let team = await new Team({
+                let newteam = await new Team({
                     teamtitle,
                     teamdescription,
                     owner,
+                    users: owner,
                     organization
                 }).save();
-                let teamorganization = await Organization.findById(organization);
-                teamorganization.team.push(team._id);
-                await teamorganization.save();
                 let teamuser = await User.findById(owner);
-                teamuser.team.push(team._id);
+                let teamorganization = await Organization.findById(organization);
+                teamorganization.team.push(newteam._id);
+                await teamorganization.save();
+                let project = await new Project({
+                    projecttitle: 'General',
+                    projectdescription: `General Project for ${teamtitle}`,
+                    team: newteam._id,
+                    leader: teamuser._id,
+                    users: teamuser._id
+                }).save();
+                let group = await new Group({
+                    grouptitle: 'General',
+                    groupdescription: `General Group`,
+                    project: project._id,
+                    users: teamuser._id
+                }).save();
+                teamuser.groups.push(group._id);
+                teamuser.projects.push(project._id);
+                teamuser.team.push(newteam._id);
                 await teamuser.save();
                 return {
                     ok: true,
-                    team,
+                    newteam,
                 };
             } else {
                 return {
