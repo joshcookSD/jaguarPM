@@ -24,4 +24,15 @@ const addTeamUser = gql`
     }
   }`
 
-export { teamsByUser, addTeamUser };
+const CREATE_ORG = gql`
+    mutation createOrganization( $orgtitle: String!, $orgdescription: String, $owner: String!) {
+        createOrganization(orgtitle: $orgtitle, orgdescription: $orgdescription, owner: $owner) {
+            ok
+            errors {
+                path
+                message
+            }
+        }
+    }`;
+
+export { teamsByUser, addTeamUser, CREATE_ORG };

@@ -1,12 +1,12 @@
 import React from 'react';
-import TaskToday from '../taskview/TaskToday'
-import AppLayout from '../layout/AppLayout'
-import NavSidebar from '../layout/NavSidebar'
-import MainSidebar from '../layout/MainSidebar'
-import OrgAdminHeader from '../layout/OrgAdminHeader'
+import TaskToday from '../../taskview/TaskToday'
+import AppLayout from '../../layout/AppLayout'
+import NavSidebar from '../../layout/NavSidebar'
+import MainSidebar from '../../layout/MainSidebar'
+import OrgAdminHeader from './OrgAdminHeader.jsx'
 import decode from 'jwt-decode';
 import { Query } from "react-apollo";
-import { getOrgByOwner } from "../apollo-graphql/userQueries";
+import { getOrgByOwner } from "../../apollo-graphql/userQueries";
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);

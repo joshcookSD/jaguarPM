@@ -15,7 +15,7 @@ class ProjectForm extends Component {
 
         const { newProject, newProjectDescription } = this.state;
         console.log(variables.owner);
-        console.log(team);
+      
 
         return(
             <Mutation mutation={createProject}>

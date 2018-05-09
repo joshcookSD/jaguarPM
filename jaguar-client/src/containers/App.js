@@ -64,11 +64,11 @@ const AsyncView = Loadable({
     loading: Loading,
 });
 const AsyncCreateOrg = Loadable({
-    loader: () => import('./org_team/OrgForm'),
+    loader: () => import('./adminPages/orgAdminPage/OrgForm.jsx'),
     loading: Loading,
 });
 const AsyncCreateTeam = Loadable({
-    loader: () => import('./org_team/TeamForm'),
+    loader: () => import('./adminPages/teamAdminPage/TeamForm'),
     loading: Loading,
 });
 const AsyncProjectAdmin = Loadable({
@@ -80,14 +80,17 @@ const AsyncTaskDetail = Loadable({
     loading: Loading,
 });
 const AsyncOrgAdmin = Loadable({
-    loader: () => import('./adminPages/orgAdmin'),
+    loader: () => import('./adminPages/orgAdminPage/OrgAdmin.jsx'),
     loading: Loading,
 });
 const AsyncTeamAdmin = Loadable({
-    loader: () => import('./adminPages/teamAdmin'),
+    loader: () => import('./adminPages/teamAdminPage/teamAdmin'),
     loading: Loading,
 });
-
+const AsyncViewGroup = Loadable({
+    loader: () => import('./proj_group/GroupView.js'),
+    loading: Loading,
+});
 
 
 class App extends Component {
@@ -108,6 +111,7 @@ class App extends Component {
                     <PrivateRoute path="/project-admin" exact component={AsyncProjectAdmin} />
                     <PrivateRoute path="/create-org" exact component={AsyncCreateOrg} />
                     <PrivateRoute path="/team-admin" exact component={AsyncTeamAdmin} />
+                    <PrivateRoute path="/view-group" exact component={AsyncViewGroup} />
                 </Switch>
                 </div>
             </Router>

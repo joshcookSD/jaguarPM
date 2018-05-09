@@ -18,6 +18,7 @@ class ProjectView extends Component {
     state = {
         projectId: "",
     };
+
     selectProject = (project) => {
         this.setState({projectId: project});
         console.log('has been clicked');
@@ -40,7 +41,9 @@ class ProjectView extends Component {
                     return <div>
                         <AppLayout>
                             <NavSidebar/>
-                            <MainSidebar><ProjectList selectProject={this.selectProject}/></MainSidebar>
+                            <MainSidebar>
+                                <ProjectList selectProject={this.selectProject}/>
+                            </MainSidebar>
                             <Header/>
                             <ContentArea>
                                 <TopSection>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'
-import { allUsers, addOrgUser } from "../apollo-graphql/userQueries";
+import { allUsers, addOrgUser } from "../../apollo-graphql/userQueries";
 
 
 class DropdownSelection extends Component {
@@ -15,7 +15,6 @@ class DropdownSelection extends Component {
                 {({ loading, error, data }) => {
                     let friendOptions = (data.allUsers || []).map(user => ({ text: user.username, _id: user._id }))                                     
                     return (
-                        <div className="dropDownDiv">
                             <Mutation mutation={addOrgUser}>
                                 {(addOrgUser, { data }) => (
                                    
@@ -39,7 +38,6 @@ class DropdownSelection extends Component {
                                 </Dropdown>
                                 )}
                             </Mutation>
-                        </div>
                     );
                 }}
             </Query >

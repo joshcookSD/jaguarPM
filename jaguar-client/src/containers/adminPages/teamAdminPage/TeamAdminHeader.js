@@ -3,11 +3,12 @@ import { Query } from "react-apollo";
 import styled from 'styled-components';
 import { Image, Tab, Header, Card, List } from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import { teamsByOwner } from "../apollo-graphql/userQueries";
-import ProjectForm from '../proj_group/projectcomponents/ProjectForm';
-import DropdownSelection from '../org_team/teamInvite';
-import Logo from '../../images/jaguarwhite.png';
-import './OrgAdminHeader.css';
+import { teamsByOwner } from "../../apollo-graphql/userQueries";
+import ProjectForm from '../../proj_group/projectcomponents/ProjectForm';
+import DropdownSelection from './teamInvite';
+import Logo from '../../../images/jaguarwhite.png';
+import '../orgAdminPage/OrgAdminHeader.css';
+
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
@@ -29,10 +30,12 @@ const TeamAdminHeader = ({ owner }) => (
 
     <Query query={teamsByOwner} variables={variables}>
         {({ loading, error, data }) => {
-            const dataPane = data.teamsByOwner.map(team => (
-                {
-                    menuItem: team.teamtitle, render: () =>
-                        <Tab.Pane className="orgTab" attached={false} >
+            console.log(data, 'query fire');
+    
+    const dataPane = data.teamsByOwner.map(team => (
+        {
+            menuItem: team.teamtitle, render: () =>
+            <Tab.Pane className="orgTab" attached={false} >
                             <div className="orgHeader">
                                 <div><span className="headerTitle " >Title: </span>
                                     <span className="headerName">{team.teamtitle}</span></div>

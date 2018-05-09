@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Container, Icon } from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import {getOrgByOwner} from '../apollo-graphql/userQueries'
+import {getOrgByOwner} from '../../apollo-graphql/userQueries'
 const token = localStorage.getItem('token');
 
 const CREATE_TEAM = gql`
@@ -37,9 +37,13 @@ class TeamForm extends Component {
         return (
             <Mutation mutation={CREATE_TEAM}>
                 {(createTeam, { data }) => (
+                    
+                    
                     <Container  text>
                         <Form
                             onSubmit={async e => {
+                                console.log(orgId)
+                                console.log(user._id);
                                 e.preventDefault();                 
                                 const response = await createTeam({
                                     variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: orgId, owner: user._id },
