@@ -34,6 +34,7 @@ class ProjectList extends Component {
                     return <div>
                             { (data.user.team || []).map( team => (
                                 <div key={team._id}>
+                                {console.log(data.user.team )}
                                     <Header >{team.teamtitle}<Icon onClick={this.show} color='green' name='add circle' floated='right'/></Header>
 
                                     <Modal size='small' open={open} onClose={this.close}>
