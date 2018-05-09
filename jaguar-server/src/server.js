@@ -92,11 +92,16 @@ if (isNotProduction) {
     app.use('*', cors({ origin: 'http://localhost:3000' }));
 }
 
+
+const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
+app.use(staticFiles);
+=======
 if(!isNotProduction) {
     const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
     app.use(staticFiles);
     app.use('/*', staticFiles);
 }
+
 
 app.use('/graphql', bodyParser.json(),
     graphqlExpress(req => ({ schema,
@@ -108,6 +113,10 @@ app.use('/graphql', bodyParser.json(),
     }
 })));
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+
+
+app.use('/*', staticFiles);
+
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
