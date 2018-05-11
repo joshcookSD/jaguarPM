@@ -4,7 +4,6 @@ import DropdownSelection from './OrgInvite.jsx';
 
 const OrgAddUserCard = (props) => (
     <Card className="cardRight">
-            <h3 className="orgCardTitle">Add User To Organization</h3>
             <DropdownSelection orgId={props.orgId} getOrgByOwner={props.getOrgByOwner} variables={props.variables} />
             {props.org.users.map(user => (
                 <List>

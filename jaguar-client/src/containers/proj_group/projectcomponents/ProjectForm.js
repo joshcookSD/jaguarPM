@@ -3,7 +3,6 @@ import { Button, Form } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
 import {createProject} from "../../apollo-graphql/groupProjectQueries";
 
-
 class ProjectForm extends Component {
     state = {
         newProject: "",
@@ -11,26 +10,22 @@ class ProjectForm extends Component {
     };
 
     render() {
-        const { team, teamsByOwner, variables} = this.props;
-
-        const { newProject, newProjectDescription } = this.state;
-        console.log(variables.owner);
-      
-
-        return(
+        const { team, teamsByOwner, variables } = this.props;
+        const { newProject, newProjectDescription } = this.state;   
+        return (
             <Mutation mutation={createProject}>
-                {(createProject, {data}) => {
+                {(createProject, { data }) => {
                     return (
-                        <div style={{marginBottom: '.5em'}}>
+                        <div style={{ marginBottom: '.5em' }}>
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createProject({
-                                        variables: { projecttitle: newProject, projectdescription: newProjectDescription, team, leader: variables.owner, users: variables.owner},
-                                        refetchQueries: [{ query: teamsByOwner, variables: variables}]
+                                        variables: { projecttitle: newProject, projectdescription: newProjectDescription, team, leader: variables.owner, users: variables.owner },
+                                        refetchQueries: [{ query: teamsByOwner, variables: variables }]
                                     });
                                     // this.props.onClose();
-                                    this.setState({newProject: "", newProjectDescription: ""});
+                                    this.setState({ newProject: "", newProjectDescription: "" });
                                 }}
                             >
                                 <Form.Field>
@@ -39,7 +34,7 @@ class ProjectForm extends Component {
                                         placeholder='Project Name'
                                         value={newProject}
                                         type='text'
-                                        onChange={e => this.setState({newProject: e.target.value})}
+                                        onChange={e => this.setState({ newProject: e.target.value })}
                                     />
                                 </Form.Field>
                                 <Form.Field>
@@ -48,20 +43,17 @@ class ProjectForm extends Component {
                                         placeholder='Project Description'
                                         value={newProjectDescription}
                                         type='text'
-                                        onChange={e => this.setState({newProjectDescription: e.target.value})}
+                                        onChange={e => this.setState({ newProjectDescription: e.target.value })}
                                     />
                                 </Form.Field>
                                 <Button type='submit' color="Grey" positive icon='checkmark' labelPosition='right' content='New Project!' />
                             </Form>
                         </div>
-                            )
+                    )
                 }}
             </Mutation>
         )
     }
 }
-
-
-
 
 export default ProjectForm
