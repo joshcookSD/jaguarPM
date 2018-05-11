@@ -1,243 +1,4 @@
-/* .ui.tab.active {
-    height: 800px;
-    display: flex;
-    flex-direction: column;
-}
 
-.ui.secondary.menu {
-    margin-left: 0; 
-    margin-right: 0;
-}
-
-.ui.secondary.menu .active.item:hover {
-    box-shadow: none;
-    background: rgba(40, 80, 172, 1);
-    color: rgba(255, 255, 255, 0.95);
-    border-radius: 11px;
-}
-
-.ui.secondary.menu .dropdown.item:hover,
-.ui.secondary.menu .link.item:hover,
-.ui.secondary.menu a.item:hover {
-    background: rgba(40, 80, 172, 1);
-    color: rgb(255, 255, 255);
-    border-radius: 11px;
-}
-
-.ui.secondary.menu .active.item {
-    box-shadow: none;
-    background: black;
-    color: rgba(255, 255, 255, 0.95);
-   border-radius: 11px;
-}
-
-.ui.menu .active.item:hover,
-.ui.vertical.menu .active.item:hover {
-    background-color: rgba(74, 142, 203, 1);
-    color: rgba(255, 255, 255, 0.95);
-    border-radius: 11px;
-}
-
-.ui.link.menu .item:hover,
-.ui.menu .dropdown.item:hover,
-.ui.menu .link.item:hover,
-.ui.menu a.item:hover {
-    cursor: pointer;
-    background: rgba(0, 0, 0, .03);
-    color: rgba(255, 255, 255, 0.95);
-    border-radius: 11px;
-}
-
-.ui.secondary.menu .item {
-    -ms-flex-item-align: center;
-    -ms-grid-row-align: center;
-    align-self: center;
-    box-shadow: none;
-    border: none;
-    padding: .78571429em .92857143em;
-    margin: 0 .35714286em;
-    background: 0 0;
-    -webkit-transition: color .1s ease;
-    transition: color .1s ease;
-    
-}
-
-.ui.menu .active.item {
-    background: rgba(0, 0, 0, .05);
-    color: rgba(218, 218, 218, 0.87);
-    font-weight: 400;
-    box-shadow: none;
-}
-
-.ui.menu>.item:first-child {
-    border-radius: .28571429rem 0 0 .28571429rem;
-}
-
-.ui.menu:not(.vertical) .item {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-}
-
-.ui.menu .item {
-    position: relative;
-    vertical-align: middle;
-    line-height: 1;
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background: 0 0;
-    padding: .92857143em 1.14285714em;
-    text-transform: none;
-    color: rgba(255, 255, 255, 0.87);
-    font-weight: 400;
-    -webkit-transition: background .1s ease, box-shadow .1s ease, color .1s ease;
-    transition: background .1s ease, box-shadow .1s ease, color .1s ease;
-}
-
-.orgTitle {
-    color: black;
-}
-
-.ui.text.container {
-    font-size: 1.14285714rem;
-    width: 40%;
-}
-
-.orgTab {
-    color: black;
-}
-
-
-@media only screen and (min-width: 1200px){
-    .ui.container {
-        width: 1127px;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
-} 
-
-.formTeamDiv{
-    display: flex;
-    margin: 40px;
-}
-
-.currentUserOrgList {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-}
-
-.orgUsers {
-    margin: 0px;
-}
-
-.dropDownDiv {
-    width: 100% !important;
-    padding:10px;
-    width: 30%;
-margin-bottom: 20px;
-}
-
-.userDropDownOrgList {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-}
-
-.teamFormTeamInfo {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-}
-
-.topOrgLabel{
-    margin: 0;
-}
-
-.cardRight{
-        height: 100%;
-        padding-top:10px;
-}
-
-.ui.cardLeft{
-    padding: 10px;
-}
-
-.ui.cardRight {
-    padding: 10px;
-}
-
-.cardLeft{
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding-top: 10px;
-}
-
-.orgCardTitle{
-    margin: 10px;
-    margin-bottom: 0px;
-}
-
-
-
-.teamInfo{
-    width: 100%;
-    padding: 10px;
-    height: 300;
-    overflow: auto;
-
-}
-
-.ui.text.container{
-    width: 80%;
-}
-
-.ui.card{
-    height: 100%;
-}
-
-
-
-
-.orgDescrip{
-    margin-top: 10px;
-}
-
-.projectList{
-      
-       
-}
-
-ul {
-    list-style-type: none;
-}
-
-.ui.list{
-
-font-size: 1em;
-margin-top: 0px;
-}
-
-.ui.labeled.icon.button,
-.ui.labeled.icon.buttons .button {
-    background: #21ba45;
-    color: white;
-} */
 
 .headerTitle {
     font-size: 15px;
@@ -339,4 +100,91 @@ margin-top: 0px;
     }
 
 
+}
+
+.ui.secondary.menu .active.item:hover {
+    box-shadow: none;
+    background: rgba(40, 80, 172, 1);
+    color: rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
+}
+
+.ui.secondary.menu .dropdown.item:hover,
+.ui.secondary.menu .link.item:hover,
+.ui.secondary.menu a.item:hover {
+    background: rgba(40, 80, 172, 1);
+    color: rgb(255, 255, 255);
+    border-radius: 11px;
+}
+
+.ui.labeled.icon.button,
+.ui.labeled.icon.buttons .button {
+    background: #21ba45;
+    color: white;
+}
+
+.ui.menu .item {
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.ui.menu .active.item {
+    background: rgba(0, 0, 0, .05);
+    color: rgba(218, 218, 218, 0.87);
+    font-weight: 400;
+    box-shadow: none;
+}
+
+.ui.secondary.menu {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.ui.secondary.menu .active.item {
+    box-shadow: none;
+    background: black;
+    color: rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
+}
+
+.ui.menu .active.item:hover,
+.ui.vertical.menu .active.item:hover {
+    background-color: rgba(74, 142, 203, 1);
+    color: rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
+}
+
+.ui.link.menu .item:hover,
+.ui.menu .dropdown.item:hover,
+.ui.menu .link.item:hover,
+.ui.menu a.item:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, .03);
+    color: rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
+}
+
+.ui.secondary.menu .item {
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
+    align-self: center;
+    box-shadow: none;
+    border: none;
+    padding: .78571429em .92857143em;
+    margin: 0 .35714286em;
+    background: 0 0;
+    -webkit-transition: color .1s ease;
+    transition: color .1s ease;
+}
+
+.ui.menu>.item:first-child {
+    border-radius: .28571429rem 0 0 .28571429rem;
+}
+
+.ui.menu:not(.vertical) .item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
