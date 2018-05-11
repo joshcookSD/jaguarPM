@@ -4,6 +4,8 @@ import Time from "../../models/time";
 import Project from "../../models/project";
 import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
+import Team from "../../models/team";
+import Comment from "../../models/comment";
 
 const GroupType = `
     type Group {
@@ -11,13 +13,14 @@ const GroupType = `
         grouptitle: String
         groupdescription: String
         project: Project
-        task: [Task]
+        team: Team
+        tasks: [Task]
         users: [User]
         comments: [Comment]
         grouptime: [Time]
         groupplannedtime: [PlannedTime]
-        plannedcompletiondate: String
-        duedate: String
+        plannedcompletiondate: Date
+        duedate: Date
         priority: Priority
     }
 `;
@@ -55,26 +58,29 @@ const GroupMutationResolver ={
 };
 
 const GroupNested = {
-    comments: async ({comment}) => {
-        return (await Comment.find({group: comment}))
+    comments: async ({_id}) => {
+        return (await Comment.find({group: _id}))
     },
     project: async ({project}) => {
         return (await Project.findById({project}))
     },
-    task: async ({task}) => {
-        return (await Task.find({task: task}))
+    team: async ({team}) => {
+        return (await Team.findById({team}))
     },
-    users: async ({users}) => {
-        return (await User.find({users}))
+    tasks: async ({_id}) => {
+        return (await Task.find({group: _id}))
     },
-    grouptime: async ({time}) => {
-        return (await Time.find({time}))
+    users: async ({_id}) => {
+        return (await User.find({groups: _id}))
     },
-    groupplannedtime: async ({groupplannedtime}) => {
-        return (await PlannedTime.find({groupplannedtime}))
+    grouptime: async ({_id}) => {
+        return (await Time.find({group: _id}))
+    },
+    groupplannedtime: async ({_id}) => {
+        return (await PlannedTime.find({group: _id}))
     },
     priority: async ({priority}) => {
-        return (await Priority.find({priority}))
+        return (await Priority.findById({priority}))
     },
 };
 

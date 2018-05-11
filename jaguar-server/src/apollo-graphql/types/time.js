@@ -1,14 +1,18 @@
 import User from "../../models/user";
 import Task from "../../models/task";
+import Group from "../../models/group";
+import Project from "../../models/project";
 
 const TimeType = `
     type Time {
         _id: String
         time: Float
-        date: String
+        date: Date
         timecomment: String
         user: User
         task: Task
+        group: Group
+        project: Project
     }
 `;
 
@@ -21,9 +25,11 @@ const TimeMutation = `
     createTimeTask(
         time: Float
         timecomment: String
-        date: String
+        date: Date
         user: String
         task: String
+        group: String
+        project: String
 ) : Time
 `;
 
@@ -46,6 +52,12 @@ const TimeNested = {
     },
     user: async ({user}) => {
         return (await User.findById(user))
+    },
+    group: async ({group}) => {
+        return (await Group.findById(group))
+    },
+    project: async ({project}) => {
+        return (await Project.findById(project))
     },
 };
 

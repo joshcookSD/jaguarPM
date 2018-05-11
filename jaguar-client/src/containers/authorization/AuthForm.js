@@ -11,11 +11,18 @@ class AuthForm extends Component {
             email: "",
             emailError: "",
             passwordError: "",
+            showPassword: false,
             errors: {},
         };
 
+    showHide = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({showPassword: !this.state.showPassword})
+    };
+
     render() {
-        const { email, password, emailError, passwordError } = this.state;
+        const { email, password, emailError, passwordError, showPassword } = this.state;
         const errorList = [];
         if (emailError) {errorList.push(emailError);}
         if (passwordError) {errorList.push(passwordError);}
@@ -65,12 +72,20 @@ class AuthForm extends Component {
                                 <Input
                                     placeholder="password"
                                     value={password}
-                                    type="text"
+                                    type={showPassword ? 'text' : 'password'}
                                     id="password"
                                     name="password"
                                     fluid
                                     onChange={e => this.setState({ password: e.target.value })}
-                                />
+                                >
+                                    <input/>
+                                    <Button
+                                        basic
+                                        floated='right'
+                                        icon={showPassword ? 'hide' : 'unhide'}
+                                        onClick={ this.showHide }
+                                    />
+                                </Input>
                             </Form.Field>
                             <Button floated='right' icon labelPosition='left'><Icon name='plus'/>login</Button>
                         </Form>

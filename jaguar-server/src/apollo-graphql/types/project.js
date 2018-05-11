@@ -13,8 +13,8 @@ const ProjectType = `
         _id: String
         projecttitle: String
         projectdescription: String
-        plannedcompletiondate: String
-        duedate: String
+        plannedcompletiondate: Date
+        duedate: Date
         tasks: [Task]
         comments: [Comment]
         groups: [Group]
@@ -45,8 +45,8 @@ const ProjectMutation = `
     updateProject(
         projecttitle: String,
         projectdescription: String,
-        plannedcompletiondate: String,
-        duedate: String,
+        plannedcompletiondate: Date,
+        duedate: Date,
         leader: String, 
         team: String
     ) : Project

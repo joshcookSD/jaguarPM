@@ -6,11 +6,12 @@ import Project from "../../models/project";
 const CommentType = `
     type Comment {
         _id: String
-        date: String
+        comment: String
         user: User
         task: Task
         group: Group
         project: Project
+        createdAt: Date
     }
 `;
 
@@ -22,8 +23,7 @@ const CommentQuery = `
 const CommentMutation = `
     createTaskComment(
          _id: String
-        comment: Float
-        date: String
+        comment: String
         user: String
         task: String
 ) : Comment

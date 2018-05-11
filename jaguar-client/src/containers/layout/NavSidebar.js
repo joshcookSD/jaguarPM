@@ -20,7 +20,7 @@ const NavItems = styled.li`
   height: 50px;
   width: 50px;
   background-color: #232929;
-  color: #958993;
+  color: #4183c4;
   margin: auto;
   margin-bottom: 10px;
   display: flex;
@@ -38,12 +38,12 @@ const NavItems = styled.li`
 const NavSidebar = () => (
     <NavSideWrapper>
         <NavList>
-            <NavItems><Link to='/view-users'>u</Link></NavItems>
-            <NavItems><Link to='/view'>t</Link></NavItems>
-            <NavItems><Link to='/view-group'>g</Link></NavItems>
-            <NavItems><Link to='/project-admin'>p</Link></NavItems>
-            <NavItems><Link to='/team-admin'>ta</Link></NavItems>
-            <NavItems><Link to='/org-admin'>oa</Link></NavItems>
+            <Link to='/view-users'><NavItems>u</NavItems></Link>
+            <Link to='/view'><NavItems>t</NavItems></Link>
+            <Link to='/view-group'><NavItems>g</NavItems></Link>
+            <Link to='/project-admin'><NavItems>p</NavItems></Link>
+            <Link to='/team-admin'><NavItems>ta</NavItems></Link>
+            <Link to='/org-admin'><NavItems>oa</NavItems></Link>
         </NavList>
     </NavSideWrapper>
 );

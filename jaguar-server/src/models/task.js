@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./user");
 const Team = require("./team");
+const Comment = require("./comment");
 // const TaskType = require("./tasktype");
 // const Priority = require("./priority");
 
