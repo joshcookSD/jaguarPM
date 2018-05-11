@@ -30,7 +30,7 @@ class TaskItem extends Component {
                     <List.Description as='a'>text tbd</List.Description>
                 </List.Content>
                 { opened && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime}/>)}
-                { detail && (<TaskDetail taskId={taskId} tasktitle={tasktitle}/>)}
+                { detail && (<TaskDetail taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables}/>)}
             </List.Item>
         )
     }

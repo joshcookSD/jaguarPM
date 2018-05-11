@@ -95,7 +95,7 @@ if (isNotProduction) {
 
 const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
 app.use(staticFiles);
-=======
+
 if(!isNotProduction) {
     const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
     app.use(staticFiles);

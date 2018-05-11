@@ -12,8 +12,8 @@ const TaskType = `
         tasktitle: String
         taskdescription: String
         iscompleted: Boolean
-        completeddate: String
-        plandate: String
+        completeddate: Date
+        plandate: Date
         taskstatus: String
         comments: [Comment]
         taskcurrentowner: User
@@ -21,11 +21,13 @@ const TaskType = `
         tasktime: [Time]
         taskplannedtime: [PlannedTime]
         plannedcompletiondate: String
-        duedate: String
+        duedate: Date
         priority: Priority
         group: Group
         team: Team
-        organization: Organization
+        organization: Organization,
+        updatedAt: Date,
+        createdAt: Date
     }
 `;
 
@@ -33,8 +35,8 @@ const TaskQuery = `
     allTasks: [Task]
     task(_id: String): Task
     tasksByUser(taskcurrentowner: String, iscompleted: Boolean): [Task]
-    tasksByDay(taskcurrentowner: String, iscompleted: Boolean, plandate: String): [Task]
-    tasksToday(taskcurrentowner: String, iscompleted: Boolean, plandate: String): [Task]
+    tasksByDay(taskcurrentowner: String, iscompleted: Boolean, plandate: Date): [Task]
+    tasksToday(taskcurrentowner: String, iscompleted: Boolean, plandate: Date): [Task]
     tasksByTeam(taskcurrentowner: String, iscompleted: Boolean, team: String): [Task]
 `;
 
@@ -43,7 +45,7 @@ const TaskMutation = `
         tasktitle: String,
         taskdescription: String,
         taskcurrentowner: String,
-        plandate: String,
+        plandate: Date,
         iscompleted: Boolean,
         team: String
 ) : Task
@@ -52,19 +54,22 @@ const TaskMutation = `
         tasktitle: String,
         taskdescription: String,
         taskstatus: String,
-        duedate: String,
+        duedate: Date,
         priority: String,
         group: String,
         team: String,
         taskcurrentowner: String,
-        plandate: String,
+        plandate: Date,
         iscompleted: Boolean,
-        completeddate: String
+        completeddate: Date
 ) : Task
     completeTask(
         _id: String!
         iscompleted: Boolean
-        completeddate: String
+        completeddate: Date
+) : Task
+    removeTask(
+        _id: String!
 ) : Task
 `;
 
@@ -142,9 +147,26 @@ const TaskMutationResolver ={
     },
     updateTask: async (parent, args, { Task, User }) => {
         let task = await Task.findByIdAndUpdate(args._id, {
-            $set: { tasktitle: args.tasktitle, taskdescription: args.taskdescription}},
+            $set: {
+                tasktitle: args.tasktitle,
+                taskdescription: args.taskdescription,
+                }},
             {new: true}
         );
+        if(args.plandate != 'Invalid Date') {
+            await Task.findByIdAndUpdate(args._id, {
+                    $set: {
+                        plandate: args.plandate}},
+                {new: true}
+            );
+        }
+        if(args.duedate != 'Invalid Date') {
+            await Task.findByIdAndUpdate(args._id, {
+                    $set: {
+                        duedate: args.duedate}},
+                {new: true}
+            );
+        }
         if(args.taskcurrentowner) {
             let owner = await User.findById(args.taskcurrentowner);
             await task.taskcurrentowner.save(owner._id);
@@ -183,6 +205,9 @@ const TaskMutationResolver ={
                 if(err) return err;
                 return task;
             });
+    },
+    removeTask: async (parent, args, {Task}) =>{
+         await Task.remove({_id: args._id});
     }
 }; 
 

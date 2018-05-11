@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Query, graphql } from "react-apollo";
+import { Query, graphql, compose } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { task, updateTask } from "../apollo-graphql/taskQueries";
+import { task, updateTask, removeTask } from "../apollo-graphql/taskQueries";
 import moment from 'moment';
 
 
@@ -10,19 +10,29 @@ class TaskDetail extends Component {
         descriptionInput: false,
         description: '',
         planDateInput: false,
+        plandate: '',
         dueDateInput: false,
+        duedate: '',
         assignedInput: false,
         assigned: '',
     };
 
     render() {
-        const {taskId, tasktitle} = this.props;
+        const {taskId, tasktitle, updateQuery, refreshVariables} = this.props;
         const queryVariables = {_id: taskId};
-        const {descriptionInput, planDateInput, dueDateInput, assignedInput, description, assigned} = this.state;
+        const {descriptionInput, planDateInput, dueDateInput, assignedInput, description, assigned, plandate, duedate} = this.state;
+
+        const updateVariables = {
+            _id: taskId,
+            tasktitle,
+            taskdescription: description,
+            assigned,
+            duedate,
+            plandate};
 
         const _updateTask = async () => {
             await this.props.updateTask({
-                variables: {_id: taskId, tasktitle, taskdescription: description, assigned},
+                variables: updateVariables,
                 refetchQueries: [{query: task, variables: queryVariables}]
             });
             this.setState({
@@ -31,6 +41,14 @@ class TaskDetail extends Component {
                 dueDateInput: false,
                 assignedInput: false,
             })
+        };
+
+        const _removeTask = async (e) => {
+            e.preventDefault();
+            await this.props.removeTask({
+                variables: queryVariables,
+                refetchQueries: [{query: updateQuery, variables: refreshVariables}]
+            });
         };
 
             return (
@@ -43,14 +61,16 @@ class TaskDetail extends Component {
                                     <Loader/>
                                 </Dimmer>
                             </div>);
+
                         if (error) return <p>Error :(</p>;
+
                         return (
                             <Form onSubmit={() => _updateTask()}>
                                 <Card fluid raised>
                                     <Card.Content>
-                                        <Card.Meta onClick={() => this.setState({descriptionInput: !descriptionInput})}>
+                                        <Card.Description onClick={() => this.setState({descriptionInput: !descriptionInput})}>
                                             Description: {!descriptionInput && data.task.taskdescription}
-                                        </Card.Meta>
+                                        </Card.Description>
                                         {descriptionInput &&
                                         <Form.Input
                                             fluid
@@ -60,22 +80,24 @@ class TaskDetail extends Component {
                                         />}
                                         <Card.Description
                                             onClick={() => this.setState({planDateInput: !planDateInput})}>
-                                            Plan Date: {!planDateInput && data.task.plandate ? moment(data.task.plandate).format('YYYY-MM-DD') : 'task needs to be planned'}
+                                            Plan Date: {data.task.plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : 'task needs to be planned'}
                                         </Card.Description>
                                         {planDateInput &&
                                         <Form.Input
                                             fluid
                                             type='date'
-                                            placeholder={moment(data.task.plandate).format('YYYY-MM-DD')}
+                                            placeholder={plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : 'No plan date set'}
+                                            onChange={e => this.setState({plandate: e.target.value})}
                                         />}
                                         <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
-                                            Due Date: {!dueDateInput && data.task.duedate ? moment(data.task.duedate).format('YYYY-MM-DD') : 'No due date set'}
+                                            Due Date: {data.task.duedate ? moment.utc(data.task.duedate).format('YYYY-MM-DD') : 'No due date set'}
                                         </Card.Description>
                                         {dueDateInput &&
                                         <Form.Input
                                             fluid
                                             type='date'
-                                            placeholder={moment(data.task.duedate).format('YYYY-MM-DD')}
+                                            placeholder={duedate ? moment(data.task.duedate).format('YYYY-MM-DD') : Date.now()}
+                                            onChange={e => this.setState({duedate: e.target.value})}
                                         />}
                                         <Card.Description
                                             onClick={() => this.setState({assignedInput: !assignedInput})}>
@@ -88,9 +110,15 @@ class TaskDetail extends Component {
                                             value={assigned}
                                             onChange={e => this.setState({assigned: e.target.value})}
                                         />}
+                                        <Card.Description>
+                                            Created: {moment.utc(data.task.createdAt).format('YYYY-MM-DD')}
+                                        </Card.Description>
                                     </Card.Content>
                                     <Card.Content extra>
-                                        <Button size='small' fluid type='submit'>update</Button>
+                                        <Button.Group fluid>
+                                        <Button size='small' type='submit' positive>update</Button>
+                                        <Button size='small' negative onClick={(e) => _removeTask(e)} >remove</Button>
+                                        </Button.Group>
                                     </Card.Content>
                                 </Card>
                             </Form>
@@ -102,6 +130,11 @@ class TaskDetail extends Component {
         }
 }
 
-export default graphql(updateTask, {
-    name: 'updateTask',
-})(TaskDetail);
+export default compose(
+    graphql(updateTask, {
+        name: 'updateTask',
+    }),
+    graphql(removeTask, {
+        name: 'removeTask',
+    })
+)(TaskDetail);

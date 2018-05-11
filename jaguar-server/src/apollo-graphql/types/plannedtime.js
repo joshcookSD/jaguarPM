@@ -1,11 +1,17 @@
+import User from "../../models/user";
+import Task from "../../models/task";
+import Group from "../../models/group";
+import Project from "../../models/project";
 
 const PlannedTimeType = `
     type PlannedTime {
         _id: String
         time: Float
-        date: String
-        user: [User]
-        task: [Task]
+        date: Date
+        user: User
+        task: Task
+        group: Group
+        project: Project        
     }
 `;
 
@@ -18,9 +24,11 @@ const PlannedTimeMutation = `
     createPlannedTime(
          _id: String
         time: Float
-        date: String
+        date: Date
         user: String
         task: String
+        group: String
+        project: String  
 ) : PlannedTime
 `;
 
@@ -39,10 +47,16 @@ const PlannedTimeQueryResolver = {
 
 const PlannedTimeNested = {
     task: async ({_id}) => {
-        return (await Task.find({time: _id}))
+        return (await Task.find({plannedtime: _id}))
     },
     user: async ({_id}) => {
-        return (await User.find({time: _id}))
+        return (await User.find({plannedtime: _id}))
+    },
+    group: async ({_id}) => {
+        return (await Group.find({plannedtime: _id}))
+    },
+    project: async ({_id}) => {
+        return (await Project.find({plannedtime: _id}))
     },
 };
 
