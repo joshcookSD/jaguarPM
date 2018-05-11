@@ -34,13 +34,25 @@ const OrgAdminHeader = ({ owner }) => (
                 menuItem: org.orgtitle, render: () =>
                     <Tab.Pane className="orgTab" attached={false} >
                         <div className="tabHeader">
-                            <TabHeader orgTitle={org.orgtitle} orgDescription={org.orgdescription} /> 
+                            <TabHeader 
+                                orgTitle={org.orgtitle} 
+                                orgDescription={org.orgdescription} 
+                            /> 
                         </div>  
 
-                        <div className="addTeamCard"><AddTeamCard org={org} /></div>
+                        <div className="addTeamCard">
+                            <AddTeamCard 
+                            org={org} 
+                            />
+                        </div>
                              
                         <div className="addUserCard"> 
-                            <OrgAddUserCard org={org} orgId={org._id} getOrgByOwner={getOrgByOwner} variables={variables} />
+                            <OrgAddUserCard 
+                                org={org} 
+                                orgId={org._id} 
+                                getOrgByOwner={getOrgByOwner} 
+                                variables={variables} 
+                            />
                         </div>
                     </Tab.Pane>
                 }

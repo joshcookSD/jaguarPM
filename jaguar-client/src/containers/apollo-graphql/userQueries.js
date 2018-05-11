@@ -103,6 +103,17 @@ const allUsers = gql `
 }
 `;
 
+const CREATE_TEAM = gql`
+    mutation createTeam( $teamtitle: String!, $teamdescription: String, $owner: String, $organization: String!) {
+        createTeam(teamtitle: $teamtitle, teamdescription: $teamdescription, owner: $owner, organization: $organization) {
+            ok
+            errors {
+                path
+                message
+            }
+        }
+    }`;
+
 const userTeams = gql`
     query user($_id: String ){
     user(_id: $_id){
@@ -124,4 +135,4 @@ const addOrgUser = gql`
 
 
 
-export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner};
+export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, CREATE_TEAM};

@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'
@@ -19,7 +20,7 @@ class DropdownSelection extends Component {
                         <div className="dropDownDiv">
                             <Mutation mutation={addTeamUser}>
                                 {(addTeamUser, { data }) => (
-                                    <Dropdown text='Add user' icon='add user' scrolling floating labeled button className='icon'>
+                                    <Dropdown text='Add user' icon='add user' scrolling floating fluid labeled button className='icon'>
                                         <Dropdown.Menu>
                                             <Dropdown.Header content='People You Might Know' />
                                             {friendOptions.map(option =>
