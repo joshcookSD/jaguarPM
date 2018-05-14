@@ -28,7 +28,7 @@ class TaskToday extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
-                            <Header>Today</Header>
+                            <Header>{moment.utc(today).format('dddd')} (Today)</Header>
                         <TaskForm
                             taskcurrentowner={user._id}
                             plandate={today}

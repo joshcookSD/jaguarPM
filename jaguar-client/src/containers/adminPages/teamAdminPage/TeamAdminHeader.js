@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from "react-apollo";
 import styled from 'styled-components';
-import { Image, Tab, Header, Card, List } from 'semantic-ui-react';
+import { Image, Tab } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { teamsByOwner } from "../../apollo-graphql/userQueries";
 

@@ -1,35 +1,51 @@
 import React, {Component} from 'react';
-import { List } from 'semantic-ui-react';
+import { List, Button, Icon } from 'semantic-ui-react';
 import TaskComplete from './TaskComplete'
 import TaskDetail from '../TaskDetail'
 import TaskTime from './TaskTime'
 
 class TaskItem extends Component {
     state = {
-        opened: false,
+        timeOpen: false,
         detail: false,
+        isHovering: false,
     };
-    closeTime = () => this.setState({ opened: !this.state.opened });
+    closeTime = () => this.setState({ timeOpen: !this.state.timeOpen });
 
     render() {
         const {taskId, tasktitle, userId, completeddate, variables, updateQuery} = this.props;
-        const { opened, detail } = this.state;
+        const { timeOpen, detail, isHovering } = this.state;
 
         return(
-            <List.Item key={taskId}>
+            <List.Item
+                key={taskId}
+                onMouseEnter={() => { this.setState({isHovering: true}) }}
+                onMouseLeave={() => { this.setState({isHovering: false}) }}>
+                <List.Content floated='right'>
+                    { isHovering &&
+                    <Button.Group size='mini'>
+                        <Button icon basic>
+                            <Icon name='clock' size='large' onClick={() => {
+                                this.setState({timeOpen: !timeOpen})
+                            }}/>
+                        </Button>
+                        <Button icon basic>
+                            <Icon name='comments outline' size='large' floated='right'/>
+                        </Button>
+                    </Button.Group>
+                    }
+                </List.Content>
                 <TaskComplete
                     _id={taskId}
                     completeddate={completeddate}
                     updateQuery={updateQuery}
                     variables={variables}
                 />
-                <List.Icon name='clock' size='large' verticalAlign='middle' onClick={() => { this.setState({opened: !opened}) }}/>
                 <List.Content>
                     <List.Header as='a' onClick={() => { this.setState({detail: !detail}) }}>{tasktitle}</List.Header>
-
                     <List.Description as='a'>text tbd</List.Description>
                 </List.Content>
-                { opened && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime}/>)}
+                { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime}/>)}
                 { detail && (<TaskDetail taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables}/>)}
             </List.Item>
         )

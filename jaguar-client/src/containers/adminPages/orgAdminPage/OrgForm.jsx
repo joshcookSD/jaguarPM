@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Container, Header, Icon } from 'semantic-ui-react';
 import decode from 'jwt-decode';
