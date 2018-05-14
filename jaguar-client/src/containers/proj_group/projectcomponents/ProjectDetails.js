@@ -129,3 +129,17 @@ class ProjectDetail extends Component {
 export default graphql(updateProject, {
     name: 'updateProject',
 })(ProjectDetail);
+
+
+
+// class ProjectDetail extends Component {
+//     render() {
+//         return (
+//             <div>
+//                 Jaguar
+//             </div>
+//         );
+//     }
+// }
+
+// export default ProjectDetail;
