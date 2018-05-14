@@ -6,7 +6,7 @@ import { List} from 'semantic-ui-react';
 class TaskComplete extends Component {
     state={
         taskComplete: false,
-    }
+    };
 
     render() {
         const {taskComplete} =this.state;

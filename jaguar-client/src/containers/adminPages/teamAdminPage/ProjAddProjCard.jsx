@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, List } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import ProjectForm from '../../proj_group/projectcomponents/ProjectForm';
 
 const ProjAddProjCard = (props) => (

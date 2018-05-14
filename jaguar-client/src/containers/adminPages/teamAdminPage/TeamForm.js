@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import { Message, Form, Button, Input, Container, Icon } from 'semantic-ui-react';
+import { Message, Form, Button, Input, Icon } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { getOrgByOwner, CREATE_TEAM} from '../../apollo-graphql/userQueries'
 
