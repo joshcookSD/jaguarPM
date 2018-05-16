@@ -6,7 +6,7 @@ import { List } from 'semantic-ui-react';
 class ProjectItem extends Component {
 
       handleClick() {
-          alert(this.props.projecttitle)
+          this.props.selectProject(this.props.projectId);
       }
 
     render() {

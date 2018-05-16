@@ -150,6 +150,6 @@ mutation removeTask($_id: String!) {
         _id
         }
     }
-`
+`;
 
 export {allTasks, task, tasksByUser, createTask, tasksToday, tasksByDay, tasksByTeam, completeTask, updateTask, removeTask}

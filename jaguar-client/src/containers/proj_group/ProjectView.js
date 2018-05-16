@@ -11,23 +11,24 @@ import ProjectList from './projectcomponents/ProjectList'
 import ProjectDetails from './projectcomponents/ProjectDetails'
 import { TopSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
+import { projectDetails } from "../apollo-graphql/groupProjectQueries";
 
 const token = localStorage.getItem('token');
 
 class ProjectView extends Component {
     state = {
-        projectId: "",
+        selectedProject: "",
     };
 
     selectProject = (project) => {
-        this.setState({projectId: project});
+        this.setState({selectedProject: project});
         console.log('has been clicked');
         console.log(project);
     };
 
     render() {
         const { user } = decode(token);
-        const {projectId} = this.state;
+        const {selectedProject} = this.state;
         return(
             <Query query={userTeams} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
@@ -47,7 +48,7 @@ class ProjectView extends Component {
                             <Header/>
                             <ContentArea>
                                 <TopSection>
-                                    <ProjectDetails projectId={projectId}/>
+                                    <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}/>
                                 </TopSection>
                             </ContentArea>
                         </AppLayout>
