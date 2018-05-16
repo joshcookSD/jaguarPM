@@ -17,7 +17,7 @@ class ProjectList extends Component {
     close = () => this.setState({ open: false });
 
     render() {
-
+        const {selectProject} = this.props;
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
@@ -59,6 +59,7 @@ class ProjectList extends Component {
                                                 projectId={project._id}
                                                 projecttitle={project.projecttitle}
                                                 projectdescription={project.projectdescription}
+                                                selectProject={selectProject}
                                             />
                                         )})
                                     }

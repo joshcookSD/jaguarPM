@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { projectDetails, updateProject} from "../../apollo-graphql/groupProjectQueries";
+import { updateProject } from "../../apollo-graphql/groupProjectQueries";
 import moment from 'moment';
 
 class ProjectDetail extends Component {
     state = {
+        projectId: this.props.selectedProject,
         title: '',
         titleInput: false,
         descriptionInput: false,
@@ -19,13 +20,12 @@ class ProjectDetail extends Component {
     };
 
     render() {
-        const {projectId} = this.props;
-        const queryVariables = {_id: projectId };
+        const {selectedProject, projectDetails, queryVariables } = this.props;
         const {title, titleInput, descriptionInput, planDateInput, plandate, dueDateInput, duedate, leaderInput, description, leader, teamInput, team} = this.state;
 
         const _updateProject = async () => {
             await this.props.updateProject({
-                variables: {_id: "5ae3e72927df1637dc1fb46f", projecttitle: title, projectdescription: description, plannedcompletiondate: plandate, duedate, leader, team},
+                variables: {_id: selectedProject, projecttitle: title, projectdescription: description, plannedcompletiondate: plandate, duedate, leader, team},
                 refetchQueries: [{query: projectDetails, variables: queryVariables}]
             });
             this.setState({
@@ -41,19 +41,18 @@ class ProjectDetail extends Component {
         return (
             <Query query={projectDetails} variables={queryVariables}>
                 {({loading, error, data}) => {
-                    console.log(data);
                     if (loading) return (
                         <div>
                             <Dimmer active>
                                 <Loader/>
                             </Dimmer>
                         </div>);
-                    if (error) return <p>Error :(</p>;
+                    if (error) return <p>No Project Selected</p>;
                     return (
                         <Form onSubmit={() => _updateProject()}>
                             <Card fluid raised>
                                 <Card.Content>
-                                    <Card.Header onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</Card.Header>
+                                    <Card.Header onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && selectedProject}</Card.Header>
                                     {titleInput &&
                                     <Form.Input
                                         fluid

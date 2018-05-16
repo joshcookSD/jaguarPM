@@ -5,6 +5,7 @@ import Priority from "../../models/priority";
 import Group from "../../models/group";
 import Team from "../../models/team";
 import Organization from "../../models/organization";
+import Comment from "../../models/comment";
 
 const TaskType = `
     type Task {

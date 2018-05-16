@@ -72,4 +72,19 @@ const updateProject = gql`
     }
 }`;
 
-export {userTeamProjects, createProject, projectDetails, updateProject}
+const userProjectGroups = gql`
+    query user($_id: String ){
+    user(_id: $_id){
+        team {
+           _id
+           teamtitle
+           projects {
+            _id
+            projecttitle
+            projectdescription
+           } 
+        }
+    }
+}`;
+
+export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups}
