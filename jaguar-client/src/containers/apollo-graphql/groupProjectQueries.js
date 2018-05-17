@@ -34,6 +34,25 @@ mutation createProject(
         }
 }`;
 
+const createGroup = gql`
+mutation createGroup(
+    $grouptitle: String,
+    $projectdescription: String,
+    $team: String!,
+    $project: String,
+    $users: String
+) { createProject(
+        groupttitle: $groupttitle,
+        grouptdescription: $grouptdescription,
+        team: $team,
+        project: $project,
+        users: $users
+        ) {
+            _id
+            projecttitle
+        }
+}`;
+
 const projectDetails = gql`
 query project($_id: String!) {
     project(_id: $_id) {
@@ -75,16 +94,20 @@ const updateProject = gql`
 const userProjectGroups = gql`
     query user($_id: String ){
     user(_id: $_id){
+       projects {
+        _id
+        projecttitle
+        projectdescription
         team {
-           _id
-           teamtitle
-           projects {
-            _id
-            projecttitle
-            projectdescription
-           } 
+            teamtitle
         }
+        groups {
+            _id
+            grouptitle
+            groupdescription
+        }
+       } 
     }
 }`;
 
-export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups}
+export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup}

@@ -32,17 +32,16 @@ class GroupList extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
-                        { (data.user.project || []).map( project => (
+                        { (data.user.projects || []).map( project => (
                             <div key={project._id}>
-                                {console.log(data.user.project )}
-                                <Header >{project.grouptitle}<Icon onClick={this.show} color='green' name='add circle' floated='right'/></Header>
+                                <Header >{project.projecttitle} - {project.team.teamtitle}<Icon onClick={this.show} color='green' name='add circle' floated='right'/></Header>
 
                                 <Modal size='small' open={open} onClose={this.close}>
                                     <Modal.Header>
                                         Create Task
                                     </Modal.Header>
                                     <Modal.Content>
-                                        <GroupTaskForm project={project._id} userId={user._id} updateQuery={userProjectGroups} variables={variables} onClose={this.close}/>
+                                        {/*<GroupTaskForm project={project._id} userId={user._id} updateQuery={userProjectGroups} variables={variables} onClose={this.close}/>*/}
                                     </Modal.Content>
                                 </Modal>
                                 <Transition.Group
