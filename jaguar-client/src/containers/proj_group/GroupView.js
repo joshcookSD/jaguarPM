@@ -10,26 +10,27 @@ import ContentArea from '../layout/ContentArea'
 import GroupList from './groupcomponents/GroupList'
 import GroupDetails from './groupcomponents/GroupDetails'
 import { TopSection } from '../layout/Section'
-import {userTeams} from "../apollo-graphql/userQueries";
+import {userProjectGroups} from "../apollo-graphql/groupProjectQueries";
 
 const token = localStorage.getItem('token');
 
 class GroupView extends Component {
     state = {
-        groupId: "",
+        selectedGroup: '',
+        isSelected: false,
     };
 
     selectGroup = (group) => {
-        this.setState({groupId: group});
+        this.setState({selectedGroup: group, isSelected: true});
         console.log('has been clicked');
         console.log(group);
     };
 
     render() {
         const { user } = decode(token);
-        const {groupId} = this.state;
+        const {selectedGroup, isSelected} = this.state;
         return(
-            <Query query={userTeams} variables={{_id: user._id}}>
+            <Query query={userProjectGroups} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
                     if (loading) return (
                         <div>
@@ -42,12 +43,12 @@ class GroupView extends Component {
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar>
-                                <GroupList selectGroup={this.selectGroup}/>
+                                <GroupList selectGroup={this.selectGroup} isSelected={isSelected}/>
                             </MainSidebar>
                             <Header/>
                             <ContentArea>
                                 <TopSection>
-                                    <GroupDetails groupId={groupId}/>
+                                    {/*<GroupDetails selectedGroup={selectedGroup}/>*/}
                                 </TopSection>
                             </ContentArea>
                         </AppLayout>

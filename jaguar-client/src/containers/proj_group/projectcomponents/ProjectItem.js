@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import { List } from 'semantic-ui-react';
-// import ProjectDetail from './ProjectDetails';
-
 
 class ProjectItem extends Component {
 

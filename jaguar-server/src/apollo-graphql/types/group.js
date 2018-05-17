@@ -34,6 +34,9 @@ const GroupMutation = `
     createGroup(
         grouptitle: String,
         groupdescription: String
+        project: String
+        Team: String
+        users: String
 ) : Group
 `;
 
@@ -53,6 +56,15 @@ const GroupQueryResolver = {
 const GroupMutationResolver ={
     createGroup: async (parent, args, { Group}) => {
         let group = await new Group(args).save();
+        let user = await User.findById(args.users);
+        user.groups.push(group._id);
+        await user.save();
+        let project = await Project.findById(args.project);
+        project.groups.push(group._id);
+        await user.save();
+        let team = await Team.findById(args.team);
+        team.groups.push(group._id);
+        await team.save();
         return group
     }
 };

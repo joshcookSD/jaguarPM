@@ -23,8 +23,6 @@ class ProjectView extends Component {
 
     selectProject = (project) => {
         this.setState({selectedProject: project, isSelected: true });
-        console.log('has been clicked');
-        console.log(project);
     };
 
     render() {

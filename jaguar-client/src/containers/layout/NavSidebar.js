@@ -38,7 +38,6 @@ const NavItems = styled.li`
 const NavSidebar = () => (
     <NavSideWrapper>
         <NavList>
-            <Link to='/view-users'><NavItems>u</NavItems></Link>
             <Link to='/view'><NavItems>t</NavItems></Link>
             <Link to='/view-group'><NavItems>g</NavItems></Link>
             <Link to='/project-admin'><NavItems>p</NavItems></Link>
