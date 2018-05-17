@@ -17,18 +17,19 @@ const token = localStorage.getItem('token');
 
 class ProjectView extends Component {
     state = {
-        selectedProject: "",
+        selectedProject: '',
+        isSelected: false,
     };
 
     selectProject = (project) => {
-        this.setState({selectedProject: project});
+        this.setState({selectedProject: project, isSelected: true });
         console.log('has been clicked');
         console.log(project);
     };
 
     render() {
         const { user } = decode(token);
-        const {selectedProject} = this.state;
+        const {selectedProject, isSelected} = this.state;
         return(
             <Query query={userTeams} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
@@ -43,7 +44,7 @@ class ProjectView extends Component {
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar>
-                                <ProjectList selectProject={this.selectProject}/>
+                                <ProjectList selectProject={this.selectProject} isSelected={isSelected}/>
                             </MainSidebar>
                             <Header/>
                             <ContentArea>

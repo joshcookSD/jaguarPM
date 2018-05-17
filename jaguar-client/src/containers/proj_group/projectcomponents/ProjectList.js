@@ -17,7 +17,7 @@ class ProjectList extends Component {
     close = () => this.setState({ open: false });
 
     render() {
-        const {selectProject} = this.props;
+        const {selectProject, isSelected } = this.props;
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
@@ -53,6 +53,7 @@ class ProjectList extends Component {
                                         size='large'
                                     >
                                     { team.projects.map(project => {
+                                        if(!isSelected) { this.props.selectProject(project._id)}
                                         return (
                                             <ProjectItem
                                                 key={project._id}

@@ -5,8 +5,14 @@ import { updateProject } from "../../apollo-graphql/groupProjectQueries";
 import moment from 'moment';
 
 class ProjectDetail extends Component {
+    componentWillUpdate(nextProps, nextState) {
+        if(nextProps.selectedProject !== this.props.selectedProject) {
+            this.setState({projectId: nextProps.selectedProject});
+        }
+    }
+
     state = {
-        projectId: this.props.selectedProject,
+        projectId: '',
         title: '',
         titleInput: false,
         descriptionInput: false,
@@ -19,9 +25,11 @@ class ProjectDetail extends Component {
         team:'',
     };
 
+
+
     render() {
         const {selectedProject, projectDetails, queryVariables } = this.props;
-        const {title, titleInput, descriptionInput, planDateInput, plandate, dueDateInput, duedate, leaderInput, description, leader, teamInput, team} = this.state;
+        const {title, titleInput, descriptionInput, planDateInput, plandate, dueDateInput, duedate, leaderInput, description, leader, teamInput, team, projectId} = this.state;
 
         const _updateProject = async () => {
             await this.props.updateProject({
@@ -38,6 +46,7 @@ class ProjectDetail extends Component {
             })
         };
 
+        if(projectId) {
         return (
             <Query query={projectDetails} variables={queryVariables}>
                 {({loading, error, data}) => {
@@ -47,12 +56,12 @@ class ProjectDetail extends Component {
                                 <Loader/>
                             </Dimmer>
                         </div>);
-                    if (error) return <p>No Project Selected</p>;
+                    if (error) return <p>No Project Selected {projectId}</p>;
                     return (
                         <Form onSubmit={() => _updateProject()}>
                             <Card fluid raised>
                                 <Card.Content>
-                                    <Card.Header onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && selectedProject}</Card.Header>
+                                    <Card.Header onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</Card.Header>
                                     {titleInput &&
                                     <Form.Input
                                         fluid
@@ -121,9 +130,11 @@ class ProjectDetail extends Component {
                 }
                 }
             </Query>
-        )
+        )} else { return (<div></div>)}
     }
 }
+
+
 
 export default graphql(updateProject, {
     name: 'updateProject',
