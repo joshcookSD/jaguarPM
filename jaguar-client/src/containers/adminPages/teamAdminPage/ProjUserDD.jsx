@@ -10,7 +10,6 @@ const ProjUserDD = (props) => (
                                 <List.Item>
                                     <List.Content>
                                         <List.Header as='a'><List.Icon name='user' />{user.username}</List.Header>
-                                        {/* <List.Description>{team.projectdescription}</List.Description> */}
                                     </List.Content>
                                 </List.Item>
                             </List>

@@ -12,6 +12,7 @@ import ProjectDetails from './projectcomponents/ProjectDetails'
 import { TopSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 import { projectDetails } from "../apollo-graphql/groupProjectQueries";
+import  AddGroupToProj  from './projectcomponents/AddGroupToProj'
 
 const token = localStorage.getItem('token');
 
@@ -23,8 +24,6 @@ class ProjectView extends Component {
 
     selectProject = (project) => {
         this.setState({selectedProject: project, isSelected: true });
-        console.log('has been clicked');
-        console.log(project);
     };
 
     render() {
@@ -51,6 +50,7 @@ class ProjectView extends Component {
                                 <TopSection>
                                     <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}/>
                                 </TopSection>
+                                <AddGroupToProj />
                             </ContentArea>
                         </AppLayout>
                     </div>;
@@ -60,8 +60,6 @@ class ProjectView extends Component {
         )
     }
 }
-
-
 
 export default ProjectView;
 
