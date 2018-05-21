@@ -42,11 +42,15 @@ class TaskTeam extends Component {
                             size='large'
                             style={{overflowY: 'auto', overflowX: 'hidden', minHeight: '300px', maxHeight: '325px'}}
                         >
-                            {data.tasksByTeam.map(({_id, tasktitle}) => (
+                            {data.tasksByTeam.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle}) => (
                                 <TaskItem
                                     key={_id}
                                     taskId={_id}
                                     tasktitle={tasktitle}
+                                    duedate={duedate}
+                                    grouptitle={grouptitle}
+                                    projecttitle={projecttitle}
+                                    teamtitle={teamtitle}
                                     completeddate={today}
                                     updateQuery={tasksByTeam}
                                     variables={variables}

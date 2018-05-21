@@ -3,6 +3,7 @@ import Time from "../../models/time";
 import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
 import Group from "../../models/group";
+import Project from "../../models/project";
 import Team from "../../models/team";
 import Organization from "../../models/organization";
 import Comment from "../../models/comment";
@@ -25,6 +26,7 @@ const TaskType = `
         duedate: Date
         priority: Priority
         group: Group
+        project: Project
         team: Team
         organization: Organization,
         updatedAt: Date,
@@ -122,6 +124,9 @@ const TaskNested = {
     group: async ({group}) => {
         return (await Group.findById(group))
     },
+    project: async ({project}) => {
+        return (await Project.findById(project))
+    },
     team: async ({team}) => {
         return (await Team.findById(team))
     },
@@ -187,6 +192,13 @@ const TaskMutationResolver ={
             await task.group.save(taskgroup._id);
             taskgroup.tasks.push(task._id);
             await taskgroup.save();
+        }
+
+        if(args.project) {
+            let taskproject = await Group.findById(args.project);
+            await task.project.save(taskproject._id);
+            taskproject.tasks.push(task._id);
+            await taskproject.save();
         }
 
         if(args.priority) {

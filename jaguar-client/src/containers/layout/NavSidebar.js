@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Icon, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 
 const NavSideWrapper = styled.div`
@@ -35,14 +36,60 @@ const NavItems = styled.li`
   }
 `;
 
+const style = {
+    borderRadius: 3,
+    opacity: 0.95,
+    padding: '0.5em',
+};
+
 const NavSidebar = () => (
     <NavSideWrapper>
         <NavList>
-            <Link to='/view'><NavItems>t</NavItems></Link>
-            <Link to='/view-group'><NavItems>g</NavItems></Link>
-            <Link to='/project-admin'><NavItems>p</NavItems></Link>
-            <Link to='/team-admin'><NavItems>ta</NavItems></Link>
-            <Link to='/org-admin'><NavItems>oa</NavItems></Link>
+            <Link to='/view'>
+                <Popup
+                    trigger={<NavItems><Icon fitted name='tasks'/></NavItems>}
+                    content="tasks"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/view-group'>
+                <Popup
+                    trigger={<NavItems><Icon fitted name='cube' /></NavItems>}
+                    content="groups"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/project-admin'>
+                <Popup
+                    trigger={<NavItems><Icon fitted name='cubes' /></NavItems>}
+                    content="projects"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/team-admin'>
+                <Popup
+                    trigger={<NavItems><Icon fitted name='users' /></NavItems>}
+                    content="teams"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/org-admin'>
+                <Popup
+                    trigger={<NavItems><Icon fitted name='sitemap' /></NavItems>}
+                    content="task view"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
         </NavList>
     </NavSideWrapper>
 );

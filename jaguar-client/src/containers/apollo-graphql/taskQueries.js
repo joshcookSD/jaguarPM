@@ -65,6 +65,16 @@ const tasksByDay = gql`
     tasktitle
     iscompleted
     plandate
+    duedate
+    group {
+        grouptitle
+    }
+    project {
+        projecttitle
+    }
+    team {
+        teamtitle
+    }
     taskcurrentowner {
       _id
       username
@@ -80,6 +90,16 @@ const tasksToday = gql`
     tasktitle
     iscompleted
     plandate
+    duedate
+    group {
+        grouptitle
+    }
+    project {
+        projecttitle
+    }
+    team {
+        teamtitle
+    }
     taskcurrentowner {
       _id
       username
@@ -95,6 +115,16 @@ const tasksByTeam = gql`
     tasktitle
     iscompleted
     plandate
+    duedate
+    group {
+        grouptitle
+    }
+    project {
+        projecttitle
+    }
+    team {
+        teamtitle
+    }
     taskcurrentowner {
       _id
       username
