@@ -28,7 +28,7 @@ class TaskToday extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
-                            <Header>{moment.utc(today).format('dddd')} (Today)</Header>
+                            <Header>Today ({moment.utc(today).format('dddd MM/DD')})</Header>
                         <TaskForm
                             taskcurrentowner={user._id}
                             plandate={today}
@@ -42,11 +42,15 @@ class TaskToday extends Component {
                                 relaxed
                                 size='large'
                             >
-                            {data.tasksToday.map(({_id, tasktitle}) => (
+                            {data.tasksToday.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle}) => (
                                  <TaskItem
                                      key={_id}
                                      taskId={_id}
                                      tasktitle={tasktitle}
+                                     duedate={duedate}
+                                     grouptitle={grouptitle}
+                                     projecttitle={projecttitle}
+                                     teamtitle={teamtitle}
                                      completeddate={today}
                                      updateQuery={tasksToday}
                                      variables={variables}

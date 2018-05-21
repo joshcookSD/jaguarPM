@@ -101,7 +101,7 @@ class TaskDetail extends Component {
                                         />}
                                         <Card.Description
                                             onClick={() => this.setState({assignedInput: !assignedInput})}>
-                                            Assigned: {!assignedInput && data.task.taskcurrentowner.username}
+                                            Assigned: {!data.task.taskcurrentowner ? 'unassigned' : data.task.taskcurrentowner.username}
                                         </Card.Description>
                                         {assignedInput &&
                                         <Form.Input
