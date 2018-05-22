@@ -16,7 +16,7 @@ class TaskItem extends Component {
     closeTime = () => this.setState({ timeOpen: !this.state.timeOpen });
 
     render() {
-        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, grouptitle, projecttitle, teamtitle} = this.props;
+        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
 
         return(
@@ -24,12 +24,13 @@ class TaskItem extends Component {
                 key={taskId}
                 onMouseEnter={() => { this.setState({isHovering: true}) }}
                 onMouseLeave={() => { this.setState({isHovering: false}) }}>
+                {isHovering &&
                 <List.Content floated='right'>
-                    { isHovering &&
+
                     <Button.Group size='mini'>
                         <Button icon basic>
                             <Icon name='options' size='large' onClick={() => {
-                                this.setState({detail: !detail} )
+                                this.setState({detail: !detail})
                             }}/>
                         </Button>
                         <Button icon basic>
@@ -43,13 +44,15 @@ class TaskItem extends Component {
                             }}/>
                         </Button>
                     </Button.Group>
-                    }
                 </List.Content>
+                }
                 <TaskComplete
                     _id={taskId}
                     completeddate={completeddate}
                     updateQuery={updateQuery}
                     variables={variables}
+                    duedate={duedate}
+                    plandate={plandate}
                 />
                 <List.Content>
                     <List.Header as='a'>{tasktitle}</List.Header>

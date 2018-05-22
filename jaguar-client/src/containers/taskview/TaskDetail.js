@@ -106,7 +106,7 @@ class TaskDetail extends Component {
                                         {assignedInput &&
                                         <Form.Input
                                             fluid
-                                            placeholder={data.task.taskcurrentowner.username}
+                                            placeholder={!data.task.taskcurrentowner ? '' : data.task.taskcurrentowner.username}
                                             value={assigned}
                                             onChange={e => this.setState({assigned: e.target.value})}
                                         />}
