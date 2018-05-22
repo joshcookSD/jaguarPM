@@ -42,12 +42,13 @@ class TaskToday extends Component {
                                 relaxed
                                 size='large'
                             >
-                            {data.tasksToday.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle}) => (
+                            {data.tasksToday.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle, plandate}) => (
                                  <TaskItem
                                      key={_id}
                                      taskId={_id}
                                      tasktitle={tasktitle}
                                      duedate={duedate}
+                                     plandate={plandate}
                                      grouptitle={grouptitle}
                                      projecttitle={projecttitle}
                                      teamtitle={teamtitle}

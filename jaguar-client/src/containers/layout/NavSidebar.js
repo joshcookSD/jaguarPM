@@ -27,7 +27,6 @@ const NavItems = styled.li`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
   border-radius: 11px;
   &:hover {
     border-style: solid;
@@ -47,7 +46,7 @@ const NavSidebar = () => (
         <NavList>
             <Link to='/view'>
                 <Popup
-                    trigger={<NavItems><Icon fitted name='tasks'/></NavItems>}
+                    trigger={<NavItems><Icon fitted size='big' name='tasks'/></NavItems>}
                     content="tasks"
                     position='right center'
                     style={style}
@@ -56,7 +55,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/view-group'>
                 <Popup
-                    trigger={<NavItems><Icon fitted name='cube' /></NavItems>}
+                    trigger={<NavItems><Icon fitted size='big' name='cube' /></NavItems>}
                     content="groups"
                     position='right center'
                     style={style}
@@ -65,7 +64,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/project-admin'>
                 <Popup
-                    trigger={<NavItems><Icon fitted name='cubes' /></NavItems>}
+                    trigger={<NavItems><Icon fitted size='big' name='cubes' /></NavItems>}
                     content="projects"
                     position='right center'
                     style={style}
@@ -74,7 +73,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/team-admin'>
                 <Popup
-                    trigger={<NavItems><Icon fitted name='users' /></NavItems>}
+                    trigger={<NavItems><Icon fitted size='big' name='users' /></NavItems>}
                     content="teams"
                     position='right center'
                     style={style}
@@ -83,7 +82,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/org-admin'>
                 <Popup
-                    trigger={<NavItems><Icon fitted name='sitemap' /></NavItems>}
+                    trigger={<NavItems><Icon fitted size='big' name='sitemap' /></NavItems>}
                     content="task view"
                     position='right center'
                     style={style}
