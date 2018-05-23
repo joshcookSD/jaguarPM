@@ -33,7 +33,6 @@ const TeamAdminHeader = ({ owner }) => (
 
     <Query query={teamsByOwner} variables={variables}>
         {({ loading, error, data }) => {
-            console.log(data, 'query fire');
             const dataPane = data.teamsByOwner.map(team => (     
                 {
                     menuItem: team.teamtitle, render: () =>

@@ -5,6 +5,7 @@ class ProjectItem extends Component {
 
       handleClick() {
           this.props.selectProject(this.props.projectId);
+          this.props.selectTeam(this.props.team);
       }
 
     render() {

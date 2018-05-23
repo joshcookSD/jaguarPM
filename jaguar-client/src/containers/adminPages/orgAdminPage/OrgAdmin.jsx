@@ -12,8 +12,6 @@ const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
 
-console.log(userId)
-
 const OrgAdmin = ({ owner }) => (
     <Query query={getOrgByOwner} variables={{ owner: userId }}>
         {({ loading, error, data }) => {

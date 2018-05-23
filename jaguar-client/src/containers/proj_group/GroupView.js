@@ -8,7 +8,6 @@ import MainSidebar from '../layout/MainSidebar'
 import Header from '../layout/Header'
 import ContentArea from '../layout/ContentArea'
 import GroupList from './groupcomponents/GroupList'
-import GroupDetails from './groupcomponents/GroupDetails'
 import { TopSection } from '../layout/Section'
 import {userProjectGroups} from "../apollo-graphql/groupProjectQueries";
 
@@ -28,7 +27,7 @@ class GroupView extends Component {
 
     render() {
         const { user } = decode(token);
-        const {selectedGroup, isSelected} = this.state;
+        const { isSelected } = this.state;
         return(
             <Query query={userProjectGroups} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {

@@ -35,7 +35,7 @@ const GroupMutation = `
         grouptitle: String,
         groupdescription: String
         project: String
-        Team: String
+        team: String
         users: String
 ) : Group
 `;

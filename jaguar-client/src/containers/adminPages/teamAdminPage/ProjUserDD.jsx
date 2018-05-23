@@ -5,8 +5,8 @@ import DropdownSelection from './teamInvite';
 const ProjUserDD = (props) => (
         <Card className="cardRight">
                 <DropdownSelection teamId={props.teamId} teamsByOwner={props.teamsByOwner} variables={props.variables} />
-                {props.team.users.map(user => (
-                            <List>
+                {props.team.users.map((user, i) => (
+                            <List key={i}>
                                 <List.Item>
                                     <List.Content>
                                         <List.Header as='a'><List.Icon name='user' />{user.username}</List.Header>
