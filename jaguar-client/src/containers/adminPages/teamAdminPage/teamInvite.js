@@ -23,9 +23,9 @@ class DropdownSelection extends Component {
                                     <Dropdown text='Add user' icon='add user' scrolling floating fluid labeled button className='icon'>
                                         <Dropdown.Menu>
                                             <Dropdown.Header content='People You Might Know' />
-                                            {friendOptions.map(option =>
+                                            {friendOptions.map((option, i) =>
                                                 <Dropdown.Item
-                                                    key={option.value}
+                                                    key={i}
                                                     value={option._id}
                                                     {...option}
                                                     onClick={async e => {

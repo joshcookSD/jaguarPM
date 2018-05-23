@@ -12,23 +12,29 @@ import ProjectDetails from './projectcomponents/ProjectDetails'
 import { TopSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 import { projectDetails } from "../apollo-graphql/groupProjectQueries";
-import  AddGroupToProj  from './projectcomponents/AddGroupToProj'
+import  AddGroupForm  from './projectcomponents/AddGroupForm'
 
 const token = localStorage.getItem('token');
 
 class ProjectView extends Component {
     state = {
+        teamOfProject: '',
         selectedProject: '',
         isSelected: false,
     };
 
-    selectProject = (project) => {
-        this.setState({selectedProject: project, isSelected: true });
+    selectProject = (project, team) => {
+        this.setState({selectedProject: project, isSelected: true, teamOfProject: team });
     };
+
+    selectTeam = (team) => {
+        this.setState({teamOfProject: team });
+    };
+
 
     render() {
         const { user } = decode(token);
-        const {selectedProject, isSelected} = this.state;
+        const {teamOfProject, selectedProject, isSelected} = this.state;
         return(
             <Query query={userTeams} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
@@ -43,14 +49,14 @@ class ProjectView extends Component {
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar>
-                                <ProjectList selectProject={this.selectProject} isSelected={isSelected}/>
+                                <ProjectList selectTeam={this.selectTeam} selectProject={this.selectProject} isSelected={isSelected}/>
                             </MainSidebar>
                             <Header/>
                             <ContentArea>
                                 <TopSection>
                                     <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}/>
                                 </TopSection>
-                                <AddGroupToProj />
+                                <AddGroupForm selectedProject={selectedProject} selectTeam={teamOfProject} query={userTeams} />
                             </ContentArea>
                         </AppLayout>
                     </div>;

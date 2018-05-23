@@ -10,6 +10,9 @@ const userTeamProjects = gql`
             _id
             projecttitle
             projectdescription
+         team {
+             _id
+             }
            } 
         }
     }
@@ -37,19 +40,19 @@ mutation createProject(
 const createGroup = gql`
 mutation createGroup(
     $grouptitle: String,
-    $projectdescription: String,
+    $groupdescription: String,
     $team: String!,
     $project: String,
     $users: String
-) { createProject(
-        groupttitle: $groupttitle,
-        grouptdescription: $grouptdescription,
+) { createGroup(
+        grouptitle: $grouptitle,
+        groupdescription: $groupdescription,
         team: $team,
         project: $project,
         users: $users
         ) {
             _id
-            projecttitle
+            grouptitle
         }
 }`;
 
@@ -99,6 +102,7 @@ const userProjectGroups = gql`
         projecttitle
         projectdescription
         team {
+            _id
             teamtitle
         }
         groups {

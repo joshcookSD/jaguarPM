@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Icon } from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import { getOrgByOwner, CREATE_TEAM} from '../../apollo-graphql/userQueries'
+import { createGroup } from '../../apollo-graphql/groupProjectQueries'
 
 
 const token = localStorage.getItem('token');
@@ -17,23 +17,20 @@ class AddGroupForm extends Component {
     };
 
     render() {
-        const { orgId } = this.props;
+        const { selectedProject, selectTeam, userTeams }  = this.props;
         const { grouptitle, groupdescription, teamtitleerror } = this.state;
         const errorList = [];
         if (teamtitleerror) { errorList.push(teamtitleerror); }
-
         return (
-            <Mutation mutation={CREATE_TEAM}>
-                {(createTeam, { data }) => (
-
-
+            <Mutation mutation={createGroup}>
+                {(createGroup, { data }) => (
                     <div style={{ marginBottom: '.5em' }}>
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
-                                const response = await createTeam({
-                                    variables: { groupdescription: groupdescription, grouptitle: grouptitle, organization: orgId, owner: user._id },
-                                    refetchQueries: [{ query: getOrgByOwner, variables: { owner: user._id } }]
+                                const response = await createGroup({
+                                    variables: {  grouptitle: grouptitle, groupdescription: groupdescription, project: selectedProject, team: selectTeam },
+                                    refetchQueries: [{ query: userTeams, variables: { owner: user._id } }]
                                 });
                                 const { ok, errors, } = response.data.createTeam;
                                 if (ok) {
@@ -55,7 +52,7 @@ class AddGroupForm extends Component {
 
                                 <i className="material-icons prefix">group_add</i>
                                 <Input
-                                    placeholder="team title"
+                                    placeholder="group title"
                                     value={grouptitle}
                                     type="text"
                                     id="grouptitle"
@@ -66,16 +63,16 @@ class AddGroupForm extends Component {
                             </Form.Field>
                             <Form.Field>
                                 <Input
-                                    placeholder="team description"
+                                    placeholder="group description"
                                     value={groupdescription}
                                     type="text"
-                                    id="team description"
+                                    id="groupdescription"
                                     name="groupdescription"
                                     fluid
                                     onChange={e => this.setState({ groupdescription: e.target.value })}
                                 />
                             </Form.Field>
-                            <Button floated='right' icon labelPosition='left'><Icon name='plus' />Add Team</Button>
+                            <Button floated='right' icon labelPosition='left'><Icon name='plus' />Add Group</Button>
                         </Form>
                         {errorList.length ? (
                             <Message error header="There was some errors with your submission" list={errorList} />

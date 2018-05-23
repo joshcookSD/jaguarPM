@@ -26,7 +26,6 @@ class ProjectDetail extends Component {
     };
 
 
-
     render() {
         const {selectedProject, projectDetails, queryVariables } = this.props;
         const {title, titleInput, descriptionInput, planDateInput, plandate, dueDateInput, duedate, leaderInput, description, leader, teamInput, team, projectId} = this.state;
@@ -130,7 +129,7 @@ class ProjectDetail extends Component {
                 }
                 }
             </Query>
-        )} else { return (<div></div>)}
+        )} else { return (<div/>)}
     }
 }
 
@@ -141,15 +140,3 @@ export default graphql(updateProject, {
 })(ProjectDetail);
 
 
-
-// class ProjectDetail extends Component {
-//     render() {
-//         return (
-//             <div>
-//                 Jaguar
-//             </div>
-//         );
-//     }
-// }
-
-// export default ProjectDetail;

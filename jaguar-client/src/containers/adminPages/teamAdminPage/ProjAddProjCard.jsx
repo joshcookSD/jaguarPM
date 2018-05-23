@@ -7,8 +7,8 @@ const ProjAddProjCard = (props) => (
     <div className="cardLeft">
         <ProjectForm className="teamForm" teamsByOwner={props.teamsByOwner} team={props.teamId} variables={props.variables} />
         <h3 className="orgTeamTitle">Team Info</h3>
-            {props.teams.projects.map(team => (
-                <Card>
+            {props.teams.projects.map((team, i) => (
+                <Card key={i}>
                     <Card.Content>
                         <Card.Meta>Title</Card.Meta>
                         <Card.Header>{team.projecttitle}</Card.Header>

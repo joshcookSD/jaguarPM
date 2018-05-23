@@ -46,7 +46,7 @@ class ProjectForm extends Component {
                                         onChange={e => this.setState({ newProjectDescription: e.target.value })}
                                     />
                                 </Form.Field>
-                                <Button type='submit' color="Grey" positive icon='checkmark' labelPosition='right' content='New Project!' />
+                                <Button type='submit' color="grey" positive icon='checkmark' labelPosition='right' content='New Project!' />
                             </Form>
                         </div>
                     )

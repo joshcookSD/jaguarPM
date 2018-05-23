@@ -4,7 +4,7 @@ import {Header, Dimmer, Loader, Modal, Icon, List, Transition, Divider} from 'se
 import decode from 'jwt-decode';
 import { userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
 import GroupTaskItem from './GroupTaskItem'
-import GroupTaskForm from './GroupTaskForm'
+
 
 const token = localStorage.getItem('token');
 

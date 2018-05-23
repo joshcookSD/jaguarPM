@@ -41,7 +41,7 @@ const OrgAdminHeader = ({ owner }) => (
                         </div>  
 
                         <div className="addTeamCard">
-                            <AddTeamCard 
+                            <AddTeamCard
                             org={org} 
                             />
                         </div>

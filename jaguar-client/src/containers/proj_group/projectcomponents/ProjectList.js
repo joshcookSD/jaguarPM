@@ -17,10 +17,11 @@ class ProjectList extends Component {
     close = () => this.setState({ open: false });
 
     render() {
-        const {selectProject, isSelected } = this.props;
+        const {selectProject, isSelected, selectTeam } = this.props;
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
+
         return(
             <Query query={userTeamProjects} variables={variables}>
                 { ({ loading, error, data }) => {
@@ -32,41 +33,42 @@ class ProjectList extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
-                            { (data.user.team || []).map( team => (
-                                <div key={team._id}>
-                                {console.log(data.user.team )}
-                                    <Header >{team.teamtitle}<Icon onClick={this.show} color='green' name='add circle' floated='right'/></Header>
+                        { (data.user.team || []).map( team => (
+                            <div key={team._id}>
+                                <Header >{team.teamtitle}<Icon onClick={this.show} color='green' name='add circle' floated='right'/></Header>
+                                <Modal size='small' open={open} onClose={this.close}>
+                                    <Modal.Header>
+                                        Create Project
+                                    </Modal.Header>
+                                    <Modal.Content>
+                                        <ProjectForm team={team._id} userId={user._id} updateQuery={userTeamProjects} variables={variables} onClose={this.close}/>
+                                    </Modal.Content>
+                                </Modal>
+                                <Transition.Group
+                                    as={List}
+                                    duration={200}
+                                    divided
+                                    relaxed
+                                    size='large'
+                                >
 
-                                    <Modal size='small' open={open} onClose={this.close}>
-                                        <Modal.Header>
-                                            Create Project
-                                        </Modal.Header>
-                                        <Modal.Content>
-                                            <ProjectForm team={team._id} userId={user._id} updateQuery={userTeamProjects} variables={variables} onClose={this.close}/>
-                                        </Modal.Content>
-                                    </Modal>
-                                    <Transition.Group
-                                        as={List}
-                                        duration={200}
-                                        divided
-                                        relaxed
-                                        size='large'
-                                    >
                                     { team.projects.map(project => {
-                                        if(!isSelected) { this.props.selectProject(project._id)}
+                                        if(!isSelected) { this.props.selectProject(project._id, project.team._id)}
                                         return (
                                             <ProjectItem
                                                 key={project._id}
+                                                team={project.team._id}
                                                 projectId={project._id}
                                                 projecttitle={project.projecttitle}
                                                 projectdescription={project.projectdescription}
                                                 selectProject={selectProject}
+                                                selectTeam={selectTeam}
                                             />
                                         )})
                                     }
-                                    </Transition.Group>
-                                    <Divider />
-                                </div>))}
+                                </Transition.Group>
+                                <Divider />
+                            </div>))}
 
                     </div>;
                 }
@@ -79,4 +81,3 @@ class ProjectList extends Component {
 
 
 export default ProjectList;
-
