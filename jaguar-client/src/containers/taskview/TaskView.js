@@ -10,7 +10,7 @@ import {Dimmer, Loader} from 'semantic-ui-react';
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
-import Header from '../layout/Header'
+import TaskHeader from '../layout/TaskHeader'
 import ContentArea from '../layout/ContentArea'
 import {Section} from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
@@ -18,8 +18,17 @@ import {userTeams} from "../apollo-graphql/userQueries";
 const token = localStorage.getItem('token');
 
 class TaskView extends Component {
+    state = {
+        activeView: 'plan',
+        isSelected: false,
+    };
+    changeView = (view) => {
+            this.setState({activeView: view, isSelected: true });
+            console.log(view);
+    };
 
     render() {
+        const { activeView, isSelected } = this.state;
         const { user } = decode(token);
         const tomorrow = moment(Date.now()).add(1,'day').format('YYYY-MM-DD');
         const plus2 = moment(Date.now()).add(2,'day').format('YYYY-MM-DD');
@@ -40,7 +49,7 @@ class TaskView extends Component {
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar><TaskToday /></MainSidebar>
-                            <Header/>
+                            <TaskHeader changeView={this.changeView} activeView={activeView} isSelected={isSelected}/>
                             <ContentArea>
                                 <Section><TaskDay day={tomorrow}/></Section>
                                 <Section><TaskDay day={plus2}/></Section>
