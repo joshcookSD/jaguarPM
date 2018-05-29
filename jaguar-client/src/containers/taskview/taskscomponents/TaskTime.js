@@ -11,21 +11,20 @@ class TaskTime extends Component {
     };
 
     render() {
-        const {taskId, userId, date,} = this.props;
+        const { taskId, userId, date } = this.props;
         const { time, comment } = this.state;
         const _addTime = async () => {
             await this.props.addTime({
-                variables: {task: taskId, user: userId, date:date, time, timecomment: comment}
+                variables: {task: taskId, user: userId, date: date, time, timecomment: comment}
             });
+            this.setState({time: '', comment: ''});
             this.props.closeTime();
         };
         return(
             <Form
                   onSubmit={async e => {
                 e.preventDefault();
-
                 await _addTime();
-                this.setState({time: '', comment: '',});
             }}>
                 <Form.Group style={{marginBottom: '2px'}} inline>
                 <Form.Field width='six'>

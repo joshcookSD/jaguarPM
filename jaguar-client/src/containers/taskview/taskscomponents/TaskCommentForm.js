@@ -33,7 +33,7 @@ class TaskCommentForm extends Component {
                                     value={newTaskComment}
                                     type='text'
                                     action={{icon: 'add circle'}}
-                                    placeholder='add Comment...'
+                                    placeholder='add comment...'
                                     onChange={e => this.setState({newTaskComment: e.target.value})}
                                 />
                             </Form>

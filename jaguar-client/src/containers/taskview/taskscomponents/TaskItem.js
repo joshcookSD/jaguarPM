@@ -56,12 +56,12 @@ class TaskItem extends Component {
                 />
                 <List.Content>
                     <List.Header as='a'>{tasktitle}</List.Header>
-                    <List.Description as='a'>
-                        {duedate ? `Duedate: ${moment.utc(duedate).format('MM/DD')} `: ``}
+                    <List.Content >
+                        {duedate ? `Due: ${moment.utc(duedate).format('MM/DD')} `: ``}
                         {grouptitle ? `Group: ${grouptitle} `: ``}
                         {projecttitle ? `Project: ${projecttitle} `: ``}
                         {teamtitle ? `Team: ${teamtitle} `: ``}
-                    </List.Description>
+                    </List.Content>
                 </List.Content>
                 { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime}/>)}
                 { detail && (<TaskDetail taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables}/>)}

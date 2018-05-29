@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Mutation, graphql, compose } from "react-apollo";
-import { Message, Form, Button, Input, Container, Header, Icon } from 'semantic-ui-react';
+import { Message, Form, Button, Label, Container, Header, Icon } from 'semantic-ui-react';
 import Navbar from "../Navbar";
 import {loginUser, getCurrentUser} from "../apollo-graphql/userQueries";
 
@@ -57,43 +57,36 @@ class AuthForm extends Component {
 
                             <Form.Field error={!!emailError}>
                                 <Form.Input
-                                    placeholder="email"
+                                    placeholder='email'
                                     value={email}
-                                    type="text"
-                                    label="email"
-                                    name="email"
+                                    type='text'
+                                    label='email'
+                                    name='email'
                                     fluid
                                     onChange={e => this.setState({ email: e.target.value })}
                                 />
                             </Form.Field>
-
                             <Form.Field error={!!passwordError}>
-                                <i className="material-icons prefix">lock</i>
-                                <Input
-                                    placeholder="password"
+                                <Form.Input
+                                    placeholder='password'
                                     value={password}
                                     type={showPassword ? 'text' : 'password'}
-                                    id="password"
-                                    name="password"
+                                    id='password'
+                                    name='password'
+                                    label='password'
                                     fluid
                                     onChange={e => this.setState({ password: e.target.value })}
                                 >
-                                    <input/>
-                                    <Button
-                                        basic
-                                        floated='right'
-                                        icon={showPassword ? 'hide' : 'unhide'}
-                                        onClick={ this.showHide }
-                                    />
-                                </Input>
+                                <input/>
+                                    <div style={{marginLeft: 5+'px', marginTop: 7+'px'}} onClick={ this.showHide }><Icon name={showPassword ? 'hide' : 'unhide'} /></div>
+                                </Form.Input>
                             </Form.Field>
                             <Button floated='right' icon labelPosition='left'><Icon name='plus'/>login</Button>
                         </Form>
-
+                        <Link to='/signup'> need to create an account?</Link>
                         {errorList.length ? (
-                            <Message error header="There was some errors with your submission" list={errorList} />
+                            <Message error header='There was some errors with your submission' list={errorList} />
                         ) : null}
-                        <Link to="/signup"> need to create an account?</Link>
                     </Container>
                     </div>
                 )}
