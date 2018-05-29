@@ -34,6 +34,7 @@ class ProjectList extends Component {
                     if (error) return <p>Error :(</p>;
                     return <div>
                         { (data.user.team || []).map( team => (
+
                             <div key={team._id}>
                                 <Header >{team.teamtitle}<Icon onClick={this.show} color='green' name='add circle' floated='right'/></Header>
                                 <Modal size='small' open={open} onClose={this.close}>
@@ -51,7 +52,6 @@ class ProjectList extends Component {
                                     relaxed
                                     size='large'
                                 >
-
                                     { team.projects.map(project => {
                                         if(!isSelected) { this.props.selectProject(project._id, project.team._id)}
                                         return (

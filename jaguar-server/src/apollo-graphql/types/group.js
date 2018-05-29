@@ -74,10 +74,10 @@ const GroupNested = {
         return (await Comment.find({group: _id}))
     },
     project: async ({project}) => {
-        return (await Project.findById({project}))
+        return (await Project.findById(project))
     },
     team: async ({team}) => {
-        return (await Team.findById({team}))
+        return (await Team.findById(team))
     },
     tasks: async ({_id}) => {
         return (await Task.find({group: _id}))

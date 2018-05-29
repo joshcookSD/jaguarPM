@@ -65,6 +65,7 @@ const getOrgByOwner = gql`
             teamtitle
             teamdescription
           users{
+            _id
             username
             profileImageUrl
           }
