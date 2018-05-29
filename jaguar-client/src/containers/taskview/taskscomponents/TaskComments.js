@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
-import { Comment, Dimmer, Loader } from 'semantic-ui-react'
+import { Comment, Dimmer, Loader} from 'semantic-ui-react'
 import { Query } from "react-apollo";
 import { taskComments } from "../../apollo-graphql/commentQueries";
-import Logo from '../../../images/user-secret.svg';
 import moment from 'moment';
 import TaskCommentForm from "./TaskCommentForm";
 
@@ -27,13 +26,12 @@ class TaskComments extends Component {
                     if (error) return <p>Error :(</p>;
 
                     return (
-                        <Comment.Group>
+                        <Comment.Group size='small'>
                             <TaskCommentForm taskId={taskId} userId={userId} updateQuery={taskComments} variables={queryVariables}/>
                         {data.taskComments.map(({_id, comment, user, createdAt}) => (
                             <Comment key={_id}>
-                                <Comment.Avatar src={Logo}/>
                                 <Comment.Content>
-                                    <Comment.Author as='a'>{user.username}</Comment.Author>
+                                    {userId === user._id ? <Comment.Author as='a'>you</Comment.Author> : <Comment.Author as='a'>{user.username}</Comment.Author>}
                                     <Comment.Metadata>
                                         <div>{moment.utc(createdAt).format('MM/DD')}</div>
                                     </Comment.Metadata>

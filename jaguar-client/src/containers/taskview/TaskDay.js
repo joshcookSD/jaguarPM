@@ -27,7 +27,7 @@ class TaskDay extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <Segment style={{width: '100%'}}>
-                            <Header>{moment.utc(day).format('dddd')} ({moment.utc(day).format('MM/DD')})</Header>
+                            <Header>{moment.utc(day).format('dddd')} {moment.utc(day).format('MM/DD')}</Header>
                             <TaskForm
                                 taskcurrentowner={user._id}
                                 plandate={day}

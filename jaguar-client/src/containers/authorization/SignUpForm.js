@@ -62,11 +62,11 @@ class SignUpForm extends Component {
                         }}>
 
                             <Form.Field error={!!emailError}>
-                                <i className="material-icons prefix">email</i>
-                                <Input
+                                <Form.Input
                                     autoFocus
                                     fluid
                                     placeholder="email"
+                                    label="email"
                                     value={this.state.email}
                                     type="text"
                                     onChange={e => this.setState({ email: e.target.value })}
@@ -74,9 +74,9 @@ class SignUpForm extends Component {
                             </Form.Field>
 
                             <Form.Field error={!!usernameError}>
-                                <i className="material-icons prefix">account_circle</i>
-                                <Input
+                                <Form.Input
                                     placeholder="username"
+                                    label="username"
                                     value={this.state.username}
                                     type="text"
                                     onChange={e => this.setState({ username: e.target.value })}
@@ -85,24 +85,18 @@ class SignUpForm extends Component {
                             </Form.Field>
 
                             <Form.Field error={!!passwordError}>
-                                <i className="material-icons prefix">lock</i>
-
-                                <Input
+                                <Form.Input
                                     icon
                                     placeholder="password"
+                                    label='password'
                                     value={this.state.password}
                                     type={showPassword ? 'text' : 'password'}
                                     onChange={e => this.setState({ password: e.target.value })}
                                     fluid
                                 >
                                     <input/>
-                                    <Button
-                                        basic
-                                        floated='right'
-                                        icon={showPassword ? 'hide' : 'unhide'}
-                                        onClick={ this.showHide }
-                                    />
-                                </Input>
+                                    <div style={{marginLeft: 5+'px', marginTop: 7+'px'}} onClick={ this.showHide }><Icon name={showPassword ? 'hide' : 'unhide'} /></div>
+                                </Form.Input>
                             </Form.Field>
                             <Link to='/login' >already have an account?</Link>
                             <Button icon size="small" floated='right' labelPosition='left' type="submit"><Icon name='fire'/>Signup</Button>

@@ -83,7 +83,7 @@ const NavSidebar = () => (
             <Link to='/org-admin'>
                 <Popup
                     trigger={<NavItems><Icon fitted size='big' name='sitemap' /></NavItems>}
-                    content="task view"
+                    content="organizations"
                     position='right center'
                     style={style}
                     inverted

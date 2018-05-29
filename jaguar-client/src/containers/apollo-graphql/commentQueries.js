@@ -6,6 +6,7 @@ const taskComments = gql`
     _id
     comment
     user {
+        _id
         username
         }
     createdAt
