@@ -10,7 +10,6 @@ const projectSchema = new mongoose.Schema(
     {
         projecttitle: {
             type: String,
-            required: true,
             maxLength: 50,
             minLength: 3
         },

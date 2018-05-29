@@ -28,7 +28,8 @@ class TaskDetail extends Component {
             taskdescription: description,
             assigned,
             duedate,
-            plandate};
+            plandate
+        };
 
         const _updateTask = async () => {
             await this.props.updateTask({
@@ -54,7 +55,6 @@ class TaskDetail extends Component {
             return (
                 <Query query={task} variables={queryVariables}>
                     {({loading, error, data}) => {
-
                         if (loading) return (
                             <div>
                                 <Dimmer active>
@@ -78,6 +78,7 @@ class TaskDetail extends Component {
                                             value={description}
                                             onChange={e => this.setState({description: e.target.value})}
                                         />}
+
                                         <Card.Description
                                             onClick={() => this.setState({planDateInput: !planDateInput})}>
                                             Plan Date: {data.task.plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : 'task needs to be planned'}
@@ -89,6 +90,7 @@ class TaskDetail extends Component {
                                             placeholder={plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : 'No plan date set'}
                                             onChange={e => this.setState({plandate: e.target.value})}
                                         />}
+
                                         <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
                                             Due Date: {data.task.duedate ? moment.utc(data.task.duedate).format('YYYY-MM-DD') : 'No due date set'}
                                         </Card.Description>
@@ -99,6 +101,7 @@ class TaskDetail extends Component {
                                             placeholder={duedate ? moment(data.task.duedate).format('YYYY-MM-DD') : Date.now()}
                                             onChange={e => this.setState({duedate: e.target.value})}
                                         />}
+
                                         <Card.Description
                                             onClick={() => this.setState({assignedInput: !assignedInput})}>
                                             Assigned: {!data.task.taskcurrentowner ? 'unassigned' : data.task.taskcurrentowner.username}
@@ -110,6 +113,7 @@ class TaskDetail extends Component {
                                             value={assigned}
                                             onChange={e => this.setState({assigned: e.target.value})}
                                         />}
+
                                         <Card.Description>
                                             Created: {moment.utc(data.task.createdAt).format('YYYY-MM-DD')}
                                         </Card.Description>

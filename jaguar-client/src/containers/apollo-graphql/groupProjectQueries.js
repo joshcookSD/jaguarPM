@@ -3,18 +3,18 @@ import gql from 'graphql-tag';
 const userTeamProjects = gql`
     query user($_id: String ){
     user(_id: $_id){
-        team {
+       team {
            _id
            teamtitle
            projects {
-            _id
-            projecttitle
-            projectdescription
-         team {
              _id
+             projecttitle
+             projectdescription
+             team {
+              _id
              }
            } 
-        }
+       }
     }
 }`;
 
@@ -70,19 +70,25 @@ query project($_id: String!) {
         team {
         _id
         teamtitle
+         users{
+            _id
+            username
+          }
         }
     }
 }`;
 
 const updateProject = gql`
     mutation updateProject(
+        $_id: String,
         $projecttitle: String,
         $projectdescription: String,
-        $plannedcompletiondate: String,
-        $duedate: String,
+        $plannedcompletiondate: Date,
+        $duedate: Date,
         $leader: String, 
         $team: String
     ){ updateProject(
+        _id: $_id,    
         projecttitle: $projecttitle,
         projectdescription: $projectdescription,
         plannedcompletiondate: $plannedcompletiondate,
@@ -109,6 +115,10 @@ const userProjectGroups = gql`
             _id
             grouptitle
             groupdescription
+            team{
+            _id
+            teamtitle
+            }
         }
        } 
     }

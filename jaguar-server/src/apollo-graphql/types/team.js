@@ -14,6 +14,7 @@ const TeamType = `
         users: [User]
         tasks: [Task]
         projects: [Project]
+        groups: [Group]
         organization: Organization
     }
     
@@ -78,6 +79,9 @@ const TeamNested = {
     organization: async ({organization}) => {
         return await Organization.findById(organization)
     },
+    groups: async ({_id}) => {
+        return (await Group.find({users: _id}))
+    }
 };
 
 const TeamMutationResolver = {

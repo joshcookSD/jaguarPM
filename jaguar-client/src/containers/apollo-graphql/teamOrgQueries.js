@@ -8,7 +8,6 @@ const teamsByUser = gql`
     team {
       _id
       teamtitle
-      
     }
   }
 }

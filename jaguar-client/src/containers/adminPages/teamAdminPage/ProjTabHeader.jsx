@@ -5,11 +5,11 @@ const ProjTabHeader = (props) => (
 
         <div className="orgHeader">
             <div>
-                <span className="headerTitle " >Organization Title: </span>
+                <span className="headerTitle " >Team Title: </span>
                 <span className="headerName">{props.teamTitle}</span>
             </div>
             <div className="orgDescrip">
-                <span className="headerTitle" >Organization Description:</span>
+                <span className="headerTitle" >Team Description:</span>
                 <span className="headerName">{props.teamdescription}</span>
             </div>
         </div> 

@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { updateProject } from "../../apollo-graphql/groupProjectQueries";
+import { updateProject} from "../../apollo-graphql/groupProjectQueries";
+import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
 
 class ProjectDetail extends Component {
+
+    // for project selection
     componentWillUpdate(nextProps, nextState) {
         if(nextProps.selectedProject !== this.props.selectedProject) {
             this.setState({projectId: nextProps.selectedProject});
@@ -18,23 +21,51 @@ class ProjectDetail extends Component {
         descriptionInput: false,
         description: '',
         planDateInput: false,
+        plandate: '',
         dueDateInput: false,
+        duedate: '',
         leaderInput: false,
         leader: '',
         teamInput: false,
         team:'',
     };
 
-
     render() {
-        const {selectedProject, projectDetails, queryVariables } = this.props;
-        const {title, titleInput, descriptionInput, planDateInput, plandate, dueDateInput, duedate, leaderInput, description, leader, teamInput, team, projectId} = this.state;
 
+        const {
+            selectedProject,
+            projectDetails,
+            queryVariables  } = this.props;
+
+        //state shortcut
+        const {
+            title,
+            titleInput,
+            descriptionInput,
+            planDateInput,
+            plandate,
+            dueDateInput,
+            duedate,
+            description,
+            leader,
+            projectId } = this.state;
+
+        //calls update mutation w variables
         const _updateProject = async () => {
             await this.props.updateProject({
-                variables: {_id: selectedProject, projecttitle: title, projectdescription: description, plannedcompletiondate: plandate, duedate, leader, team},
-                refetchQueries: [{query: projectDetails, variables: queryVariables}]
+                variables: {
+                    _id: selectedProject,
+                    projecttitle: title,
+                    projectdescription: description,
+                    plannedcompletiondate: plandate,
+                    duedate,
+                    leader,
+                    // team
+                },
+                refetchQueries:
+                    [{query: projectDetails, variables: queryVariables}]
             });
+            //set all state booleans to false to close input form after update
             this.setState({
                 titleInput: false,
                 descriptionInput: false,
@@ -49,7 +80,7 @@ class ProjectDetail extends Component {
         return (
             <Query query={projectDetails} variables={queryVariables}>
                 {({loading, error, data}) => {
-                    if (loading) return (
+                     if (loading) return (
                         <div>
                             <Dimmer active>
                                 <Loader/>
@@ -61,6 +92,7 @@ class ProjectDetail extends Component {
                             <Card fluid raised>
                                 <Card.Content>
                                     <Card.Header onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</Card.Header>
+                                    {/*header*/}
                                     {titleInput &&
                                     <Form.Input
                                         fluid
@@ -68,6 +100,7 @@ class ProjectDetail extends Component {
                                         value={title}
                                         onChange={e => this.setState({title: e.target.value})}
                                     />}
+                                    {/*description*/}
                                     <Card.Meta onClick={() => this.setState({descriptionInput: !descriptionInput})}>
                                         Description: {!descriptionInput && data.project.projectdescription}
                                     </Card.Meta>
@@ -78,47 +111,39 @@ class ProjectDetail extends Component {
                                         value={description}
                                         onChange={e => this.setState({description: e.target.value})}
                                     />}
+                                    {/*plan date*/}
                                     <Card.Description
                                         onClick={() => this.setState({planDateInput: !planDateInput})}>
-                                        Plan Completion: {!planDateInput && data.project.plannedcompletiondate ? moment(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'project needs to be planned'}
+                                        Plan Date: {data.project.plannedcompletiondate ? moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'task needs to be planned'}
                                     </Card.Description>
                                     {planDateInput &&
                                     <Form.Input
                                         fluid
                                         type='date'
-                                        placeholder={moment(data.project.plannedcompletiondate).format('YYYY-MM-DD')}
+                                        placeholder={plandate ?  moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'No plan date set'}
+                                        onChange={e => this.setState({plandate: e.target.value})}
                                     />}
+                                    {/*due date*/}
                                     <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
-                                        Due Date: {!dueDateInput && data.project.duedate ? moment(data.project.duedate).format('YYYY-MM-DD') : 'No due date set'}
+                                        Due Date: {data.project.duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : 'No due date set'}
                                     </Card.Description>
                                     {dueDateInput &&
                                     <Form.Input
                                         fluid
                                         type='date'
-                                        placeholder={moment(data.project.duedate).format('YYYY-MM-DD')}
+                                        placeholder={duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : Date.now()}
+                                        onChange={e => this.setState({duedate: e.target.value})}
                                     />}
-                                    <Card.Description
-                                        onClick={() => this.setState({leaderInput: !leaderInput})}>
-                                        Assigned: {!leaderInput && data.project.leader.username}
+                                    {/*assigned leader*/}
+                                    <Card.Description>
+                                   Assigned Leader:
+                                        <TeamLeaderDropDown
+                                        selectedProject={selectedProject}
+                                        projectDetails={projectDetails}
+                                        queryVariables={{_id: selectedProject}}
+                                        leader={data.project.leader.username}
+                                    />
                                     </Card.Description>
-                                    {leaderInput &&
-                                    <Form.Input
-                                        fluid
-                                        placeholder={data.project.leader.username}
-                                        value={leader}
-                                        onChange={e => this.setState({leader: e.target.value})}
-                                    />}
-                                    <Card.Description
-                                        onClick={() => this.setState({teamInput: !teamInput})}>
-                                        Assigned: {!teamInput && data.project.team.username}
-                                    </Card.Description>
-                                    {teamInput &&
-                                    <Form.Input
-                                        fluid
-                                        placeholder={data.project.team.teamtitle}
-                                        value={team}
-                                        onChange={e => this.setState({team: e.target.value})}
-                                    />}
                                 </Card.Content>
                                 <Card.Content extra>
                                     <Button size='small' fluid type='submit'>update</Button>

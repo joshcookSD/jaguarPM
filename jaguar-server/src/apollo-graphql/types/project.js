@@ -43,6 +43,7 @@ const ProjectMutation = `
         users: String
 ) : Project
     updateProject(
+        _id: String,
         projecttitle: String,
         projectdescription: String,
         plannedcompletiondate: Date,
@@ -85,14 +86,57 @@ const ProjectMutationResolver ={
         return project
     },
     updateProject: async (parent, args, { Project}) => {
-        let project = await Project.findByIdAndUpdate(args._id, {
-                $set: { projecttitle: args.projecttitle, projectdescription: args.projectdescription}},
-            {new: true}
-        );
-        if(args.leader) {
-            let leader = await User.findById(args.leader);
-            await project.leader.save(leader._id);
+
+        if(args.projecttitle) {
+           await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        projecttitle: args.projecttitle
+                    }
+                },
+                {new: true}
+            );
         }
+        const project = await Project.findById(args._id);
+
+        if(args.leader) {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        leader: args.leader
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        if(args.projectdescription) {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        projectdescription: args.projectdescription
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        if(args.plannedcompletiondate != 'Invalid Date') {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        plannedcompletiondate: args.plannedcompletiondate
+                    }
+                },
+                {new: true}
+            );
+        }
+
+            if(args.duedate != 'Invalid Date') {
+                await Project.findByIdAndUpdate(args._id, {
+                        $set: {
+                            duedate: args.duedate
+                        }
+                    },
+                    {new: true}
+                );
+            }
 
         if(args.team) {
             let projectteam = await Team.findById(args.team);

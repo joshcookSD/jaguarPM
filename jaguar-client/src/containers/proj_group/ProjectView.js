@@ -13,6 +13,7 @@ import { TopSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 import { projectDetails } from "../apollo-graphql/groupProjectQueries";
 import  AddGroupForm  from './projectcomponents/AddGroupForm'
+import  UnassignedGroupList  from './projectcomponents/UnassignedGroupList'
 
 const token = localStorage.getItem('token');
 
@@ -30,7 +31,6 @@ class ProjectView extends Component {
     selectTeam = (team) => {
         this.setState({teamOfProject: team });
     };
-
 
     render() {
         const { user } = decode(token);
@@ -54,9 +54,10 @@ class ProjectView extends Component {
                             <Header/>
                             <ContentArea>
                                 <TopSection>
-                                    <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}/>
+                                    <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}  />
                                 </TopSection>
                                 <AddGroupForm selectedProject={selectedProject} selectTeam={teamOfProject} query={userTeams} />
+                                <UnassignedGroupList />
                             </ContentArea>
                         </AppLayout>
                     </div>;
