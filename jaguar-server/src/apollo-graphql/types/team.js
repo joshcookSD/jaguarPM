@@ -80,7 +80,7 @@ const TeamNested = {
         return await Organization.findById(organization)
     },
     groups: async ({_id}) => {
-        return (await Group.find({users: _id}))
+        return (await Group.find({team: _id}))
     }
 };
 

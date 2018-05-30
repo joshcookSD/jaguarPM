@@ -78,19 +78,26 @@ const getOrgByOwner = gql`
 
 const teamsByOwner = gql`
     query teamsByOwner($owner: String ){
-    teamsByOwner( owner: $owner ){
+        teamsByOwner( owner: $owner ){
             _id
             teamtitle
             teamdescription
             users{
-            username
-            profileImageUrl
+                username
+                profileImageUrl
             }
             projects{
-            _id
-            projecttitle
-            projectdescription
+                _id
+                projecttitle
+                projectdescription
             }
+             groups {
+                _id
+                grouptitle
+                 project{
+                    projecttitle
+                }
+             }
         }
     }`;
     

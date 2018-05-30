@@ -38,6 +38,7 @@ class ProjectView extends Component {
         return(
             <Query query={userTeams} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
+                    console.log("view", data)
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -57,7 +58,7 @@ class ProjectView extends Component {
                                     <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}  />
                                 </TopSection>
                                 <AddGroupForm selectedProject={selectedProject} selectTeam={teamOfProject} query={userTeams} />
-                                <UnassignedGroupList />
+
                             </ContentArea>
                         </AppLayout>
                     </div>;
