@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Mutation, graphql, compose } from "react-apollo";
-import { Message, Form, Button, Label, Container, Header, Icon } from 'semantic-ui-react';
+import { Message, Form, Button, Container, Header, Icon } from 'semantic-ui-react';
 import Navbar from "../Navbar";
 import {loginUser, getCurrentUser} from "../apollo-graphql/userQueries";
 

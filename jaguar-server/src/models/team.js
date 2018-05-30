@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 import Organization from './organization';
 import User from './user';
 import Project from './project';
+import Group from './group';
 
 
 const teamSchema = new mongoose.Schema(

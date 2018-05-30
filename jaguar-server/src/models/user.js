@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Task"
         }],
+    currenttask: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Task"
+        },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Comment"
@@ -56,14 +60,26 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Project"
     }],
+    defaultproject: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project"
+    },
     groups: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Group"
     }],
+    defaultgroup: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Group"
+    },
     team: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Team"
     }],
+    defaultteam: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Team"
+    },
     organization: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Organization"

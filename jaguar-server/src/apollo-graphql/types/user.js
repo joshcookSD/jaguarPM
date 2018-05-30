@@ -12,6 +12,7 @@ import bcrypt from 'bcrypt';
 import { tryLogin, refreshLogin } from '../auth';
 import {emailError, usernameError, passwordError} from '../formatErrors';
 import {SECRET, SECRET2} from "../../server";
+import User from "../../models/user";
 
 const UserType = `
         type User {
@@ -21,13 +22,17 @@ const UserType = `
         password: String
         profileImageUrl: String
         tasks: [Task]
+        currenttask: Task
         comments: [Comment]
         time: [Time]
         plannedtime: [PlannedTime]
         usertypeorg: [UserTypeOrg]
         team: [Team]
+        defaultteam: Team
         projects: [Project]
+        defaultproject: Project
         groups: [Group]
+        defaultgroup: Group
         organization: [Organization]
         jwt: String
     }
@@ -99,14 +104,23 @@ const UserNested =  {
     tasks: async ({_id}) => {
         return (await Task.find({taskcurrentowner: _id}))
     },
+    currenttask: async ({currenttask}) => {
+        return await Task.findById(currenttask)
+    },
     comments: async ({_id}) => {
         return (await Comment.find({user: _id}))
     },
     time: async ({_id}) => {
         return (await Time.find({user: _id}))
     },
+    defaultproject: async ({defaultproject}) => {
+        return await Project.findById(defaultproject)
+    },
     projects: async ({_id}) => {
         return (await Project.find({users: _id}))
+    },
+    defaultgroup: async ({defaultgroup}) => {
+        return await Group.findById(defaultgroup)
     },
     groups: async ({_id}) => {
         return (await Group.find({users: _id}))
@@ -119,6 +133,9 @@ const UserNested =  {
     },
     organization: async ({_id}) => {
         return (await Organization.find({users: _id}))
+    },
+    defaultteam: async ({defaultteam}) => {
+        return await Team.findById(defaultteam)
     },
     team: async ({_id}) => {
         return (await Team.find({users: _id}))
@@ -135,7 +152,7 @@ const UserMutationResolver = {
         tryLogin(email, password, SECRET, SECRET2),
     refreshUser: (parent, { token }, {SECRET}) =>
         refreshLogin(token, SECRET),
-    signup: async (_, { email, password, username, SECRET, SECRET2 }, {User}) => {
+    signup: async (_, {email, password, username } , {SECRET, SECRET2, User}) => {
         try {
             const err = [];
             let emailErr = await emailError(email);
@@ -152,16 +169,54 @@ const UserMutationResolver = {
                     email,
                     password: hashedPassword,
                 });
-                return {
-                    ok: true,
-                    user,
-                };
+                const personalteam = await new Team({
+                    teamtitle: `${user.username}'s`,
+                    teamdescription: `Personal Team for ${user.username}`,
+                    users: user._id,
+                    owner: user._id
+                }).save();
+                const personalproject = await new Project({
+                    projecttitle: `${user.username}'s Project`,
+                    projectdescription: `Personal Project for ${user.username}`,
+                    users: user._id,
+                    leader: user._id,
+                    team: personalteam._id
+                }).save();
+                const personalgroup = await new Group({
+                    grouptitle: `General`,
+                    groupdescription: `General Group`,
+                    users: user._id,
+                    team: personalteam._id,
+                    project: personalproject._id
+                }).save();
+                user.groups.push(personalgroup._id);
+                user.projects.push(personalproject._id);
+                user.team.push(personalteam._id);
+                await user.save();
+                console.log(user);
+                personalproject.groups.push(personalgroup._id);
+                await personalproject.save();
+                personalteam.groups.push(personalgroup._id);
+                personalteam.projects.push(personalproject._id);
+                await personalteam.save();
+                console.log(personalgroup);
+                await User.findByIdAndUpdate(user._id, {
+                        $set: {
+                            defaultgroup: personalgroup._id,
+                            defaultproject: personalproject._id,
+                            defaultteam: personalteam._id
+                        }
+                    },
+                    {new: true}
+                );
+                return tryLogin(email, password, SECRET, SECRET2)
             } else {
                 return {
                     ok: false,
                     errors: err,
                 }
             }
+
         } catch (e) {
             console.log(e.errors);
             return {

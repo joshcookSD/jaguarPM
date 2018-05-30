@@ -42,7 +42,7 @@ class TaskUnplanned extends Component {
                             size='large'
                             style={{overflowY: 'auto', overflowX: 'hidden', minHeight: '300px', maxHeight: '325px'}}
                         >
-                            {data.tasksByUser.map(({_id, tasktitle}) => (
+                            {data.tasksByUser.map(({_id, tasktitle, tasktime}) => (
                                 <TaskItem
                                     key={_id}
                                     taskId={_id}
@@ -52,6 +52,7 @@ class TaskUnplanned extends Component {
                                     variables={variables}
                                     userId={user._id}
                                     date={today}
+                                    time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
                                 />
                             ))
                             }

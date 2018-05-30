@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import {Link} from 'react-router-dom';
-import { Form, Message, Button, Input, Container, Header, Icon } from 'semantic-ui-react';
+import { Form, Message, Button, Container, Header, Icon } from 'semantic-ui-react';
 import Navbar from "../Navbar";
 import {addUser} from "../apollo-graphql/userQueries";
 
@@ -46,11 +46,13 @@ class SignUpForm extends Component {
                             const response = await signup({
                                 variables: {username, password, email}
                             });
-                            const { ok, errors } = response.data.signup;
+                            const { ok, token, refreshToken, errors } = response.data.signup;
 
                             if (ok) {
-
-                                this.props.history.push('/login');
+                                console.log(token);
+                                localStorage.setItem('token', token);
+                                localStorage.setItem('refreshToken', refreshToken);
+                                this.props.history.push('/view');
                             } else {
                                 const err = {};
                                 errors.forEach(({ path, message }) => {

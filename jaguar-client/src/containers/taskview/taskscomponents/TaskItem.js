@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
-import { List, Button, Icon } from 'semantic-ui-react';
+import { List, Button, Icon, Popup } from 'semantic-ui-react';
 import moment from 'moment';
 import TaskComplete from './TaskComplete'
 import TaskDetail from '../TaskDetail'
 import TaskTime from './TaskTime'
 import TaskComments from './TaskComments'
+
+const style = {
+    borderRadius: 3,
+    opacity: 0.95,
+    padding: '0.5em',
+};
 
 class TaskItem extends Component {
     state = {
@@ -16,7 +22,7 @@ class TaskItem extends Component {
     closeTime = () => this.setState({ timeOpen: !this.state.timeOpen });
 
     render() {
-        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle} = this.props;
+        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle, time} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
 
         return(
@@ -28,21 +34,39 @@ class TaskItem extends Component {
                 <List.Content floated='right'>
 
                     <Button.Group size='mini'>
-                        <Button icon basic>
-                            <Icon name='options' size='large' onClick={() => {
-                                this.setState({detail: !detail})
-                            }}/>
-                        </Button>
-                        <Button icon basic>
-                            <Icon name='clock' size='large' onClick={() => {
-                                this.setState({timeOpen: !timeOpen})
-                            }}/>
-                        </Button>
-                        <Button icon basic>
-                            <Icon name='comments outline' size='large' floated='right' onClick={() => {
-                                this.setState({commentOpen: !commentOpen})
-                            }}/>
-                        </Button>
+                        <Popup
+                            trigger={<Button icon basic>
+                                <Icon name='options' size='large' onClick={() => {
+                                    this.setState({detail: !detail})
+                                }}/>
+                                </Button>}
+                            content='details'
+                            position='top center'
+                            style={style}
+                            inverted
+                            />
+                        <Popup
+                            trigger={<Button icon basic>
+                                <Icon name='clock' size='large' onClick={() => {
+                                    this.setState({timeOpen: !timeOpen})
+                                }}/>
+                                </Button>}
+                            content='time'
+                            position='top center'
+                            style={style}
+                            inverted
+                        />
+                        <Popup
+                            trigger={<Button icon basic>
+                                <Icon name='comments outline' size='large' floated='right' onClick={() => {
+                                    this.setState({commentOpen: !commentOpen})
+                                }}/>
+                                </Button>}
+                            content='comments'
+                            position='top center'
+                            style={style}
+                            inverted
+                        />
                     </Button.Group>
                 </List.Content>
                 }
@@ -63,7 +87,7 @@ class TaskItem extends Component {
                         {teamtitle ? `Team: ${teamtitle} `: ``}
                     </List.Content>
                 </List.Content>
-                { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime}/>)}
+                { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime} time={time} updateQuery={updateQuery} refreshVariables={variables}/>)}
                 { detail && (<TaskDetail taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables}/>)}
                 { commentOpen && (<TaskComments taskId={taskId} userId={userId}/>)}
             </List.Item>

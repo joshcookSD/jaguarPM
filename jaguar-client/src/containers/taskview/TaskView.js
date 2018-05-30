@@ -24,7 +24,6 @@ class TaskView extends Component {
     };
     changeView = (view) => {
             this.setState({activeView: view, isSelected: true });
-            console.log(view);
     };
 
     render() {

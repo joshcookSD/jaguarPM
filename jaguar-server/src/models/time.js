@@ -16,8 +16,7 @@ const timeSchema = new mongoose.Schema(
           required: true
         },
         timecomment: {
-          type: String,
-          required: true
+          type: String
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
