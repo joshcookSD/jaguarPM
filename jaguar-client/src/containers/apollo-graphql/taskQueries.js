@@ -79,6 +79,9 @@ const tasksByDay = gql`
       _id
       username
     }
+    tasktime {
+        time
+    }
   }
 }
  `;
@@ -104,6 +107,9 @@ const tasksToday = gql`
       _id
       username
     }
+    tasktime {
+        time
+    }
   }
 }
  `;
@@ -128,6 +134,9 @@ const tasksByTeam = gql`
     taskcurrentowner {
       _id
       username
+    }
+    tasktime {
+        time
     }
   }
 }

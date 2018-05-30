@@ -4,6 +4,8 @@ const addUser = gql`
 mutation signup($username: String!, $password: String!, $email: String!) {
   signup(username: $username, password: $password, email: $email) {
     ok
+    token
+    refreshToken
     user {
         _id
         email

@@ -42,7 +42,8 @@ class TaskToday extends Component {
                                 relaxed
                                 size='large'
                             >
-                            {data.tasksToday.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle, plandate}) => (
+                            {data.tasksToday.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle, plandate, tasktime}) => (
+
                                  <TaskItem
                                      key={_id}
                                      taskId={_id}
@@ -57,6 +58,7 @@ class TaskToday extends Component {
                                      variables={variables}
                                      userId={user._id}
                                      date={today}
+                                     time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
                                  />
                             ))
                             }

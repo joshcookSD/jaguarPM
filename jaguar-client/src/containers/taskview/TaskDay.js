@@ -27,7 +27,7 @@ class TaskDay extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <Segment style={{width: '100%'}}>
-                            <Header>{moment.utc(day).format('dddd')} {moment.utc(day).format('MM/DD')}</Header>
+                            <Header>{moment.utc(day).format('dddd')}, {moment.utc(day).format('MM/DD')}</Header>
                             <TaskForm
                                 taskcurrentowner={user._id}
                                 plandate={day}
@@ -42,7 +42,7 @@ class TaskDay extends Component {
                                 size='large'
                                 style={{overflowY: 'auto', overflowX: 'hidden', minHeight: '300px', maxHeight: '325px'}}
                             >
-                                {data.tasksByDay.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle}) => (
+                                {data.tasksByDay.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle, tasktime}) => (
                                     <TaskItem
                                         key={_id}
                                         taskId={_id}
@@ -56,6 +56,7 @@ class TaskDay extends Component {
                                         variables={variables}
                                         userId={user._id}
                                         date={today}
+                                        time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
                                     />
                                 ))
                                 }
