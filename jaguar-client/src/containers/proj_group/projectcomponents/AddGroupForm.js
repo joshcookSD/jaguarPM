@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Icon } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { createGroup } from '../../apollo-graphql/groupProjectQueries'
+import  UnassignedGroupList  from './UnassignedGroupList'
 
 
 const token = localStorage.getItem('token');
@@ -22,9 +23,11 @@ class AddGroupForm extends Component {
         const errorList = [];
         if (teamtitleerror) { errorList.push(teamtitleerror); }
         return (
+
             <Mutation mutation={createGroup}>
                 {(createGroup, { data }) => (
                     <div style={{ marginBottom: '.5em' }}>
+                        <UnassignedGroupList variables={{owner: user._id}}/>
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
