@@ -12,7 +12,8 @@ import ProjectDetails from './projectcomponents/ProjectDetails'
 import { TopSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 import { projectDetails } from "../apollo-graphql/groupProjectQueries";
-import  AddGroupForm  from './projectcomponents/AddGroupForm'
+import  AddGroupForm  from './projectcomponents/AddGroupForm';
+import  UnassignedGroupList  from './projectcomponents/UnassignedGroupList';
 
 
 const token = localStorage.getItem('token');
