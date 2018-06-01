@@ -5,15 +5,15 @@ import DropdownSelection from './teamInvite';
 const ProjUserDD = (props) => (
         <Card className="cardRight">
                 <DropdownSelection teamId={props.teamId} teamsByOwner={props.teamsByOwner} variables={props.variables} />
+            <List>
                 {props.team.users.map((user, i) => (
-                            <List key={i}>
-                                <List.Item>
-                                    <List.Content>
-                                        <List.Header as='a'><List.Icon name='user' />{user.username}</List.Header>
-                                    </List.Content>
-                                </List.Item>
-                            </List>
+                        <List.Item  key={i}>
+                            <List.Content>
+                                <List.Header as='a'><List.Icon name='user' />{user.username}</List.Header>
+                            </List.Content>
+                        </List.Item>
                 ))}
+            </List>
         </Card>
 );
 

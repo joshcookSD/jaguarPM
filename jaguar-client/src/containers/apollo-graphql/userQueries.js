@@ -125,11 +125,20 @@ const CREATE_TEAM = gql`
     }`;
 
 const userTeams = gql`
-    query user($_id: String ){
+query user($_id: String ){
     user(_id: $_id){
         team {
-           _id
-           teamtitle 
+            _id
+            teamtitle 
+            projects{
+                _id
+                projecttitle
+            groups{
+                _id
+                grouptitle
+                groupdescription
+             }
+            }
         }
         defaultgroup{
             _id

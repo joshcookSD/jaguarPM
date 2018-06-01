@@ -50,15 +50,33 @@ class ProjectView extends Component {
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar>
-                                <ProjectList selectTeam={this.selectTeam} selectProject={this.selectProject} isSelected={isSelected}/>
+                                <ProjectList
+                                    selectTeam={this.selectTeam}
+                                    selectProject={this.selectProject}
+                                    isSelected={isSelected}
+                                />
                             </MainSidebar>
                             <Header/>
                             <ContentArea>
                                 <TopSection>
-                                    <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}  />
+                                    <ProjectDetails
+                                        selectedProject={selectedProject}
+                                        projectDetails={projectDetails}
+                                        queryVariables={{_id: selectedProject}}
+                                    />
                                 </TopSection>
-                                <AddGroupForm selectedProject={selectedProject} selectTeam={teamOfProject} query={userTeams} />
-
+                                <AddGroupForm
+                                    selectedProject={selectedProject}
+                                    selectTeam={teamOfProject}
+                                    projectDetails={projectDetails}
+                                    queryVariables={{_id: selectedProject}}
+                                    userId={ user._id }
+                                />
+                                <UnassignedGroupList
+                                    selectedProject={selectedProject}
+                                    projectDetails={projectDetails}
+                                    queryVariables={{_id: selectedProject}}
+                                />
                             </ContentArea>
                         </AppLayout>
                     </div>;

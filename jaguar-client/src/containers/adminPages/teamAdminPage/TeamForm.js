@@ -8,6 +8,7 @@ import { getOrgByOwner, CREATE_TEAM} from '../../apollo-graphql/userQueries'
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 
+
 class TeamForm extends Component {
     state = {
         teamtitle: "",
@@ -25,13 +26,9 @@ class TeamForm extends Component {
         return (
             <Mutation mutation={CREATE_TEAM}>
                 {(createTeam, { data }) => (
-
-
                     <div style={{ marginBottom: '.5em' }}>
                         <Form
                             onSubmit={async e => {
-                                console.log(orgId)
-                                console.log(user._id);
                                 e.preventDefault();
                                 const response = await createTeam({
                                     variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: orgId, owner: user._id },
@@ -54,7 +51,6 @@ class TeamForm extends Component {
                                 }
                             }}>
                             <Form.Field error={!!teamtitleerror}>
-
                                 <i className="material-icons prefix">group_add</i>
                                 <Input
                                     placeholder="team title"

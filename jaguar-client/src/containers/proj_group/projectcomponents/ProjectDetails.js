@@ -7,7 +7,7 @@ import moment from 'moment';
 
 class ProjectDetail extends Component {
 
-    // for project selection
+    // set selected project to state
     componentWillUpdate(nextProps, nextState) {
         if(nextProps.selectedProject !== this.props.selectedProject) {
             this.setState({projectId: nextProps.selectedProject});
@@ -50,7 +50,7 @@ class ProjectDetail extends Component {
             leader,
             projectId } = this.state;
 
-        //calls update mutation w variables
+        //calling mutation with variables
         const _updateProject = async () => {
             await this.props.updateProject({
                 variables: {
@@ -157,6 +157,7 @@ class ProjectDetail extends Component {
         )} else { return (<div/>)}
     }
 }
+
 
 
 

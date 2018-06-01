@@ -38,6 +38,13 @@ const GroupMutation = `
         team: String
         users: String
 ) : Group
+    updateGroup(
+        _id: String,
+        grouptitle: String,
+        groupdescription: String,
+        plannedcompletiondate: Date,
+        duedate: Date
+    ) : Group
 `;
 
 const GroupQueryResolver = {
@@ -66,8 +73,70 @@ const GroupMutationResolver ={
         team.groups.push(group._id);
         await team.save();
         return group
+    },
+    updateGroup: async (parent, args, { Group}) => {
+
+        if(args.grouptitle) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        grouptitle: args.grouptitle
+                    }
+                },
+                {new: true}
+            );
+        }
+        // const group = await Group.findById(args._id);
+
+        // if(args.leader) {
+        //     await Project.findByIdAndUpdate(args._id, {
+        //             $set: {
+        //                 leader: args.leader
+        //             }
+        //         },
+        //         {new: true}
+        //     );
+        // }
+
+        if(args.groupdescription) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        groupdescription: args.groupdescription
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        if(args.plannedcompletiondate != 'Invalid Date') {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        plannedcompletiondate: args.plannedcompletiondate
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        if(args.duedate != 'Invalid Date') {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        duedate: args.duedate
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        // if(args.team) {
+        //     let projectteam = await Team.findById(args.team);
+        //     await project.team.save(projectteam._id);
+        //     projectteam.projects.push(project._id);
+        //     await projectteam.save();
+        // }
+
     }
 };
+
 
 const GroupNested = {
     comments: async ({_id}) => {
