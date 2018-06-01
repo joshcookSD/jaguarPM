@@ -15,6 +15,7 @@ import ContentArea from '../layout/ContentArea'
 import {Section} from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 
+
 const token = localStorage.getItem('token');
 
 class TaskView extends Component {
@@ -47,15 +48,15 @@ class TaskView extends Component {
                     return <div>
                         <AppLayout>
                             <NavSidebar/>
-                            <MainSidebar><TaskToday /></MainSidebar>
+                            <MainSidebar><TaskToday defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id} /></MainSidebar>
                             <TaskHeader changeView={this.changeView} activeView={activeView} isSelected={isSelected}/>
                             <ContentArea>
-                                <Section><TaskDay day={tomorrow}/></Section>
-                                <Section><TaskDay day={plus2}/></Section>
-                                <Section><TaskDay day={plus3}/></Section>
-                                <Section><TaskDay day={plus4}/></Section>
-                                <Section><TaskDay day={plus5}/></Section>
-                                <Section><TaskUnplanned/></Section>
+                                <Section><TaskDay day={tomorrow} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
+                                <Section><TaskDay day={plus2} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
+                                <Section><TaskDay day={plus3} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
+                                <Section><TaskDay day={plus4} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
+                                <Section><TaskDay day={plus5} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
+                                <Section><TaskUnplanned defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
                                 {data.user.team.map(({_id, teamtitle}) => (
                                     <Section key={_id}>
                                         <TaskTeam

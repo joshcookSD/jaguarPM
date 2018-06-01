@@ -140,6 +140,18 @@ query user($_id: String ){
              }
             }
         }
+        defaultgroup{
+            _id
+            grouptitle
+        }
+        defaultproject{
+            _id
+            projecttitle
+        }
+        defaultteam{
+            _id
+            teamtitle
+        }
     }
 }`;
 

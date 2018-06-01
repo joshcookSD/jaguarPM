@@ -15,9 +15,10 @@ class ProjectList extends Component {
 
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
+    defaultProject = (defaultProjectId, defaultTeam ) => {this.props.selectProject(defaultProjectId, defaultTeam)};
 
     render() {
-        const {selectProject, isSelected, selectTeam } = this.props;
+        const {selectProject, selectTeam } = this.props;
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
@@ -25,6 +26,8 @@ class ProjectList extends Component {
         return(
             <Query query={userTeamProjects} variables={variables}>
                 { ({ loading, error, data }) => {
+                    if(data.user && !this.props.isSelected) { console.log(`render: ${data.user.team[0]._id}`);
+                        this.defaultProject(data.user.team[0].projects[0]._id, data.user.team[0].projects[0].team._id)}
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -52,8 +55,8 @@ class ProjectList extends Component {
                                     relaxed
                                     size='large'
                                 >
-                                    { team.projects.map(project => {
-                                        if(!isSelected) { this.props.selectProject(project._id, project.team._id)}
+
+                                    { team.projects.map( (project) => {
                                         return (
                                             <ProjectItem
                                                 key={project._id}

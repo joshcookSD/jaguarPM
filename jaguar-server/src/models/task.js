@@ -68,6 +68,10 @@ const taskSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group"
         },
+        project: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Project"
+        },
         team: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Team"

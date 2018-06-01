@@ -12,7 +12,7 @@ const token = localStorage.getItem('token');
 class TaskDay extends Component {
 
     render() {
-        const { day } = this.props;
+        const { day, defaultgroup, defaultproject, defaultteam } = this.props;
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const { user } = decode(token);
         const variables = {taskcurrentowner: user._id, iscompleted: false, plandate: day};
@@ -31,26 +31,28 @@ class TaskDay extends Component {
                             <TaskForm
                                 taskcurrentowner={user._id}
                                 plandate={day}
+                                defaultgroup={defaultgroup}
+                                defaultproject={defaultproject}
+                                team={defaultteam}
                                 updateQuery={tasksByDay}
                                 variables={variables}
                             />
                             <Transition.Group
                                 as={List}
                                 duration={200}
-                                divided
                                 relaxed
                                 size='large'
-                                style={{overflowY: 'auto', overflowX: 'hidden', minHeight: '300px', maxHeight: '325px'}}
+                                style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, minHeight: '300px', maxHeight: '325px'}}
                             >
-                                {data.tasksByDay.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle, tasktime}) => (
+                                {data.tasksByDay.map(({_id, tasktitle, duedate, group, project, team, tasktime}) => (
                                     <TaskItem
                                         key={_id}
                                         taskId={_id}
                                         tasktitle={tasktitle}
                                         duedate={duedate}
-                                        grouptitle={grouptitle}
-                                        projecttitle={projecttitle}
-                                        teamtitle={teamtitle}
+                                        grouptitle={group.grouptitle}
+                                        projecttitle={project.projecttitle}
+                                        teamtitle={team.teamtitle}
                                         completeddate={today}
                                         updateQuery={tasksByDay}
                                         variables={variables}
