@@ -1,57 +1,78 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Icon } from 'semantic-ui-react';
-import decode from 'jwt-decode';
 import { createGroup } from '../../apollo-graphql/groupProjectQueries'
-import  UnassignedGroupList  from './UnassignedGroupList'
-
-
-const token = localStorage.getItem('token');
-const { user } = decode(token);
 
 class AddGroupForm extends Component {
     state = {
         grouptitle: "",
         groupdescription: "",
         errors: {},
-        teamtitleerror: ""
+        grouptitleerror: ""
     };
 
     render() {
-        const { selectedProject, selectTeam, userTeams }  = this.props;
-        const { grouptitle, groupdescription, teamtitleerror } = this.state;
+        const {
+            selectedProject,
+            selectTeam,
+            projectDetails,
+            queryVariables,
+            userId
+        }  = this.props;
+
+        const {
+            grouptitle,
+            groupdescription,
+            grouptitleerror
+        } = this.state;
+
         const errorList = [];
-        if (teamtitleerror) { errorList.push(teamtitleerror); }
+        if (grouptitleerror) { errorList.push(grouptitleerror); }
         return (
 
             <Mutation mutation={createGroup}>
                 {(createGroup, { data }) => (
                     <div style={{ marginBottom: '.5em' }}>
-                        <UnassignedGroupList variables={{owner: user._id}}/>
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
-                                const response = await createGroup({
-                                    variables: {  grouptitle: grouptitle, groupdescription: groupdescription, project: selectedProject, team: selectTeam },
-                                    refetchQueries: [{ query: userTeams, variables: { owner: user._id } }]
+                                // const response = await createGroup({
+                                await createGroup({
+                                    variables: {
+                                        grouptitle: grouptitle,
+                                        groupdescription: groupdescription,
+                                        project: selectedProject,
+                                        team: selectTeam,
+                                        users: userId
+                                    },
+                                    refetchQueries: [{
+                                        query: projectDetails,
+                                        variables: queryVariables
+                                    }]
                                 });
-                                const { ok, errors, } = response.data.createTeam;
-                                if (ok) {
-                                    this.setState({
-                                        teamtitle: "",
-                                        teamdescription: "",
-                                        errors: {},
-                                        teamtitleerror: ""
-                                    })
-                                } else {
-                                    const err = {};
-                                    errors.forEach(({ path, message }) => {
-                                        err[`${path}Error`] = message;
-                                    });
-                                    this.setState(err);
-                                }
+                                 this.setState({
+                                            grouptitle: "",
+                                            groupdescription: "",
+                                            errors: {},
+                                            teamtitleerror: ""
+                                        })
+                                // const { ok, errors, } = response.data.createTeam;
+                                // if (ok) {
+                                //     this.setState({
+                                //         teamtitle: "",
+                                //         teamdescription: "",
+                                //         errors: {},
+                                //         teamtitleerror: ""
+                                //     })
+                                // } else {
+                                //     const err = {};
+                                //     errors.forEach(({ path, message }) => {
+                                //         err[`${path}Error`] = message;
+                                //     });
+                                //     this.setState(err);
+                                // }
                             }}>
-                            <Form.Field error={!!teamtitleerror}>
+                            <Form.Field error={!!grouptitleerror}>
 
                                 <i className="material-icons prefix">group_add</i>
                                 <Input

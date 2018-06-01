@@ -4,7 +4,7 @@ import { List } from 'semantic-ui-react';
 class ProjectItem extends Component {
 
     handleClick() {
-        this.props.selectGroup(this.props.selectedGroup);
+        this.props.selectGroup(this.props.groupId);
     }
 
     render() {

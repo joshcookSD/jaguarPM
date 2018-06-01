@@ -26,8 +26,7 @@ class ProjectForm extends Component {
                                     });
                                     // this.props.onClose();
                                     this.setState({ newProject: "", newProjectDescription: "" });
-                                }}
-                            >
+                                }}>
                                 <Form.Field>
                                     <label>Name</label>
                                     <Form.Input
