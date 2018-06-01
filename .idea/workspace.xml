@@ -2,23 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4fb954e-ae3c-4ad3-89fc-88cbaa90a5d5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/taskQueries.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/taskQueries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/userQueries.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/userQueries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/authorization/SignUpForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/authorization/SignUpForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/ProjectView.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/ProjectView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectList.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/UnassignedGroupList.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/UnassignedGroupList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDay.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDay.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskToday.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskToday.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-server/src/apollo-graphql/types/task.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-server/src/apollo-graphql/types/task.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-server/src/models/task.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-server/src/models/task.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,11 +17,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TaskDetail.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TaskDetail.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDetail.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
+            <state relative-caret-position="69">
               <caret line="94" column="129" selection-start-line="94" selection-start-column="129" selection-end-line="94" selection-end-column="129" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProjectView.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/proj_group/ProjectView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -142,12 +136,12 @@
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDay.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectForm.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/UnassignedGroupList.js" />
-        <option value="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/ProjectView.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectList.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskToday.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskItem.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/taskscomponents/TaskActions.js" />
         <option value="$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDetail.js" />
+        <option value="$PROJECT_DIR$/jaguar-client/src/containers/proj_group/ProjectView.js" />
       </list>
     </option>
   </component>
@@ -369,12 +363,12 @@
       <workItem from="1527620188040" duration="9626000" />
       <workItem from="1527695011106" duration="17829000" />
       <workItem from="1527801925282" duration="8438000" />
-      <workItem from="1527865411021" duration="12092000" />
+      <workItem from="1527865411021" duration="13276000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="204042000" />
+    <option name="totallyTimeSpent" value="205226000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="22" width="1936" height="1066" extended-state="6" />
@@ -762,16 +756,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/proj_group/ProjectView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectList.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-115">
@@ -834,8 +818,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/taskview/TaskDetail.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
+        <state relative-caret-position="69">
           <caret line="94" column="129" selection-start-line="94" selection-start-column="129" selection-end-line="94" selection-end-column="129" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/proj_group/ProjectView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
         </state>
       </provider>
     </entry>
