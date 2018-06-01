@@ -81,7 +81,7 @@ class TaskDetail extends Component {
 
                                         <Card.Description
                                             onClick={() => this.setState({planDateInput: !planDateInput})}>
-                                            Plan Date: {data.task.plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : 'task needs to be planned'}
+                                            Plan Date: {data.task.plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : ''}
                                         </Card.Description>
                                         {planDateInput &&
                                         <Form.Input
@@ -92,7 +92,7 @@ class TaskDetail extends Component {
                                         />}
 
                                         <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
-                                            Due Date: {data.task.duedate ? moment.utc(data.task.duedate).format('YYYY-MM-DD') : 'No due date set'}
+                                            Due Date: {data.task.duedate ? moment.utc(data.task.duedate).format('YYYY-MM-DD') : ''}
                                         </Card.Description>
                                         {dueDateInput &&
                                         <Form.Input

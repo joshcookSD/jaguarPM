@@ -10,7 +10,7 @@ class ProjectForm extends Component {
     };
 
     render() {
-        const { team, teamsByOwner, variables } = this.props;
+        const { team, updateQuery, variables } = this.props;
         const { newProject, newProjectDescription } = this.state;   
         return (
             <Mutation mutation={createProject}>
@@ -21,10 +21,10 @@ class ProjectForm extends Component {
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createProject({
-                                        variables: { projecttitle: newProject, projectdescription: newProjectDescription, team, leader: variables.owner, users: variables.owner },
-                                        refetchQueries: [{ query: teamsByOwner, variables: variables }]
+                                        variables: { projecttitle: newProject, projectdescription: newProjectDescription, team, leader: variables._id, users: variables._id },
+                                        refetchQueries: [{ query: updateQuery, variables: variables }]
                                     });
-                                    // this.props.onClose();
+                                    this.props.onClose();
                                     this.setState({ newProject: "", newProjectDescription: "" });
                                 }}
                             >

@@ -50,6 +50,8 @@ const TaskMutation = `
         taskcurrentowner: String,
         plandate: Date,
         iscompleted: Boolean,
+        group: String,
+        project: String,
         team: String
 ) : Task
     updateTask(
@@ -143,11 +145,20 @@ const TaskMutationResolver ={
             owner.tasks.push(task._id);
             await owner.save();
         }
-
         if(args.team) {
             let teamTask = await Team.findById(args.team);
             teamTask.tasks.push(task._id);
             await teamTask.save();
+        }
+        if(args.project) {
+            let projectTask = await Project.findById(args.project);
+            projectTask.tasks.push(task._id);
+            await projectTask.save();
+        }
+        if(args.group) {
+            let groupTask = await Group.findById(args.group);
+            groupTask.tasks.push(task._id);
+            await groupTask.save();
         }
         return task
     },

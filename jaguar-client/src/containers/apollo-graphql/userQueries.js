@@ -131,6 +131,18 @@ const userTeams = gql`
            _id
            teamtitle 
         }
+        defaultgroup{
+            _id
+            grouptitle
+        }
+        defaultproject{
+            _id
+            projecttitle
+        }
+        defaultteam{
+            _id
+            teamtitle
+        }
     }
 }`;
 

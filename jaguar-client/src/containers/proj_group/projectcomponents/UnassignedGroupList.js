@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { Dimmer, Loader, List, Card } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import { teamsByOwner } from "../../apollo-graphql/userQueries";
 
 class UnassignedGroupList extends Component {
@@ -9,7 +9,6 @@ class UnassignedGroupList extends Component {
         return(
             <Query query={teamsByOwner} variables={variables}>
                 { ({ loading, error, data }) => {
-                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>

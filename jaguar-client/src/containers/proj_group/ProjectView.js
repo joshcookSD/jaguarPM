@@ -13,18 +13,19 @@ import { TopSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 import { projectDetails } from "../apollo-graphql/groupProjectQueries";
 import  AddGroupForm  from './projectcomponents/AddGroupForm'
-import  UnassignedGroupList  from './projectcomponents/UnassignedGroupList'
+
 
 const token = localStorage.getItem('token');
 
 class ProjectView extends Component {
+
     state = {
         teamOfProject: '',
         selectedProject: '',
         isSelected: false,
     };
 
-    selectProject = (project, team) => {
+    selectProject =  (project, team) => {
         this.setState({selectedProject: project, isSelected: true, teamOfProject: team });
     };
 
@@ -38,7 +39,6 @@ class ProjectView extends Component {
         return(
             <Query query={userTeams} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
-                    console.log("view", data)
                     if (loading) return (
                         <div>
                             <Dimmer active>

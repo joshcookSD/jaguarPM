@@ -4,26 +4,28 @@ import { Input, Form } from 'semantic-ui-react';
 import {createTask} from "../../apollo-graphql/taskQueries";
 
 
+
+
 class TaskForm extends Component {
     state = {
         newTask: "",
     };
 
     render() {
-        const {taskcurrentowner, plandate, updateQuery, variables, team} = this.props;
-
+        const {taskcurrentowner, plandate, updateQuery, variables, team, defaultgroup, defaultproject} = this.props;
+        console.log(defaultproject);
         const { newTask } = this.state;
 
         return (
             <Mutation mutation={createTask}>
                 {(createTask, {data}) => {
                     return (
-                        <div style={{marginBottom: '.5em'}}>
+                        <div style={{marginBottom: '.1em'}}>
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createTask({
-                                        variables: {tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, team},
+                                        variables: {tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, group: defaultgroup, project: defaultproject, team},
                                         refetchQueries: [{ query: updateQuery, variables: variables}]
                                     });
                                     this.setState({newTask: ""});
