@@ -25,13 +25,9 @@ class TeamForm extends Component {
         return (
             <Mutation mutation={CREATE_TEAM}>
                 {(createTeam, { data }) => (
-
-
                     <div style={{ marginBottom: '.5em' }}>
                         <Form
                             onSubmit={async e => {
-                                console.log(orgId)
-                                console.log(user._id);
                                 e.preventDefault();
                                 const response = await createTeam({
                                     variables: { teamdescription: teamdescription, teamtitle: teamtitle, organization: orgId, owner: user._id },

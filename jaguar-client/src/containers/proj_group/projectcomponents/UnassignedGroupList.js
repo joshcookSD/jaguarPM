@@ -1,34 +1,49 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { Dimmer, Loader, List, Card } from 'semantic-ui-react';
-import { teamsByOwner } from "../../apollo-graphql/userQueries";
+import { Dimmer, Loader } from 'semantic-ui-react';
 
-class UnassignedGroupList extends Component {
-    render() {
-        const variables = this.props.variables
-        return(
-            <Query query={teamsByOwner} variables={variables}>
-                { ({ loading, error, data }) => {
-                    console.log(data)
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader />
-                            </Dimmer>
-                        </div>);
-                    if (error) return <p>Error :(</p>;
-                    return  <div>
-                        { (data.teamsByOwner || []).map( (team, i) => (
-                            (team.groups || []).map( (group, i) => (
-                            <div key={i}>{group.grouptitle}</div>
-                            ))
-                        )) }
-                        </div>
-                }}
-            </Query>
-        )
+    class UnassignedGroupList extends Component {
+        // for project selection
+        componentWillUpdate(nextProps, nextState) {
+            if(nextProps.selectedProject !== this.props.selectedProject) {
+                this.setState({projectId: nextProps.selectedProject});
+            }
+        }
+
+        state = {
+            projectId: ''
+        };
+
+        render() {
+
+            const {
+                selectedProject,
+                projectDetails,
+                queryVariables  } = this.props;
+
+            if(this.state.projectId) {
+            return(
+                <Query query={projectDetails} variables={ queryVariables }>
+                    { ({ loading, error, data }) => {
+                        if (loading) return (
+                            <div>
+                                <Dimmer active>
+                                    <Loader />
+                                </Dimmer>
+                            </div>);
+                        if (error) return <p>Error :( {selectedProject}</p>;
+                        return (
+                            <div>
+                                {data.project.groups.map((group, i) => (
+                                    <li key={i}>{group.grouptitle}</li>
+                                ))}
+                            </div>
+                        )
+                    }}
+                </Query>
+            )} else { return (<div/>)}
+        }
     }
-}
 
 export default UnassignedGroupList;
 

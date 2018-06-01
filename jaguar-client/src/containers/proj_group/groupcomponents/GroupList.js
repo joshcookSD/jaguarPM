@@ -21,9 +21,11 @@ class GroupList extends Component {
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
+        const {selectGroup, isSelected, selectTeam } = this.props;
         return(
             <Query query={userProjectGroups} variables={variables}>
                 { ({ loading, error, data }) => {
+                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -52,12 +54,16 @@ class GroupList extends Component {
                                     size='large'
                                 >
                                     { project.groups.map(group => {
+                                        // if(!isSelected) { this.props.selectProject(project._id, project.team._id)}
+                                        if(!isSelected) { this.props.selectGroup(group._id)}
                                         return (
                                             <GroupTaskItem
                                                 key={group._id}
                                                 groupId={group._id}
                                                 grouptitle={group.grouptitle}
                                                 groupdescription={group.groupdescription}
+                                                selectGroup={selectGroup}
+                                                selectTeam={selectTeam}
                                             />
                                         )})
                                     }
