@@ -36,7 +36,8 @@ class AddGroupForm extends Component {
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
-                                const response = await createGroup({
+                                // const response = await createGroup({
+                                await createGroup({
                                     variables: {
                                         grouptitle: grouptitle,
                                         groupdescription: groupdescription,
@@ -49,6 +50,12 @@ class AddGroupForm extends Component {
                                         variables: queryVariables
                                     }]
                                 });
+                                 this.setState({
+                                            grouptitle: "",
+                                            groupdescription: "",
+                                            errors: {},
+                                            teamtitleerror: ""
+                                        })
                                 // const { ok, errors, } = response.data.createTeam;
                                 // if (ok) {
                                 //     this.setState({

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { updateProject} from "../../apollo-graphql/groupProjectQueries";
+import { updateGroup} from "../../apollo-graphql/groupProjectQueries";
 // import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
 
@@ -45,12 +45,12 @@ class GroupDetail extends Component {
             dueDateInput,
             duedate,
             description,
-            team,
+            // team,
             groupId } = this.state;
 
         //calling mutation with variables
         const _updateGroup = async () => {
-            await this.props.updateProject({
+            await this.props.updateGroup({
                 variables: {
                     _id: selectedGroup,
                     grouptitle: title,
@@ -76,7 +76,6 @@ class GroupDetail extends Component {
             return (
                 <Query query={groupDetails} variables={queryVariables}>
                     {({loading, error, data}) => {
-                        console.log(data)
                         if (loading) return (
                             <div>
                                 <Dimmer active>
@@ -133,7 +132,7 @@ class GroupDetail extends Component {
                                         />}
                                         {/*assigned leader*/}
                                         <Card.Description>
-                                            Assigned Leader:
+                                            Group Users:
                                             {/*<TeamLeaderDropDown*/}
                                                 {/*selectedProject={selectedProject}*/}
                                                 {/*projectDetails={projectDetails}*/}
@@ -155,6 +154,6 @@ class GroupDetail extends Component {
     }
 }
 
-export default graphql(updateProject, {
-    name: 'updateProject',
+export default graphql(updateGroup, {
+    name: 'updateGroup',
 })(GroupDetail);

@@ -25,7 +25,6 @@ class GroupList extends Component {
         return(
             <Query query={userProjectGroups} variables={variables}>
                 { ({ loading, error, data }) => {
-                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>

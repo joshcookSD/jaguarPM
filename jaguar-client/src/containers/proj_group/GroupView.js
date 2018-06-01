@@ -38,7 +38,6 @@ class GroupView extends Component {
         return(
             <Query query={userProjectGroups} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
-                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -46,17 +45,24 @@ class GroupView extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    console.log(selectedGroup)
                     return <div>
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar>
-                                <GroupList selectTeam={this.selectTeam} selectGroup={this.selectGroup} isSelected={isSelected}/>
+                                <GroupList
+                                    selectTeam={this.selectTeam}
+                                    selectGroup={this.selectGroup}
+                                    isSelected={isSelected}
+                                />
                             </MainSidebar>
                             <Header/>
                             <ContentArea>
                                 <TopSection>
-                                    <GroupDetail selectedGroup={selectedGroup} groupDetails={groupDetails} queryVariables={{_id: selectedGroup}} />
+                                    <GroupDetail
+                                        selectedGroup={selectedGroup}
+                                        groupDetails={groupDetails}
+                                        queryVariables={{_id: selectedGroup}}
+                                    />
                                 </TopSection>
                             </ContentArea>
                         </AppLayout>

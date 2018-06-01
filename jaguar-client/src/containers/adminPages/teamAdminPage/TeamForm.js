@@ -8,6 +8,7 @@ import { getOrgByOwner, CREATE_TEAM} from '../../apollo-graphql/userQueries'
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 
+
 class TeamForm extends Component {
     state = {
         teamtitle: "",
@@ -50,7 +51,6 @@ class TeamForm extends Component {
                                 }
                             }}>
                             <Form.Field error={!!teamtitleerror}>
-
                                 <i className="material-icons prefix">group_add</i>
                                 <Input
                                     placeholder="team title"

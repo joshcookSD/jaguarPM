@@ -38,7 +38,6 @@ class ProjectView extends Component {
         return(
             <Query query={userTeams} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
-                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -50,15 +49,33 @@ class ProjectView extends Component {
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar>
-                                <ProjectList selectTeam={this.selectTeam} selectProject={this.selectProject} isSelected={isSelected}/>
+                                <ProjectList
+                                    selectTeam={this.selectTeam}
+                                    selectProject={this.selectProject}
+                                    isSelected={isSelected}
+                                />
                             </MainSidebar>
                             <Header/>
                             <ContentArea>
                                 <TopSection>
-                                    <ProjectDetails selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}}  />
+                                    <ProjectDetails
+                                        selectedProject={selectedProject}
+                                        projectDetails={projectDetails}
+                                        queryVariables={{_id: selectedProject}}
+                                    />
                                 </TopSection>
-                                <AddGroupForm selectedProject={selectedProject} selectTeam={teamOfProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}} userId={ user._id } />
-                                <UnassignedGroupList selectedProject={selectedProject} projectDetails={projectDetails} queryVariables={{_id: selectedProject}} />
+                                <AddGroupForm
+                                    selectedProject={selectedProject}
+                                    selectTeam={teamOfProject}
+                                    projectDetails={projectDetails}
+                                    queryVariables={{_id: selectedProject}}
+                                    userId={ user._id }
+                                />
+                                <UnassignedGroupList
+                                    selectedProject={selectedProject}
+                                    projectDetails={projectDetails}
+                                    queryVariables={{_id: selectedProject}}
+                                />
                             </ContentArea>
                         </AppLayout>
                     </div>;

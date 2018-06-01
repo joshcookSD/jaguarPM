@@ -116,6 +116,24 @@ const updateProject = gql`
     }
 }`;
 
+const updateGroup = gql`
+    mutation updateGroup(
+        $_id: String,
+        $grouptitle: String,
+        $groupdescription: String,
+        $plannedcompletiondate: Date,
+        $duedate: Date,
+    ){ updateGroup(
+        _id: $_id,    
+        grouptitle: $grouptitle,
+        groupdescription: $groupdescription,
+        plannedcompletiondate: $plannedcompletiondate,
+        duedate: $duedate
+    ) {
+        grouptitle
+    }
+}`;
+
 const userProjectGroups = gql`
     query user($_id: String ){
     user(_id: $_id){
@@ -142,4 +160,4 @@ const userProjectGroups = gql`
 
 
 
-export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails}
+export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails, updateGroup, }
