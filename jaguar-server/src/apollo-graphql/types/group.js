@@ -45,6 +45,10 @@ const GroupMutation = `
         plannedcompletiondate: Date,
         duedate: Date
     ) : Group
+     addGroupUser(
+        _id: String
+        user: String,
+    ) : Group
 `;
 
 const GroupQueryResolver = {
@@ -134,9 +138,20 @@ const GroupMutationResolver ={
         //     await projectteam.save();
         // }
 
+    },
+    //saving user to group
+    addGroupUser: async (parent, {_id, user}, {Group}) => {
+        //find user by id with "user id"
+        let groupuser = await User.findById(user);
+        //find group by id with arg.id
+        let groups = await Group.findById(_id);
+        groupuser.groups.push(groups._id);
+        await groupuser.save();
+        groups.users.push(groupuser._id);
+        await groups.save();
+        return groups
     }
 };
-
 
 const GroupNested = {
     comments: async ({_id}) => {

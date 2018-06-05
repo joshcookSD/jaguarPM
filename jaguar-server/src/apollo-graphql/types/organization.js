@@ -3,6 +3,8 @@ import UserTypeOrg from "../../models/usertypeorg";
 import Team from "../../models/team";
 import {orgError} from "../formatErrors";
 
+
+
 const OrganizationType = `
     type Organization {
         _id: String

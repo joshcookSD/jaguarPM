@@ -34,15 +34,28 @@ class ProjectList extends Component {
                     if (error) return <p>Error :(</p>;
                     return <div>
                         { (data.user.team || []).map( team => (
-
                             <div key={team._id}>
-                                <Header >{team.teamtitle}<Icon onClick={this.show} color='green' name='add circle' floated='right'/></Header>
+                                <Header>
+                                    {team.teamtitle}
+                                    <Icon
+                                        onClick={this.show}
+                                        color='green'
+                                        name='add circle'
+                                        floated='right'
+                                    />
+                                </Header>
                                 <Modal size='small' open={open} onClose={this.close}>
                                     <Modal.Header>
                                         Create Project
                                     </Modal.Header>
                                     <Modal.Content>
-                                        <ProjectForm team={team._id} userId={user._id} updateQuery={userTeamProjects} variables={variables} onClose={this.close}/>
+                                        <ProjectForm
+                                            team={team._id}
+                                            userId={user._id}
+                                            updateQuery={userTeamProjects}
+                                            variables={variables}
+                                            onClose={this.close}
+                                        />
                                     </Modal.Content>
                                 </Modal>
                                 <Transition.Group
@@ -64,20 +77,17 @@ class ProjectList extends Component {
                                                 selectProject={selectProject}
                                                 selectTeam={selectTeam}
                                             />
-                                        )})
-                                    }
+                                        )
+                                    })}
                                 </Transition.Group>
                                 <Divider />
-                            </div>))}
-
+                            </div>
+                        ))}
                     </div>;
-                }
-                }
+                }}
             </Query>
         )
     }
 }
-
-
 
 export default ProjectList;

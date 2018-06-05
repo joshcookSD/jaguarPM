@@ -133,12 +133,9 @@ class GroupDetail extends Component {
                                         {/*assigned leader*/}
                                         <Card.Description>
                                             Group Users:
-                                            {/*<TeamLeaderDropDown*/}
-                                                {/*selectedProject={selectedProject}*/}
-                                                {/*projectDetails={projectDetails}*/}
-                                                {/*queryVariables={{_id: selectedProject}}*/}
-                                                {/*leader={data.project.leader.username}*/}
-                                            {/*/>*/}
+                                            {data.group.users.map( (user, i ) => (
+                                                <span key={i}>{user.username}</span>
+                                             ))}
                                         </Card.Description>
                                     </Card.Content>
                                     <Card.Content extra>

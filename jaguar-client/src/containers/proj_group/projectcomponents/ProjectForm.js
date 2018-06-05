@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import { Button, Form } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
+import { Button, Form } from 'semantic-ui-react'
 import {createProject} from "../../apollo-graphql/groupProjectQueries";
 
 class ProjectForm extends Component {
@@ -10,8 +10,21 @@ class ProjectForm extends Component {
     };
 
     render() {
-        const { team, teamsByOwner, variables } = this.props;
-        const { newProject, newProjectDescription } = this.state;   
+        const {
+            team,
+            teamsByOwner,
+            variables
+        } = this.props;
+
+        const {
+            newProject,
+            newProjectDescription,
+            projectTitleError
+        } = this.state;
+
+        const errorList = [];
+        if (projectTitleError) { errorList.push(projectTitleError); }
+
         return (
             <Mutation mutation={createProject}>
                 {(createProject, { data }) => {
@@ -21,11 +34,23 @@ class ProjectForm extends Component {
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createProject({
-                                        variables: { projecttitle: newProject, projectdescription: newProjectDescription, team, leader: variables.owner, users: variables.owner },
-                                        refetchQueries: [{ query: teamsByOwner, variables: variables }]
+                                        variables: {
+                                            projecttitle: newProject,
+                                            projectdescription: newProjectDescription,
+                                            team,
+                                            leader: variables.owner,
+                                            users: variables.owner
+                                        },
+                                        refetchQueries: [{
+                                            query: teamsByOwner,
+                                            variables: variables
+                                        }]
                                     });
                                     // this.props.onClose();
-                                    this.setState({ newProject: "", newProjectDescription: "" });
+                                    this.setState({
+                                        newProject: "",
+                                        newProjectDescription: ""
+                                    });
                                 }}>
                                 <Form.Field>
                                     <label>Name</label>
@@ -45,7 +70,14 @@ class ProjectForm extends Component {
                                         onChange={e => this.setState({ newProjectDescription: e.target.value })}
                                     />
                                 </Form.Field>
-                                <Button type='submit' color="grey" positive icon='checkmark' labelPosition='right' content='New Project!' />
+                                <Button
+                                    type='submit'
+                                    color="grey"
+                                    positive
+                                    icon='checkmark'
+                                    labelPosition='right'
+                                    content='New Project!'
+                                />
                             </Form>
                         </div>
                     )

@@ -64,17 +64,12 @@ class ProjectView extends Component {
                                         queryVariables={{_id: selectedProject}}
                                     />
                                 </TopSection>
-                                <AddGroupForm
-                                    selectedProject={selectedProject}
-                                    selectTeam={teamOfProject}
-                                    projectDetails={projectDetails}
-                                    queryVariables={{_id: selectedProject}}
-                                    userId={ user._id }
-                                />
                                 <UnassignedGroupList
                                     selectedProject={selectedProject}
                                     projectDetails={projectDetails}
                                     queryVariables={{_id: selectedProject}}
+                                    userId={ user._id }
+                                    selectTeam={teamOfProject}
                                 />
                             </ContentArea>
                         </AppLayout>

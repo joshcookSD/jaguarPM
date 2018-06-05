@@ -74,6 +74,14 @@ const TaskMutation = `
     removeTask(
         _id: String!
 ) : Task
+    createTaskByGroup(
+        tasktitle: String,
+        taskdescription: String,
+        iscompleted: Boolean,
+        team: String,
+        project: String,
+        group: String,
+) : Task
 `;
 
 const TaskQueryResolver = {
@@ -138,12 +146,48 @@ const TaskNested = {
 const TaskMutationResolver ={
     createTask: async (parent, args, { Task, User, Team }) => {
         let task = await new Task(args).save();
+        console.log(args)
+        //if task object has current owner
         if(args.taskcurrentowner) {
+            //save that user object to variable
             let owner = await User.findById(args.taskcurrentowner);
+            //go into that users tasks and push in new tasks id
             owner.tasks.push(task._id);
             await owner.save();
         }
+        //if task object has current team
+        if(args.team) {
+            //save that team object to variable
+            let teamTask = await Team.findById(args.team);
+            //go into that teams tasks and push in new tasks id
+            teamTask.tasks.push(task._id);
+            //save teamtask object with new tak id pushed in
+            await teamTask.save();
+        }
+        return task
+    },
+    createTaskByGroup: async (parent, args, { Task, User, Team, Group, Project }) => {
+        let task = await new Task(args).save();
+        console.log(args)
 
+        //if task object has current group
+        if(args.group) {
+            //save that group object to variable
+            let groupTask = await Group.findById(args.group);
+            //go into that groups tasks and push in new tasks id
+            groupTask.tasks.push(task._id);
+            //save groupTask object with new task id pushed in
+            await groupTask.save();
+        }
+        //if task object has current project
+        if(args.project) {
+            //save that project object to variable
+            let projectTask = await Project.findById(args.project);
+            console.log(projectTask)
+            //go into that projects tasks and push in new tasks id
+            projectTask.tasks.push(task._id);
+            await projectTask.save();
+        }
         if(args.team) {
             let teamTask = await Team.findById(args.team);
             teamTask.tasks.push(task._id);
