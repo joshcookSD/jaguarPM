@@ -49,7 +49,6 @@ class SignUpForm extends Component {
                             const { ok, token, refreshToken, errors } = response.data.signup;
 
                             if (ok) {
-                                console.log(token);
                                 localStorage.setItem('token', token);
                                 localStorage.setItem('refreshToken', refreshToken);
                                 this.props.history.push('/view');

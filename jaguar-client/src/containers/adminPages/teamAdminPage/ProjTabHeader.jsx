@@ -33,7 +33,6 @@ const ProjTabHeader = (props) => (
                 <HeaderName>{props.teamdescription}</HeaderName>
             </div>
         </div>
-
     
 );
 

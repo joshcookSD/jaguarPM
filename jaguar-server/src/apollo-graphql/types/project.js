@@ -18,6 +18,7 @@ const ProjectType = `
         tasks: [Task]
         comments: [Comment]
         groups: [Group]
+        defaultgroup: Group
         milestone: [Milestone]
         requirements: [Requirement] 
         users: [User]
@@ -172,6 +173,9 @@ const ProjectNested = {
     },
     groups: async ({_id}) => {
         return (await Group.find({project: _id}))
+    },
+    defaultgroup: async ({defaultgroup}) => {
+        return (await Group.findById(defaultgroup))
     },
     milestone: async ({milestone}) => {
         return (await Milestone.find({milestone: _id}))

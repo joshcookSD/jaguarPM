@@ -50,6 +50,8 @@ const TaskMutation = `
         taskcurrentowner: String,
         plandate: Date,
         iscompleted: Boolean,
+        group: String,
+        project: String,
         team: String
 ) : Task
     updateTask(
@@ -59,12 +61,15 @@ const TaskMutation = `
         taskstatus: String,
         duedate: Date,
         priority: String,
-        group: String,
-        team: String,
-        taskcurrentowner: String,
         plandate: Date,
         iscompleted: Boolean,
         completeddate: Date
+) : Task
+    updateTaskTeam(
+        _id: String,
+        team: String,
+        project: String,
+        group: String,
 ) : Task
     completeTask(
         _id: String!
@@ -155,6 +160,7 @@ const TaskMutationResolver ={
             owner.tasks.push(task._id);
             await owner.save();
         }
+
         //if task object has current team
         if(args.team) {
             //save that team object to variable
@@ -188,10 +194,21 @@ const TaskMutationResolver ={
             projectTask.tasks.push(task._id);
             await projectTask.save();
         }
+
         if(args.team) {
             let teamTask = await Team.findById(args.team);
             teamTask.tasks.push(task._id);
             await teamTask.save();
+        }
+        if(args.project) {
+            let projectTask = await Project.findById(args.project);
+            projectTask.tasks.push(task._id);
+            await projectTask.save();
+        }
+        if(args.group) {
+            let groupTask = await Group.findById(args.group);
+            groupTask.tasks.push(task._id);
+            await groupTask.save();
         }
         return task
     },
@@ -231,20 +248,6 @@ const TaskMutationResolver ={
             await taskteam.save();
         }
 
-        if(args.group) {
-            let taskgroup = await Group.findById(args.group);
-            await task.group.save(taskgroup._id);
-            taskgroup.tasks.push(task._id);
-            await taskgroup.save();
-        }
-
-        if(args.project) {
-            let taskproject = await Group.findById(args.project);
-            await task.project.save(taskproject._id);
-            taskproject.tasks.push(task._id);
-            await taskproject.save();
-        }
-
         if(args.priority) {
             let taskpriority = await Priority.findById(args.priority);
             await task.priority.save(taskpriority._id);
@@ -253,6 +256,31 @@ const TaskMutationResolver ={
         }
 
         return task
+    },
+    updateTaskTeam: async(parent, args, {Task}) => {
+            let oldtask = await Task.findById(args._id);
+            Group.update({_id: oldtask.group }, {$pullAll: { tasks: oldtask._id }});
+            Project.update({_id: oldtask.project }, {$pullAll: { tasks: oldtask._id }});
+            Team.update({_id: oldtask.team }, {$pullAll: { tasks: oldtask._id }});
+            let task = await Task.findByIdAndUpdate(args._id, {
+                    $set: {
+                        group: args.group,
+                        project: args.project,
+                        team: args.team,
+                    }
+                },
+                {new: true}
+            );
+            let taskgroup = await Group.findById(args.group);
+            taskgroup.tasks.push(task._id);
+            await taskgroup.save();
+            let taskproject = await Project.findById(args.project);
+            taskproject.tasks.push(task._id);
+            await taskproject.save();
+            let taskteam = await Team.findById(args.team);
+            taskteam.tasks.push(task._id);
+            await taskproject.save();
+
     },
     completeTask: async (parent, args, {Task}) =>{
         let task = await Task.findByIdAndUpdate(

@@ -34,6 +34,7 @@ class ProjectForm extends Component {
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createProject({
+
                                         variables: {
                                             projecttitle: newProject,
                                             projectdescription: newProjectDescription,

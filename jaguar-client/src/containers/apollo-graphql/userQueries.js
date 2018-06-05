@@ -84,6 +84,10 @@ const teamsByOwner = gql`
             _id
             teamtitle
             teamdescription
+            defaultproject {
+                _id
+                projecttitle
+            }
             users{
                 username
                 profileImageUrl
@@ -102,6 +106,8 @@ const teamsByOwner = gql`
              }
         }
     }`;
+
+
     
 
 const allUsers = gql `
@@ -124,7 +130,7 @@ const CREATE_TEAM = gql`
         }
     }`;
 
-const userTeams = gql`
+const userTaskDetails = gql`
 query user($_id: String ){
     user(_id: $_id){
         team {
@@ -140,8 +146,43 @@ query user($_id: String ){
              }
             }
         }
+        defaultgroup{
+            _id
+            grouptitle
+        }
+        defaultproject{
+            _id
+            projecttitle
+        }
+        defaultteam{
+            _id
+            teamtitle
+        }
     }
 }`;
+
+const userTeams = gql`
+query user($_id: String ){
+    user(_id: $_id){
+        team {
+            _id
+            teamtitle
+            users {
+                _id
+                username
+                }
+            defaultproject {
+                _id
+                projecttitle
+                defaultgroup {
+                    _id
+                    grouptitle
+                }
+            }
+        }
+    }
+}`;
+
 
 const addOrgUser = gql`
     mutation addOrgUser($_id: String $user: String) {
@@ -154,4 +195,4 @@ const addOrgUser = gql`
 
 
 
-export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, CREATE_TEAM};
+export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, CREATE_TEAM, userTaskDetails};

@@ -33,6 +33,7 @@ const TeamAdminHeader = ({ owner }) => (
 
     <Query query={teamsByOwner} variables={variables}>
         {({ loading, error, data }) => {
+            console.log(data);
             const dataPane = data.teamsByOwner.map(team => (     
                 {
                     menuItem: team.teamtitle, render: () =>
@@ -41,6 +42,7 @@ const TeamAdminHeader = ({ owner }) => (
                             <ProjTabHeader 
                             teamTitle={team.teamtitle} 
                             teamdescription={team.teamdescription}
+                            defaultproject={team.defaultproject ? team.defaultproject.projecttitle : ''}
                             />
                             </div>
                             <div className="addTeamCard">

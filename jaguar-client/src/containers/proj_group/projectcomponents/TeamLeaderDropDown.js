@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'

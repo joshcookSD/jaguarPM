@@ -43,6 +43,10 @@ const projectSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group"
         }],
+        defaultgroup: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group"
+        },
         milestones: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Milestone"
