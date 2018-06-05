@@ -11,8 +11,6 @@ const AddTeamCard = (props) => (
                         <Card.Content>
                             <Card.Meta>Title</Card.Meta>
                             <Card.Header>{team.teamtitle}</Card.Header>
-                            <Card.Description>{team.teamdescription}</Card.Description>
-                            {/* <Card.Meta>Description</Card.Meta> */}
                         </Card.Content>
                     </Card>
 

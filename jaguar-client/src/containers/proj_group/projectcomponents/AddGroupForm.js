@@ -31,7 +31,8 @@ class AddGroupForm extends Component {
         return (
 
             <Mutation mutation={createGroup}>
-                {(createGroup, { data }) => (
+                {(createGroup, { data }) => {
+                    return (
                     <div style={{ marginBottom: '.5em' }}>
                         <Form
                             onSubmit={async e => {
@@ -73,39 +74,45 @@ class AddGroupForm extends Component {
                                 // }
                             }}>
                             <Form.Field error={!!grouptitleerror}>
-
-                                <i className="material-icons prefix">group_add</i>
-                                <Input
-                                    placeholder="group title"
+                                <label>Name</label>
+                                <Form.Input
+                                    placeholder="Group title"
                                     value={grouptitle}
                                     type="text"
                                     id="grouptitle"
                                     name="grouptitle"
-                                    fluid
                                     onChange={e => this.setState({ grouptitle: e.target.value })}
                                 />
                             </Form.Field>
                             <Form.Field>
-                                <Input
-                                    placeholder="group description"
+                                <label>Description</label>
+                                <Form.Input
+                                    placeholder="Group description"
                                     value={groupdescription}
                                     type="text"
                                     id="groupdescription"
                                     name="groupdescription"
-                                    fluid
                                     onChange={e => this.setState({ groupdescription: e.target.value })}
                                 />
                             </Form.Field>
-                            <Button floated='right' icon labelPosition='left'><Icon name='plus' />Add Group</Button>
+                            <Button
+                                type='submit'
+                                color="grey"
+                                positive
+                                icon='checkmark'
+                                labelPosition='right'
+                                content='New Group!'
+                            />
                         </Form>
                         {errorList.length ? (
                             <Message error header="There was some errors with your submission" list={errorList} />
                         ) : null}
                     </div>
-                )}
+                    )
+                }}
             </Mutation>
         );
-    };
+    }
 }
 
 export default AddGroupForm;

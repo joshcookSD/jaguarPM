@@ -10,7 +10,9 @@ import ContentArea from '../layout/ContentArea'
 import GroupList from './groupcomponents/GroupList'
 import GroupDetail from './groupcomponents/GroupDetails'
 import { TopSection } from '../layout/Section'
-import {groupDetails, userProjectGroups} from "../apollo-graphql/groupProjectQueries";
+import {groupDetails, projectDetails, userProjectGroups} from "../apollo-graphql/groupProjectQueries";
+import GroupTaskList from "./groupcomponents/GroupTaskList";
+
 
 const token = localStorage.getItem('token');
 
@@ -64,6 +66,11 @@ class GroupView extends Component {
                                         queryVariables={{_id: selectedGroup}}
                                     />
                                 </TopSection>
+                                <GroupTaskList
+                                    selectedGroup={selectedGroup}
+                                    groupDetails={groupDetails}
+                                    queryVariables={{_id: selectedGroup}}
+                                />
                             </ContentArea>
                         </AppLayout>
                     </div>;

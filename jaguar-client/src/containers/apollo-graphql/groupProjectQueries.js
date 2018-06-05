@@ -91,11 +91,29 @@ query project($_id: String!) {
 const groupDetails = gql`
 query group($_id: String!) {
     group(_id: $_id) {
-         grouptitle
-    	 groupdescription
-  		 plannedcompletiondate
-    	 duedate
-    }
+    _id
+    grouptitle
+    groupdescription
+    plannedcompletiondate
+    duedate
+        team{
+            _id
+            teamtitle
+        }
+        project{
+            projecttitle
+            _id
+        }
+        users{
+            _id
+            username
+        }
+        tasks{
+            _id
+            tasktitle
+            taskdescription
+        }
+    }   
 }`;
 
 const updateProject = gql`
@@ -162,6 +180,27 @@ const userProjectGroups = gql`
     }
 }`;
 
+const createTaskByGroup = gql`
+    mutation createTaskByGroup(
+        $tasktitle: String,
+        $taskdescription: String,
+        $iscompleted: Boolean,
+        $team: String,
+        $project: String,
+        $group: String
+    ){ createTaskByGroup(
+        tasktitle: $tasktitle,    
+        taskdescription: $taskdescription,
+        iscompleted: $iscompleted,
+        team: $team,
+        project: $project,
+        group: $group
+    ) {
+        tasktitle,
+        taskdescription
+    }
+}`;
 
 
-export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails, updateGroup, }
+
+export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails, updateGroup, createTaskByGroup }

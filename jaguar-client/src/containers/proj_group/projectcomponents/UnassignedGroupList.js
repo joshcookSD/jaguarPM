@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader, Card } from 'semantic-ui-react';
+import AddGroupForm from "./AddGroupForm";
+import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
 
     class UnassignedGroupList extends Component {
         // for project selection
@@ -19,23 +21,40 @@ import { Dimmer, Loader } from 'semantic-ui-react';
             const {
                 selectedProject,
                 projectDetails,
-                queryVariables  } = this.props;
+                queryVariables,
+                userId,
+                selectTeam
+            } = this.props;
 
             if(this.state.projectId) {
             return(
                 <Query query={projectDetails} variables={ queryVariables }>
                     { ({ loading, error, data }) => {
+                        console.log(selectTeam)
                         if (loading) return (
                             <div>
                                 <Dimmer active>
                                     <Loader />
                                 </Dimmer>
                             </div>);
-                        if (error) return <p>Error :( {selectedProject}</p>;
+                        if (error) return <p>Error :(</p>;
                         return (
                             <div>
+                                <AddGroupForm
+                                    selectedProject={selectedProject}
+                                    selectTeam={selectTeam}
+                                    projectDetails={projectDetails}
+                                    queryVariables={queryVariables}
+                                    userId={ userId }
+                                />
                                 {data.project.groups.map((group, i) => (
-                                    <li key={i}>{group.grouptitle}</li>
+                                    <Card key={i}>
+                                    <Card.Content>
+                                    <Card.Header>{group.grouptitle}</Card.Header>
+                                    <Card.Description>{group.groupdescription}</Card.Description>
+                                    {/* <Card.Meta>Description</Card.Meta> */}
+                                    </Card.Content>
+                                    </Card>
                                 ))}
                             </div>
                         )

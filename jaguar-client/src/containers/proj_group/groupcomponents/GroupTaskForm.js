@@ -1,52 +1,66 @@
 import React, {Component} from 'react'
 import { Button, Form } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
-import {createGroup} from "../../apollo-graphql/groupProjectQueries";
+import { createTaskByGroup } from "../../apollo-graphql/groupProjectQueries";
 
 class ProjectForm extends Component {
     state = {
-        newGroup: "",
-        newGroupDescription: "",
+        newTask: "",
+        newTaskDescription: "",
     };
 
     render() {
-        const { team, teamsByOwner, variables } = this.props;
-        const { newGroup, newGroupDescription } = this.state;
+        const { group, team, project, query, variables } = this.props;
+        const { newTask, newTaskDescription } = this.state;
         return (
-            <Mutation mutation={createGroup}>
-                {(createGroup, { data }) => {
+            <Mutation mutation={createTaskByGroup}>
+                {(createTaskByGroup, { data }) => {
                     return (
                         <div style={{ marginBottom: '.5em' }}>
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
-                                    await createGroup({
-                                        variables: { grouptitle: newGroup, groupdescription: newGroupDescription, team, leader: variables.owner, users: variables.owner },
-                                        refetchQueries: [{ query: teamsByOwner, variables: variables }]
+                                    await createTaskByGroup({
+                                        variables: {
+                                            tasktitle: newTask,
+                                            taskdescription: newTaskDescription,
+                                            iscompleted: false,
+                                            team: team,
+                                            project: project,
+                                            group: group
+
+                                        },
+                                        refetchQueries: [{
+                                            query: query,
+                                            variables: variables
+                                        }]
                                     });
                                     // this.props.onClose();
-                                    this.setState({ newGroup: "", newGroupDescription: "" });
+                                    this.setState({
+                                        newTask: "",
+                                        newTaskDescription: ""
+                                    });
                                 }}
                             >
                                 <Form.Field>
                                     <label>Name</label>
                                     <Form.Input
-                                        placeholder='Group Name'
-                                        value={newGroup}
+                                        placeholder='Task Name'
+                                        value={newTask}
                                         type='text'
-                                        onChange={e => this.setState({ newGroup: e.target.value })}
+                                        onChange={e => this.setState({ newTask: e.target.value })}
                                     />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Description</label>
                                     <Form.Input
-                                        placeholder='Group Description'
-                                        value={newGroupDescription}
+                                        placeholder='Task Description'
+                                        value={newTaskDescription}
                                         type='text'
-                                        onChange={e => this.setState({ newGroupDescription: e.target.value })}
+                                        onChange={e => this.setState({ newTaskDescription: e.target.value })}
                                     />
                                 </Form.Field>
-                                <Button type='submit' color="Grey" positive icon='checkmark' labelPosition='right' content='New Group!' />
+                                <Button type='submit' color="grey" positive icon='checkmark' labelPosition='right' content='New Task!' />
                             </Form>
                         </div>
                     )

@@ -1,21 +1,21 @@
-.headerTitle {
-    font-size: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 5px;
-    color: black
-}
+/*.headerTitle {*/
+    /*font-size: 15px;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*margin-bottom: 5px;*/
+    /*color: black*/
+/*}*/
 
-.headerName {
-    font-size: 30px;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 5px;
-    color: black
-}
+/*.headerName {*/
+    /*font-size: 30px;*/
+    /*margin-left: 10px;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*margin-bottom: 5px;*/
+    /*color: black*/
+/*}*/
 
 .ui.secondary.menu .active.item {
     color: rgba(181, 177, 177, 0.95);
