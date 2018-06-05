@@ -11,7 +11,7 @@ const style = {
 const ActionGroup = styled.div`
     position: absolute;
     top: -15px;
-    left: 66%;
+    left: 65%;
     border: 1px solid rgba(0,0,0,0.2);
     border-radius: 5px;
 `;

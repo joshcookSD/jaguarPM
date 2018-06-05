@@ -36,6 +36,18 @@ const task = gql`
     team {
         _id
         teamtitle
+        users {
+            _id
+            username
+        }
+        projects{
+            _id
+            projecttitle
+            groups {
+                _id
+                grouptitle
+            }
+        }
     }
     taskcurrentowner {
       _id
@@ -50,9 +62,21 @@ const tasksByUser = gql`
     _id
     tasktitle
     iscompleted
+     group {
+        grouptitle
+    }
+    project {
+        projecttitle
+    }
+    team {
+        teamtitle
+    }
     taskcurrentowner {
       _id
       username
+    }
+        tasktime {
+        time
     }
   }
 }
@@ -173,6 +197,26 @@ mutation updateTask($_id: String, $tasktitle: String, $taskdescription: String, 
     }
 `;
 
+const updateTaskTeam = gql`
+mutation updateTaskTeam($_id: String, $team: String, $project: String, $group: String) {
+    updateTaskTeam(_id: $_id, team: $team, project: $project, group: $group) {
+        _id
+        team {
+            _id
+            teamtitle
+        }
+        project {
+            _id
+            projecttitle
+        }
+        group {
+            _id
+            grouptitle
+        }
+        }
+    }
+`;
+
 const completeTask = gql`
 mutation completeTask($_id: String!, $iscompleted: Boolean, $completeddate:Date) {
     completeTask(_id: $_id, iscompleted: $iscompleted, completeddate: $completeddate) {
@@ -191,4 +235,4 @@ mutation removeTask($_id: String!) {
     }
 `;
 
-export {allTasks, task, tasksByUser, createTask, tasksToday, tasksByDay, tasksByTeam, completeTask, updateTask, removeTask}
+export {allTasks, task, tasksByUser, createTask, tasksToday, tasksByDay, tasksByTeam, completeTask, updateTask, removeTask, updateTaskTeam}

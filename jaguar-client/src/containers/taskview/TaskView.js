@@ -13,7 +13,7 @@ import MainSidebar from '../layout/MainSidebar'
 import TaskHeader from '../layout/TaskHeader'
 import ContentArea from '../layout/ContentArea'
 import {Section} from '../layout/Section'
-import {userTeams} from "../apollo-graphql/userQueries";
+import {userTaskDetails} from "../apollo-graphql/userQueries";
 
 
 const token = localStorage.getItem('token');
@@ -36,7 +36,7 @@ class TaskView extends Component {
         const plus4 = moment(Date.now()).add(4,'day').format('YYYY-MM-DD');
         const plus5 = moment(Date.now()).add(5,'day').format('YYYY-MM-DD');
         return(
-            <Query query={userTeams} variables={{_id: user._id}}>
+            <Query query={userTaskDetails} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
                     if (loading) return (
                         <div>

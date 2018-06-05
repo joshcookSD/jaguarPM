@@ -63,7 +63,7 @@ class TaskItem extends Component {
                     </TaskContent>
                 </List.Content>
 
-                { detail && (<TaskDetail taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables}/>)}
+                { detail && (<TaskDetail userId={userId} taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables} />)}
                 { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime} time={time} updateQuery={updateQuery} refreshVariables={variables}/>)}
                 { commentOpen && (<TaskComments taskId={taskId} userId={userId}/>)}
             </List.Item>

@@ -80,6 +80,7 @@ class ProjectDetail extends Component {
         return (
             <Query query={projectDetails} variables={queryVariables}>
                 {({loading, error, data}) => {
+                    console.log(data);
                      if (loading) return (
                         <div>
                             <Dimmer active>
@@ -134,6 +135,11 @@ class ProjectDetail extends Component {
                                         placeholder={duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : Date.now()}
                                         onChange={e => this.setState({duedate: e.target.value})}
                                     />}
+                                    {/*default group*/}
+                                    <Card.Description>
+                                        Default Group: {data.project.defaultgroup ? data.project.defaultgroup.grouptitle : 'no default'}
+                                    </Card.Description>
+
                                     {/*assigned leader*/}
                                     <Card.Description>
                                    Assigned Leader:

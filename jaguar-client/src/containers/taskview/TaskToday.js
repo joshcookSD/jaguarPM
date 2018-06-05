@@ -43,7 +43,7 @@ class TaskToday extends Component {
                                 duration={200}
                                 relaxed
                                 size='large'
-                                style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0}}
+                                style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, height: '100vh'}}
                             >
                             {data.tasksToday.map(({_id, tasktitle, duedate, group, project, team, plandate, tasktime}) => (
 
