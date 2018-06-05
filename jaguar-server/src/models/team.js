@@ -33,6 +33,10 @@ const teamSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Project"
         }],
+        defaultproject: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Project"
+        },
         groups: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group"

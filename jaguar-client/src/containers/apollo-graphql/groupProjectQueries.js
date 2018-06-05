@@ -23,7 +23,7 @@ mutation createProject(
     $projecttitle: String,
     $projectdescription: String,
     $team: String!,
-    $leader: String,
+    $leader: String!,
     $users: String
 ) { createProject(
         projecttitle: $projecttitle,
@@ -64,6 +64,10 @@ query project($_id: String!) {
         projectdescription
         plannedcompletiondate
         duedate
+        defaultgroup {
+            _id
+            grouptitle
+        }
         leader {
             _id
             username

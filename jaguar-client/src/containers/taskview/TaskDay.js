@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { List,Header, Segment, Transition, Dimmer, Loader} from 'semantic-ui-react';
+import { List,Header, Transition, Dimmer, Loader} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
+import styled from 'styled-components';
 import {tasksByDay} from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
 
+
 const token = localStorage.getItem('token');
+
+const TaskDayGroup = styled.div`
+    width: 100%;
+    padding: 1em;
+    position: relative;
+    margin: 1rem 0;
+`;
 
 class TaskDay extends Component {
 
@@ -26,7 +35,7 @@ class TaskDay extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    return <Segment style={{width: '100%'}}>
+                    return <TaskDayGroup>
                             <Header>{moment.utc(day).format('dddd')}, {moment.utc(day).format('MM/DD')}</Header>
                             <TaskForm
                                 taskcurrentowner={user._id}
@@ -63,7 +72,7 @@ class TaskDay extends Component {
                                 ))
                                 }
                             </Transition.Group>
-                        </Segment>;
+                        </TaskDayGroup>;
                 }
                 }
             </Query>

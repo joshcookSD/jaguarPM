@@ -12,6 +12,10 @@ const ProjTabHeader = (props) => (
                 <span className="headerTitle" >Team Description:</span>
                 <span className="headerName">{props.teamdescription}</span>
             </div>
+            <div className="orgDescrip">
+                <span className="headerTitle" >Default Project:</span>
+                <span className="headerName">{props.defaultproject}</span>
+            </div>
         </div> 
 
     </div>

@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { List,Header, Segment, Dimmer, Loader, Transition} from 'semantic-ui-react';
+import { List,Header, Dimmer, Loader, Transition} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
 import { tasksByTeam } from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
+import styled from 'styled-components';
 
 const token = localStorage.getItem('token');
+
+const TaskTeamGroup = styled.div`
+    width: 100%;
+    padding: 1em;
+    position: relative;
+    margin: 1rem 0;
+`;
 
 class TaskTeam extends Component {
 
@@ -27,7 +35,7 @@ class TaskTeam extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    return <Segment style={{width: '100%'}}>
+                    return <TaskTeamGroup>
                         <Header>Team {teamtitle}</Header>
                         <TaskForm
                             team={teamId}
@@ -40,7 +48,7 @@ class TaskTeam extends Component {
                             divided
                             relaxed
                             size='large'
-                            style={{overflowY: 'auto', overflowX: 'hidden', minHeight: '300px', maxHeight: '325px'}}
+                            style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, minHeight: '300px', maxHeight: '325px'}}
                         >
                             {data.tasksByTeam.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle, tasktime}) => (
                                 <TaskItem
@@ -61,7 +69,7 @@ class TaskTeam extends Component {
                             ))
                             }
                         </Transition.Group>
-                    </Segment>;
+                    </TaskTeamGroup>;
                 }
                 }
             </Query>

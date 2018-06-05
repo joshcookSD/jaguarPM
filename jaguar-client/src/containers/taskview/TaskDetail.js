@@ -3,6 +3,7 @@ import { Query, graphql, compose } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
 import { task, updateTask, removeTask } from "../apollo-graphql/taskQueries";
 import moment from 'moment';
+import TeamTaskDropDown from './taskscomponents/TeamTaskDropDown';
 
 
 class TaskDetail extends Component {
@@ -13,14 +14,19 @@ class TaskDetail extends Component {
         plandate: '',
         dueDateInput: false,
         duedate: '',
+        taskTeamInput: false,
+        projectInput: false,
+        project: '',
+        groupInput: false,
+        group: '',
         assignedInput: false,
         assigned: '',
     };
 
     render() {
-        const {taskId, tasktitle, updateQuery, refreshVariables} = this.props;
+        const {taskId, tasktitle, updateQuery, refreshVariables, userId} = this.props;
         const queryVariables = {_id: taskId};
-        const {descriptionInput, planDateInput, dueDateInput, assignedInput, description, assigned, plandate, duedate} = this.state;
+        const {descriptionInput, planDateInput, dueDateInput, assignedInput, taskTeamInput, description, assigned, plandate, duedate} = this.state;
 
         const updateVariables = {
             _id: taskId,
@@ -100,6 +106,36 @@ class TaskDetail extends Component {
                                             type='date'
                                             placeholder={duedate ? moment(data.task.duedate).format('YYYY-MM-DD') : Date.now()}
                                             onChange={e => this.setState({duedate: e.target.value})}
+                                        />}
+
+                                        <Card.Description
+                                            onClick={() => this.setState({taskTeamInput: !taskTeamInput})}>
+                                            Team: {!data.task.team ? 'unassigned' : data.task.team.teamtitle}
+                                        </Card.Description>
+                                        {taskTeamInput && <TeamTaskDropDown taskId={taskId} userId={userId} teamDetails={data.task.team}  query={task} variables={queryVariables} />}
+
+                                        <Card.Description
+                                            onClick={() => this.setState({assignedInput: !assignedInput})}>
+                                            Assigned to: {!data.task.taskcurrentowner ? 'unassigned' : data.task.taskcurrentowner.username}
+                                        </Card.Description>
+                                        {assignedInput &&
+                                        <Form.Input
+                                            fluid
+                                            placeholder={!data.task.taskcurrentowner ? '' : data.task.taskcurrentowner.username}
+                                            value={assigned}
+                                            onChange={e => this.setState({assigned: e.target.value})}
+                                        />}
+
+                                        <Card.Description
+                                            onClick={() => this.setState({assignedInput: !assignedInput})}>
+                                            Assigned to: {!data.task.taskcurrentowner ? 'unassigned' : data.task.taskcurrentowner.username}
+                                        </Card.Description>
+                                        {assignedInput &&
+                                        <Form.Input
+                                            fluid
+                                            placeholder={!data.task.taskcurrentowner ? '' : data.task.taskcurrentowner.username}
+                                            value={assigned}
+                                            onChange={e => this.setState({assigned: e.target.value})}
                                         />}
 
                                         <Card.Description

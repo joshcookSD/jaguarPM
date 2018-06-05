@@ -14,6 +14,7 @@ const TeamType = `
         users: [User]
         tasks: [Task]
         projects: [Project]
+        defaultproject: Project
         groups: [Group]
         organization: Organization
     }
@@ -76,6 +77,9 @@ const TeamNested = {
     users: async ({_id}) => {
         return (await User.find({team: _id}))
     },
+    defaultproject: async ({defaultproject}) => {
+        return await Project.findById(defaultproject)
+    },
     organization: async ({organization}) => {
         return await Organization.findById(organization)
     },
@@ -121,6 +125,20 @@ const TeamMutationResolver = {
                 teamuser.projects.push(project._id);
                 teamuser.team.push(newteam._id);
                 await teamuser.save();
+                await Team.findByIdAndUpdate(newteam._id, {
+                        $set: {
+                            defaultproject: project._id,
+                        }
+                    },
+                    {new: true}
+                );
+                await Project.findByIdAndUpdate(project._id, {
+                        $set: {
+                            defaultgroup: group._id,
+                        }
+                    },
+                    {new: true}
+                );
                 return {
                     ok: true,
                     newteam,
