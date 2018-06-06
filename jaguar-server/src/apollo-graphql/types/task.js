@@ -151,7 +151,6 @@ const TaskNested = {
 const TaskMutationResolver ={
     createTask: async (parent, args, { Task, User, Team }) => {
         let task = await new Task(args).save();
-        console.log(args)
         //if task object has current owner
         if(args.taskcurrentowner) {
             //save that user object to variable
@@ -262,6 +261,8 @@ const TaskMutationResolver ={
             Group.update({_id: oldtask.group }, {$pullAll: { tasks: oldtask._id }});
             Project.update({_id: oldtask.project }, {$pullAll: { tasks: oldtask._id }});
             Team.update({_id: oldtask.team }, {$pullAll: { tasks: oldtask._id }});
+
+
             let task = await Task.findByIdAndUpdate(args._id, {
                     $set: {
                         group: args.group,

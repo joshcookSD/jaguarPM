@@ -60,9 +60,9 @@
     overflow: auto;
 }
 
-.cardLeft {
-    padding: 10px;
-}
+/*.cardLeft {*/
+    /*padding: 10px;*/
+/*}*/
 
 @media screen and (max-width: 1100px) {
     .ui.tab.active {

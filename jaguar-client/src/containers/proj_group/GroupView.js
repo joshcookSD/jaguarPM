@@ -9,7 +9,7 @@ import Header from '../layout/Header'
 import ContentArea from '../layout/ContentArea'
 import GroupList from './groupcomponents/GroupList'
 import GroupDetail from './groupcomponents/GroupDetails'
-import { TopSection } from '../layout/Section'
+import { TopSection, BottomSection } from '../layout/Section'
 import {groupDetails, projectDetails, userProjectGroups} from "../apollo-graphql/groupProjectQueries";
 import GroupTaskList from "./groupcomponents/GroupTaskList";
 
@@ -66,11 +66,13 @@ class GroupView extends Component {
                                         queryVariables={{_id: selectedGroup}}
                                     />
                                 </TopSection>
-                                <GroupTaskList
-                                    selectedGroup={selectedGroup}
-                                    groupDetails={groupDetails}
-                                    queryVariables={{_id: selectedGroup}}
-                                />
+                                <BottomSection>
+                                    <GroupTaskList
+                                        selectedGroup={selectedGroup}
+                                        groupDetails={groupDetails}
+                                        queryVariables={{_id: selectedGroup}}
+                                    />
+                                </BottomSection>
                             </ContentArea>
                         </AppLayout>
                     </div>;

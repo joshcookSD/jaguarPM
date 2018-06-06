@@ -80,7 +80,8 @@ const ProjectMutationResolver ={
             grouptitle: 'General',
             groupdescription: `General Group`,
             project: project._id,
-            users: user._id
+            users: user._id,
+            team: projectteam._id
         }).save();
         user.groups.push(group._id);
         await user.save();

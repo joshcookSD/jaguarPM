@@ -2,9 +2,15 @@ import React from 'react';
 import { Card } from 'semantic-ui-react';
 import ProjectForm from '../../proj_group/projectcomponents/ProjectForm';
 
+import styled from 'styled-components';
+
+const CardLeft = styled.div`
+        padding: 10px;
+`;
+
 const ProjAddProjCard = (props) => (
 
-    <div className="cardLeft">
+    <CardLeft >
         <ProjectForm
             className="teamForm"
             teamsByOwner={props.teamsByOwner}
@@ -20,7 +26,7 @@ const ProjAddProjCard = (props) => (
                     </Card.Content>
                 </Card>
             ))}
-    </div>
+    </CardLeft>
 
 
 );
