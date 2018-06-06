@@ -13,6 +13,18 @@ const teamsByUser = gql`
 }
  `;
 
+const teamUsers = gql`
+query team($_id: String){
+  team(_id: $_id) {
+    _id
+    users {
+      _id
+      username
+    }
+  }
+}
+`;
+
 const addTeamUser = gql`
     mutation addTeamUser( $_id: String, $user: String!) {
       addTeamUser(user: $user, _id: $_id) {
@@ -34,4 +46,4 @@ const CREATE_ORG = gql`
         }
     }`;
 
-export { teamsByUser, addTeamUser, CREATE_ORG };
+export { teamsByUser, addTeamUser, CREATE_ORG, teamUsers };
