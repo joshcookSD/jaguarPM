@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown, Dimmer, Loader } from 'semantic-ui-react'
-import { updateTaskTeam } from '../../apollo-graphql/taskQueries.js';
-import { userTeams } from '../../apollo-graphql/userQueries.js';
+import { updateTaskProject } from '../../apollo-graphql/taskQueries.js';
+import { teamProjects } from '../../apollo-graphql/groupProjectQueries';
 
-class TeamTaskDropDown extends Component {
+class ProjectTaskDropDown extends Component {
 
     render() {
         const {
             taskId,
-            userId,
+            teamId,
             query,
-            teamDetails,
+            projectDetails,
             variables,
         } = this.props;
 
-        const queryVariables = {_id: userId};
+        const queryVariables = {_id: teamId};
 
         return (
-            <Query query={userTeams} variables={queryVariables}>
+            <Query query={teamProjects} variables={queryVariables}>
                 {({ loading, error, data }) => {
+                    console.log(data);
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -27,24 +28,24 @@ class TeamTaskDropDown extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    let teamOptions = (data.user.team || []).map(team => ({ text: team.teamtitle, _id: team._id, defaultproject: team.defaultproject._id, defaultgroup: team.defaultproject.defaultgroup._id }));
+                    let projectOptions = (data.team.projects || []).map(project => ({ text: project.projecttitle, _id: project._id, defaultgroup: project.defaultgroup._id}));
                     return (
                         <div className="dropDownDiv">
-                            <Mutation mutation={updateTaskTeam}>
+                            <Mutation mutation={updateTaskProject}>
                                 {(updateTask, { data }) => (
-                                    <Dropdown text={teamDetails.teamtitle}  scrolling floating labeled button className='icon'>
+                                    <Dropdown text={projectDetails.projecttitle}  scrolling floating labeled button className='icon'>
                                         <Dropdown.Menu>
-                                            <Dropdown.Header content='New Team' />
-                                            {teamOptions.map((option, i) =>
+                                            <Dropdown.Header content='New Project' />
+                                            {projectOptions.map((option, i) =>
                                                 <Dropdown.Item
                                                     key={i}
                                                     value={option._id}
                                                     {...option}
                                                     onClick={async e => {
                                                         e.preventDefault();
-                                                        this.props.closeTeam();
+                                                        this.props.closeProject();
                                                         await updateTask({
-                                                            variables: { _id: taskId, team: option._id, project: option.defaultproject, group: option.defaultgroup },
+                                                            variables: { _id: taskId, project: option._id, group: option.defaultgroup },
                                                             refetchQueries: [{ query: query, variables: variables }]
                                                         });
                                                     }}
@@ -53,7 +54,7 @@ class TeamTaskDropDown extends Component {
                                     </Dropdown>
                                 )}
                             </Mutation>
-                         </div>
+                        </div>
                     );
                 }}
             </Query >
@@ -62,4 +63,4 @@ class TeamTaskDropDown extends Component {
 }
 
 
-export default TeamTaskDropDown
+export default ProjectTaskDropDown

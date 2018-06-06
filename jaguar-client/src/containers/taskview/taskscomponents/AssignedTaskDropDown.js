@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown, Dimmer, Loader } from 'semantic-ui-react'
-import { updateTaskTeam } from '../../apollo-graphql/taskQueries.js';
-import { userTeams } from '../../apollo-graphql/userQueries.js';
+import { updateTaskUser } from '../../apollo-graphql/taskQueries.js';
+import { teamUsers } from '../../apollo-graphql/teamOrgQueries';
 
-class TeamTaskDropDown extends Component {
-
+class GroupTaskDropDown extends Component {
     render() {
         const {
             taskId,
-            userId,
+            teamId,
             query,
-            teamDetails,
+            userDetails,
             variables,
         } = this.props;
 
-        const queryVariables = {_id: userId};
+        const queryVariables = {_id: teamId};
 
         return (
-            <Query query={userTeams} variables={queryVariables}>
+            <Query query={teamUsers} variables={queryVariables}>
                 {({ loading, error, data }) => {
                     if (loading) return (
                         <div>
@@ -27,33 +26,33 @@ class TeamTaskDropDown extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    let teamOptions = (data.user.team || []).map(team => ({ text: team.teamtitle, _id: team._id, defaultproject: team.defaultproject._id, defaultgroup: team.defaultproject.defaultgroup._id }));
+                    let userOptions = (data.team.users || []).map(user => ({ text: user.username, _id: user._id}));
                     return (
                         <div className="dropDownDiv">
-                            <Mutation mutation={updateTaskTeam}>
+                            <Mutation mutation={updateTaskUser}>
                                 {(updateTask, { data }) => (
-                                    <Dropdown text={teamDetails.teamtitle}  scrolling floating labeled button className='icon'>
+                                    <Dropdown text={userDetails.username}  scrolling floating labeled button className='icon'>
                                         <Dropdown.Menu>
-                                            <Dropdown.Header content='New Team' />
-                                            {teamOptions.map((option, i) =>
+                                            <Dropdown.Header content='Assign to' />
+                                            {userOptions.map((option, i) =>
                                                 <Dropdown.Item
                                                     key={i}
                                                     value={option._id}
                                                     {...option}
                                                     onClick={async e => {
                                                         e.preventDefault();
-                                                        this.props.closeTeam();
                                                         await updateTask({
-                                                            variables: { _id: taskId, team: option._id, project: option.defaultproject, group: option.defaultgroup },
+                                                            variables: { _id: taskId, taskcurrentowner: option._id },
                                                             refetchQueries: [{ query: query, variables: variables }]
                                                         });
+                                                        this.props.closeAssigned();
                                                     }}
                                                 />)}
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 )}
                             </Mutation>
-                         </div>
+                        </div>
                     );
                 }}
             </Query >
@@ -62,4 +61,4 @@ class TeamTaskDropDown extends Component {
 }
 
 
-export default TeamTaskDropDown
+export default GroupTaskDropDown

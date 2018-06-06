@@ -33,6 +33,10 @@ const task = gql`
         _id
         grouptitle
         }
+    project {
+        _id
+        projecttitle
+        }
     team {
         _id
         teamtitle
@@ -217,6 +221,66 @@ mutation updateTaskTeam($_id: String, $team: String, $project: String, $group: S
     }
 `;
 
+const updateTaskProject = gql`
+mutation updateTaskProject($_id: String, $project: String, $group: String) {
+    updateTaskProject(_id: $_id, project: $project, group: $group) {
+        _id
+        team {
+            _id
+            teamtitle
+        }
+        project {
+            _id
+            projecttitle
+        }
+        group {
+            _id
+            grouptitle
+        }
+        }
+    }
+`;
+
+const updateTaskGroup = gql`
+mutation updateTaskGroup($_id: String, $group: String) {
+    updateTaskGroup(_id: $_id, group: $group) {
+        _id
+        team {
+            _id
+            teamtitle
+        }
+        project {
+            _id
+            projecttitle
+        }
+        group {
+            _id
+            grouptitle
+        }
+        }
+    }
+`;
+
+const updateTaskUser = gql`
+mutation updateTaskUser($_id: String, $taskcurrentowner: String) {
+    updateTaskUser(_id: $_id, taskcurrentowner: $taskcurrentowner) {
+        _id
+        team {
+            _id
+            teamtitle
+        }
+        project {
+            _id
+            projecttitle
+        }
+        taskcurrentowner {
+            _id
+            username
+        }
+        }
+    }
+`;
+
 const completeTask = gql`
 mutation completeTask($_id: String!, $iscompleted: Boolean, $completeddate:Date) {
     completeTask(_id: $_id, iscompleted: $iscompleted, completeddate: $completeddate) {
@@ -235,4 +299,4 @@ mutation removeTask($_id: String!) {
     }
 `;
 
-export {allTasks, task, tasksByUser, createTask, tasksToday, tasksByDay, tasksByTeam, completeTask, updateTask, removeTask, updateTaskTeam}
+export {allTasks, task, tasksByUser, createTask, tasksToday, tasksByDay, tasksByTeam, completeTask, updateTask, removeTask, updateTaskTeam, updateTaskProject, updateTaskGroup, updateTaskUser}

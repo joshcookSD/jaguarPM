@@ -119,6 +119,7 @@ const TeamMutationResolver = {
                     grouptitle: 'General',
                     groupdescription: `General Group`,
                     project: project._id,
+                    team: newteam._id,
                     users: teamuser._id
                 }).save();
                 teamuser.groups.push(group._id);
@@ -128,6 +129,8 @@ const TeamMutationResolver = {
                 await Team.findByIdAndUpdate(newteam._id, {
                         $set: {
                             defaultproject: project._id,
+                            projects: project._id,
+                            groups: group._id,
                         }
                     },
                     {new: true}
@@ -135,6 +138,7 @@ const TeamMutationResolver = {
                 await Project.findByIdAndUpdate(project._id, {
                         $set: {
                             defaultgroup: group._id,
+                            group: group._id
                         }
                     },
                     {new: true}

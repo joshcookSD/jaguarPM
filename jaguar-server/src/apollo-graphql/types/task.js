@@ -71,6 +71,19 @@ const TaskMutation = `
         project: String,
         group: String,
 ) : Task
+    updateTaskProject(
+        _id: String,
+        project: String,
+        group: String,
+) : Task
+    updateTaskGroup(
+        _id: String,
+        group: String,
+) : Task
+    updateTaskUser(
+        _id: String,
+        taskcurrentowner: String,
+) : Task
     completeTask(
         _id: String!
         iscompleted: Boolean
@@ -151,7 +164,6 @@ const TaskNested = {
 const TaskMutationResolver ={
     createTask: async (parent, args, { Task, User, Team }) => {
         let task = await new Task(args).save();
-        console.log(args)
         //if task object has current owner
         if(args.taskcurrentowner) {
             //save that user object to variable
@@ -174,8 +186,6 @@ const TaskMutationResolver ={
     },
     createTaskByGroup: async (parent, args, { Task, User, Team, Group, Project }) => {
         let task = await new Task(args).save();
-        console.log(args)
-
         //if task object has current group
         if(args.group) {
             //save that group object to variable
@@ -259,9 +269,9 @@ const TaskMutationResolver ={
     },
     updateTaskTeam: async(parent, args, {Task}) => {
             let oldtask = await Task.findById(args._id);
-            Group.update({_id: oldtask.group }, {$pullAll: { tasks: oldtask._id }});
-            Project.update({_id: oldtask.project }, {$pullAll: { tasks: oldtask._id }});
-            Team.update({_id: oldtask.team }, {$pullAll: { tasks: oldtask._id }});
+            await Group.update({_id: oldtask.group }, {$pull: { tasks: oldtask._id }});
+            await Project.update({_id: oldtask.project }, {$pull: { tasks: oldtask._id }});
+            await Team.update({_id: oldtask.team }, {$pull: { tasks: oldtask._id }});
             let task = await Task.findByIdAndUpdate(args._id, {
                     $set: {
                         group: args.group,
@@ -279,8 +289,53 @@ const TaskMutationResolver ={
             await taskproject.save();
             let taskteam = await Team.findById(args.team);
             taskteam.tasks.push(task._id);
-            await taskproject.save();
+            await taskteam.save();
 
+    },
+    updateTaskProject: async(parent, args, {Task}) => {
+            let oldtask = await Task.findById(args._id);
+            await Group.update({_id: oldtask.group }, {$pull: { tasks: oldtask._id }});
+            await Project.update({_id: oldtask.project }, {$pull: { tasks: oldtask._id }});
+            let task = await Task.findByIdAndUpdate(args._id, {
+                    $set: {
+                        group: args.group,
+                        project: args.project,
+                    }
+                },
+                {new: true}
+            );
+            let taskgroup = await Group.findById(args.group);
+            taskgroup.tasks.push(task._id);
+            await taskgroup.save();
+            let taskproject = await Project.findById(args.project);
+            taskproject.tasks.push(task._id);
+            await taskproject.save();
+    },
+    updateTaskGroup: async(parent, args, {Task}) => {
+            let oldtask = await Task.findById(args._id);
+            await Group.update({_id: oldtask.group }, {$pull: { tasks: oldtask._id }});
+            let task = await Task.findByIdAndUpdate(args._id, {
+                    $set: {
+                        group: args.group,
+                    }
+                },
+                {new: true}
+            );
+            let taskgroup = await Group.findById(args.group);
+            taskgroup.tasks.push(task._id);
+            await taskgroup.save();
+    },
+    updateTaskUser: async(parent, args, {Task}) => {
+            let oldtask = await Task.findById(args._id);
+            let task = await Task.findByIdAndUpdate(args._id, {
+                    $set: {
+                        taskcurrentowner: args.taskcurrentowner,
+                    }
+                },
+                {new: true}
+            );
+            task.taskpriorowners.push(oldtask.taskcurrentowner);
+            await task.save();
     },
     completeTask: async (parent, args, {Task}) =>{
         let task = await Task.findByIdAndUpdate(
