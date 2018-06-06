@@ -18,6 +18,34 @@ const userTeamProjects = gql`
     }
 }`;
 
+const teamProjects = gql`
+    query team($_id: String ){
+    team(_id: $_id){     
+       _id
+       teamtitle
+       projects {
+         _id
+         projecttitle
+         defaultgroup {
+             _id
+             grouptitle
+         }
+       } 
+    }
+}`;
+
+const projectGroups = gql`
+    query project($_id: String ){
+    project(_id: $_id){     
+       _id
+       projecttitle
+       groups {
+         _id
+         grouptitle
+       } 
+    }
+}`;
+
 const createProject = gql`
 mutation createProject(
     $projecttitle: String,
@@ -203,4 +231,6 @@ const createTaskByGroup = gql`
 
 
 
-export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails, updateGroup, createTaskByGroup }
+
+
+export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails, updateGroup, createTaskByGroup, teamProjects, projectGroups }

@@ -209,6 +209,20 @@ const UserMutationResolver = {
                     },
                     {new: true}
                 );
+                await Team.findByIdAndUpdate(personalteam._id, {
+                        $set: {
+                            defaultproject: personalproject._id,
+                        }
+                    },
+                    {new: true}
+                );
+                await Project.findByIdAndUpdate(personalproject._id, {
+                        $set: {
+                            defaultgroup: personalgroup._id,
+                        }
+                    },
+                    {new: true}
+                );
                 return tryLogin(email, password, SECRET, SECRET2)
             } else {
                 return {
