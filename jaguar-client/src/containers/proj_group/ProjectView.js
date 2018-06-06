@@ -9,10 +9,9 @@ import Header from '../layout/Header'
 import ContentArea from '../layout/ContentArea'
 import ProjectList from './projectcomponents/ProjectList'
 import ProjectDetails from './projectcomponents/ProjectDetails'
-import { TopSection } from '../layout/Section'
+import { TopSection, BottomSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 import { projectDetails } from "../apollo-graphql/groupProjectQueries";
-import  AddGroupForm  from './projectcomponents/AddGroupForm';
 import  UnassignedGroupList  from './projectcomponents/UnassignedGroupList';
 
 
@@ -66,13 +65,15 @@ class ProjectView extends Component {
                                         queryVariables={{_id: selectedProject}}
                                     />
                                 </TopSection>
-                                <UnassignedGroupList
-                                    selectedProject={selectedProject}
-                                    projectDetails={projectDetails}
-                                    queryVariables={{_id: selectedProject}}
-                                    userId={ user._id }
-                                    selectTeam={teamOfProject}
-                                />
+                                <BottomSection>
+                                    <UnassignedGroupList
+                                        selectedProject={selectedProject}
+                                        projectDetails={projectDetails}
+                                        queryVariables={{_id: selectedProject}}
+                                        userId={ user._id }
+                                        selectTeam={teamOfProject}
+                                    />
+                                </BottomSection>
                             </ContentArea>
                         </AppLayout>
                     </div>;

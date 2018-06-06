@@ -49,7 +49,6 @@ class GroupTaskList extends Component {
                                     <Card.Content>
                                     <Card.Header>{task.tasktitle}</Card.Header>
                                     <Card.Description>{task.taskdescription}</Card.Description>
-                                    {/* <Card.Meta>Description</Card.Meta> */}
                                     </Card.Content>
                                     </Card>
                                 ))}

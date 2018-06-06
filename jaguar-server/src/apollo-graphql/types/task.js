@@ -269,9 +269,11 @@ const TaskMutationResolver ={
     },
     updateTaskTeam: async(parent, args, {Task}) => {
             let oldtask = await Task.findById(args._id);
+
             await Group.update({_id: oldtask.group }, {$pull: { tasks: oldtask._id }});
             await Project.update({_id: oldtask.project }, {$pull: { tasks: oldtask._id }});
             await Team.update({_id: oldtask.team }, {$pull: { tasks: oldtask._id }});
+
             let task = await Task.findByIdAndUpdate(args._id, {
                     $set: {
                         group: args.group,
