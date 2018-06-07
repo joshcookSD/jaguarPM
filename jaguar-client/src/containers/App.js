@@ -99,7 +99,7 @@ class App extends Component {
             <Router>
                 <div>
                 <Switch>
-                    <Route path="/" exact component={AsyncHome} />
+                    <Route path="/" exact component={isAuthenticated() ? AsyncView : AsyncHome } />
                     <Route path="/signup" exact component={AsyncSignUp} />
                     <Route path="/login" exact component={AsyncLogin} />
                     <PrivateRoute path="/view-users" exact component={AsyncViewUsers} />

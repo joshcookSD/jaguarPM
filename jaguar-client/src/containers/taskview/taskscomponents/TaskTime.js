@@ -2,6 +2,20 @@ import React, {Component} from 'react';
 import { graphql } from "react-apollo";
 import {createTaskTime} from '../../apollo-graphql/timeQueries';
 import { Form, Input, List } from 'semantic-ui-react';
+import styled from "styled-components";
+
+const TaskTimeLayout = styled.div`
+    background-color: rgb(255,255,255);
+    border-radius: .3em;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .1s ease;
+    box-sizing: inherit;
+    font-size: 1rem;
+    line-height: 1.15em;
+    position: relative;
+    padding: .5em 1em;
+`;
 
 class TaskTime extends Component {
     state = {
@@ -28,9 +42,10 @@ class TaskTime extends Component {
                 e.preventDefault();
                 await _addTime();
             }}>
+                <TaskTimeLayout>
                 <Form.Group style={{marginBottom: '2px'}} inline>
                 <Form.Field width='six'>
-                    <Input
+                    <Input size='mini'
                         value={actualtime}
                         type='number'
                         placeholder='time'
@@ -38,7 +53,7 @@ class TaskTime extends Component {
                     />
                 </Form.Field>
                 <Form.Field width='twelve'>
-                    <Input
+                    <Input size='mini'
                         value={comment}
                         type='text'
                         placeholder='comment'
@@ -50,7 +65,7 @@ class TaskTime extends Component {
                 </Form.Group>
                 <Form.Group style={{marginBottom: '2px'}} inline>
                     <Form.Field width='six'>
-                        <Input
+                        <Input size='mini'
                             value={plannedtime}
                             type='number'
                             placeholder='plan'
@@ -61,6 +76,7 @@ class TaskTime extends Component {
                     <List.Content>{time} hrs</List.Content>
                     </Form.Field>
                 </Form.Group>
+                </TaskTimeLayout>
             </Form>
         )
     }

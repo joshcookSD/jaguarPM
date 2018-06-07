@@ -6,6 +6,7 @@ import decode from 'jwt-decode';
 import { tasksToday} from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
+import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
 
 
 const token = localStorage.getItem('token');
@@ -28,7 +29,7 @@ class TaskToday extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
-                            <Header>Today ({moment.utc(today).format('dddd MM/DD')})</Header>
+                            <TaskGroupHeader>Today ({moment.utc(today).format('dddd, MM/DD')})</TaskGroupHeader>
                         <TaskForm
                             taskcurrentowner={user._id}
                             plandate={today}

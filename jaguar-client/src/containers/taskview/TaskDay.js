@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {tasksByDay} from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
-
+import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
 
 const token = localStorage.getItem('token');
 
@@ -15,7 +15,6 @@ const TaskDayGroup = styled.div`
     width: 100%;
     padding: 1em;
     position: relative;
-    margin: 1rem 0;
 `;
 
 class TaskDay extends Component {
@@ -36,7 +35,7 @@ class TaskDay extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <TaskDayGroup>
-                            <Header>{moment.utc(day).format('dddd')}, {moment.utc(day).format('MM/DD')}</Header>
+                            <TaskGroupHeader>{moment.utc(day).format('dddd')}, {moment.utc(day).format('MM/DD')}</TaskGroupHeader>
                             <TaskForm
                                 taskcurrentowner={user._id}
                                 plandate={day}

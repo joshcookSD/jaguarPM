@@ -13,7 +13,6 @@ class TaskForm extends Component {
 
     render() {
         const {taskcurrentowner, plandate, updateQuery, variables, team, defaultgroup, defaultproject} = this.props;
-        console.log(defaultproject);
         const { newTask } = this.state;
 
         return (
@@ -32,6 +31,7 @@ class TaskForm extends Component {
                                 }}
                             >
                                 <Input
+                                    fluid
                                     value={newTask}
                                     type='text'
                                     action={{icon: 'add circle'}}

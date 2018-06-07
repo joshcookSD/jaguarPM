@@ -3,11 +3,32 @@ import { Query, graphql, compose } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
 import { task, updateTask, removeTask } from "../apollo-graphql/taskQueries";
 import moment from 'moment';
+import styled from 'styled-components';
 import TeamTaskDropDown from './taskscomponents/TeamTaskDropDown';
 import ProjectTaskDropDown from './taskscomponents/ProjectTaskDropDown';
 import GroupTaskDropDown from './taskscomponents/GroupTaskDropDown';
 import AssignedTaskDropDown from './taskscomponents/AssignedTaskDropDown';
 
+const TaskDetailLayout = styled.div`
+    background-color: rgb(255,255,255);
+    border-radius: .3em;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .1s ease;
+    box-sizing: inherit;
+    font-size: 1rem;
+    line-height: 1.15em;
+    position: relative;
+    padding: .5em 1em;
+`;
+
+const TaskDetailLine = styled.div`
+    box-sizing: border-box;
+    color: rgba(0,0,0,.7);
+    display: block;
+    font-size: .9em;
+    padding: .15em 0;
+`;
 
 class TaskDetail extends Component {
     state = {
@@ -90,11 +111,11 @@ class TaskDetail extends Component {
 
                         return (
                             <Form onSubmit={() => _updateTask()}>
-                                <Card fluid raised>
+                                <TaskDetailLayout>
                                     <Card.Content>
-                                        <Card.Description onClick={() => this.setState({descriptionInput: !descriptionInput})}>
+                                        <TaskDetailLine onClick={() => this.setState({descriptionInput: !descriptionInput})}>
                                             Description: {!descriptionInput && data.task.taskdescription}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                         {descriptionInput &&
                                         <Form.Input
                                             fluid
@@ -103,10 +124,10 @@ class TaskDetail extends Component {
                                             onChange={e => this.setState({description: e.target.value})}
                                         />}
 
-                                        <Card.Description
+                                        <TaskDetailLine
                                             onClick={() => this.setState({planDateInput: !planDateInput})}>
                                             Plan Date: {data.task.plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : ''}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                         {planDateInput &&
                                         <Form.Input
                                             fluid
@@ -115,9 +136,9 @@ class TaskDetail extends Component {
                                             onChange={e => this.setState({plandate: e.target.value})}
                                         />}
 
-                                        <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
+                                        <TaskDetailLine onClick={() => this.setState({dueDateInput: !dueDateInput})}>
                                             Due Date: {data.task.duedate ? moment.utc(data.task.duedate).format('YYYY-MM-DD') : ''}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                         {dueDateInput &&
                                         <Form.Input
                                             fluid
@@ -126,41 +147,41 @@ class TaskDetail extends Component {
                                             onChange={e => this.setState({duedate: e.target.value})}
                                         />}
 
-                                        <Card.Description
+                                        <TaskDetailLine
                                             onClick={() => this.setState({taskTeamInput: !taskTeamInput})}>
                                             Team: {!data.task.team ? 'unassigned' : data.task.team.teamtitle}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                         {taskTeamInput && <TeamTaskDropDown taskId={taskId} userId={userId} teamDetails={data.task.team}  query={task} variables={queryVariables} closeTeam={this.closeTeam}/>}
 
-                                        <Card.Description
+                                        <TaskDetailLine
                                             onClick={() => this.setState({projectInput: !projectInput})}>
                                             Project: {!data.task.project ? 'unassigned' : data.task.project.projecttitle}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                         {projectInput && <ProjectTaskDropDown taskId={taskId} teamId={data.task.team._id} projectDetails={data.task.project}  query={task} variables={queryVariables} closeProject={this.closeProject}/>}
 
-                                        <Card.Description
+                                        <TaskDetailLine
                                             onClick={() => this.setState({groupInput: !groupInput})}>
                                             Group: {!data.task.group ? 'unassigned' : data.task.group.grouptitle}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                         {groupInput && <GroupTaskDropDown taskId={taskId} projectId={data.task.project._id} groupDetails={data.task.group}  query={task} variables={queryVariables} closeGroup={this.closeGroup}/>}
 
-                                        <Card.Description
+                                        <TaskDetailLine
                                             onClick={() => this.setState({assignedInput: !assignedInput})}>
                                             Assigned to: {!data.task.taskcurrentowner ? 'unassigned' : data.task.taskcurrentowner.username}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                         {assignedInput && <AssignedTaskDropDown taskId={taskId} teamId={data.task.team._id} userDetails={data.task.taskcurrentowner}  query={task} variables={queryVariables} closeAssigned={this.closeAssigned}/>}
 
-                                        <Card.Description>
+                                        <TaskDetailLine>
                                             Created: {moment.utc(data.task.createdAt).format('YYYY-MM-DD')}
-                                        </Card.Description>
+                                        </TaskDetailLine>
                                     </Card.Content>
                                     <Card.Content extra>
                                         <Button.Group fluid>
-                                        <Button size='small' type='submit' basic>update</Button>
-                                        <Button size='small' basic onClick={(e) => _removeTask(e)} >remove</Button>
+                                        <Button size='small' type='submit' color='green' basic>update</Button>
+                                        <Button size='small' basic color='red' onClick={(e) => _removeTask(e)} >remove</Button>
                                         </Button.Group>
                                     </Card.Content>
-                                </Card>
+                                </TaskDetailLayout>
                             </Form>
                         )
                     }

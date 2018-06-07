@@ -135,7 +135,13 @@ query user($_id: String ){
     user(_id: $_id){
         team {
             _id
-            teamtitle 
+            teamtitle
+            defaultproject {
+                _id
+                defaultgroup {
+                _id
+                }
+            }
             projects{
                 _id
                 projecttitle

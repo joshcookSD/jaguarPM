@@ -4,7 +4,19 @@ import { Query } from "react-apollo";
 import { taskComments } from "../../apollo-graphql/commentQueries";
 import moment from 'moment';
 import TaskCommentForm from "./TaskCommentForm";
+import styled from "styled-components";
 
+const TaskCommentLayout = styled.div`
+    background-color: rgb(255,255,255);
+    border-radius: .3em;
+    display: block;
+    transition: box-shadow .1s ease;
+    box-sizing: inherit;
+    font-size: 1rem;
+    line-height: 1.15em;
+    position: relative;
+    padding: .5em 1em;
+`;
 
 
 class TaskComments extends Component {
@@ -26,8 +38,9 @@ class TaskComments extends Component {
                     if (error) return <p>Error :(</p>;
 
                     return (
-                        <Comment.Group size='small'>
-                            <TaskCommentForm taskId={taskId} userId={userId} updateQuery={taskComments} variables={queryVariables}/>
+                        <TaskCommentLayout>
+                            <TaskCommentForm fluid size='mini' taskId={taskId} userId={userId} updateQuery={taskComments} variables={queryVariables}/>
+                            <Comment.Group size='small' style={{margin: 0}}>
                         {data.taskComments.map(({_id, comment, user, createdAt}) => (
                             <Comment key={_id}>
                                 <Comment.Content>
@@ -40,7 +53,8 @@ class TaskComments extends Component {
                             </Comment>
                         ))
                         }
-                        </Comment.Group>
+                            </Comment.Group>
+                        </TaskCommentLayout>
                     )
                 }}
             </Query>

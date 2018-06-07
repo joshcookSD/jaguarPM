@@ -7,6 +7,7 @@ import { tasksByTeam } from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
 import styled from 'styled-components';
+import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
 
 const token = localStorage.getItem('token');
 
@@ -14,13 +15,12 @@ const TaskTeamGroup = styled.div`
     width: 100%;
     padding: 1em;
     position: relative;
-    margin: 1rem 0;
 `;
 
 class TaskTeam extends Component {
 
     render() {
-        const { teamtitle, teamId } = this.props;
+        const { teamtitle, teamId, defaultgroup, defaultproject } = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const variables = {team: teamId, iscompleted: false};
@@ -36,9 +36,11 @@ class TaskTeam extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <TaskTeamGroup>
-                        <Header>Team {teamtitle}</Header>
+                        <TaskGroupHeader>{teamtitle} Team</TaskGroupHeader>
                         <TaskForm
                             team={teamId}
+                            defaultgroup={defaultgroup}
+                            defaultproject={defaultproject}
                             updateQuery={tasksByTeam}
                             variables={variables}
                         />
@@ -50,21 +52,21 @@ class TaskTeam extends Component {
                             size='large'
                             style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, minHeight: '300px', maxHeight: '325px'}}
                         >
-                            {data.tasksByTeam.map(({_id, tasktitle, duedate, grouptitle, projecttitle, teamtitle, tasktime}) => (
+                            {data.tasksByTeam.map((task) => (
                                 <TaskItem
-                                    key={_id}
-                                    taskId={_id}
-                                    tasktitle={tasktitle}
-                                    duedate={duedate}
-                                    grouptitle={grouptitle}
-                                    projecttitle={projecttitle}
-                                    teamtitle={teamtitle}
+                                    key={task._id}
+                                    taskId={task._id}
+                                    tasktitle={task.tasktitle}
+                                    duedate={task.duedate}
+                                    grouptitle={task.group.grouptitle}
+                                    projecttitle={task.project.projecttitle}
+                                    teamtitle={task.team.teamtitle}
                                     completeddate={today}
                                     updateQuery={tasksByTeam}
                                     variables={variables}
                                     userId={user._id}
                                     date={today}
-                                    time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                                    time={task.tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
                                 />
                             ))
                             }
