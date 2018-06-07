@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { Dimmer, Loader, Card } from 'semantic-ui-react';
 import AddGroupForm from "./AddGroupForm";
 import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
+import { Link } from 'react-router-dom';
 
     class UnassignedGroupList extends Component {
         // for project selection
@@ -48,13 +49,14 @@ import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
                                     userId={ userId }
                                 />
                                 {data.project.groups.map((group, i) => (
-                                    <Card key={i}>
-                                    <Card.Content>
-                                    <Card.Header>{group.grouptitle}</Card.Header>
-                                    <Card.Description>{group.groupdescription}</Card.Description>
-                                    {/* <Card.Meta>Description</Card.Meta> */}
-                                    </Card.Content>
-                                    </Card>
+                                    <Link to='/view-group' key={i}>
+                                        <Card>
+                                            <Card.Content>
+                                                <Card.Header>{group.grouptitle}</Card.Header>
+                                                <Card.Description>{group.groupdescription}</Card.Description>
+                                            </Card.Content>
+                                        </Card>
+                                    </Link>
                                 ))}
                             </div>
                         )

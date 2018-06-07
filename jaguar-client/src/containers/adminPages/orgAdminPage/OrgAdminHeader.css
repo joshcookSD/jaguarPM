@@ -53,16 +53,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 10px;
 }
 
 .teamTitleHeader{
     color: #000000;
 }
 
-.cardRight{
-    height: 100%;
-    overflow: auto;
-}
+/*.cardRight{*/
+    /*height: 100%;*/
+    /*overflow: auto;*/
+/*}*/
 
 .cardLeft{
     padding: 10px;

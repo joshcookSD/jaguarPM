@@ -38,22 +38,17 @@ const OrgAdminHeader = ({ owner }) => (
                                 orgTitle={org.orgtitle} 
                                 orgDescription={org.orgdescription} 
                             /> 
-                        </div>  
-
-                        <div className="addTeamCard">
-                            <AddTeamCard
-                            org={org} 
-                            />
                         </div>
-                             
-                        <div className="addUserCard"> 
+                            <AddTeamCard
+                                org={org}
+                            />
+
                             <OrgAddUserCard 
                                 org={org} 
                                 orgId={org._id} 
                                 getOrgByOwner={getOrgByOwner} 
                                 variables={variables} 
                             />
-                        </div>
                     </Tab.Pane>
                 }
             ))

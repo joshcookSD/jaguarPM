@@ -39,27 +39,27 @@ const TeamAdminHeader = ({ owner }) => (
                     menuItem: team.teamtitle, render: () =>
                         <Tab.Pane className="orgTab" attached={false} >
                             <div className="tabHeader">
-                            <ProjTabHeader 
-                            teamTitle={team.teamtitle} 
-                            teamdescription={team.teamdescription}
-                            defaultproject={team.defaultproject ? team.defaultproject.projecttitle : ''}
-                            />
+                                <ProjTabHeader
+                                    teamTitle={team.teamtitle}
+                                    teamdescription={team.teamdescription}
+                                    defaultproject={team.defaultproject ? team.defaultproject.projecttitle : ''}
+                                />
                             </div>
                             <div className="addTeamCard">
-                            <ProjAddProjCard 
-                            teamsByOwner={teamsByOwner} 
-                            teamId={team._id}
-                            variables={variables} 
-                            teams={team}
-                            />
+                                <ProjAddProjCard
+                                    teamsByOwner={teamsByOwner}
+                                    teamId={team._id}
+                                    variables={variables}
+                                    teams={team}
+                                />
                             </div>
-                            <div className="addUserCard"> 
-                            <ProjUserDD 
-                            teamId={team._id}
-                            teamsByOwner={teamsByOwner}
-                            variables={variables}
-                            team={team}
-                            />
+                            <div className="addUserCard">
+                                <ProjUserDD
+                                    teamId={team._id}
+                                    teamsByOwner={teamsByOwner}
+                                    variables={variables}
+                                    team={team}
+                                />
                             </div>
                         </Tab.Pane>
                 }

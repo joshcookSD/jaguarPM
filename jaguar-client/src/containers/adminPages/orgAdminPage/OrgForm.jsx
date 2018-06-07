@@ -7,6 +7,7 @@ import { CREATE_ORG } from '../../apollo-graphql/teamOrgQueries.js';
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
+console.log(userId)
 
 class OrgForm extends Component {
     state = {
@@ -17,7 +18,12 @@ class OrgForm extends Component {
     };
 
     render() {
-        const { orgtitle, orgdescription, orgtitleError } = this.state;
+        const {
+            orgtitle,
+            orgdescription,
+            orgtitleError
+        } = this.state;
+
         const errorList = [];
         if (orgtitleError) {errorList.push(orgtitleError);}
 
@@ -30,9 +36,12 @@ class OrgForm extends Component {
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
-                              
                                 const response = await createOrganization({
-                                    variables: { orgdescription: orgdescription, orgtitle: orgtitle, owner: userId}
+                                    variables: {
+                                        orgdescription: orgdescription,
+                                        orgtitle: orgtitle,
+                                        owner: userId
+                                    }
                                 });
                                 const {ok, errors,} = response.data.createOrganization;
                                 if(ok) {

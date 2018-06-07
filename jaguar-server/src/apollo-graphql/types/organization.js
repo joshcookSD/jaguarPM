@@ -31,14 +31,15 @@ const OrganizationQuery = `
 
 const OrganizationMutation = `
     createOrganization(
-        orgtitle: String!,
-        orgdescription: String,
-        owner: String,
+        orgtitle: String!
+        orgdescription: String
+        owner: String
     ) : CreateOrgResponse
     addOrgUser(
         _id: String
         user: String,
     ) : Organization
+
 `;
 
 const OrganizationQueryResolver = {
@@ -79,15 +80,24 @@ const OrganizationMutationResolver ={
             const err = [];
             let orgtitleErr = await orgError(orgtitle);
             if(orgtitleErr) { err.push(orgtitleErr)}
+            //if no error then
             if(!err.length) {
-                const organization = await Organization.create({
+                //save the new organization
+                const newOrganization = await new Organization({
                     orgtitle,
                     orgdescription,
                     owner,
-                });
+                    users: owner,
+                }).save();
+                //find user object of the person who created the new org
+                let orgUser = await User.findById(owner);
+                //look at the user object's organizations and push the new org id into the array
+                orgUser.organization.push(newOrganization._id);
+                //then save
+                await orgUser.save();
                 return {
                     ok: true,
-                    organization,
+                    newOrganization,
                 };
             } else {
                 return {
@@ -111,6 +121,8 @@ const OrganizationMutationResolver ={
         await orgs.save();
         return orgs
     },
+
+
 };  
 
 export {OrganizationType, OrganizationMutation, OrganizationQuery, OrganizationQueryResolver, OrganizationNested, OrganizationMutationResolver};
