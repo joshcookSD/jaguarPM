@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import { Dimmer, Loader, Card } from 'semantic-ui-react';
 import GroupTaskForm from "./GroupTaskForm"
+import { Link } from 'react-router-dom';
 
 class GroupTaskList extends Component {
     // for project selection
@@ -27,7 +28,6 @@ class GroupTaskList extends Component {
             return(
                 <Query query={groupDetails} variables={ queryVariables }>
                     { ({ loading, error, data }) => {
-                        console.log(data)
                         if (loading) return (
                             <div>
                                 <Dimmer active>
@@ -45,12 +45,14 @@ class GroupTaskList extends Component {
                                     variables={ queryVariables }
                                 />
                                 {data.group.tasks.map((task, i) => (
-                                    <Card key={i}>
-                                    <Card.Content>
-                                    <Card.Header>{task.tasktitle}</Card.Header>
-                                    <Card.Description>{task.taskdescription}</Card.Description>
-                                    </Card.Content>
-                                    </Card>
+                                    <Link to='/view' key={i}>
+                                        <Card >
+                                            <Card.Content>
+                                                <Card.Header>{task.tasktitle}</Card.Header>
+                                                <Card.Description>{task.taskdescription}</Card.Description>
+                                            </Card.Content>
+                                        </Card>
+                                    </Link>
                                 ))}
                             </div>
                         )
