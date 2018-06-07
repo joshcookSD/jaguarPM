@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {tasksByUser} from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
-
+import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
 
 const token = localStorage.getItem('token');
 
@@ -15,7 +15,6 @@ const TaskUnplannedGroup = styled.div`
     width: 100%;
     padding: 1em;
     position: relative;
-    margin: 1rem 0;
 `;
 
 class TaskUnplanned extends Component {
@@ -37,7 +36,7 @@ class TaskUnplanned extends Component {
                     </div>);
                     if (error) return <p>Error :(</p>;
                 return <TaskUnplannedGroup>
-                        <Header>Backlog</Header>
+                        <TaskGroupHeader>Backlog</TaskGroupHeader>
                         <TaskForm
                             taskcurrentowner={user._id}
                             defaultgroup={defaultgroup}

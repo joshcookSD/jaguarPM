@@ -21,7 +21,7 @@ const NavItems = styled.li`
   height: 50px;
   width: 50px;
   background-color: #232929;
-  color: #4183c4;
+  color: rgb(230, 255, 241);
   margin: auto;
   margin-bottom: 10px;
   display: flex;
@@ -30,8 +30,8 @@ const NavItems = styled.li`
   border-radius: 11px;
   &:hover {
     border-style: solid;
-    border-width: thick;
-    border-color: #767676;
+    border-width: 2px;
+    border-color: rgb(230, 255, 241);
   }
 `;
 

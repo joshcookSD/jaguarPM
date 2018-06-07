@@ -16,6 +16,7 @@ const TaskContent = styled.div`
     line-height: 1.1em;
     font-size: .8em;
     padding-bottom: 5px;
+    color: rgba(0,0,0,.7);
 `;
 
 class TaskItem extends Component {

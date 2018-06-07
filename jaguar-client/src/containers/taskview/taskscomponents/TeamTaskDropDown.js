@@ -32,7 +32,7 @@ class TeamTaskDropDown extends Component {
                         <div className="dropDownDiv">
                             <Mutation mutation={updateTaskTeam}>
                                 {(updateTask, { data }) => (
-                                    <Dropdown text={teamDetails.teamtitle}  scrolling floating labeled button className='icon'>
+                                    <Dropdown text={teamDetails.teamtitle}  fluid scrolling floating labeled button className='icon'>
                                         <Dropdown.Menu>
                                             <Dropdown.Header content='New Team' />
                                             {teamOptions.map((option, i) =>
