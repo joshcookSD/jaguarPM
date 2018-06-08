@@ -1,4 +1,6 @@
-
+.icon{
+    margin: 0 0 0 0 !important;
+}
 
 .headerTitle {
     font-size: 15px;
@@ -188,4 +190,4 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-}
+} 

@@ -26,10 +26,10 @@ class DropdownSelection extends Component {
                                     text='Add user'
                                     icon='add user'
                                     scrolling
-                                    floating
                                     labeled
                                     button
                                     className='icon'
+                                    fluid
                                 >
                                     <Dropdown.Menu>
                                         <Dropdown.Header content='People You Might Know' />

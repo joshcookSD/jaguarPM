@@ -10,7 +10,7 @@ import ContentArea from '../layout/ContentArea'
 import GroupList from './groupcomponents/GroupList'
 import GroupDetail from './groupcomponents/GroupDetails'
 import { TopSection, BottomSection } from '../layout/Section'
-import {groupDetails, projectDetails, userProjectGroups} from "../apollo-graphql/groupProjectQueries";
+import {groupDetails, userProjectGroups} from "../apollo-graphql/groupProjectQueries";
 import GroupTaskList from "./groupcomponents/GroupTaskList";
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
-import { Message, Form, Button, Input, Icon } from 'semantic-ui-react';
+import { Message, Form, Button,  } from 'semantic-ui-react';
 import { getOrgByOwner, CREATE_TEAM} from '../../apollo-graphql/userQueries'
 import decode from 'jwt-decode';
 const token = localStorage.getItem('token');
@@ -94,6 +94,7 @@ class TeamForm extends Component {
                                 positive
                                 icon='checkmark'
                                 labelPosition='right'
+                                floated = 'right'
                                 content='New Team!'
                             />
                         </Form>

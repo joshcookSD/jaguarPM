@@ -37,8 +37,12 @@ const OrganizationMutation = `
     ) : CreateOrgResponse
     addOrgUser(
         _id: String
-        user: String,
+        user: String
     ) : Organization
+    removeOrgUser(
+        _id: String 
+        user: String
+    ): Organization
 
 `;
 
@@ -121,6 +125,18 @@ const OrganizationMutationResolver ={
         await orgs.save();
         return orgs
     },
+        removeOrgUser: async (parent, {_id, user}, {Organization}) => {
+        let orgUserToRemove = await User.findById(user);
+        let orgToRemoveUserFrom = await Organization.findById(_id);
+
+        orgUserToRemove.organization.pull(orgToRemoveUserFrom._id);
+        await orgUserToRemove.save();
+
+        orgToRemoveUserFrom.users.pull(orgUserToRemove._id);
+        await orgToRemoveUserFrom.save();
+
+        return orgToRemoveUserFrom
+    }
 
 
 };  
