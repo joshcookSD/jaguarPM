@@ -53,14 +53,14 @@ const TeamAdminHeader = ({ owner }) => (
                                     teams={team}
                                 />
                             </div>
-                            <div className="addUserCard">
+                          
                                 <ProjUserDD
                                     teamId={team._id}
                                     teamsByOwner={teamsByOwner}
                                     variables={variables}
                                     team={team}
                                 />
-                            </div>
+                         
                         </Tab.Pane>
                 }
             ))

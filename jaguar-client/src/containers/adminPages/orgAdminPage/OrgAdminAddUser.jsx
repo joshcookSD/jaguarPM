@@ -1,7 +1,11 @@
-import React from 'react';
-import {  Card, Label, Icon } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import {  Icon } from 'semantic-ui-react';
 import DropdownSelection from './OrgInvite.jsx';
 import styled from 'styled-components';
+import { removeOrgUser } from '../../apollo-graphql/teamOrgQueries.js'
+import { Mutation } from "react-apollo";
+
+
 
 const UserWrapper = styled.div`
     margin-top: 5px;
@@ -49,23 +53,57 @@ const DeleteUserIcon = styled.span`
 `;
 
 
+class OrgAddUserCard extends Component {
+    
+    deleteUser(userId){
+        console.log(userId)
+        console.log(this.props.orgId)
+        removeOrgUser({ variables: { _id: this.props.orgId, user: userId } });
+    }
 
+    render(){
 
-const OrgAddUserCard = (props) => (
-    <CardRight>
-            <DropdownSelection
-                orgId={props.orgId}
-                getOrgByOwner={props.getOrgByOwner}
-                variables={props.variables}
-            />
-            {props.org.users.map((user, i) => (
+        const {
+            orgId,
+            getOrgByOwner,
+            variables 
+        } = this.props;
+
+        return (
+            <Mutation mutation={removeOrgUser}>
+                {(removeOrgUser, { data }) => (
+                <CardRight>
+                    <DropdownSelection
+                        orgId={this.props.orgId}
+                        getOrgByOwner={this.props.getOrgByOwner}
+                        variables={this.props.variables}
+                    />
+                    {this.props.org.users.map((user, i) => (
                         <UserWrapper image key={i}>
+                        {console.log(user)}
                             <ImageWrapper src='http://i.pravatar.cc/300' />
                             <NewUserCardName>{user.username}</NewUserCardName>
-                            <DeleteUserIcon><Icon size='large' name='delete' /></DeleteUserIcon>
+                            <DeleteUserIcon>
+                                <Icon
+                                    size='large'
+                                    name='delete'
+                                    onClick={async e => {
+                                        e.preventDefault();
+                                        await removeOrgUser({
+                                            variables: { _id: orgId, user: user._id },
+                                            refetchQueries: [{ query: getOrgByOwner, variables: variables }]
+                                        });
+                                    }}
+                                />
+                            </DeleteUserIcon>
                         </UserWrapper>
-            ))}
-    </CardRight>
-);
+                    ))}
+                </CardRight>
+            )}
+        </Mutation>
+        )
+    }
+}
+
 
 export default OrgAddUserCard;

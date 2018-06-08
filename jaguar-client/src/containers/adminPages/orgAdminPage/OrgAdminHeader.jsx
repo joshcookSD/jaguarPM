@@ -39,10 +39,7 @@ const OrgAdminHeader = ({ owner }) => (
                                 orgDescription={org.orgdescription} 
                             /> 
                         </div>
-                            <AddTeamCard
-                                org={org}
-                            />
-
+                            <AddTeamCard org={org} />                       
                             <OrgAddUserCard 
                                 org={org} 
                                 orgId={org._id} 

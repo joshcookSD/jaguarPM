@@ -1,24 +1,39 @@
 import React from 'react';
 import TeamForm from '../teamAdminPage/TeamForm';
-import { Card } from 'semantic-ui-react';
+import { Card, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+
+const TeamCardWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 25% 75%;
+`;
+
+const CardLeftWrapper = styled.div`
+    grid-column-start: 2;
+    grid-row-start: 2;
+    grid-row-end: 4;
+`;
+
 
 
 const AddTeamCard = (props) => (
-        <div className="cardLeft">
+    <CardLeftWrapper>
             <TeamForm className="teamForm" orgId={props.org._id} />
-                <h3 className="orgTeamTitle">Team Info</h3>
                 {props.org.teams.map((team, i) => (
                     <Link to='/team-admin'  key={i}>
                         <Card>
                             <Card.Content>
-                                <Card.Meta>Team</Card.Meta>
-                                <Card.Header>{team.teamtitle}</Card.Header>
+                                <TeamCardWrapper>
+                                    <Icon name='group' />
+                                    <Card.Header>{team.teamtitle}</Card.Header>
+                                </TeamCardWrapper> 
                             </Card.Content>
                         </Card>
                     </Link>
                 ))}
-        </div>
+    </CardLeftWrapper>
 );
 
 export default AddTeamCard;

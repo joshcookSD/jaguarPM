@@ -46,4 +46,17 @@ const CREATE_ORG = gql`
         }
     }`;
 
-export { teamsByUser, addTeamUser, CREATE_ORG, teamUsers };
+    const removeOrgUser = gql `
+    mutation removeOrgUser($_id: String!, $user: String!) {
+       removeOrgUser(_id: $_id, user: $user) {
+           orgtitle
+    }
+  }`
+
+export {
+  teamsByUser,
+  addTeamUser,
+  CREATE_ORG,
+  teamUsers,
+  removeOrgUser
+};
