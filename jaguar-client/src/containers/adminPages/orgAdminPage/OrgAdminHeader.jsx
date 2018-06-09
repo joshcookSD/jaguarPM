@@ -44,7 +44,9 @@ const OrgAdminHeader = ({ owner }) => (
                                 org={org} 
                                 orgId={org._id} 
                                 getOrgByOwner={getOrgByOwner} 
-                                variables={variables} 
+                                variables={variables}
+                                teamsToRemove={org.teams.map((team, i) => team._id).toString()}
+                                teamsIdToRemove={org.teams.map((team, i) => team._id).toString()}
                             />
                     </Tab.Pane>
                 }

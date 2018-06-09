@@ -2,8 +2,7 @@ import User from "../../models/user";
 import UserTypeOrg from "../../models/usertypeorg";
 import Team from "../../models/team";
 import {orgError} from "../formatErrors";
-
-
+import Group from "../../models/group";
 
 const OrganizationType = `
     type Organization {
@@ -42,6 +41,7 @@ const OrganizationMutation = `
     removeOrgUser(
         _id: String 
         user: String
+        teamId: String
     ): Organization
 
 `;
@@ -125,9 +125,21 @@ const OrganizationMutationResolver ={
         await orgs.save();
         return orgs
     },
-        removeOrgUser: async (parent, {_id, user}, {Organization}) => {
+        removeOrgUser: async (parent, {_id, user, teamId}, {Organization}) => {
         let orgUserToRemove = await User.findById(user);
         let orgToRemoveUserFrom = await Organization.findById(_id);
+        let teamIdArray = teamId.split(',');
+
+        await Team.update(
+            { _id: { $in: teamIdArray } },
+            { $pull: { users: orgUserToRemove._id  } },
+            { multi: true }
+        );
+
+        await User.update(
+            { _id: orgUserToRemove._id },
+            { $pullAll: { team: teamId.split(',') } }
+        );
 
         orgUserToRemove.organization.pull(orgToRemoveUserFrom._id);
         await orgUserToRemove.save();

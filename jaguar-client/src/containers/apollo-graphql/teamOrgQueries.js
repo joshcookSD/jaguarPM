@@ -47,8 +47,8 @@ const CREATE_ORG = gql`
     }`;
 
     const removeOrgUser = gql `
-    mutation removeOrgUser($_id: String!, $user: String!) {
-       removeOrgUser(_id: $_id, user: $user) {
+    mutation removeOrgUser($_id: String!, $user: String!, $teamId: String ) {
+       removeOrgUser(_id: $_id, user: $user, teamId: $teamId) {
            orgtitle
     }
   }`

@@ -54,21 +54,16 @@ const DeleteUserIcon = styled.span`
 
 
 class OrgAddUserCard extends Component {
-    
-    deleteUser(userId){
-        console.log(userId)
-        console.log(this.props.orgId)
-        removeOrgUser({ variables: { _id: this.props.orgId, user: userId } });
-    }
 
     render(){
 
         const {
             orgId,
             getOrgByOwner,
-            variables 
+            variables,
+            teamsToRemove
         } = this.props;
-
+        console.log(teamsToRemove);
         return (
             <Mutation mutation={removeOrgUser}>
                 {(removeOrgUser, { data }) => (
@@ -80,7 +75,6 @@ class OrgAddUserCard extends Component {
                     />
                     {this.props.org.users.map((user, i) => (
                         <UserWrapper image key={i}>
-                        {console.log(user)}
                             <ImageWrapper src='http://i.pravatar.cc/300' />
                             <NewUserCardName>{user.username}</NewUserCardName>
                             <DeleteUserIcon>
@@ -90,7 +84,7 @@ class OrgAddUserCard extends Component {
                                     onClick={async e => {
                                         e.preventDefault();
                                         await removeOrgUser({
-                                            variables: { _id: orgId, user: user._id },
+                                            variables: { _id: orgId, user: user._id, teamId: teamsToRemove },
                                             refetchQueries: [{ query: getOrgByOwner, variables: variables }]
                                         });
                                     }}

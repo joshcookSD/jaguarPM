@@ -64,6 +64,7 @@ const getOrgByOwner = gql`
         profileImageUrl
       }
           teams{
+            _id
             teamtitle
             teamdescription
           users{
