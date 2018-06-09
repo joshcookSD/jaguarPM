@@ -229,8 +229,4 @@ const createTaskByGroup = gql`
     }
 }`;
 
-
-
-
-
 export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails, updateGroup, createTaskByGroup, teamProjects, projectGroups }
