@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { List,Header, Transition, Dimmer, Loader} from 'semantic-ui-react';
+import { List, Transition, Dimmer, Loader} from 'semantic-ui-react';
 import moment from 'moment';
 import decode from 'jwt-decode';
 import { tasksToday} from "../apollo-graphql/taskQueries";
@@ -29,7 +29,7 @@ class TaskToday extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
-                            <TaskGroupHeader>Today ({moment.utc(today).format('dddd, MM/DD')})</TaskGroupHeader>
+                        <TaskGroupHeader>Today ({moment.utc(today).format('dddd, MM/DD')})</TaskGroupHeader>
                         <TaskForm
                             taskcurrentowner={user._id}
                             plandate={today}
@@ -39,34 +39,37 @@ class TaskToday extends Component {
                             updateQuery={tasksToday}
                             variables={{taskcurrentowner: user._id, iscompleted: false, plandate: today}}
                         />
-                            <Transition.Group
-                                as={List}
-                                duration={200}
-                                relaxed
-                                size='large'
-                                style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, height: '100vh'}}
-                            >
-                            {data.tasksToday.map(({_id, tasktitle, duedate, group, project, team, plandate, tasktime}) => (
+                        <Transition.Group
+                            as={List}
+                            duration={200}
+                            relaxed
+                            size='large'
+                            style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, height: '100vh'}}
+                        >
+                            {data.tasksToday.map(({_id, tasktitle, duedate, group, project, team, plandate, tasktime, taskplannedtime}) => (
 
-                                 <TaskItem
-                                     key={_id}
-                                     taskId={_id}
-                                     tasktitle={tasktitle}
-                                     duedate={duedate}
-                                     plandate={plandate}
-                                     grouptitle={group.grouptitle}
-                                     projecttitle={project.projecttitle}
-                                     teamtitle={team.teamtitle}
-                                     completeddate={today}
-                                     updateQuery={tasksToday}
-                                     variables={variables}
-                                     userId={user._id}
-                                     date={today}
-                                     time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
-                                 />
+                                <TaskItem
+                                    key={_id}
+                                    taskId={_id}
+                                    tasktitle={tasktitle}
+                                    duedate={duedate}
+                                    plandate={plandate}
+                                    groupId={group._id}
+                                    grouptitle={group.grouptitle}
+                                    projectId={project._id}
+                                    projecttitle={project.projecttitle}
+                                    teamtitle={team.teamtitle}
+                                    completeddate={today}
+                                    updateQuery={tasksToday}
+                                    variables={variables}
+                                    userId={user._id}
+                                    date={today}
+                                    time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                                    planTime={taskplannedtime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                                />
                             ))
                             }
-                            </Transition.Group>
+                        </Transition.Group>
                     </div>;
                 }
                 }

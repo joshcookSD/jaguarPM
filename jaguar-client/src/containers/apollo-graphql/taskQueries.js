@@ -82,6 +82,9 @@ const tasksByUser = gql`
         tasktime {
         time
     }
+    taskplannedtime{
+        time
+    }
   }
 }
  `;
@@ -108,6 +111,9 @@ const tasksByDay = gql`
       username
     }
     tasktime {
+        time
+    }
+    taskplannedtime{
         time
     }
   }
@@ -138,6 +144,9 @@ const tasksToday = gql`
     tasktime {
         time
     }
+    taskplannedtime{
+        time
+    }
   }
 }
  `;
@@ -164,6 +173,9 @@ const tasksByTeam = gql`
       username
     }
     tasktime {
+        time
+    }
+    taskplannedtime{
         time
     }
   }

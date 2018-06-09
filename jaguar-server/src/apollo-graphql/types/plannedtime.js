@@ -1,14 +1,14 @@
-import User from "../../models/user";
 import Task from "../../models/task";
 import Group from "../../models/group";
 import Project from "../../models/project";
+import User from "../../models/user";
 
 const PlannedTimeType = `
     type PlannedTime {
         _id: String
         time: Float
+        createdBy: User
         date: Date
-        user: User
         task: Task
         group: Group
         project: Project        
@@ -22,10 +22,10 @@ const PlannedTimeQuery = `
 
 const PlannedTimeMutation = `
     createPlannedTime(
-         _id: String
-        time: Float
+        _id: String
+        time: Float!
         date: Date
-        user: String
+        createdBy: String
         task: String
         group: String
         project: String  
@@ -46,29 +46,38 @@ const PlannedTimeQueryResolver = {
 };
 
 const PlannedTimeNested = {
-    task: async ({_id}) => {
-        return (await Task.find({plannedtime: _id}))
+    task: async ({task}) => {
+        return (await Task.findById(task))
     },
-    user: async ({_id}) => {
-        return (await User.find({plannedtime: _id}))
+    group: async ({group}) => {
+        return (await Group.findById(group))
     },
-    group: async ({_id}) => {
-        return (await Group.find({plannedtime: _id}))
+    project: async ({project}) => {
+        return (await Project.findById(project))
     },
-    project: async ({_id}) => {
-        return (await Project.find({plannedtime: _id}))
+    createdBy: async ({createdBy}) => {
+        return (await User.findById(createdBy))
     },
 };
 
 const PlannedTimeMutationResolver ={
-    createPlannedTime: async (parent, args, { PlannedTime, Task, User }) => {
+    createPlannedTime: async (parent, args, { PlannedTime, Task}) => {
         let plan = await new PlannedTime(args).save();
-        let user = await User.findById(args.user);
-        user.plannedtime.push(plan._id);
-        await user.save();
-        let task = await Task.findById(args.task);
-        task.plannedtime.push(plan._id);
-        await task.save();
+        if(args.task) {
+            let task = await Task.findById(args.task);
+            task.taskplannedtime.push(plan._id);
+            await task.save();
+        }
+        if(args.group) {
+            let group = await Group.findById(args.group);
+            group.groupplannedtime.push(plan._id);
+            await group.save();
+        }
+        if(args.project) {
+            let project = await Project.findById(args.project);
+            project.projectplannedtime.push(plan._id);
+            await project.save();
+        }
         return plan
     }
 };

@@ -31,7 +31,7 @@ class TaskItem extends Component {
     openComment = () => this.setState({ commentOpen: !this.state.commentOpen});
 
     render() {
-        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle, time} = this.props;
+        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle, time, planTime} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
         return(
             <List.Item
@@ -65,7 +65,7 @@ class TaskItem extends Component {
                 </List.Content>
 
                 { detail && (<TaskDetail userId={userId} taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables} />)}
-                { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime} time={time} updateQuery={updateQuery} refreshVariables={variables}/>)}
+                { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime} time={time} planTime={planTime} updateQuery={updateQuery} refreshVariables={variables}/>)}
                 { commentOpen && (<TaskComments taskId={taskId} userId={userId}/>)}
             </List.Item>
         )
