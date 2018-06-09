@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { List,Header, Transition, Dimmer, Loader} from 'semantic-ui-react';
+import { List, Transition, Dimmer, Loader} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
 import styled from 'styled-components';

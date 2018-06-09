@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { graphql } from "react-apollo";
-import {createTaskTime} from '../../apollo-graphql/timeQueries';
+import { graphql, compose } from "react-apollo";
+import {createTaskTime, createPlannedTimeTask} from '../../apollo-graphql/timeQueries';
 import { Form, Input, List } from 'semantic-ui-react';
 import styled from "styled-components";
 
@@ -26,7 +26,7 @@ class TaskTime extends Component {
     };
 
     render() {
-        const { taskId, userId, date, time, updateQuery, refreshVariables } = this.props;
+        const { taskId, userId, date, time, planTime, updateQuery, refreshVariables } = this.props;
         const { actualtime, comment, plannedtime } = this.state;
         const _addTime = async () => {
             await this.props.addTime({
@@ -36,13 +36,22 @@ class TaskTime extends Component {
             this.setState({time: '', comment: ''});
             this.props.closeTime();
         };
+        const _addPlanTime = async () => {
+            await this.props.addPlanTime({
+                variables: {task: taskId, createdBy: userId, date: date, time: plannedtime},
+                refetchQueries: [{query: updateQuery, variables: refreshVariables}]
+            });
+            this.setState({plannedtime: ''});
+            this.props.closeTime();
+        };
         return(
+            <TaskTimeLayout>
             <Form
                   onSubmit={async e => {
                 e.preventDefault();
-                await _addTime();
+                console.log(actualtime);
+                if(actualtime != null) {await _addTime()}
             }}>
-                <TaskTimeLayout>
                 <Form.Group style={{marginBottom: '2px'}} inline>
                 <Form.Field width='six'>
                     <Input size='mini'
@@ -61,8 +70,13 @@ class TaskTime extends Component {
                         onChange={e => this.setState({comment: e.target.value})}
                     />
                 </Form.Field>
-
                 </Form.Group>
+                </Form>
+            <Form
+                onSubmit={async e => {
+                e.preventDefault();
+                if(plannedtime > 0) {await _addPlanTime()}
+            }}>
                 <Form.Group style={{marginBottom: '2px'}} inline>
                     <Form.Field width='six'>
                         <Input size='mini'
@@ -73,17 +87,22 @@ class TaskTime extends Component {
                         />
                     </Form.Field>
                     <Form.Field width='twelve'>
-                    <List.Content>{time} hrs</List.Content>
+                    <List.Content>{time} hrs of {planTime} planned {planTime-time} remaining</List.Content>
                     </Form.Field>
                 </Form.Group>
-                </TaskTimeLayout>
             </Form>
+        </TaskTimeLayout>
         )
     }
 }
 
 
 
-export default graphql(createTaskTime,{
-    name: 'addTime',
-})(TaskTime);
+export default compose(
+    graphql(createTaskTime,{
+        name: 'addTime',
+    }),
+    graphql(createPlannedTimeTask, {
+        name: 'addPlanTime'
+    }),
+)(TaskTime);
