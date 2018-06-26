@@ -99,10 +99,28 @@ const NavSidebar = () => (
                     inverted
                 />
             </Link>
+            <Link to='/team-page'>
+                <Popup
+                    trigger={<NavItems><Icon fitted size='big' name='users' /></NavItems>}
+                    content="teams"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
             <Link to='/org-admin'>
                 <Popup
                     trigger={<NavItems><NavIcon className='fas fa-sitemap' /></NavItems>}
                     content="organizations"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/template-test'>
+                <Popup
+                    trigger={<NavItems><Icon fitted size='big' name='sitemap' /></NavItems>}
+                    content="template-test"
                     position='right center'
                     style={style}
                     inverted

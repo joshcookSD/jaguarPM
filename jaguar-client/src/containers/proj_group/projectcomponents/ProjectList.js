@@ -26,7 +26,6 @@ class ProjectList extends Component {
         return(
             <Query query={userTeamProjects} variables={variables}>
                 { ({ loading, error, data }) => {
-                    console.log(data)
                     if(data.user && !this.props.isSelected) { console.log(`render: ${data.user.team[0]._id}`);
                         this.defaultProject(data.user.team[0].projects[0]._id, data.user.team[0].projects[0].team._id)}
                     if (loading) return (

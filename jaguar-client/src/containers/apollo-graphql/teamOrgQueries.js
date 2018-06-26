@@ -1,18 +1,5 @@
 import gql from "graphql-tag";
 
-const teamsByUser = gql`
- query user($_id: String){
-  user(_id: $_id) {
-    _id
-    username
-    team {
-      _id
-      teamtitle
-    }
-  }
-}
- `;
-
 const teamUsers = gql`
 query team($_id: String){
   team(_id: $_id) {
@@ -51,12 +38,19 @@ const createOrg = gql`
        removeOrgUser(_id: $_id, user: $user, teamId: $teamId) {
            orgtitle
     }
-  }`
+  }`;
+
+const removeTeamUser = gql `
+    mutation removeTeamUser($_id: String!, $user: String!, $projectId: String ) {
+       removeTeamUser(_id: $_id, user: $user, projectId: $projectId) {
+           teamtitle
+    }
+  }`;
 
 export {
-  teamsByUser,
   addTeamUser,
   createOrg,
   teamUsers,
-  removeOrgUser
+  removeOrgUser,
+  removeTeamUser
 };

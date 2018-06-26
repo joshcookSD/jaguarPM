@@ -33,6 +33,10 @@ const groupSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Task"
         }],
+        iscompleted: {
+            type: Boolean,
+            default: false
+        },
         users: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"

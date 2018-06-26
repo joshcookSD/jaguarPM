@@ -27,6 +27,10 @@ const projectSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }],
+        iscompleted: {
+            type: Boolean,
+            default: false
+        },
         leader: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"

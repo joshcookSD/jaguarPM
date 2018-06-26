@@ -102,8 +102,8 @@ const loginUser = gql`
     
 
 const getOrgByOwner = gql`
-    query orgByOwner($owner: String ){
-    orgByOwner(owner: $owner ){
+    query getOrgByOwner($owner: String ){
+    getOrgByOwner(owner: $owner ){
           _id
       orgtitle
       orgdescription
@@ -134,26 +134,93 @@ const teamsByOwner = gql`
             _id
             teamtitle
             teamdescription
+                owner{
+                  username
+                }
             defaultproject {
                 _id
                 projecttitle
             }
             users{
+                _id
                 username
                 profileImageUrl
             }
-            projects{
+             projects{
+          _id
+          projecttitle
+          projectdescription
+        	iscompleted
+        groups{
+          _id
+          grouptitle
+          groupdescription
+          iscompleted
+          tasks{
+            _id
+            tasktitle
+            taskdescription
+            iscompleted
+          }
+        }
+      }
+            tasks{
+                _id
+                tasktitle
+                taskdescription
+                iscompleted
+                    priority{
+                        priority
+                    }
+            }
+        }
+    }`;
+
+const teamsByUser = gql`
+    query teamsByUser($user: String ){
+        teamsByUser( user: $user ){
+            _id
+            teamtitle
+            teamdescription
+                owner{
+                  username
+                }
+            defaultproject {
                 _id
                 projecttitle
-                projectdescription
             }
-             groups {
+            users{
                 _id
-                grouptitle
-                 project{
-                    projecttitle
-                }
-             }
+                username
+                profileImageUrl
+            }
+             projects{
+          _id
+          projecttitle
+          projectdescription
+        	iscompleted
+        groups{
+          _id
+          grouptitle
+          groupdescription
+          iscompleted
+          tasks{
+            _id
+            tasktitle
+            taskdescription
+            iscompleted
+          }
+        }
+      }
+            tasks{
+                _id
+                tasktitle
+                taskdescription
+                iscompleted
+                    priority{
+                        priority
+                    }
+            }
         }
     }`;
 
@@ -309,4 +376,6 @@ const addOrgUser = gql`
 
 
 
+
 export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, createTeam, userTaskDetails, userDetails};
+

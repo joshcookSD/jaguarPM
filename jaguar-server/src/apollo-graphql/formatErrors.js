@@ -64,9 +64,6 @@ const teamError = async (team) => {
     if (!team.length) {
         return { path: 'teamtitle', message: 'if this is blank why do you want to start a new organization?' }
     }
-    if (teams) {
-        return { path: 'teamtitle', message: `that's interesting ${team} has already been created` }
-    }
     if (team.length < 4) {
         return { path: 'teamtitle', message: 'WLA! (we like acronyms) but we need a few more characters' }
     }

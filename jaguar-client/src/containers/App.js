@@ -87,8 +87,16 @@ const AsyncTeamAdmin = Loadable({
     loader: () => import('./adminPages/teamAdminPage/teamAdmin'),
     loading: Loading,
 });
+const AsyncTeamPage = Loadable({
+    loader: () => import('./team_page/TeamPageView.js'),
+    loading: Loading,
+});
 const AsyncViewGroup = Loadable({
     loader: () => import('./proj_group/GroupView.js'),
+    loading: Loading,
+});
+const AsyncTest = Loadable({
+    loader: () => import('./adminPages/template/TemplateView.js'),
     loading: Loading,
 });
 
@@ -112,6 +120,8 @@ class App extends Component {
                     <PrivateRoute path="/create-org" exact component={AsyncCreateOrg} />
                     <PrivateRoute path="/team-admin" exact component={AsyncTeamAdmin} />
                     <PrivateRoute path="/view-group" exact component={AsyncViewGroup} />
+                    <PrivateRoute path="/team-page" exact component={AsyncTeamPage} />
+                    <PrivateRoute path="/template-test" exact component={AsyncTest} />
                 </Switch>
                 </div>
             </Router>

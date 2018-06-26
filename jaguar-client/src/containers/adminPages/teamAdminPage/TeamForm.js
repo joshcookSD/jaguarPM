@@ -3,20 +3,29 @@ import { Mutation } from "react-apollo";
 import { Message, Form, Button,  } from 'semantic-ui-react';
 import { getOrgByOwner, createTeam} from '../../apollo-graphql/userQueries'
 import decode from 'jwt-decode';
+
 const token = localStorage.getItem('token');
 const { user } = decode(token);
+const userId = user._id;
 
 class TeamForm extends Component {
+
+    handleSubmit = (org, selected) => {
+        this.props.handleAfterSubmit(org, selected);
+    };
+
     state = {
         teamtitle: "",
         teamdescription: "",
         errors: {},
-        teamtitleerror: ""
+        teamtitleerror: "",
+        activeView: this.props.activeView
     };
 
     render() {
         const {
-            orgId
+            orgId,
+            activeView,
         } = this.props;
 
         const {
@@ -41,15 +50,16 @@ class TeamForm extends Component {
                                         teamdescription: teamdescription,
                                         teamtitle: teamtitle,
                                         organization: orgId,
-                                        owner: user._id
+                                        owner: userId
                                     },
                                     refetchQueries: [{
                                         query: getOrgByOwner,
-                                        variables: { owner: user._id }
+                                        variables: {owner: userId }
                                     }]
                                 });
-                                const { ok, errors, } = response.data.createTeam;
+                                const { ok, errors } = response.data.createTeam;
                                 if (ok) {
+                                    this.handleSubmit(activeView);
                                     this.setState({
                                         teamtitle: "",
                                         teamdescription: "",

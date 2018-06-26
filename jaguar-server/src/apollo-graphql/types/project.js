@@ -13,6 +13,7 @@ const ProjectType = `
         _id: String
         projecttitle: String
         projectdescription: String
+        iscompleted: Boolean
         plannedcompletiondate: Date
         duedate: Date
         tasks: [Task]
@@ -49,6 +50,7 @@ const ProjectMutation = `
         projectdescription: String,
         plannedcompletiondate: Date,
         duedate: Date,
+        iscompleted: Boolean,
         leader: String, 
         team: String
     ) : Project
@@ -157,6 +159,15 @@ const ProjectMutationResolver ={
             await projectteam.save();
         }
 
+        if(args.iscompleted != null) {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        iscompleted: args.iscompleted
+                    }
+                },
+                {new: true}
+            );
+        }
     }
 };
 

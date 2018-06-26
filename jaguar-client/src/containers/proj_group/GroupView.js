@@ -40,12 +40,6 @@ class GroupView extends Component {
         return(
             <Query query={userProjectGroups} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader />
-                            </Dimmer>
-                        </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
                         <AppLayout>

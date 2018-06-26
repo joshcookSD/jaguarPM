@@ -27,7 +27,7 @@ class TaskView extends Component {
         taskSelected: '',
     };
     changeView = (view) => {
-            this.setState({activeView: view, isSelected: true });
+        this.setState({activeView: view, isSelected: true });
     };
     selectTask = (task) => {
         this.setState({taskSelected: task});
@@ -72,6 +72,7 @@ class TaskView extends Component {
 
                             <TaskHeader changeView={this.changeView} activeView={activeView} isSelected={isSelected}/>
                             {activeView === 'plan' &&
+
                                 <ContentArea>
                                 <Section><TaskDay
                                     tasks={data.user.tasks}
@@ -138,6 +139,7 @@ class TaskView extends Component {
                                     selectTask={this.selectTask}
                                 /></Section>
                                 {data.user.team.map((team) => (
+
                                     <Section key={team._id}>
                                         <TaskTeam
                                             tasks={team.tasks}

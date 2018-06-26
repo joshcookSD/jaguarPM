@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TabHeader = (props) => (
-    
+
     <div className="orgHeader">
         <div>
             <span className="headerTitle " >Organization Title: </span>

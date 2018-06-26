@@ -25,7 +25,7 @@ const OrganizationType = `
 const OrganizationQuery = `
     allOrganizations: [Organization]
     organization(_id: String): Organization
-    orgByOwner( owner: String ): [Organization]
+    getOrgByOwner( owner: String ): [Organization]
 `;
 
 const OrganizationMutation = `
@@ -57,7 +57,8 @@ const OrganizationQueryResolver = {
     organization: async (parent, args, {Organization}) => {
         return await Organization.findById(args._id.toString())
     },
-    orgByOwner: async (parent, args, { Organization }) => {
+    getOrgByOwner: async (parent, args, { Organization }) => {
+        console.log(args)
         const orgowner = await User.findById(args.owner.toString());
         return await Organization.find({ owner: orgowner })
     }

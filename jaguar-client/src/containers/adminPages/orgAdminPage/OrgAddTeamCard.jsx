@@ -2,38 +2,45 @@ import React from 'react';
 import TeamForm from '../teamAdminPage/TeamForm';
 import { Card, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { TeamCardWrapper, CardLeftWrapper } from '../../layout/AdminComponents.js'
 
+const AddTeamCard = (props) => {
+    function handleAfterSubmit(org, selected){
+        props.handleAfterSubmit(org, selected);
+    }
+    return (
+        <CardLeftWrapper>
 
-const TeamCardWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 25% 75%;
-`;
+            <TeamForm
+                className="teamForm"
+                handleAfterSubmit={handleAfterSubmit}
+                activeView={props.org}
+                orgId={props.org._id}
+                variables={props.variables}
+                getOrgByOwner={props.getOrgByOwner}
+            />
 
-const CardLeftWrapper = styled.div`
-    grid-column-start: 2;
-    grid-row-start: 2;
-    grid-row-end: 4;
-`;
+            {(props.orgData || []).map(org => {
+                if (org._id === props.org._id) {
+                    return (
+                        (org.teams).map((team, i) => (
+                            <Link to='/team-admin' key={i}>
+                                <Card>
+                                    <Card.Content>
+                                        <TeamCardWrapper>
+                                            <Icon name='group'/>
+                                            <Card.Header>{team.teamtitle}</Card.Header>
+                                        </TeamCardWrapper>
+                                    </Card.Content>
+                                </Card>
+                            </Link>
+                        ))
+                    )
+                }
+            })}
 
-
-
-const AddTeamCard = (props) => (
-    <CardLeftWrapper>
-            <TeamForm className="teamForm" orgId={props.org._id} />
-                {props.org.teams.map((team, i) => (
-                    <Link to='/team-admin'  key={i}>
-                        <Card>
-                            <Card.Content>
-                                <TeamCardWrapper>
-                                    <Icon name='group' />
-                                    <Card.Header>{team.teamtitle}</Card.Header>
-                                </TeamCardWrapper> 
-                            </Card.Content>
-                        </Card>
-                    </Link>
-                ))}
-    </CardLeftWrapper>
-);
+        </CardLeftWrapper>
+    );
+}
 
 export default AddTeamCard;

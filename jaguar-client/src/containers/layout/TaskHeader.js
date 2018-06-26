@@ -52,7 +52,6 @@ class TaskHeader extends Component {
                     <NavItems key={view} onClick={() => this.handleClick(view)} style={activeView === view ? activeStyle : {}}>{view}</NavItems>
                 ))}
                 <div/>
-                <HeaderMenu/>
             </HeaderWrapper>
         )
     }
