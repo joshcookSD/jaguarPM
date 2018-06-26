@@ -25,7 +25,7 @@ class TaskView extends Component {
         taskSelected: '',
     };
     changeView = (view) => {
-            this.setState({activeView: view, isSelected: true });
+        this.setState({activeView: view, isSelected: true });
     };
     selectTask = (task) => {
         this.setState({taskSelected: task})
@@ -55,14 +55,14 @@ class TaskView extends Component {
                             <MainSidebar><TaskToday defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id} /></MainSidebar>
                             <TaskHeader changeView={this.changeView} activeView={activeView} isSelected={isSelected}/>
                             {activeView === 'plan' &&
-                                <ContentArea>
+                            <ContentArea>
                                 <Section><TaskDay day={tomorrow} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
                                 <Section><TaskDay day={plus2} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
                                 <Section><TaskDay day={plus3} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
                                 <Section><TaskDay day={plus4} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
                                 <Section><TaskDay day={plus5} defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
                                 <Section><TaskUnplanned defaultgroup={data.user.defaultgroup._id} defaultproject={data.user.defaultproject._id} defaultteam={data.user.defaultteam._id}/></Section>
-                                {data.user.team.map((team) => (
+                                {(data.user.team || []).map((team) => (
                                     <Section key={team._id}>
                                         <TaskTeam teamId={team._id} teamtitle={team.teamtitle} defaultgroup={team.defaultproject.defaultgroup._id} defaultproject={team.defaultproject._id}/>
                                     </Section>

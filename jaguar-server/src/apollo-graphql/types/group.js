@@ -12,6 +12,7 @@ const GroupType = `
         _id: String
         grouptitle: String
         groupdescription: String
+        iscompleted: Boolean
         project: Project
         team: Team
         tasks: [Task]
@@ -37,12 +38,13 @@ const GroupMutation = `
         project: String
         team: String
         users: String
-) : Group
+    ) : Group
     updateGroup(
         _id: String,
         grouptitle: String,
         groupdescription: String,
         plannedcompletiondate: Date,
+        iscompleted: Boolean
         duedate: Date
     ) : Group
      addGroupUser(
@@ -79,7 +81,7 @@ const GroupMutationResolver ={
         return group
     },
     updateGroup: async (parent, args, { Group}) => {
-
+        console.log(args)
         if(args.grouptitle) {
             await Group.findByIdAndUpdate(args._id, {
                     $set: {
@@ -89,18 +91,6 @@ const GroupMutationResolver ={
                 {new: true}
             );
         }
-        // const group = await Group.findById(args._id);
-
-        // if(args.leader) {
-        //     await Project.findByIdAndUpdate(args._id, {
-        //             $set: {
-        //                 leader: args.leader
-        //             }
-        //         },
-        //         {new: true}
-        //     );
-        // }
-
         if(args.groupdescription) {
             await Group.findByIdAndUpdate(args._id, {
                     $set: {
@@ -131,13 +121,15 @@ const GroupMutationResolver ={
             );
         }
 
-        // if(args.team) {
-        //     let projectteam = await Team.findById(args.team);
-        //     await project.team.save(projectteam._id);
-        //     projectteam.projects.push(project._id);
-        //     await projectteam.save();
-        // }
-
+        if(args.iscompleted != null) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        iscompleted: args.iscompleted
+                    }
+                },
+                {new: true}
+            );
+        }
     },
     //saving user to group
     addGroupUser: async (parent, {_id, user}, {Group}) => {

@@ -4,19 +4,8 @@ import AppLayout from '../../layout/AppLayout'
 import NavSidebar from '../../layout/NavSidebar'
 import MainSidebar from '../../layout/MainSidebar'
 import TeamAdminHeader from './TeamAdminHeader'
-import decode from 'jwt-decode';
-import { Query } from "react-apollo";
-import { teamsByOwner } from "../../apollo-graphql/userQueries";
 
-const token = localStorage.getItem('token');
-const { user } = decode(token);
-const userId = user._id;
-
-const TeamAdmin = ({ owner }) => (
-    <Query query={teamsByOwner } variables={{ owner: userId }}>
-        {({ loading, error, data }) => {
-            if (loading) return null;
-            if (error) return `Error!: ${error}`;
+const TeamAdmin = () => {
             return (
                 <AppLayout>
                     <NavSidebar />
@@ -26,10 +15,7 @@ const TeamAdmin = ({ owner }) => (
                     <TeamAdminHeader />
                 </AppLayout>
             )
-        }}
-    </Query>
-);
-
+        };
 
 export default TeamAdmin;
 

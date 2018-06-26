@@ -1,0 +1,23 @@
+.stretched.twelve.wide.column{
+    height: 795px;
+}
+
+.stretched.twelve.wide.column {
+    height: 795px;
+    padding-left: 0;
+}
+
+.ui.grid {
+     margin-left: 0;
+     margin-right: 0;
+}
+
+.ui.column.grid>[class*="four wide"].column, .ui.grid>.column.row>[class*="four wide"].column, .ui.grid>.row>[class*="four wide"].column, .ui.grid>[class*="four wide"].column {
+    width: 10%!important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.ui.column.grid>[class*="twelve wide"].column, .ui.grid>.column.row>[class*="twelve wide"].column, .ui.grid>.row>[class*="twelve wide"].column, .ui.grid>[class*="twelve wide"].column {
+    width: 90%!important;
+}

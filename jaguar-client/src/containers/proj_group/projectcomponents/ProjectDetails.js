@@ -48,7 +48,8 @@ class ProjectDetail extends Component {
             duedate,
             description,
             leader,
-            projectId } = this.state;
+            projectId
+        } = this.state;
 
         //calling mutation with variables
         const _updateProject = async () => {

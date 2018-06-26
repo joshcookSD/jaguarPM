@@ -6,7 +6,7 @@ import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
 import Header from '../layout/Header'
-import ContentArea from '../layout/ContentArea'
+import { ProjGroupContentArea } from '../layout/Proj_GroupComponents.js'
 import ProjectList from './projectcomponents/ProjectList'
 import ProjectDetails from './projectcomponents/ProjectDetails'
 import { TopSection, BottomSection } from '../layout/Section'
@@ -57,24 +57,20 @@ class ProjectView extends Component {
                                 />
                             </MainSidebar>
                             <Header/>
-                            <ContentArea>
-                                <TopSection>
-                                    <ProjectDetails
-                                        selectedProject={selectedProject}
-                                        projectDetails={projectDetails}
-                                        queryVariables={{_id: selectedProject}}
-                                    />
-                                </TopSection>
-                                <BottomSection>
-                                    <UnassignedGroupList
-                                        selectedProject={selectedProject}
-                                        projectDetails={projectDetails}
-                                        queryVariables={{_id: selectedProject}}
-                                        userId={ user._id }
-                                        selectTeam={teamOfProject}
-                                    />
-                                </BottomSection>
-                            </ContentArea>
+                            <ProjGroupContentArea>
+                                <ProjectDetails
+                                    selectedProject={selectedProject}
+                                    projectDetails={projectDetails}
+                                    queryVariables={{_id: selectedProject}}
+                                />
+                                <UnassignedGroupList
+                                    selectedProject={selectedProject}
+                                    projectDetails={projectDetails}
+                                    queryVariables={{_id: selectedProject}}
+                                    userId={ user._id }
+                                    selectTeam={teamOfProject}
+                                />
+                            </ProjGroupContentArea>
                         </AppLayout>
                     </div>;
                 }

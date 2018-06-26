@@ -76,6 +76,7 @@ class ProjectForm extends Component {
                                     positive
                                     icon='checkmark'
                                     labelPosition='right'
+                                    floated = 'right'
                                     content='New Project!'
                                 />
                             </Form>

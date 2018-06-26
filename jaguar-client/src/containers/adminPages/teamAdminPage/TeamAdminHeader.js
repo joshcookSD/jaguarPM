@@ -1,40 +1,26 @@
 import React from 'react';
 import { Query } from "react-apollo";
-import styled from 'styled-components';
 import { Image, Tab } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { teamsByOwner } from "../../apollo-graphql/userQueries";
-
-
 import Logo from '../../../images/jaguarwhite.png';
 import ProjTabHeader from './ProjTabHeader';
 import ProjAddProjCard from './ProjAddProjCard';
 import ProjUserDD from './ProjUserDD';
 import '../teamAdminPage/TeamAdminHeader.css';
-
+import { HeaderWrapper } from '../../layout/AdminComponents.js'
+import '../orgAdminPage/OrgAdminHeader.css';
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
 
-const HeaderWrapper = styled.div`
-  grid-column-start: 3;
-  grid-column-end: 8;
-  grid-row: 1;
-  background-color: black;
-  color: white;
-  padding-top: .4em;
-  padding-right: 1em;
-`;
-
 const variables = { owner: userId };
 
 const TeamAdminHeader = ({ owner }) => (
-
     <Query query={teamsByOwner} variables={variables}>
         {({ loading, error, data }) => {
-            console.log(data);
-            const dataPane = data.teamsByOwner.map(team => (     
+            const dataPane = (data.teamsByOwner || []).map(team => (
                 {
                     menuItem: team.teamtitle, render: () =>
                         <Tab.Pane className="orgTab" attached={false} >
@@ -45,22 +31,21 @@ const TeamAdminHeader = ({ owner }) => (
                                     defaultproject={team.defaultproject ? team.defaultproject.projecttitle : ''}
                                 />
                             </div>
-                            <div className="addTeamCard">
                                 <ProjAddProjCard
                                     teamsByOwner={teamsByOwner}
                                     teamId={team._id}
                                     variables={variables}
                                     teams={team}
                                 />
-                            </div>
                           
                                 <ProjUserDD
+                                    team={team}
                                     teamId={team._id}
                                     teamsByOwner={teamsByOwner}
                                     variables={variables}
-                                    team={team}
+                                    projectsToRemove={team.projects.map((project, i) => project._id).toString()}
+
                                 />
-                         
                         </Tab.Pane>
                 }
             ))

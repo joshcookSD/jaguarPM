@@ -3,7 +3,11 @@ import {Link} from 'react-router-dom';
 import { Image, Popup, Button, Menu } from 'semantic-ui-react';
 import Logo from '../../images/jaguarwhite.png';
 import client from "../../apollo";
+import styled from 'styled-components';
 
+const JaguarPosition = styled.div`
+
+`;
 
 const style = {
     borderRadius: 3,
@@ -14,10 +18,13 @@ const style = {
 const HeaderMenu = () => (
         <Popup
             trigger={
-                <Image verticalAlign='middle' floated='right'
-                       size='mini'
-                       src={Logo}
-                />
+                <JaguarPosition>
+                    <Image
+                           size='mini'
+                           src={Logo}
+                    />
+                </JaguarPosition>
+
             }
             content={
                 <Menu vertical inverted size='tiny'>
@@ -34,9 +41,11 @@ const HeaderMenu = () => (
                         </Link>
                     </Menu.Item>
                 </Menu>}
+
             on='click'
             style={style}
             inverted
+
         />
 );
 

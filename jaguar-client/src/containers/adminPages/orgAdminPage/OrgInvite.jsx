@@ -3,11 +3,8 @@ import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'
 import { allUsers, addOrgUser } from "../../apollo-graphql/userQueries";
 
-
 class DropdownSelection extends Component {
-
     render() {
-
         const {
             orgId,
             variables,
