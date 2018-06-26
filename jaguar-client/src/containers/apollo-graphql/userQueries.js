@@ -377,5 +377,5 @@ const addOrgUser = gql`
 
 
 
-export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, createTeam, userTaskDetails, userDetails};
+export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, createTeam, userTaskDetails, userDetails, teamsByUser};
 
