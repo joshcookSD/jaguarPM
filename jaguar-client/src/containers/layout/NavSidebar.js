@@ -101,7 +101,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/team-page'>
                 <Popup
-                    trigger={<NavItems><Icon fitted size='big' name='users' /></NavItems>}
+                    trigger={<NavItems><NavIcon fitted size='big' className='fas fa-users' /></NavItems>}
                     content="teams"
                     position='right center'
                     style={style}
@@ -119,7 +119,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/template-test'>
                 <Popup
-                    trigger={<NavItems><Icon fitted size='big' name='sitemap' /></NavItems>}
+                    trigger={<NavItems><NavIcon className='fas fa-sitemap' /></NavItems>}
                     content="template-test"
                     position='right center'
                     style={style}
