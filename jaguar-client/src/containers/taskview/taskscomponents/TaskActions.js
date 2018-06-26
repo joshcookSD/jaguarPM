@@ -69,6 +69,16 @@ const TaskActions = ({closeTime, openDetail, openComment}) => (
                 style={style}
                 inverted
             />
+            <Popup
+                trigger={<ActionButton>
+
+                    <Icon name='ellipsis horizontal' size='large' floated='right' />
+                </ActionButton>}
+                content='more'
+                position='top center'
+                style={style}
+                inverted
+            />
         </Button.Group>
     </ActionGroup>
 );

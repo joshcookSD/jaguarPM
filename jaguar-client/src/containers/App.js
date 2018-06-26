@@ -56,7 +56,7 @@ const AsyncViewUsers = Loadable({
     loading: Loading,
 });
 const AsyncUpdateUser = Loadable({
-    loader: () => import('./authorization/UpdateUser'),
+    loader: () => import('./account/AccountUpdateView'),
     loading: Loading,
 });
 const AsyncView = Loadable({

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Icon, Popup } from 'semantic-ui-react'
+import { Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 
 const NavSideWrapper = styled.div`
@@ -35,6 +35,25 @@ const NavItems = styled.li`
   }
 `;
 
+const NavIcon = styled.i`
+    display: inline-block;
+    opacity: 1;
+    width: auto;
+    margin: 0;
+    height: 1em;
+    font-family: Icons;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    font-smoothing: antialiased;
+    backface-visibility: hidden;
+    line-height: 1;
+    vertical-align: middle;
+    font-size: 2em;
+`;
+
 const style = {
     borderRadius: 3,
     opacity: 0.95,
@@ -46,7 +65,7 @@ const NavSidebar = () => (
         <NavList>
             <Link to='/view'>
                 <Popup
-                    trigger={<NavItems><Icon fitted size='big' name='tasks'/></NavItems>}
+                    trigger={<NavItems><NavIcon className='fas fa-tasks'/></NavItems>}
                     content="tasks"
                     position='right center'
                     style={style}
@@ -55,7 +74,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/view-group'>
                 <Popup
-                    trigger={<NavItems><Icon fitted size='big' name='cube' /></NavItems>}
+                    trigger={<NavItems><NavIcon className='fas fa-cube' /></NavItems>}
                     content="groups"
                     position='right center'
                     style={style}
@@ -64,7 +83,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/project-admin'>
                 <Popup
-                    trigger={<NavItems><Icon fitted size='big' name='cubes' /></NavItems>}
+                    trigger={<NavItems><NavIcon><i className="fas fa-project-diagram" /></NavIcon></NavItems>}
                     content="projects"
                     position='right center'
                     style={style}
@@ -73,7 +92,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/team-admin'>
                 <Popup
-                    trigger={<NavItems><Icon fitted size='big' name='users' /></NavItems>}
+                    trigger={<NavItems><NavIcon className='fas fa-users' /></NavItems>}
                     content="teams"
                     position='right center'
                     style={style}
@@ -82,7 +101,7 @@ const NavSidebar = () => (
             </Link>
             <Link to='/org-admin'>
                 <Popup
-                    trigger={<NavItems><Icon fitted size='big' name='sitemap' /></NavItems>}
+                    trigger={<NavItems><NavIcon className='fas fa-sitemap' /></NavItems>}
                     content="organizations"
                     position='right center'
                     style={style}
