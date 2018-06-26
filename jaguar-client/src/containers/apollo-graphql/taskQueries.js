@@ -61,8 +61,39 @@ const task = gql`
 }
  `;
 const tasksByUser = gql`
- query tasksByUser($taskcurrentowner: String!, $iscompleted: Boolean){
-  tasksByUser(taskcurrentowner: $taskcurrentowner, iscompleted: $iscompleted) {
+ query tasksByUser($taskcurrentowner: String!){
+  tasksByUser(taskcurrentowner: $taskcurrentowner) {
+    _id
+    tasktitle
+    iscompleted
+     group {
+        _id
+        grouptitle
+    }
+    project {
+        _id
+        projecttitle
+    }
+    team {
+        _id
+        teamtitle
+    }
+    taskcurrentowner {
+      _id
+      username
+    }
+        tasktime {
+        time
+    }
+    taskplannedtime{
+        time
+    }
+  }
+}
+ `;
+const tasksUnplanned = gql`
+ query tasksUnplanned($taskcurrentowner: String!, $iscompleted: Boolean){
+  tasksUnplanned(taskcurrentowner: $taskcurrentowner, iscompleted: $iscompleted) {
     _id
     tasktitle
     iscompleted
@@ -98,12 +129,15 @@ const tasksByDay = gql`
     plandate
     duedate
     group {
+        _id
         grouptitle
     }
     project {
+        _id
         projecttitle
     }
     team {
+        _id
         teamtitle
     }
     taskcurrentowner {
@@ -129,12 +163,15 @@ const tasksToday = gql`
     plandate
     duedate
     group {
+        _id
         grouptitle
     }
     project {
+        _id
         projecttitle
     }
     team {
+        _id
         teamtitle
     }
     taskcurrentowner {
@@ -160,12 +197,15 @@ const tasksByTeam = gql`
     plandate
     duedate
     group {
+        _id
         grouptitle
     }
     project {
+        _id
         projecttitle
     }
     team {
+        _id
         teamtitle
     }
     taskcurrentowner {
@@ -311,4 +351,4 @@ mutation removeTask($_id: String!) {
     }
 `;
 
-export {allTasks, task, tasksByUser, createTask, tasksToday, tasksByDay, tasksByTeam, completeTask, updateTask, removeTask, updateTaskTeam, updateTaskProject, updateTaskGroup, updateTaskUser}
+export {allTasks, task, tasksByUser, createTask, tasksToday, tasksByDay, tasksByTeam, completeTask, updateTask, removeTask, updateTaskTeam, updateTaskProject, updateTaskGroup, updateTaskUser, tasksUnplanned}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button,  } from 'semantic-ui-react';
-import { getOrgByOwner, CREATE_TEAM} from '../../apollo-graphql/userQueries'
+import { getOrgByOwner, createTeam} from '../../apollo-graphql/userQueries'
 import decode from 'jwt-decode';
 const token = localStorage.getItem('token');
 const { user } = decode(token);
@@ -29,7 +29,7 @@ class TeamForm extends Component {
         if (teamtitleerror) { errorList.push(teamtitleerror); }
 
         return (
-            <Mutation mutation={CREATE_TEAM}>
+            <Mutation mutation={createTeam}>
                 { (createTeam, { data }) => {
                     return (
                     <div style={{ marginBottom: '.5em' }}>
