@@ -22,7 +22,7 @@ const addTeamUser = gql`
     }
   }`
 
-const CREATE_ORG = gql`
+const createOrg = gql`
     mutation createOrganization( $orgtitle: String!, $orgdescription: String, $owner: String!) {
         createOrganization(orgtitle: $orgtitle, orgdescription: $orgdescription, owner: $owner) {
             ok
@@ -49,7 +49,7 @@ const removeTeamUser = gql `
 
 export {
   addTeamUser,
-  CREATE_ORG,
+  createOrg,
   teamUsers,
   removeOrgUser,
   removeTeamUser

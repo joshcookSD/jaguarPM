@@ -38,6 +38,7 @@ const TaskQuery = `
     allTasks: [Task]
     task(_id: String): Task
     tasksByUser(taskcurrentowner: String, iscompleted: Boolean): [Task]
+    tasksUnplanned(taskcurrentowner: String, iscompleted: Boolean): [Task]
     tasksByDay(taskcurrentowner: String, iscompleted: Boolean, plandate: Date): [Task]
     tasksToday(taskcurrentowner: String, iscompleted: Boolean, plandate: Date): [Task]
     tasksByTeam(taskcurrentowner: String, iscompleted: Boolean, team: String): [Task]
@@ -114,6 +115,10 @@ const TaskQueryResolver = {
         return await Task.findById(args._id.toString())
     },
     tasksByUser: async (parent, args, {Task}) => {
+        const owner = await User.findById(args.taskcurrentowner.toString());
+        return await Task.find({taskcurrentowner: owner})
+    },
+    tasksUnplanned: async (parent, args, {Task}) => {
         const owner = await User.findById(args.taskcurrentowner.toString());
         return await Task.find({taskcurrentowner: owner, iscompleted: args.iscompleted, plandate: null})
     },

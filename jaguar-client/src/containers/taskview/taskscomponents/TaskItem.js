@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { List } from 'semantic-ui-react';
+import { List, Divider } from 'semantic-ui-react';
 import moment from 'moment';
 import styled from 'styled-components';
 import TaskComplete from './TaskComplete'
@@ -26,13 +26,34 @@ class TaskItem extends Component {
         isHovering: false,
         commentOpen: false,
     };
-    closeTime = () => this.setState({ timeOpen: !this.state.timeOpen });
-    openDetail = () => this.setState({ detail: !this.state.detail});
-    openComment = () => this.setState({ commentOpen: !this.state.commentOpen});
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.currentTask !== nextProps.currentTask){
+            this.setState({
+                timeOpen: false,
+                detail: false,
+                commentOpen: false,
+            });
+        }
+    }
+
+    closeTime = async () => {
+        await this.props.selectTask(this.props.taskId);
+        this.setState({ timeOpen: !this.state.timeOpen });
+    };
+    openDetail = async () => {
+        await this.props.selectTask(this.props.taskId);
+        this.setState({ detail: !this.state.detail});
+    };
+    openComment = async () => {
+        await this.props.selectTask(this.props.taskId);
+        this.setState({ commentOpen: !this.state.commentOpen});
+    };
 
     render() {
         const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle, time, planTime} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
+
         return(
             <List.Item
                 key={taskId}
@@ -47,11 +68,13 @@ class TaskItem extends Component {
                 />}
                 <TaskComplete
                     _id={taskId}
+                    userId={userId}
                     completeddate={completeddate}
                     updateQuery={updateQuery}
                     variables={variables}
                     duedate={duedate}
                     plandate={plandate}
+                    isComplete={false}
                 />
                 <List.Content>
 
@@ -67,6 +90,7 @@ class TaskItem extends Component {
                 { detail && (<TaskDetail userId={userId} taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables} />)}
                 { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime} time={time} planTime={planTime} updateQuery={updateQuery} refreshVariables={variables}/>)}
                 { commentOpen && (<TaskComments taskId={taskId} userId={userId}/>)}
+                { (detail || timeOpen || commentOpen) && (<Divider fitted />)}
             </List.Item>
         )
     }

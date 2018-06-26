@@ -31,6 +31,55 @@ const getCurrentUser = gql`
     }
 `;
 
+const userDetails = gql`
+    query user($_id: String!) {
+        user(_id: $_id) {
+            email
+            username
+            password
+            profileImageUrl
+            tasks {
+            _id
+            tasktitle
+            iscompleted
+            group {
+                _id
+                grouptitle
+                }
+            project {
+                _id 
+                projecttitle
+                }
+            team {
+                _id
+                teamtitle
+                }
+            plandate
+            tasktime {
+                _id
+                time
+                }
+            taskplannedtime {
+                _id
+                time
+                }
+            }
+            defaultgroup{
+            _id
+            grouptitle
+        }
+        defaultproject{
+            _id
+            projecttitle
+        }
+        defaultteam{
+            _id
+            teamtitle
+        }
+        }
+    }
+`;
+
 const loginUser = gql`
     mutation login( $password: String!, $email: String!) {
         login(email: $email, password: $password) {
@@ -187,7 +236,7 @@ const allUsers = gql `
 }
 `;
 
-const CREATE_TEAM = gql`
+const createTeam = gql`
     mutation createTeam( $teamtitle: String!, $teamdescription: String, $owner: String, $organization: String!) {
         createTeam(teamtitle: $teamtitle, teamdescription: $teamdescription, owner: $owner, organization: $organization) {
             ok
@@ -200,7 +249,33 @@ const CREATE_TEAM = gql`
 
 const userTaskDetails = gql`
 query user($_id: String ){
-    user(_id: $_id){
+    user(_id: $_id){    
+        tasks {
+            _id
+            tasktitle
+            iscompleted
+            group {
+                _id
+                grouptitle
+                }
+            project {
+                _id 
+                projecttitle
+                }
+            team {
+                _id
+                teamtitle
+                }
+            plandate
+            tasktime {
+                _id
+                time
+                }
+            taskplannedtime {
+                _id
+                time
+                }
+            }
         team {
             _id
             teamtitle
@@ -208,6 +283,38 @@ query user($_id: String ){
                 _id
                 defaultgroup {
                 _id
+                }
+            }
+            tasks {
+                 _id
+            tasktitle
+            taskdescription
+            iscompleted
+            taskcurrentowner {
+                _id
+                username
+            }
+            group {
+                _id
+                grouptitle
+                }
+            project {
+                _id 
+                projecttitle
+                }
+            team {
+                _id
+                teamtitle
+                }
+            duedate
+            plandate
+            tasktime {
+                _id
+                time
+                }
+            taskplannedtime {
+                _id
+                time
                 }
             }
             projects{
@@ -269,4 +376,6 @@ const addOrgUser = gql`
 
 
 
-export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, CREATE_TEAM, userTaskDetails,teamsByUser};
+
+export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, createTeam, userTaskDetails, userDetails};
+
