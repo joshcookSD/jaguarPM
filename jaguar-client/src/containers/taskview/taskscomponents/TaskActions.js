@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
+import TaskCurrent from './TaskCurrent'
 
 const style = {
     borderRadius: 3,
@@ -9,11 +10,11 @@ const style = {
 };
 
 const ActionGroup = styled.div`
-    position: absolute;
-    top: -15px;
-    left: 65%;
+    float:right;
     border: 1px solid rgba(0,0,0,0.2);
     border-radius: 5px;
+    background-color: rgb(230, 255, 241);
+    line-height: 1em;
 `;
 
 const ActionButton = styled.button`
@@ -22,11 +23,11 @@ const ActionButton = styled.button`
     padding: 0.3em;
     cursor: pointer;
     display: inline-block;
-    min-height: 1em;
+    min-height: 0.8em;
     outline: 0;
     border: none;
     vertical-align: baseline;
-    line-height: 1em;
+    line-height: 0.8em;
     text-align: center;
     text-decoration: none;
     transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
@@ -39,7 +40,7 @@ const ActionButton = styled.button`
     `;
 
 
-const TaskActions = ({closeTime, openDetail, openComment}) => (
+const TaskActions = ({closeTime, openDetail, openComment, taskId, userId, currentTask, updateQuery, variables}) => (
     <ActionGroup>
         <Button.Group size='mini'>
             <Popup
@@ -71,10 +72,15 @@ const TaskActions = ({closeTime, openDetail, openComment}) => (
             />
             <Popup
                 trigger={<ActionButton>
-
-                    <Icon name='ellipsis horizontal' size='large' floated='right' />
+                    <TaskCurrent
+                        taskId={taskId}
+                        userId={userId}
+                        currentTask={currentTask}
+                        updateQuery={updateQuery}
+                        variables={variables}
+                    />
                 </ActionButton>}
-                content='more'
+                content='make current'
                 position='top center'
                 style={style}
                 inverted

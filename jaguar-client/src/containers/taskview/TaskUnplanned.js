@@ -18,7 +18,7 @@ const TaskUnplannedGroup = styled.div`
 class TaskUnplanned extends Component {
 
     render() {
-        const { defaultgroup, defaultproject, defaultteam, currentTask, tasks, updateQuery, variables } = this.props;
+        const { defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask } = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const unPlanned = tasks.filter(task => { return task.plandate === null && !task.iscompleted });
@@ -59,7 +59,8 @@ class TaskUnplanned extends Component {
                             date={today}
                             time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
                             planTime={taskplannedtime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
-                            currentTask={currentTask}
+                            currentTask={currentTask ? currentTask._id : ''}
+                            taskSelected={taskSelected}
                             selectTask={this.props.selectTask}
                         />
                     ))

@@ -17,6 +17,15 @@ class TaskGrid extends Component {
         taskData: this.props.tasks
     };
 
+    componentWillReceiveProps(nextProps){
+        console.log(this.props.tasks !== nextProps.tasks);
+        if(this.props.tasks !== nextProps.tasks){
+            this.setState({
+                taskData: this.props.tasks
+            });
+        }
+    }
+
     compareBy(key) {
         return function (a, b) {
             if (a[key] < b[key]) return -1;

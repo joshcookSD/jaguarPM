@@ -18,7 +18,7 @@ const TaskTeamGroup = styled.div`
 class TaskTeam extends Component {
 
     render() {
-        const { teamtitle, teamId, defaultgroup, defaultproject, currentTask, tasks, updateQuery, variables } = this.props;
+        const { teamtitle, teamId, defaultgroup, defaultproject, taskSelected, tasks, updateQuery, variables, currentTask } = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const teamPlan = tasks.filter(task => { return task.taskcurrentowner === null && !task.iscompleted });
@@ -58,7 +58,8 @@ class TaskTeam extends Component {
                             date={today}
                             time={task.tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
                             planTime={task.taskplannedtime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
-                            currentTask={currentTask}
+                            currentTask={currentTask ? currentTask._id : ''}
+                            taskSelected={taskSelected}
                             selectTask={this.props.selectTask}
                         />
                     ))

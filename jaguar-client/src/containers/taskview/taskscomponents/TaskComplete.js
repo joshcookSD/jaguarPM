@@ -6,7 +6,7 @@ import moment from 'moment';
 
 class TaskComplete extends Component {
     state={
-        taskComplete: false,
+        taskComplete: this.props.isComplete,
     };
 
     componentWillReceiveProps(nextProps){
@@ -18,7 +18,7 @@ class TaskComplete extends Component {
     }
 
     render() {
-        const {_id, completeddate, updateQuery, variables, duedate, plandate, isComplete, userId}= this.props;
+        const {_id, completeddate, updateQuery, variables, duedate, plandate, isComplete}= this.props;
         const {taskComplete} = this.state;
         const pastDue =  moment.utc(duedate).format('YYYY-MM-DD') < completeddate;
         const pastPlan = moment.utc(plandate).format('YYYY-MM-DD') < completeddate;

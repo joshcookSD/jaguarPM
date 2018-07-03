@@ -5,6 +5,8 @@ const MainSideBar = styled.div`
   grid-row: 1 / 4;
   padding: 1em;
   background-color: rgb(230, 255, 241);
+  height: 100vh;
+  overflow-y: auto;
 `;
 
 export default MainSideBar;

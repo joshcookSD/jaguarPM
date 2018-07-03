@@ -69,6 +69,11 @@ const UserMutation = `
         organization: String
         profileImageUrl: String
         username: String
+    ) : User   
+    updateCurrentTask(
+        _id: String
+        currenttask: String
+        previoustask: String
     ) : User
     login(
         email: String!, 
@@ -147,6 +152,36 @@ const UserMutationResolver = {
         let user = await User.findByIdAndUpdate(args._id.toString(),);
         user._id = user._id.toString();
         return user
+    },
+    updateCurrentTask: async (parent, {_id, currenttask, previoustask},{User}) => {
+        let task = await Task.findByIdAndUpdate(currenttask, {
+                $set: {
+                    iscurrent: true,
+                }},
+            {new: true}
+        );
+        let taskUser = await User.findByIdAndUpdate(_id, {
+                $set: {
+                    currenttask: task,
+                }},
+            {new: true}
+        );
+        await Task.findByIdAndUpdate(currenttask, {
+                $set: {
+                    taskcurrentowner: taskUser,
+                }},
+            {new: true}
+        );
+        if(previoustask) {
+            await Task.findByIdAndUpdate(previoustask, {
+                    $set: {
+                        iscurrent: false,
+                    }
+                },
+                {new: true}
+            );
+        }
+        return taskUser
     },
     login: (parent, { email, password }, {SECRET, SECRET2 }) =>
         tryLogin(email, password, SECRET, SECRET2),
