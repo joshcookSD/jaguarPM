@@ -25,8 +25,8 @@ class TaskToday extends Component {
         const todaysPlan = tasks.filter(task => {
             return moment.utc(task.plandate).format('YYYY-MM-DD') <= today &&
                 task.plandate != null &&
-                !task.iscompleted &&
-                currentTask ? task._id !== currentTask._id : ''});
+                currentTask ? !task.iscompleted &&
+                task._id !== currentTask._id : !task.iscompleted });
         return(
              <div>
             <TaskGroupHeader>Today ({moment.utc(today).format('dddd, MM/DD')})</TaskGroupHeader>
