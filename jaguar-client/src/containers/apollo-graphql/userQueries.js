@@ -249,7 +249,34 @@ const createTeam = gql`
 
 const userTaskDetails = gql`
 query user($_id: String ){
-    user(_id: $_id){    
+    user(_id: $_id){
+        currenttask {
+            _id
+            tasktitle
+            duedate
+            iscompleted
+            group {
+                _id
+                grouptitle
+                }
+            project {
+                _id 
+                projecttitle
+                }
+            team {
+                _id
+                teamtitle
+                }
+            plandate
+            tasktime {
+                _id
+                time
+                }
+            taskplannedtime {
+                _id
+                time
+                }
+            }   
         tasks {
             _id
             tasktitle
@@ -267,6 +294,7 @@ query user($_id: String ){
                 teamtitle
                 }
             plandate
+            duedate
             tasktime {
                 _id
                 time
@@ -374,8 +402,31 @@ const addOrgUser = gql`
         }
     }`;
 
+const updateCurrentTask = gql`
+    mutation  updateCurrentTask($_id: String!, $currenttask: String!, $previoustask: String) {
+        updateCurrentTask(_id: $_id, currenttask: $currenttask, previoustask: $previoustask) {
+            _id
+            currenttask {
+                _id
+                tasktitle
+            }
+        }
+    }
+`;
 
-
-
-export { addOrgUser, addUser, getCurrentUser, loginUser, getOrgByOwner, userTeams, allUsers, teamsByOwner, createTeam, userTaskDetails, userDetails, teamsByUser};
+export {
+    addOrgUser,
+    addUser,
+    getCurrentUser,
+    loginUser,
+    getOrgByOwner,
+    userTeams,
+    allUsers,
+    teamsByOwner,
+    createTeam,
+    userTaskDetails,
+    userDetails,
+    teamsByUser,
+    updateCurrentTask
+};
 

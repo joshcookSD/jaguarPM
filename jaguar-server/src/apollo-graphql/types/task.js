@@ -14,6 +14,7 @@ const TaskType = `
         tasktitle: String
         taskdescription: String
         iscompleted: Boolean
+        iscurrent: Boolean
         completeddate: Date
         plandate: Date
         taskstatus: String
@@ -57,6 +58,7 @@ const TaskMutation = `
 ) : Task
     updateTask(
         _id: String,
+        taskcurrentowner: String,
         tasktitle: String,
         taskdescription: String,
         taskstatus: String,

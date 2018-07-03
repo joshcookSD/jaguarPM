@@ -8,15 +8,11 @@ import TaskTime from './TaskTime'
 import TaskComments from './TaskComments'
 import TaskActions from './TaskActions'
 
-const style = {
-    position: 'relative'
-};
-
 const TaskContent = styled.div`
-    line-height: 1.1em;
+    line-height: 2em;
     font-size: .8em;
-    padding-bottom: 5px;
     color: rgba(0,0,0,.7);
+    text-align: left;
 `;
 
 class TaskItem extends Component {
@@ -28,7 +24,7 @@ class TaskItem extends Component {
     };
 
     componentWillReceiveProps(nextProps){
-        if(this.props.currentTask !== nextProps.currentTask){
+        if(this.props.taskSelected !== nextProps.taskSelected){
             this.setState({
                 timeOpen: false,
                 detail: false,
@@ -51,8 +47,16 @@ class TaskItem extends Component {
     };
 
     render() {
-        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle, time, planTime} = this.props;
+        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, grouptitle, projecttitle, teamtitle, time, planTime, currentTask} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
+        const active = isHovering ? '1px solid rgba(0,0,0,0.2)': 'none';
+        const style = {
+            overflowX: 'auto',
+            width: '100%',
+            paddingBottom: '0.3em',
+            paddingTop: '0.2em',
+            borderTop: active,
+        };
 
         return(
             <List.Item
@@ -61,11 +65,6 @@ class TaskItem extends Component {
                 onMouseLeave={() => { this.setState({isHovering: false}) }}
                 style={style}
             >
-                {isHovering && <TaskActions
-                    closeTime={this.closeTime}
-                    openDetail={this.openDetail}
-                    openComment={this.openComment}
-                />}
                 <TaskComplete
                     _id={taskId}
                     userId={userId}
@@ -76,14 +75,22 @@ class TaskItem extends Component {
                     plandate={plandate}
                     isComplete={false}
                 />
-                <List.Content>
+                <List.Content style={{width: '100%'}}>
 
                     <List.Header as='a'>{tasktitle}</List.Header>
                     <TaskContent>
-                        {duedate ? `Due: ${moment.utc(duedate).format('MM/DD')} `: ``}
-                        {grouptitle ? `${grouptitle}`: ``}
-                        {projecttitle ? `>${projecttitle}`: ``}
-                        {teamtitle ? `>${teamtitle}`: ``}
+                        {teamtitle ? `${teamtitle} `: ``}
+                        {duedate ? `| due: ${moment.utc(duedate).format('MM/DD')} `: ``}
+                        {isHovering && <TaskActions
+                            closeTime={this.closeTime}
+                            openDetail={this.openDetail}
+                            openComment={this.openComment}
+                            taskId={taskId}
+                            userId={userId}
+                            currentTask={currentTask}
+                            updateQuery={updateQuery}
+                            variables={variables}
+                        />}
                     </TaskContent>
                 </List.Content>
 

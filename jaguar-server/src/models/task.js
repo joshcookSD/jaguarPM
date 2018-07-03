@@ -29,6 +29,10 @@ const taskSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
+        iscurrent: {
+            type: Boolean,
+            default: false
+        },
         plandate: {
           type: Date,
         },

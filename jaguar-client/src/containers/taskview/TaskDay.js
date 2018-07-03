@@ -18,7 +18,7 @@ const TaskDayGroup = styled.div`
 class TaskDay extends Component {
 
     render() {
-        const {day, defaultgroup, defaultproject, defaultteam, currentTask, tasks, updateQuery, variables} = this.props;
+        const {day, defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask} = this.props;
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const {user} = decode(token);
         const dayPlan = tasks.filter(task => { return moment.utc(task.plandate).format('YYYY-MM-DD') === day && !task.iscompleted });
@@ -66,7 +66,8 @@ class TaskDay extends Component {
                             date={today}
                             time={tasktime.map(({time}) => time).reduce((a, b) => (a + b), 0)}
                             planTime={taskplannedtime.map(({time}) => time).reduce((a, b) => (a + b), 0)}
-                            currentTask={currentTask}
+                            currentTask={currentTask ? currentTask._id : ''}
+                            taskSelected={taskSelected}
                             selectTask={this.props.selectTask}
                         />
                     ))

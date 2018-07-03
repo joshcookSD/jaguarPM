@@ -65,7 +65,8 @@ class TaskView extends Component {
                                     defaultteam={data.user.defaultteam._id}
                                     updateQuery={userTaskDetails}
                                     variables={variables}
-                                    currentTask={taskSelected}
+                                    currentTask={data.user.currenttask}
+                                    taskSelected={taskSelected}
                                     selectTask={this.selectTask}
                                 />
                             </MainSidebar>
@@ -82,7 +83,8 @@ class TaskView extends Component {
                                     defaultteam={data.user.defaultteam._id}
                                     updateQuery={userTaskDetails}
                                     variables={variables}
-                                    currentTask={taskSelected}
+                                    currentTask={data.user.currenttask}
+                                    taskselected={taskSelected}
                                     selectTask={this.selectTask}
                                 /></Section>
                                 <Section><TaskDay
@@ -93,7 +95,8 @@ class TaskView extends Component {
                                     defaultteam={data.user.defaultteam._id}
                                     updateQuery={userTaskDetails}
                                     variables={variables}
-                                    currentTask={taskSelected}
+                                    currentTask={data.user.currenttask}
+                                    taskselected={taskSelected}
                                     selectTask={this.selectTask}
                                 /></Section>
                                 <Section><TaskDay
@@ -104,7 +107,8 @@ class TaskView extends Component {
                                     defaultteam={data.user.defaultteam._id}
                                     updateQuery={userTaskDetails}
                                     variables={variables}
-                                    currentTask={taskSelected}
+                                    currentTask={data.user.currenttask}
+                                    taskselected={taskSelected}
                                     selectTask={this.selectTask}
                                 /></Section>
                                 <Section><TaskDay
@@ -115,7 +119,8 @@ class TaskView extends Component {
                                     defaultteam={data.user.defaultteam._id}
                                     updateQuery={userTaskDetails}
                                     variables={variables}
-                                    currentTask={taskSelected}
+                                    currentTask={data.user.currenttask}
+                                    taskselected={taskSelected}
                                     selectTask={this.selectTask}
                                 /></Section>
                                 <Section><TaskDay
@@ -125,7 +130,9 @@ class TaskView extends Component {
                                     defaultproject={data.user.defaultproject._id}
                                     defaultteam={data.user.defaultteam._id}
                                     updateQuery={userTaskDetails}
-                                    variables={variables}currentTask={taskSelected}
+                                    variables={variables}
+                                    currentTask={data.user.currenttask}
+                                    taskselected={taskSelected}
                                     selectTask={this.selectTask}
                                 /></Section>
                                 <Section><TaskUnplanned
@@ -135,7 +142,8 @@ class TaskView extends Component {
                                     defaultteam={data.user.defaultteam._id}
                                     updateQuery={userTaskDetails}
                                     variables={variables}
-                                    currentTask={taskSelected}
+                                    currentTask={data.user.currenttask}
+                                    taskselected={taskSelected}
                                     selectTask={this.selectTask}
                                 /></Section>
                                 {data.user.team.map((team) => (
@@ -149,7 +157,8 @@ class TaskView extends Component {
                                             defaultproject={team.defaultproject._id}
                                             updateQuery={userTaskDetails}
                                             variables={variables}
-                                            currentTask={taskSelected}
+                                            currentTask={data.user.currenttask}
+                                            taskselected={taskSelected}
                                             selectTask={this.selectTask}
                                         />
                                     </Section>
