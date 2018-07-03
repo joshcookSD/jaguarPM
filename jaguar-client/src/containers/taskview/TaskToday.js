@@ -26,7 +26,7 @@ class TaskToday extends Component {
             return moment.utc(task.plandate).format('YYYY-MM-DD') <= today &&
                 task.plandate != null &&
                 !task.iscompleted &&
-                task._id !== currentTask._id});
+                currentTask ? task._id !== currentTask._id : ''});
         return(
              <div>
             <TaskGroupHeader>Today ({moment.utc(today).format('dddd, MM/DD')})</TaskGroupHeader>
