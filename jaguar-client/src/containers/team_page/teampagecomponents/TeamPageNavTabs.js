@@ -1,0 +1,75 @@
+import React, {Component} from 'react';
+import styled from 'styled-components';
+import HeaderMenu from '../../layout/HeaderMenu';
+
+const HeaderWrapper = styled.div`
+  grid-column-start: 3;
+  background-color: black;
+  display: flex;
+  height: 100%;
+`;
+
+const IconWrapper = styled.div`
+  width: 5%
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HeaderGrid = styled.div`
+
+  display: flex;
+  height: 100%
+  width: 95%
+  padding-left: 1em;
+  overflow: auto;
+`;
+
+const NavItems = styled.div`
+  max-width: 70px; 
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  color: white;
+  justify-content: center;
+  &:hover {
+    border-style: solid;
+    border-width: 0 0 5px 0;
+    border-color: #767676;
+  }
+`;
+
+const activeStyle = {
+    borderBottomStyle: 'solid',
+    borderBottomWidth: 5+'px',
+    borderBottomColor: 'white',
+};
+
+class TeamPageNavTabs extends Component {
+    handleClick = (team) => {
+        this.props.changeView(team);
+    };
+
+    render() {
+        const {activeView, data } = this.props;
+        return (
+            <HeaderWrapper>
+                <HeaderGrid>
+                    {(data.teamsByUser || []).map((team, i) => (
+                        <NavItems
+                            key={i}
+                            onClick={ () => this.handleClick(team)}
+                            style={activeView === team ? activeStyle : {} }>
+                            {team.teamtitle}
+                        </NavItems>
+                    ))}
+                </HeaderGrid>
+                    <IconWrapper>
+                        <HeaderMenu/>
+                    </IconWrapper>
+            </HeaderWrapper>
+        )
+    }
+}
+
+export default TeamPageNavTabs;

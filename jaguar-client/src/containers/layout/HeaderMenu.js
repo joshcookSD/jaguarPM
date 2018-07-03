@@ -31,6 +31,12 @@ const HeaderMenu = () => (
                     <Link to='/update-user'>
                         <Menu.Item>account</Menu.Item>
                     </Link>
+                    <Link to='/org-admin'>
+                        <Menu.Item>organization admin</Menu.Item>
+                    </Link>
+                    <Link to='/team-admin'>
+                        <Menu.Item>team admin</Menu.Item>
+                    </Link>
                     <Menu.Item>
                         <Link to='/' onClick={() => {
                             localStorage.removeItem('token');

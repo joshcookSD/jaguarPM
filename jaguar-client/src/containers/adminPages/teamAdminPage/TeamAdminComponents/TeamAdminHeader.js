@@ -2,14 +2,13 @@ import React from 'react';
 import { Query } from "react-apollo";
 import { Image, Tab } from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import { teamsByOwner } from "../../apollo-graphql/userQueries";
-import Logo from '../../../images/jaguarwhite.png';
+import { teamsByOwner } from "../../../apollo-graphql/userQueries";
+import Logo from '../../../../images/jaguarwhite.png';
 import ProjTabHeader from './ProjTabHeader';
 import ProjAddProjCard from './ProjAddProjCard';
-import ProjUserDD from './ProjUserDD';
-import '../teamAdminPage/TeamAdminHeader.css';
-import { HeaderWrapper } from '../../layout/AdminComponents.js'
-import '../orgAdminPage/OrgAdminHeader.css';
+import ProjUserDD from './ProjAdminAddUser.js';
+import { HeaderWrapper } from '../../../layout/AdminComponents.js'
+import '../../orgAdminPage/TemplateComponents/OrgAdminHeader.css';
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);

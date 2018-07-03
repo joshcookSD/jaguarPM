@@ -11,19 +11,17 @@ import {userTaskDetails} from "../../apollo-graphql/userQueries";
 const token = localStorage.getItem('token');
 
 
-class TeamAdmin extends Component {
-
+class OrgAdminView extends Component {
     render() {
         const { user } = decode(token);
         const variables = {_id: user._id};
-
-        return(
+        return (
             <Query query={userTaskDetails} variables={variables}>
-                { ({ loading, error, data }) => {
+                {({loading, error, data}) => {
                     if (loading) return (
                         <div>
                             <Dimmer active>
-                                <Loader />
+                                <Loader/>
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
@@ -42,7 +40,7 @@ class TeamAdmin extends Component {
                             </MainSidebar>
                             <OrgPageMain />
                         </AppLayout>
-                    </div>;
+                    </div>
                 }
                 }
             </Query>
@@ -52,4 +50,4 @@ class TeamAdmin extends Component {
 
 
 
-export default TeamAdmin;
+export default OrgAdminView;

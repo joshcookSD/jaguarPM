@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import decode from 'jwt-decode';
-import {Dimmer, Loader} from 'semantic-ui-react';
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'

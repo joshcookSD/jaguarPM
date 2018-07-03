@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Input, Container, Header, Icon } from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import { createOrg } from '../../apollo-graphql/teamOrgQueries.js';
+import { createOrg } from '../../../apollo-graphql/teamOrgQueries.js';
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);

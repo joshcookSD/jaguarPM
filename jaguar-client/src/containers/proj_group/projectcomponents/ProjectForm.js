@@ -1,43 +1,52 @@
 import React, {Component} from 'react'
 import { Mutation } from "react-apollo";
-import { Button, Form } from 'semantic-ui-react'
+import { Message, Button, Form } from 'semantic-ui-react'
 import {createProject} from "../../apollo-graphql/groupProjectQueries";
+import { teamsByOwner } from "../../apollo-graphql/userQueries";
 
 class ProjectForm extends Component {
+
+    handleSubmit = (team) => {
+        this.props.handleAfterSubmit(team);
+    };
+
     state = {
-        newProject: "",
-        newProjectDescription: "",
+        projecttitle: "",
+        projectdescription: "",
+        errors: {},
+        projecttitleerror: "",
+        activeView: this.props.activeView
     };
 
     render() {
         const {
-            team,
-            teamsByOwner,
-            variables
+            teamId,
+            variables,
+            activeView,
         } = this.props;
 
         const {
-            newProject,
-            newProjectDescription,
-            projectTitleError
+            projecttitle,
+            projectdescription,
+            projecttitleerror
         } = this.state;
 
         const errorList = [];
-        if (projectTitleError) { errorList.push(projectTitleError); }
+        if (projecttitleerror) { errorList.push(projecttitleerror); }
 
         return (
             <Mutation mutation={createProject}>
-                {(createProject, { data }) => {
+                {(createProject) => {
                     return (
                         <div style={{ marginBottom: '.5em' }}>
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
-                                    await createProject({
+                                    const response = await createProject({
                                         variables: {
-                                            projecttitle: newProject,
-                                            projectdescription: newProjectDescription,
-                                            team,
+                                            projecttitle: projecttitle,
+                                            projectdescription: projectdescription,
+                                            team: teamId,
                                             leader: variables.owner,
                                             users: variables.owner
                                         },
@@ -46,28 +55,45 @@ class ProjectForm extends Component {
                                             variables: variables
                                         }]
                                     });
-                                    // this.props.onClose();
-                                    this.setState({
-                                        newProject: "",
-                                        newProjectDescription: ""
-                                    });
+                                    const { ok, errors } = response.data.createProject;
+                                    if (ok) {
+                                        this.handleSubmit(activeView);
+                                        this.setState({
+                                            projecttitle: "",
+                                            projectdescription: "",
+                                            errors: {},
+                                            projecttitleerror: ""
+                                        });
+                                    } else {
+                                        const err = {};
+                                        errors.forEach(({ path, message }) => {
+                                            err[`${path}Error`] = message;
+                                        });
+                                        this.setState(err);
+                                    }
                                 }}>
-                                <Form.Field>
+                                <Form.Field error={!!projecttitleerror}>
                                     <label>Name</label>
                                     <Form.Input
                                         placeholder='Project Name'
-                                        value={newProject}
+                                        value={projecttitle}
                                         type='text'
-                                        onChange={e => this.setState({ newProject: e.target.value })}
+                                        id="newProject"
+                                        name="newProject"
+                                        fluid
+                                        onChange={e => this.setState({ projecttitle: e.target.value })}
                                     />
                                 </Form.Field>
                                 <Form.Field>
                                     <label>Description</label>
                                     <Form.Input
                                         placeholder='Project Description'
-                                        value={newProjectDescription}
+                                        value={projectdescription}
                                         type='text'
-                                        onChange={e => this.setState({ newProjectDescription: e.target.value })}
+                                        id="project description"
+                                        name="newProjectDescription"
+                                        fluid
+                                        onChange={e => this.setState({ projectdescription: e.target.value })}
                                     />
                                 </Form.Field>
                                 <Button
@@ -80,12 +106,15 @@ class ProjectForm extends Component {
                                     content='New Project!'
                                 />
                             </Form>
+                            {errorList.length ? (
+                                <Message error header="There was some errors with your submission" list={errorList} />
+                            ) : null}
                         </div>
                     )
                 }}
             </Mutation>
-        )
-    }
+        );
+    };
 }
 
 export default ProjectForm

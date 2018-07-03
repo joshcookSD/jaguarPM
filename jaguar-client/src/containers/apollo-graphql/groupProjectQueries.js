@@ -60,8 +60,11 @@ mutation createProject(
         leader: $leader,
         users: $users
         ) {
-            _id
-            projecttitle
+            ok
+            errors {
+                path
+                message
+            }
         }
 }`;
 

@@ -29,12 +29,12 @@ class TeamPageTabs extends Component {
     };
 
     render() {
-        const {activeView} = this.props;
+        const {activePageTab} = this.props;
 
         return (
             <div>
                 {['feed', 'progress', 'project'].map((view) => (
-                    <NavItems key={view} onClick={ () => this.handleClick(view)} style={activeView === view ? activeStyle : {} }>{view}</NavItems>
+                    <NavItems key={view} onClick={ () => this.handleClick(view)} style={activePageTab === view ? activeStyle : {} }>{view}</NavItems>
                 ))}
             </div>
         )

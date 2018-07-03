@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import { Dimmer, Loader, Card } from 'semantic-ui-react';
 import AddGroupForm from "./AddGroupForm";
-import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
 import { Link } from 'react-router-dom';
 
     class UnassignedGroupList extends Component {

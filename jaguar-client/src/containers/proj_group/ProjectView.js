@@ -9,7 +9,6 @@ import Header from '../layout/Header'
 import { ProjGroupContentArea } from '../layout/Proj_GroupComponents.js'
 import ProjectList from './projectcomponents/ProjectList'
 import ProjectDetails from './projectcomponents/ProjectDetails'
-import { TopSection, BottomSection } from '../layout/Section'
 import {userTeams} from "../apollo-graphql/userQueries";
 import { projectDetails } from "../apollo-graphql/groupProjectQueries";
 import  UnassignedGroupList  from './projectcomponents/UnassignedGroupList';

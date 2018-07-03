@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import decode from "jwt-decode";
 import HeaderMenu from '../../../layout/HeaderMenu';
-import {getOrgByOwner} from "../../../apollo-graphql/userQueries";
 
 const HeaderWrapper = styled.div`
   grid-column-start: 3;
@@ -18,12 +16,6 @@ const IconWrapper = styled.div`
   justify-content: center;
 `;
 
-const OrgIconWrapper = styled.div`
-  width: 5%
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const HeaderGrid = styled.div`
 
@@ -54,30 +46,22 @@ const activeStyle = {
     borderBottomColor: 'white',
 };
 
-const token = localStorage.getItem('token');
-const { user } = decode(token);
-const userId = user._id;
-const variables = { owner: userId };
-
-class OrgNavTabs extends Component {
+class TeamAdminPageNavTabs extends Component {
     handleClick = (org) => {
         this.props.changeView(org);
     };
 
     render() {
         const {activeView, data } = this.props;
-        {console.log(activeView)}
         return (
             <HeaderWrapper>
                 <HeaderGrid>
-                    {(data.getOrgByOwner || []).map((org, i) => (
+                    {(data.teamsByOwner || []).map((team, i) => (
                         <NavItems
                             key={i}
-                            //on click of nav tab send team object to main which sets state as team object
-                            onClick={ () => this.handleClick(org)}
-                            //if active view is equal to org give it style else nothing
-                            style={activeView === org ? activeStyle : {} }>
-                            {org.orgtitle}
+                            onClick={ () => this.handleClick(team)}
+                            style={activeView === team ? activeStyle : {} }>
+                            {team.teamtitle}
                         </NavItems>
                     ))}
                 </HeaderGrid>
@@ -89,4 +73,4 @@ class OrgNavTabs extends Component {
     }
 }
 
-export default OrgNavTabs;
+export default TeamAdminPageNavTabs;

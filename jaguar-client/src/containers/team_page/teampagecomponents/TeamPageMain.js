@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import { Image, Tab } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import { teamsByUser } from "../../apollo-graphql/userQueries";
-import Logo from '../../../images/jaguarwhite.png';
-import { HeaderWrapper } from '../../layout/AdminComponents.js'
 import "./TeamPageMain.css";
 import styled from 'styled-components';
+import  TeamPageNavTabs from './TeamPageNavTabs'
 import TeamPageDetails from './TeamPageDetails';
 import TeamPageTabs from './TeamPageTabs.js';
 import TeamPagePanes from './TeamPagePanes.js';
 import TeamTaskPrioriety from './TeamTaskPrioriety.js';
+import { Dimmer, Loader } from 'semantic-ui-react'
 
 const Activity = styled.div`
 background-color: lightblue;
@@ -90,66 +89,78 @@ body {font-family: "Lato", sans-serif;}
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
-
 const variables = { user: userId };
 
 class TeamPageMain extends Component {
     state = {
-        activeView: 'feed',
+        activeView: '',
+        activePageTab: 'feed',
+        isSelectedPageTab: false,
         isSelected: false,
     };
     changeView = (view) => {
-        this.setState({activeView: view, isSelected: true });
+        this.setState({activePageTab: view, isSelectedPageTab: true });
     };
+
+    handleClick = (team) => {
+        this.setState({activeView: team, isSelected: true });
+    };
+
     render() {
-        const { activeView, isSelected } = this.state;
+        const { activeView, activePageTab, isSelected,isSelectedPageTab } = this.state;
+
         return (
         <Query query={teamsByUser} variables={variables}>
             {({ loading, error, data }) => {
-
-                const dataPane = (data.teamsByUser || []).map(team => (
-                    {
-                        menuItem: team.teamtitle, render: () =>
-                            <Tab.Pane className="orgTab" attached={false}>
-
-                                {/*<Details>*/}
-                                    {/*<TeamPageDetails team={team} />*/}
-                                {/*</Details>*/}
-
-                                {/*<Prioriety>*/}
-                                    {/*<TeamTaskPrioriety team={team}/>*/}
-                                {/*</Prioriety>*/}
-
-                                <Activity>
-                                    <TeamPagePanes activeView={activeView} team={team}/>
-                                </Activity>
-
-                                <Secondary>
-                                    <TeamPageTabs changeView={this.changeView} activeView={activeView} isSelected={isSelected}/>
-                                </Secondary>
-
-                            </Tab.Pane>
-                    }
-                ));
-                if (loading) return null;
-                if (error) return `Error!: ${error}`;
+                if(this.state.isSelected === false ) {
+                    (data.teamsByUser || []).forEach((team, i) => {
+                        if (i === 0) {
+                            this.setState({activeView: team, isSelected: true})
+                        }
+                    });
+                }
                 return (
-                    <HeaderWrapper>
-                        <Image verticalAlign='middle' floated='right'
-                               size='mini'
-                               src={Logo}
+                    <div className='container'>
+                        <TeamPageNavTabs
+                            changeView={this.handleClick}
+                            activeView={activeView}
+                            activePageTab={activePageTab}
+                            isSelected={isSelected}
+                            data={data}
                         />
-                        <Tab menu={{ secondary: true }} panes={dataPane} />
-                    </HeaderWrapper>
+                        <div className='teamPagePaneGrid'>
+                            <Secondary>
+                                <TeamPageTabs changeView={this.changeView} activePageTab={activePageTab} isSelectedPageTab={isSelectedPageTab}/>
+                            </Secondary>
+
+                            <Activity>
+                                <TeamPagePanes activePageTab={activePageTab} team={activeView}/>
+                            </Activity>
+
+                            {isSelected ?
+                                ([
+                                    <Details>
+                                        <TeamPageDetails activeView={activeView} isSelectedPageTab={isSelectedPageTab}/>
+                                    </Details>,
+
+                                    <Prioriety>
+                                        <TeamTaskPrioriety activeView={activeView}/>
+                                    </Prioriety>
+                                ]) : (
+                                    <Dimmer active>
+                                        <Loader />
+                                    </Dimmer>
+                                )
+                            }
+                        </div>
+                    </div>
+
                 )
             }}
         </Query>
         )
     }
-
 }
-
-
 
 export default TeamPageMain;
 
