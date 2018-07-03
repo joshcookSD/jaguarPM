@@ -1,4 +1,5 @@
 import Task from "../../models/task";
+import Project from "../../models/project";
 import Group from "../../models/group";
 import Milestone from "../../models/milestone";
 import Requirement from "../../models/requirement";
@@ -7,6 +8,7 @@ import Time from "../../models/time";
 import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
 import Team from "../../models/team";
+
 
 const ProjectType = `
     type Project {
@@ -29,6 +31,12 @@ const ProjectType = `
         projectplannedtime: [PlannedTime]
         priority: Priority
     }
+    
+    type CreateProjectResponse {
+        ok: Boolean!
+        project: Project
+        errors: [Error!]
+    }
 `;
 
 const ProjectQuery = `
@@ -43,7 +51,7 @@ const ProjectMutation = `
         team: String!,
         leader: String,
         users: String
-) : Project
+) : CreateProjectResponse
     updateProject(
         _id: String,
         projecttitle: String,
@@ -70,35 +78,35 @@ const ProjectQueryResolver = {
 };
 
 const ProjectMutationResolver ={
-    createProject: async (parent, args, { Project}) => {
-        let project = await new Project(args).save();
-        let user = await User.findById(args.users);
-        user.projects.push(project._id);
-        await user.save();
-        let projectteam = await Team.findById(args.team);
-        let group = await new Group({
-            grouptitle: 'General',
-            groupdescription: `General Group`,
-            project: project._id,
-            users: user._id,
-            team: projectteam._id
+        createProject: async (parent, args, { Project}) => {
+            let project = await new Project(args).save();
+            let user = await User.findById(args.users);
+            user.projects.push(project._id);
+            await user.save();
+            let projectteam = await Team.findById(args.team);
+            let group = await new Group({
+                grouptitle: 'General',
+                groupdescription: `General Group`,
+                project: project._id,
+                users: user._id,
+                team: projectteam._id
 
-        }).save();
-        projectteam.projects.push(project._id);
-        projectteam.groups.push(group._id);
-        await projectteam.save();
-        user.groups.push(group._id);
-        await user.save();
-        await Project.findByIdAndUpdate(project._id, {
-                $set: {
-                    groups: group._id,
-                    defaultgroup: group._id,
-                }
-            },
-            {new: true}
-        );
-        return project
-    },
+            }).save();
+            projectteam.projects.push(project._id);
+            projectteam.groups.push(group._id);
+            await projectteam.save();
+            user.groups.push(group._id);
+            await user.save();
+            await Project.findByIdAndUpdate(project._id, {
+                    $set: {
+                        groups: group._id,
+                        defaultgroup: group._id,
+                    }
+                },
+                {new: true}
+            );
+            return project
+        },
     updateProject: async (parent, args, { Project}) => {
 
         if(args.projecttitle) {
@@ -211,3 +219,49 @@ const ProjectNested = {
 };
 
 export {ProjectType, ProjectMutation, ProjectQuery, ProjectQueryResolver, ProjectNested, ProjectMutationResolver};
+
+// createProject: async (parent, {projecttitle, projectdescription, team, leader},{ Project}) => {
+//     // try {
+//     //     const err = [];
+//     //     let newProjecterr = await projectError(projecttitle);
+//     //     if (newProjecterr) {
+//     //         err.push(newProjecterr)
+//     //     }
+//     //     if (!err.length) {
+//     //         let newProject = await new Project({
+//     //             projecttitle,
+//     //             projectdescription,
+//     //             team,
+//     //             users: leader,
+//     //             leader
+//     //         }).save();
+//     //         console.log('saved team');
+//     //look at user collection and find user that has id of owner
+//     let project = await new Project(args).save();
+//     let user = await User.findById(args.users);
+//     user.projects.push(project._id);
+//     await user.save();
+//     let projectteam = await Team.findById(args.team);
+//     let group = await new Group({
+//         grouptitle: 'General',
+//         groupdescription: `General Group`,
+//         project: project._id,
+//         users: user._id,
+//         team: projectteam._id
+//
+//     }).save();
+//     projectteam.projects.push(project._id);
+//     projectteam.groups.push(group._id);
+//     await projectteam.save();
+//     user.groups.push(group._id);
+//     await user.save();
+//     await Project.findByIdAndUpdate(project._id, {
+//             $set: {
+//                 groups: group._id,
+//                 defaultgroup: group._id,
+//             }
+//         },
+//         {new: true}
+//     );
+//     return project
+// },

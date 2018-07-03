@@ -64,11 +64,11 @@ const AsyncView = Loadable({
     loading: Loading,
 });
 const AsyncCreateOrg = Loadable({
-    loader: () => import('./adminPages/orgAdminPage/OrgForm.jsx'),
+    loader: () => import('./adminPages/orgAdminPage/TemplateComponents/OrgForm.js'),
     loading: Loading,
 });
 const AsyncCreateTeam = Loadable({
-    loader: () => import('./adminPages/teamAdminPage/TeamForm'),
+    loader: () => import('./adminPages/teamAdminPage/TeamAdminComponents/TeamForm'),
     loading: Loading,
 });
 const AsyncProjectAdmin = Loadable({
@@ -79,12 +79,8 @@ const AsyncTaskDetail = Loadable({
     loader: () => import('./taskview/TaskDetail'),
     loading: Loading,
 });
-const AsyncOrgAdmin = Loadable({
-    loader: () => import('./adminPages/orgAdminPage/OrgAdmin.jsx'),
-    loading: Loading,
-});
 const AsyncTeamAdmin = Loadable({
-    loader: () => import('./adminPages/teamAdminPage/teamAdmin'),
+    loader: () => import('./adminPages/teamAdminPage/teamAdminView.js'),
     loading: Loading,
 });
 const AsyncTeamPage = Loadable({
@@ -95,8 +91,8 @@ const AsyncViewGroup = Loadable({
     loader: () => import('./proj_group/GroupView.js'),
     loading: Loading,
 });
-const AsyncTest = Loadable({
-    loader: () => import('./adminPages/template/TemplateView.js'),
+const AsyncOrgAdmin = Loadable({
+    loader: () => import('./adminPages/orgAdminPage/OrgAdminView.js'),
     loading: Loading,
 });
 
@@ -121,7 +117,6 @@ class App extends Component {
                     <PrivateRoute path="/team-admin" exact component={AsyncTeamAdmin} />
                     <PrivateRoute path="/view-group" exact component={AsyncViewGroup} />
                     <PrivateRoute path="/team-page" exact component={AsyncTeamPage} />
-                    <PrivateRoute path="/template-test" exact component={AsyncTest} />
                 </Switch>
                 </div>
             </Router>

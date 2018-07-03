@@ -4,7 +4,7 @@ import Project from "../../models/project";
 import Group from "../../models/group";
 import {teamError} from "../formatErrors";
 import Organization from '../../models/organization';
-import Team from "../../models/team";
+
 
 const TeamType = `
     type Team {
@@ -121,10 +121,16 @@ const TeamMutationResolver = {
                     organization
                 }).save();
                 console.log('saved team');
+                //look at user collection and find user that has id of owner
                 let teamuser = await User.findById(owner.toString());
+                //look at org collection and find org that has id of organization
                 let teamorganization = await Organization.findById(organization);
+                //using the found org look at its teams and push the new teams id into it
                 teamorganization.team.push(newteam._id);
+                //wait for teamorg to come back and save
                 await teamorganization.save();
+
+                //save new project to the new team w/ users
                 let project = await new Project({
                     projecttitle: 'General',
                     projectdescription: `General Project for ${teamtitle}`,
@@ -133,6 +139,8 @@ const TeamMutationResolver = {
                     users: teamuser._id
                 }).save();
                 console.log('saved project')
+
+                //save new group to the new project and team w/users
                 let group = await new Group({
                     grouptitle: 'General',
                     groupdescription: `General Group`,
@@ -140,10 +148,12 @@ const TeamMutationResolver = {
                     team: newteam._id,
                     users: teamuser._id
                 }).save();
+                //look at team owner push the new group id into his groups
                 teamuser.groups.push(group._id);
                 teamuser.projects.push(project._id);
                 teamuser.team.push(newteam._id);
                 await teamuser.save();
+
                 await Team.findByIdAndUpdate(newteam._id, {
                         $set: {
                             defaultproject: project._id,

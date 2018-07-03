@@ -5,27 +5,24 @@ import TeamProjectProgress from './TeamProjectProgress';
 class TaskView extends Component {
 
     render () {
-        if(this.props.activeView === 'feed') {
+        if(this.props.activePageTab === 'feed') {
             return (
                 <div>
                     View
-                    {console.log('ran feed')}
                 </div>
             );
         }
-        if(this.props.activeView === 'progress') {
+        if(this.props.activePageTab === 'progress') {
             return (
                 <div>
                     <TeamProjectProgress team={this.props.team}/>
-                    {console.log('ran progress')}
                 </div>
             );
         }
-        if(this.props.activeView === 'project') {
+        if(this.props.activePageTab === 'project') {
             return (
                 <div>
                     project
-                    {console.log('ran project')}
                 </div>
             );
         }

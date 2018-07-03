@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button,  } from 'semantic-ui-react';
-import { getOrgByOwner, createTeam} from '../../apollo-graphql/userQueries'
+import { getOrgByOwner, createTeam} from '../../../apollo-graphql/userQueries'
 import decode from 'jwt-decode';
 
 const token = localStorage.getItem('token');
@@ -10,8 +10,8 @@ const userId = user._id;
 
 class TeamForm extends Component {
 
-    handleSubmit = (org, selected) => {
-        this.props.handleAfterSubmit(org, selected);
+    handleSubmit = (org) => {
+        this.props.handleAfterSubmit(org);
     };
 
     state = {
@@ -39,13 +39,14 @@ class TeamForm extends Component {
 
         return (
             <Mutation mutation={createTeam}>
-                { (createTeam, { data }) => {
+                { (createTeam) => {
                     return (
                     <div style={{ marginBottom: '.5em' }}>
                         <Form
                             onSubmit={async e => {
                                 e.preventDefault();
-                                const response = await createTeam({
+                                // const response = await
+                                    createTeam({
                                     variables: {
                                         teamdescription: teamdescription,
                                         teamtitle: teamtitle,
@@ -57,8 +58,8 @@ class TeamForm extends Component {
                                         variables: {owner: userId }
                                     }]
                                 });
-                                const { ok, errors } = response.data.createTeam;
-                                if (ok) {
+                                // const { ok, errors } = response.data.createTeam;
+                                // if (ok) {
                                     this.handleSubmit(activeView);
                                     this.setState({
                                         teamtitle: "",
@@ -66,13 +67,13 @@ class TeamForm extends Component {
                                         errors: {},
                                         teamtitleerror: ""
                                     })
-                                } else {
-                                    const err = {};
-                                    errors.forEach(({ path, message }) => {
-                                        err[`${path}Error`] = message;
-                                    });
-                                    this.setState(err);
-                                }
+                                // } else {
+                                //     const err = {};
+                                //     errors.forEach(({ path, message }) => {
+                                //         err[`${path}Error`] = message;
+                                //     });
+                                //     this.setState(err);
+                                // }
                             }}>
                             <Form.Field error={!!teamtitleerror}>
                                 <label>Name</label>

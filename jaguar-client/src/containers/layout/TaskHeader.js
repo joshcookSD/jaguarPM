@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import HeaderMenu from './HeaderMenu';
 
 const HeaderWrapper = styled.div`
   grid-column-start: 3;

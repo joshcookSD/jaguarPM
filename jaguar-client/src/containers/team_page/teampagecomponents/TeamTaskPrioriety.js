@@ -7,7 +7,7 @@ class TeamTaskPrioriety extends Component{
         console.log(this.props)
         return (
             <div>
-
+                ***task prioriety***
             </div>
         )
     }

@@ -1,28 +1,33 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const TeamPageDetails = (props) => (
-            <div>
-                {
-                    (props.team.owner.username === null)
-                        ? <div> No Owner At This Time </div>
-                        : <div> Owned By : {props.team.owner.username} </div>
-                }
-                {
-                    props.team.projects.map((project, i) => {
-                        return (
-                            <div>
-                                <ul>
-                                    <li>{project.projecttitle}</li>
-                                </ul>
-                            </div>
-                        )
-                    })
-                }
+class TeamPageDetails extends Component {
 
-            </div>
-
-
-    )
+    render(){
+            return (
+                <div>
+                    hello
+                    {console.log(this.props.activeView.owner.username)}
+                    {
+                        (this.props.activeView.owner.username === null)
+                            ? <div> No Owner At This Time </div>
+                            : <div> Owned By : {this.props.activeView.owner.username} </div>
+                    }
+                    {
+                        this.props.activeView.projects.map((project, i) => {
+                            return (
+                                <div>
+                                    <ul>
+                                        <li>{project.projecttitle}</li>
+                                    </ul>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            )
+        }
+    // }
+}
 
 
 export default TeamPageDetails;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import OrgNavTabs from './OrgNavTabs.js';
-import OrgPagePanes from "./OrgPagePanes";
-import {getOrgByOwner} from "../../../apollo-graphql/userQueries";
+import TeamAdminPageNavTabs from './TeamAdminPageNavTabs.js';
+import TeamAdminPagePanes from "./TeamAdminPagePanes";
+import { teamsByOwner } from "../../../apollo-graphql/userQueries";
 import { Query } from "react-apollo";
 import decode from "jwt-decode";
 
@@ -10,47 +10,46 @@ const { user } = decode(token);
 const userId = user._id;
 const variables = { owner: userId };
 
-class OrgPageMain extends Component {
+class TeamAdminMain extends Component {
     state = {
         activeView: '',
         isSelected: false,
-        teamAdd: false,
+        projectAdd: false,
+    };
+    handleClick = (team) => {
+        this.setState({activeView: team, isSelected: true });
     };
 
-    handleClick = (org) => {
-        this.setState({activeView: org, isSelected: true });
-    };
-
-    handleAfterSubmit = (org) => {
-        this.setState({activeView: org, teamAdd: true});
+    handleAfterSubmit = (team) => {
+        this.setState({activeView: team, projectAdd: true});
     };
 
     render() {
         const { activeView, isSelected } = this.state;
-        {console.log(activeView)}
+
         return (
-            <Query query={getOrgByOwner} variables={variables}>
+            <Query query={teamsByOwner} variables={variables}>
                 {({ loading, error, data }) => {
                     if(this.state.isSelected === false ) {
-                        (data.getOrgByOwner || []).map((org, i) => {
+                        (data.teamsByOwner || []).forEach((team, i) => {
                             if (i === 0) {
-                                this.setState({activeView: org, isSelected: true})
+                                this.setState({activeView: team, isSelected: true})
                             }
                         });
                     }
                     return (
                         <div>
-                            <OrgNavTabs
+                            <TeamAdminPageNavTabs
                                 changeView={this.handleClick}
                                 activeView={activeView}
                                 isSelected={isSelected}
                                 data={data}
                             />
-                            <OrgPagePanes
+                            <TeamAdminPagePanes
                                 handleAfterSubmit={this.handleAfterSubmit}
                                 activeView={activeView}
-                                org={data.getOrgByOwner}
-                                getOrgByOwner={getOrgByOwner}
+                                team={data.teamsByOwner}
+                                teamsByOwner={teamsByOwner}
                                 variables={variables}
                             />
                         </div>
@@ -61,4 +60,4 @@ class OrgPageMain extends Component {
     }
 }
 
-export default OrgPageMain;
+export default TeamAdminMain;

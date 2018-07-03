@@ -90,37 +90,10 @@ const NavSidebar = () => (
                     inverted
                 />
             </Link>
-            <Link to='/team-admin'>
-                <Popup
-                    trigger={<NavItems><NavIcon className='fas fa-users' /></NavItems>}
-                    content="teams"
-                    position='right center'
-                    style={style}
-                    inverted
-                />
-            </Link>
             <Link to='/team-page'>
                 <Popup
                     trigger={<NavItems><NavIcon fitted size='big' className='fas fa-users' /></NavItems>}
                     content="teams"
-                    position='right center'
-                    style={style}
-                    inverted
-                />
-            </Link>
-            <Link to='/org-admin'>
-                <Popup
-                    trigger={<NavItems><NavIcon className='fas fa-sitemap' /></NavItems>}
-                    content="organizations"
-                    position='right center'
-                    style={style}
-                    inverted
-                />
-            </Link>
-            <Link to='/template-test'>
-                <Popup
-                    trigger={<NavItems><NavIcon className='fas fa-sitemap' /></NavItems>}
-                    content="template-test"
                     position='right center'
                     style={style}
                     inverted
