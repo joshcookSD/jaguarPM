@@ -35,7 +35,7 @@ class TeamPageNavTabs extends Component {
                     ))}
                 </HeaderGrid>
                     <IconWrapper>
-                        <HeaderMenu/>
+                        <HeaderMenu user={this.props.user}/>
                     </IconWrapper>
             </HeaderWrapper>
         )

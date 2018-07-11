@@ -38,7 +38,7 @@ class TeamAdminView extends Component {
                                     variables={variables}
                                 />
                             </MainSidebar>
-                            <TeamAdminMain />
+                            <TeamAdminMain user={user} />
                         </AppLayout>
                     </div>
                 }

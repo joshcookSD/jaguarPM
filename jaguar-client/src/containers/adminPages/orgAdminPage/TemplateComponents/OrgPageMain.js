@@ -44,6 +44,7 @@ class OrgPageMain extends Component {
                                 activeView={activeView}
                                 isSelected={isSelected}
                                 data={data}
+                                user={this.props.user}
                             />
                                 <OrgPagePanes
                                     handleAfterSubmit={this.handleAfterSubmit}

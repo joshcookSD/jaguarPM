@@ -44,6 +44,7 @@ class TeamAdminMain extends Component {
                                 activeView={activeView}
                                 isSelected={isSelected}
                                 data={data}
+                                user={this.props.user}
                             />
                             <TeamAdminPagePanes
                                 handleAfterSubmit={this.handleAfterSubmit}

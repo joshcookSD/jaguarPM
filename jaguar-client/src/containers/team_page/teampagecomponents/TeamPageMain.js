@@ -139,6 +139,7 @@ class TeamPageMain extends Component {
                             activePageTab={activePageTab}
                             isSelected={isSelected}
                             data={data}
+                            user={user}
                         />
                         <TeamPagePaneGrid>
                             <Secondary>

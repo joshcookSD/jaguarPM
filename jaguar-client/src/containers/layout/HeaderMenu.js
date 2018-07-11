@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { Image, Popup, Button, Menu } from 'semantic-ui-react';
@@ -6,7 +7,6 @@ import client from "../../apollo";
 import styled from 'styled-components';
 
 const JaguarPosition = styled.div`
-
 `;
 
 const style = {
