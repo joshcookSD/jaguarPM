@@ -33,7 +33,7 @@ class AuthForm extends Component {
                     <div>
                     <Navbar/>
                     <Container text style={{ marginTop: '7em' }}>
-                        <Header as="h2">login</Header>
+                        <Header as="h2" >login</Header>
                         <Form
                             onSubmit={async e => {
 
