@@ -50,7 +50,7 @@ class GroupView extends Component {
                                     isSelected={isSelected}
                                 />
                             </MainSidebar>
-                            <Header/>
+                            <Header user={user}/>
                             <ContentArea>
                                 <TopSection>
                                     <GroupDetail

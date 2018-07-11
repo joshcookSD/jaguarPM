@@ -38,7 +38,7 @@ class OrgAdminView extends Component {
                                     variables={variables}
                                 />
                             </MainSidebar>
-                            <OrgPageMain />
+                            <OrgPageMain user={user} />
                         </AppLayout>
                     </div>
                 }

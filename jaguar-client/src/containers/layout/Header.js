@@ -12,8 +12,8 @@ const HeaderWrapper = styled.div`
   padding-right: 1em;
 `;
 
-export default () => (
+export default (props) => (
     <HeaderWrapper>
-        <HeaderMenu/>
+        <HeaderMenu user={props.user}/>
     </HeaderWrapper>
 );

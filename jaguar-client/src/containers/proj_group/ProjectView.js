@@ -55,7 +55,7 @@ class ProjectView extends Component {
                                     isSelected={isSelected}
                                 />
                             </MainSidebar>
-                            <Header/>
+                            <Header user={user}/>
                             <ProjGroupContentArea>
                                 <ProjectDetails
                                     selectedProject={selectedProject}
