@@ -11,6 +11,18 @@ import TeamPagePanes from './TeamPagePanes.js';
 import TeamTaskPrioriety from './TeamTaskPrioriety.js';
 import { Dimmer, Loader } from 'semantic-ui-react'
 
+
+const TeamPagePaneGrid = styled.div`
+   width: 100%;
+   height: 94vh;
+    display: grid;
+    grid-template-columns: 1fr 90px 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+`;
+
+
 const Activity = styled.div`
 background-color: lightblue;
     grid-column-start: 3;
@@ -128,7 +140,7 @@ class TeamPageMain extends Component {
                             isSelected={isSelected}
                             data={data}
                         />
-                        <div className='teamPagePaneGrid'>
+                        <TeamPagePaneGrid>
                             <Secondary>
                                 <TeamPageTabs changeView={this.changeView} activePageTab={activePageTab} isSelectedPageTab={isSelectedPageTab}/>
                             </Secondary>
@@ -152,9 +164,8 @@ class TeamPageMain extends Component {
                                     </Dimmer>
                                 )
                             }
-                        </div>
+                        </TeamPagePaneGrid>
                     </div>
-
                 )
             }}
         </Query>
