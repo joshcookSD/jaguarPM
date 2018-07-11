@@ -15,7 +15,7 @@ const style = {
     padding: '0.5em',
 };
 
-const HeaderMenu = () => (
+const HeaderMenu = (props) => (
         <Popup
             trigger={
                 <JaguarPosition>
@@ -28,6 +28,7 @@ const HeaderMenu = () => (
             }
             content={
                 <Menu vertical inverted size='tiny'>
+                    <Menu.Item>{props.user.email}</Menu.Item>
                     <Link to='/update-user'>
                         <Menu.Item>account</Menu.Item>
                     </Link>

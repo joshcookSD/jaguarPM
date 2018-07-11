@@ -44,7 +44,7 @@ class TaskHeader extends Component {
     };
 
     render() {
-        const {activeView} = this.props;
+        const {activeView, user} = this.props;
 
         return (
             <HeaderWrapper>
@@ -52,7 +52,7 @@ class TaskHeader extends Component {
                     <NavItems key={view} onClick={() => this.handleClick(view)} style={activeView === view ? activeStyle : {}}>{view}</NavItems>
                 ))}
                 <div/>
-                <HeaderMenu/>
+                <HeaderMenu user={user}/>
             </HeaderWrapper>
         )
     }

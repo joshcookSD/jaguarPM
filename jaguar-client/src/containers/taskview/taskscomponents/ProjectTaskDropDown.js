@@ -20,7 +20,6 @@ class ProjectTaskDropDown extends Component {
         return (
             <Query query={teamProjects} variables={queryVariables}>
                 {({ loading, error, data }) => {
-                    console.log(data);
                     if (loading) return (
                         <div>
                             <Dimmer active>
