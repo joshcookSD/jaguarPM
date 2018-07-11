@@ -28,7 +28,7 @@ const HeaderMenu = (props) => (
             }
             content={
                 <Menu vertical inverted size='tiny'>
-                    <Menu.Item>{props.user.email}</Menu.Item>
+                    {props.user ? <Menu.Item>{props.user.email}</Menu.Item> : ''}
                     <Link to='/update-user'>
                         <Menu.Item>account</Menu.Item>
                     </Link>
