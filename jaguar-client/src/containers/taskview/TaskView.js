@@ -31,7 +31,6 @@ class TaskView extends Component {
     };
     selectTask = (task) => {
         this.setState({taskSelected: task});
-        console.log('clicked '+ task);
     };
 
     render() {
@@ -71,7 +70,12 @@ class TaskView extends Component {
                                 />
                             </MainSidebar>
 
-                            <TaskHeader changeView={this.changeView} activeView={activeView} isSelected={isSelected}/>
+                            <TaskHeader
+                                changeView={this.changeView}
+                                activeView={activeView}
+                                isSelected={isSelected}
+                                user={user}
+                            />
                             {activeView === 'plan' &&
 
                                 <ContentArea>
