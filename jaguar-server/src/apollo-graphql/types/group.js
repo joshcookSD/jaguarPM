@@ -81,7 +81,6 @@ const GroupMutationResolver ={
         return group
     },
     updateGroup: async (parent, args, { Group}) => {
-        console.log(args)
         if(args.grouptitle) {
             await Group.findByIdAndUpdate(args._id, {
                     $set: {
