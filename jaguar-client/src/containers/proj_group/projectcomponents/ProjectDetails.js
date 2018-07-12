@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
-import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
+import { Dimmer, Loader, Form, Button} from 'semantic-ui-react';
 import { updateProject} from "../../apollo-graphql/groupProjectQueries";
 import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
