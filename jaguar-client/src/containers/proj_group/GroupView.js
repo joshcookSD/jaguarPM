@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import GroupList from './groupcomponents/GroupList'
-import NavBarStatic from './projectcomponents/NavBarStatic'
 import GroupPageMain from './groupcomponents/GroupPageMain'
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'

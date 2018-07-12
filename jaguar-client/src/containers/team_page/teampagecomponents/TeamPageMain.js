@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import decode from 'jwt-decode';
 import { teamsByUser } from "../../apollo-graphql/userQueries";
-import styled from 'styled-components';
 import  TeamPageNavTabs from './TeamPageNavTabs'
 import TeamPageDetails from './TeamPageDetails';
 import TeamPageTabs from './TeamPageTabs.js';

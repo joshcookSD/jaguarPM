@@ -4,7 +4,6 @@ import GroupDetail from '../groupcomponents/GroupDetails'
 import decode from 'jwt-decode';
 import { teamsByUser } from "../../apollo-graphql/userQueries";
 import "./GroupPageMain.css";
-import styled from 'styled-components';
 import GroupPagePanes from './GroupPagePanes.js';
 import GroupPageTabs from './GroupPageTabs.js';
 import NavBarStatic from '../projectcomponents/NavBarStatic'

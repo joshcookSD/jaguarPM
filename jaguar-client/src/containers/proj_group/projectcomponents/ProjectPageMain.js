@@ -3,7 +3,6 @@ import { Query } from "react-apollo";
 import ProjectDetails from '../projectcomponents/ProjectDetails'
 import decode from 'jwt-decode';
 import { teamsByUser } from "../../apollo-graphql/userQueries";
-import styled from 'styled-components';
 import ProjectPagePanes from './ProjectPagePanes.js';
 import ProjectPageTabs from './ProjectPageTabs.js';
 import ProjectTaskPrioriety from './ProjectTaskPrioriety.js';
