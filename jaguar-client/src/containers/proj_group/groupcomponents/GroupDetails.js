@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
 import { updateGroup} from "../../apollo-graphql/groupProjectQueries";
-// import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
+import {
+    GroupFormWrapper
+} from '../../layout/Proj_GroupComponents.js'
 
 class GroupDetail extends Component {
     // set selected project to state
@@ -84,11 +86,11 @@ class GroupDetail extends Component {
                             </div>);
                         if (error) return <p>No Project Selected </p>;
                         return (
-                            <Form onSubmit={() => _updateGroup()}>
-                                <Card fluid raised>
-                                    <Card.Content>
-                                        <Card.Header onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.group.grouptitle}</Card.Header>
-                                        {/*header*/}
+                            <GroupFormWrapper onSubmit={() => _updateGroup()}>
+                                    <div>
+
+                                        <div className='cardHeader' onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.group.grouptitle}</div>
+
                                         {titleInput &&
                                         <Form.Input
                                             fluid
@@ -96,10 +98,10 @@ class GroupDetail extends Component {
                                             value={title}
                                             onChange={e => this.setState({title: e.target.value})}
                                         />}
-                                        {/*description*/}
-                                        <Card.Meta onClick={() => this.setState({descriptionInput: !descriptionInput})}>
+
+                                        <div className='metaTag' onClick={() => this.setState({descriptionInput: !descriptionInput})}>
                                             Description: {!descriptionInput && data.group.groupdescription}
-                                        </Card.Meta>
+                                        </div>
                                         {descriptionInput &&
                                         <Form.Input
                                             fluid
@@ -108,10 +110,10 @@ class GroupDetail extends Component {
                                             onChange={e => this.setState({description: e.target.value})}
                                         />}
                                         {/*plan date*/}
-                                        <Card.Description
+                                        <div className='cardDescription'
                                             onClick={() => this.setState({planDateInput: !planDateInput})}>
                                             Plan Date: {data.group.plannedcompletiondate ? moment.utc(data.group.plannedcompletiondate).format('YYYY-MM-DD') : 'task needs to be planned'}
-                                        </Card.Description>
+                                        </div>
                                         {planDateInput &&
                                         <Form.Input
                                             fluid
@@ -120,9 +122,9 @@ class GroupDetail extends Component {
                                             onChange={e => this.setState({plandate: e.target.value})}
                                         />}
                                         {/*due date*/}
-                                        <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
+                                        <div className='cardDescription' onClick={() => this.setState({dueDateInput: !dueDateInput})}>
                                             Due Date: {data.group.duedate ? moment.utc(data.group.duedate).format('YYYY-MM-DD') : 'No due date set'}
-                                        </Card.Description>
+                                        </div>
                                         {dueDateInput &&
                                         <Form.Input
                                             fluid
@@ -131,18 +133,17 @@ class GroupDetail extends Component {
                                             onChange={e => this.setState({duedate: e.target.value})}
                                         />}
                                         {/*assigned leader*/}
-                                        <Card.Description>
+                                        <div className='cardDescription'>
                                             Group Users:
                                             {data.group.users.map( (user, i ) => (
                                                 <span key={i}>{user.username}</span>
                                              ))}
-                                        </Card.Description>
-                                    </Card.Content>
-                                    <Card.Content extra>
+                                        </div>
+                                    </div>
+
                                         <Button size='small' fluid type='submit'>update</Button>
-                                    </Card.Content>
-                                </Card>
-                            </Form>
+
+                            </GroupFormWrapper>
                         )
                     }
                     }

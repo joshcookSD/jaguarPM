@@ -31,8 +31,7 @@ const ProjectType = `
         projectplannedtime: [PlannedTime]
         priority: Priority
     }
-    
-    type CreateProjectResponse {
+      type CreateProjectResponse {
         ok: Boolean!
         project: Project
         errors: [Error!]
@@ -79,6 +78,7 @@ const ProjectQueryResolver = {
 
 const ProjectMutationResolver ={
         createProject: async (parent, args, { Project}) => {
+            console.log(args);
             let project = await new Project(args).save();
             let user = await User.findById(args.users);
             user.projects.push(project._id);

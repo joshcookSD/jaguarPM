@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
+import {
+    TeamPageProjectListWrapper
+} from '../../layout/Proj_GroupComponents.js'
 
 class TeamPageDetails extends Component {
 
     render(){
             return (
-                <div>
-                    hello
-                    {console.log(this.props.activeView.owner.username)}
+                <TeamPageProjectListWrapper>
                     {
                         (this.props.activeView.owner.username === null)
                             ? <div> No Owner At This Time </div>
@@ -23,7 +24,7 @@ class TeamPageDetails extends Component {
                             )
                         })
                     }
-                </div>
+                </TeamPageProjectListWrapper>
             )
         }
     // }

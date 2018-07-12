@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 
 
-class TeamTaskPrioriety extends Component{
+class GroupTaskPrioriety extends Component{
 
     render() {
+
         return (
             <div>
                 ***task prioriety***
@@ -13,4 +14,4 @@ class TeamTaskPrioriety extends Component{
 }
 
 
-export default TeamTaskPrioriety;
+export default GroupTaskPrioriety;
