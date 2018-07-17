@@ -16,6 +16,10 @@ const TeamPagePaneGrid = styled.div`
     grid-template-rows: repeat(6,1fr);
     grid-row-gap: 10px;
     grid-column-gap: 10px;
+     @media (max-width: 1000px) {
+        grid-template-columns: 1fr;
+        grid-template-rows: 3fr 3fr 1fr 5fr;
+  }
 `;
 const Activity = styled.div`
 background-color: lightblue;
@@ -30,6 +34,10 @@ background-color: lightblue;
     border: none;
     border-radius: .28571429rem;
     padding: 10px;
+        @media (max-width: 1000px) {
+        grid-column-start: 1;
+        grid-row-start: 4;
+  }
 `;
 const Details = styled.div`
     // background-color: pink;
@@ -39,6 +47,11 @@ const Details = styled.div`
     grid-row-end: 3;
     padding: 10px;
     padding-top: 10px;
+    @media (max-width: 1000px) {
+        grid-column-start: 1;
+        grid-row-start: 1;
+        grid-row-end: 2;
+  }
 `;
 const Prioriety = styled.div`
 background-color: lightgreen;
@@ -53,6 +66,11 @@ background-color: lightgreen;
     border: none;
     border-radius: .28571429rem;
     padding: 10px;
+        @media (max-width: 1000px) {
+        grid-column-start: 1;
+        grid-row-start: 2;
+        grid-row-end: 2;
+  }
 `;
 const Secondary = styled.div`
 // background-color: #f17dbf;
@@ -60,6 +78,11 @@ const Secondary = styled.div`
     grid-row-start: 1;
     grid-column-end: 2;
     grid-row-end: 7;
+     @media (max-width: 1000px) {
+        grid-column-start: 1;
+        grid-row-start: 3;
+        grid-row-end: 3;
+  }
     padding-top: 10px;
     padding-bottom: 10px;
     * {box-sizing: border-box}
@@ -108,6 +131,7 @@ body {font-family: "Lato", sans-serif;}
     border-left: none;
     height: 300px;
 }
+
 `;
 
 const GroupFormWrapper = styled.div`
@@ -122,7 +146,6 @@ const GroupFormWrapper = styled.div`
     justify-content: space-between;
 }
 `;
-
 
 const NavItems = styled.div`
   max-width: 100px; 
@@ -140,6 +163,8 @@ const NavItems = styled.div`
   &:hover {
     background-color: #e6fff1
   }
+  justify-content: space-around;
+
 `;
 
 const NavItemContainer = styled.div`
@@ -147,6 +172,10 @@ const NavItemContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+         @media (max-width: 1000px) {
+        flex-direction: row;
+  }
+    
 `;
 
 
@@ -173,6 +202,7 @@ export {
     GroupFormWrapper,
     NavItems,
     NavItemContainer,
-    TeamPageProjectListWrapper
+    TeamPageProjectListWrapper,
+
 
 };

@@ -4,8 +4,12 @@ import TeamProjectProgress from './TeamProjectProgress';
 
 class TaskView extends Component {
 
+
+
     render () {
+
         if(this.props.activePageTab === 'feed') {
+
             return (
                 <div>
                     View

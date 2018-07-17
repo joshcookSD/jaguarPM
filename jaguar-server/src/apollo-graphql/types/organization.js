@@ -1,8 +1,10 @@
 import User from "../../models/user";
 import UserTypeOrg from "../../models/usertypeorg";
 import Team from "../../models/team";
+import Task from "../../models/task";
 import {orgError} from "../formatErrors";
 import Group from "../../models/group";
+import Project from "../../models/project";
 
 const OrganizationType = `
     type Organization {
@@ -43,6 +45,15 @@ const OrganizationMutation = `
         user: String
         teamId: String
     ): Organization
+    removeTeamFromOrg(
+        teamId: String 
+        orgId: String 
+        userId: String
+        projects: String
+        users: String
+        tasks: String
+        groups: String
+    ): Organization
 
 `;
 
@@ -58,7 +69,6 @@ const OrganizationQueryResolver = {
         return await Organization.findById(args._id.toString())
     },
     getOrgByOwner: async (parent, args, { Organization }) => {
-        console.log(args)
         const orgowner = await User.findById(args.owner.toString());
         return await Organization.find({ owner: orgowner })
     }
@@ -79,14 +89,16 @@ const OrganizationNested = {
     },
 };
 
-const OrganizationMutationResolver ={
+const OrganizationMutationResolver = {
     createOrganization: async (parent, {orgtitle, orgdescription, owner}, {Organization}) => {
         try {
             const err = [];
             let orgtitleErr = await orgError(orgtitle);
-            if(orgtitleErr) { err.push(orgtitleErr)}
+            if (orgtitleErr) {
+                err.push(orgtitleErr)
+            }
             //if no error then
-            if(!err.length) {
+            if (!err.length) {
                 //save the new organization
                 const newOrganization = await new Organization({
                     orgtitle,
@@ -126,20 +138,20 @@ const OrganizationMutationResolver ={
         await orgs.save();
         return orgs
     },
-        removeOrgUser: async (parent, {_id, user, teamId}, {Organization}) => {
+    removeOrgUser: async (parent, {_id, user, teamId}, {Organization}) => {
         let orgUserToRemove = await User.findById(user);
         let orgToRemoveUserFrom = await Organization.findById(_id);
         let teamIdArray = teamId.split(',');
 
         await Team.update(
-            { _id: { $in: teamIdArray } },
-            { $pull: { users: orgUserToRemove._id  } },
-            { multi: true }
+            {_id: {$in: teamIdArray}},
+            {$pull: {users: orgUserToRemove._id}},
+            {multi: true}
         );
 
         await User.update(
-            { _id: orgUserToRemove._id },
-            { $pullAll: { team: teamId.split(',') } }
+            {_id: orgUserToRemove._id},
+            {$pullAll: {team: teamId.split(',')}}
         );
 
         orgUserToRemove.organization.pull(orgToRemoveUserFrom._id);
@@ -149,9 +161,64 @@ const OrganizationMutationResolver ={
         await orgToRemoveUserFrom.save();
 
         return orgToRemoveUserFrom
+    },
+    removeTeamFromOrg: async (parent,
+                              {
+                                  users,
+                                  projects,
+                                  groups,
+                                  tasks,
+                                  teamId,
+                                  userId,
+                                  orgId
+
+                              }, {Organization}) => {
+
+
+        const usersIdArray = users.split(',');
+        const projectsIdArray = projects.split(',');
+        const groupsIdArray = groups.split(',');
+        const tasksIdArray = tasks.split(',');
+        if(groups) {
+            await Group.update(
+                {_id: {$in: groupsIdArray}},
+                {$unset: {team: null}},
+                {multi: true}
+            );
+        }
+        if(projects) {
+            await Project.update(
+                {_id: {$in: projectsIdArray}},
+                {$unset: {team: null}},
+                {multi: true}
+            );
+        }
+        if(tasks){
+            await Task.update(
+                {_id: {$in: tasksIdArray}},
+                {$unset: {team: null}},
+                {multi: true}
+            );
+        }
+        await Team.update(
+            {_id: teamId},
+            {$unset: {owner: null}},
+            {multi: true}
+        );
+        await User.update(
+            {_id: {$in: usersIdArray}},
+            { $pull: { team: teamId } },
+            {multi: true}
+        );
+        await Organization.update(
+            {_id: orgId},
+            { $pull: { team: teamId } },
+        );
+        await Team.deleteOne(
+            {_id: teamId}
+        );
     }
+};
 
-
-};  
 
 export {OrganizationType, OrganizationMutation, OrganizationQuery, OrganizationQueryResolver, OrganizationNested, OrganizationMutationResolver};

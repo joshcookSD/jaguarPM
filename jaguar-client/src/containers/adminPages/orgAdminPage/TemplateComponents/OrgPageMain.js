@@ -16,6 +16,7 @@ class OrgPageMain extends Component {
         isSelected: false,
         teamAdd: false,
     };
+
     handleClick = (org) => {
         this.setState({activeView: org, isSelected: true });
     };

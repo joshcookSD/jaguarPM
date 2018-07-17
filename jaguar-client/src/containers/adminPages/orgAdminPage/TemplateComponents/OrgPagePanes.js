@@ -4,6 +4,9 @@ import AddTeamCard from './OrgAddTeamCard.js';
 import OrgAddUserCard from './OrgAdminAddUser.js';
 import './OrgPagePanes.css'
 import styled from 'styled-components';
+import {
+    AdminPagePaneWrapper,
+} from '../../../layout/AdminComponents.js'
 
 const PaneHeaderWrapper = styled.div`
     grid-column-start: 1;
@@ -21,13 +24,19 @@ const AddTeamWrapper = styled.div`
 `;
 
 const OrgAddUserCardWrapper = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 3;
+    grid-row-end: 3;
     padding: 10px;
 `;
 
+const PaneGrid = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+    grid-template-rows: 1fr 3fr;
+`;
 
 
 class OrgPagePanes extends Component {
@@ -50,7 +59,7 @@ class OrgPagePanes extends Component {
     render () {
     const {activeView, variables, org} = this.props;
         return (
-            <div className='paneGrid'>
+            <AdminPagePaneWrapper>
                 <PaneHeaderWrapper>
                     <TabHeader
                         orgTitle={activeView.orgtitle}
@@ -77,7 +86,7 @@ class OrgPagePanes extends Component {
                     />
                 </OrgAddUserCardWrapper>
 
-            </div>
+            </AdminPagePaneWrapper>
         );
     }
 }
