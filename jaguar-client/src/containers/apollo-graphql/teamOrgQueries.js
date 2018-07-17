@@ -1,5 +1,38 @@
 import gql from "graphql-tag";
 
+const removeTeamFromOrg = gql`
+  mutation removeTeamFromOrg(
+    $teamId: String 
+    $orgId : String 
+    $userId: String
+    $projects: String
+    $users: String
+    $tasks: String
+    $groups: String
+  ){ removeTeamFromOrg (
+    teamId : $teamId,
+    orgId : $orgId, 
+    userId : $userId,
+    projects : $projects,
+    users : $users,
+    tasks : $tasks,
+    groups : $groups
+  )  {
+  orgtitle
+  }
+  }
+`;
+
+const addTeamUser = gql`
+    mutation addTeamUser( $_id: String, $user: String!) {
+      addTeamUser(user: $user, _id: $_id) {
+      teamtitle
+      users{
+        username
+      }
+    }
+  }`;
+
 const teamUsers = gql`
 query team($_id: String){
   team(_id: $_id) {
@@ -11,16 +44,6 @@ query team($_id: String){
   }
 }
 `;
-
-const addTeamUser = gql`
-    mutation addTeamUser( $_id: String, $user: String!) {
-      addTeamUser(user: $user, _id: $_id) {
-      teamtitle
-      users{
-        username
-      }
-    }
-  }`
 
 const createOrg = gql`
     mutation createOrganization( $orgtitle: String!, $orgdescription: String, $owner: String!) {
@@ -52,5 +75,6 @@ export {
   createOrg,
   teamUsers,
   removeOrgUser,
-  removeTeamUser
+  removeTeamUser,
+  removeTeamFromOrg
 };

@@ -5,7 +5,8 @@ import { updateProject} from "../../apollo-graphql/groupProjectQueries";
 import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
 import {
-    GroupFormWrapper
+    GroupFormWrapper,
+
 } from '../../layout/Proj_GroupComponents.js'
 
 class ProjectDetail extends Component {

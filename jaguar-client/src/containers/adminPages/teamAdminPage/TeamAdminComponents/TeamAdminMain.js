@@ -16,6 +16,7 @@ class TeamAdminMain extends Component {
         isSelected: false,
         projectAdd: false,
     };
+
     handleClick = (team) => {
         this.setState({activeView: team, isSelected: true });
     };
@@ -26,7 +27,6 @@ class TeamAdminMain extends Component {
 
     render() {
         const { activeView, isSelected } = this.state;
-
         return (
             <Query query={teamsByOwner} variables={variables}>
                 {({ loading, error, data }) => {

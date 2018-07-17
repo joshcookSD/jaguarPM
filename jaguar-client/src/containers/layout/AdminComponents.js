@@ -12,6 +12,17 @@ const UserWrapper = styled.div`
     grid-template-columns: 25% 60% 15%;
 `;
 
+const OrgPageTeamCardWrapper = styled.div`
+    margin-top: 5px;
+    color: black
+    border-width: 1px;
+    border radius: 0 0 !important
+    width: 90%;
+    height: 42px;
+    display:grid
+    grid-template-columns: 25% 60% 15%;
+`;
+
 const ImageWrapper = styled.img`
     height: 40px
     width: 40px
@@ -25,14 +36,14 @@ const CardRight = styled.div`
     display: flex;
     flex-direction: column;
 
-    grid-column-start: 3;
+
     display: flex;
     align-items: center;
     justify-content: start;
     margin-bottom: 10px;
     
-    grid-row-start: 2;
-    grid-row-end: 4;
+    grid-row-start: 3;
+    grid-row-end: ;
         
 `;
 
@@ -69,11 +80,28 @@ const TeamCardWrapper = styled.div`
 `;
 
 const CardLeftWrapper = styled.div`
-    grid-column-start: 2;
+    grid-column-start: 1;
+    grid-column-end: 1;
     grid-row-start: 2;
-    grid-row-end: 4;
+    grid-row-end: 2;
 `;
 
+const AdminPagePaneWrapper = styled.div`
+    padding: 10px;
+    height: 94vh;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 4fr 4fr;
+    grid-column-gap: 10px;
+
+`;
+const AdminPageHeaderWrapper = styled.div`
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+`;
 
 export {
     UserWrapper,
@@ -82,8 +110,9 @@ export {
     NewUserCardName,
     DeleteUserIcon,
     HeaderWrapper,
-    CardLeft,
-    TeamCardWrapper,
     CardLeftWrapper,
+    OrgPageTeamCardWrapper,
+    AdminPagePaneWrapper,
+    AdminPageHeaderWrapper
 
 };

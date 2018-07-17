@@ -14,8 +14,8 @@ const activeStyle = {
 };
 
 class TeamAdminPageNavTabs extends Component {
-    handleClick = (org) => {
-        this.props.changeView(org);
+    handleClick = (team) => {
+        this.props.changeView(team);
     };
 
     render() {

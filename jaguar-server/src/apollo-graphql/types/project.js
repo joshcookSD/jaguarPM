@@ -77,12 +77,13 @@ const ProjectQueryResolver = {
 };
 
 const ProjectMutationResolver ={
-        createProject: async (parent, args, { Project}) => {
-            console.log(args);
+        createProject: async (parent, args, { Project }) => {
             let project = await new Project(args).save();
             let user = await User.findById(args.users);
+
             user.projects.push(project._id);
             await user.save();
+
             let projectteam = await Team.findById(args.team);
             let group = await new Group({
                 grouptitle: 'General',
@@ -99,13 +100,15 @@ const ProjectMutationResolver ={
             await user.save();
             await Project.findByIdAndUpdate(project._id, {
                     $set: {
-                        groups: group._id,
+                        groups: [group._id],
                         defaultgroup: group._id,
                     }
                 },
                 {new: true}
             );
-            return project
+            return {
+                ok: true
+            };
         },
     updateProject: async (parent, args, { Project}) => {
 
