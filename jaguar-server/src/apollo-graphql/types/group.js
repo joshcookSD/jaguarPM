@@ -24,6 +24,12 @@ const GroupType = `
         duedate: Date
         priority: Priority
     }
+    
+    type CreateGroupResponse {
+        ok: Boolean!
+        group: Group
+        errors: [Error!]
+    }
 `;
 
 const GroupQuery = `
@@ -34,21 +40,21 @@ const GroupQuery = `
 const GroupMutation = `
     createGroup(
         grouptitle: String,
-        groupdescription: String
-        project: String
-        team: String
+        groupdescription: String,
+        project: String,
+        team: String,
         users: String
-    ) : Group
+    ) : CreateGroupResponse
     updateGroup(
         _id: String,
         grouptitle: String,
         groupdescription: String,
         plannedcompletiondate: Date,
-        iscompleted: Boolean
+        iscompleted: Boolean,
         duedate: Date
     ) : Group
      addGroupUser(
-        _id: String
+        _id: String,
         user: String,
     ) : Group
 `;
@@ -69,16 +75,20 @@ const GroupQueryResolver = {
 const GroupMutationResolver ={
     createGroup: async (parent, args, { Group}) => {
         let group = await new Group(args).save();
+        let groupTeam = await Team.findById(args.team);
+        groupTeam.groups.push(group._id);
         let user = await User.findById(args.users);
         user.groups.push(group._id);
-        await user.save();
         let project = await Project.findById(args.project);
         project.groups.push(group._id);
         await user.save();
-        let team = await Team.findById(args.team);
-        team.groups.push(group._id);
-        await team.save();
-        return group
+        await groupTeam.save();
+
+        await project.save();
+        return {
+            ok: true,
+            group
+        };
     },
     updateGroup: async (parent, args, { Group}) => {
         if(args.grouptitle) {

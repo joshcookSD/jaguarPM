@@ -82,8 +82,11 @@ mutation createGroup(
         project: $project,
         users: $users
         ) {
-            _id
-            grouptitle
+            ok
+            errors {
+                path
+                message
+            }
         }
 }`;
 

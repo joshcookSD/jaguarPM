@@ -18,7 +18,6 @@ const groupSchema = new mongoose.Schema(
         },
         groupdescription: {
             type: String,
-            required: true,
             maxLength: 160
         },
         project: {
