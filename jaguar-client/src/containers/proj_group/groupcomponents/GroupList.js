@@ -4,6 +4,7 @@ import {Header, Dimmer, Loader, Modal, Icon, List, Transition, Divider} from 'se
 import decode from 'jwt-decode';
 import { userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
 import GroupTaskItem from './GroupTaskItem'
+import GroupForm from './GroupForm'
 
 
 const token = localStorage.getItem('token');
@@ -49,10 +50,16 @@ class GroupList extends Component {
 
                                 <Modal size='small' open={open} onClose={this.close}>
                                     <Modal.Header>
-                                        Create Task
+                                        Create Group
                                     </Modal.Header>
                                     <Modal.Content>
-                                        {/*<GroupTaskForm project={project._id} userId={user._id} updateQuery={userProjectGroups} variables={variables} onClose={this.close}/>*/}
+                                        <GroupForm
+                                            project={project._id}
+                                            team={project.team._id}
+                                            userId={user._id}
+                                            updateQuery={userProjectGroups}
+                                            queryVariables={variables}
+                                            onClose={this.close}/>
                                     </Modal.Content>
                                 </Modal>
                                 <Transition.Group
