@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
-import { Message, Form, Button } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { createGroup } from '../../apollo-graphql/groupProjectQueries'
 
 class AddGroupForm extends Component {

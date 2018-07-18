@@ -98,7 +98,7 @@ const UserQueryResolver = {
         })
     },
     user: async (parent, args, {User}) => {
-        return await User.findById(args._id.toString())
+        return await User.findById(args._id)
     },
     userEmail: async (parent, args, {User}) => {
         return await User.findOne(args)
