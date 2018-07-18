@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { updateGroup} from "../../apollo-graphql/groupProjectQueries";
+import { updateGroup } from "../../apollo-graphql/groupProjectQueries";
 import moment from 'moment';
 import {
     GroupFormWrapper
@@ -48,7 +48,8 @@ class GroupDetail extends Component {
             duedate,
             description,
             // team,
-            groupId } = this.state;
+            groupId
+        } = this.state;
 
         //calling mutation with variables
         const _updateGroup = async () => {
@@ -88,9 +89,7 @@ class GroupDetail extends Component {
                         return (
                             <GroupFormWrapper onSubmit={() => _updateGroup()}>
                                     <div>
-
                                         <div className='cardHeader' onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.group.grouptitle}</div>
-
                                         {titleInput &&
                                         <Form.Input
                                             fluid

@@ -6,7 +6,6 @@ import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
 import {
     GroupFormWrapper,
-
 } from '../../layout/Proj_GroupComponents.js'
 
 class ProjectDetail extends Component {
@@ -39,7 +38,8 @@ class ProjectDetail extends Component {
         const {
             selectedProject,
             projectDetails,
-            queryVariables  } = this.props;
+            queryVariables
+        } = this.props;
 
         //state shortcut
         const {
@@ -95,9 +95,7 @@ class ProjectDetail extends Component {
                     return (
                         <GroupFormWrapper onSubmit={() => _updateProject()}>
                                 <div>
-
                                     <div className='cardHeader' onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</div>
-
                                     {titleInput &&
                                     <Form.Input
                                         fluid
@@ -143,7 +141,6 @@ class ProjectDetail extends Component {
                                     <div className='cardDescription'>
                                         Default Group: {data.project.defaultgroup ? data.project.defaultgroup.grouptitle : 'no default'}
                                     </div>
-
                                     {/*assigned leader*/}
                                     <div className='assignedLeader'>
                                    Assigned Leader:
@@ -155,10 +152,7 @@ class ProjectDetail extends Component {
                                     />
                                     </div>
                                 </div>
-
                                     <Button size='small' fluid type='submit'>update</Button>
-
-
                         </GroupFormWrapper>
                     )
                 }
@@ -167,9 +161,6 @@ class ProjectDetail extends Component {
         )} else { return (<div/>)}
     }
 }
-
-
-
 
 export default graphql(updateProject, {
     name: 'updateProject',

@@ -54,18 +54,18 @@ mutation createProject(
     $leader: String!,
     $users: String
 ) { createProject(
-        projecttitle: $projecttitle,
-        projectdescription: $projectdescription,
-        team: $team,
-        leader: $leader,
-        users: $users
-        ) {
-            ok
-            errors {
-                path
-                message
-            }
+    projecttitle: $projecttitle,
+    projectdescription: $projectdescription,
+    team: $team,
+    leader: $leader,
+    users: $users
+    ) {
+        ok
+        errors {
+            path
+            message
         }
+    }
 }`;
 
 const createGroup = gql`
