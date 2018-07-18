@@ -105,7 +105,10 @@ const ProjectMutationResolver ={
                 },
                 {new: true}
             );
-            return project
+            return {
+                ok: true,
+                project
+            };
         },
     updateProject: async (parent, args, { Project}) => {
 

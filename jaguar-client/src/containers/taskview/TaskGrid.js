@@ -11,14 +11,12 @@ import TableCellLeft from '../components/table/TableCellLeft';
 import TaskComplete from './taskscomponents/TaskComplete';
 
 
-
 class TaskGrid extends Component {
     state = {
         taskData: this.props.tasks
     };
 
     componentWillReceiveProps(nextProps){
-        console.log(this.props.tasks !== nextProps.tasks);
         if(this.props.tasks !== nextProps.tasks){
             this.setState({
                 taskData: this.props.tasks
