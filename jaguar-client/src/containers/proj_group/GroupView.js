@@ -1,24 +1,19 @@
 import React, {Component} from 'react';
-import { Query } from "react-apollo";
-import decode from 'jwt-decode';
+import GroupList from './groupcomponents/GroupList'
+import GroupPageMain from './groupcomponents/GroupPageMain'
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
-import Header from '../layout/Header'
-import ContentArea from '../layout/ContentArea'
-import GroupList from './groupcomponents/GroupList'
-import GroupDetail from './groupcomponents/GroupDetails'
-import { TopSection, BottomSection } from '../layout/Section'
+import decode from "jwt-decode";
+import { Query } from "react-apollo";
+import {Dimmer, Loader} from 'semantic-ui-react';
 import {groupDetails, userProjectGroups} from "../apollo-graphql/groupProjectQueries";
-import GroupTaskList from "./groupcomponents/GroupTaskList";
-
-
 const token = localStorage.getItem('token');
 
 class GroupView extends Component {
+
     state = {
         selectedGroup: '',
-        // teamOfProject: '',
         isSelected: false,
     };
 
@@ -35,10 +30,15 @@ class GroupView extends Component {
     render() {
         const { user } = decode(token);
         const {selectedGroup, isSelected} = this.state;
-
-        return(
+        return (
             <Query query={userProjectGroups} variables={{_id: user._id}}>
-                { ({ loading, error, data }) => {
+                {({loading, error}) => {
+                    if (loading) return (
+                        <div>
+                            <Dimmer active>
+                                <Loader/>
+                            </Dimmer>
+                        </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
                         <AppLayout>
@@ -50,33 +50,20 @@ class GroupView extends Component {
                                     isSelected={isSelected}
                                 />
                             </MainSidebar>
-                            <Header user={user}/>
-                            <ContentArea>
-                                <TopSection>
-                                    <GroupDetail
-                                        selectedGroup={selectedGroup}
-                                        groupDetails={groupDetails}
-                                        queryVariables={{_id: selectedGroup}}
-                                    />
-                                </TopSection>
-                                <BottomSection>
-                                    <GroupTaskList
-                                        selectedGroup={selectedGroup}
-                                        groupDetails={groupDetails}
-                                        queryVariables={{_id: selectedGroup}}
-                                    />
-                                </BottomSection>
-                            </ContentArea>
+                            <GroupPageMain
+                                selectedGroup={selectedGroup}
+                                groupDetails={groupDetails}
+                                queryVariables={{_id: selectedGroup}}
+                            />
+
                         </AppLayout>
-                    </div>;
+                    </div>
                 }
                 }
             </Query>
         )
     }
 }
-
-
 
 export default GroupView;
 

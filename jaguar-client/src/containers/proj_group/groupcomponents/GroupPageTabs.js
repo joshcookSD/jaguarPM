@@ -4,13 +4,14 @@ import {
     NavItemContainer,
 } from '../../layout/Proj_GroupComponents.js'
 
+
 const activeStyle = {
     'background-color': 'rgb(224, 225, 226)',
     'border-right-color' : 'rgb(199, 199, 199',
     'border-right-style': 'solid'
 };
 
-class TeamPageTabs extends Component {
+class GroupPageTabs extends Component {
 
     handleClick = (view) => {
         this.props.changeView(view);
@@ -31,7 +32,7 @@ class TeamPageTabs extends Component {
 
 
 
-export default TeamPageTabs;
+export default GroupPageTabs;
 
 
 

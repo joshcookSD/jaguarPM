@@ -34,9 +34,11 @@ class GroupList extends Component {
                     if (error) return <p>Error :(</p>;
                     return <div>
                         { (data.user.projects || []).map( project => (
+
                             <div key={project._id}>
                                 <Header >
-                                    {project.projecttitle} - {project.team.teamtitle}
+                                    {project.team === null ? `no team -  ${project.projecttitle}` : `${project.team.teamtitle}  -  ${project.projecttitle}`}
+                                    {/*{project.team.teamtitle} - {project.projecttitle}*/}
                                     <Icon
                                         onClick={this.show}
                                         color='green'

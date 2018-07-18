@@ -116,11 +116,27 @@ const getOrgByOwner = gql`
             _id
             teamtitle
             teamdescription
-          users{
-            _id
-            username
-            profileImageUrl
-          }
+            organization{
+                _id
+                orgtitle
+              }
+              users{
+                _id
+                username
+                profileImageUrl
+              }
+              projects{
+                _id
+                projecttitle
+              }
+              tasks{
+                _id
+                tasktitle
+              }
+              groups{
+                _id
+                grouptitle
+              }
         }
           owner{
           username
@@ -131,47 +147,103 @@ const getOrgByOwner = gql`
 const teamsByOwner = gql`
     query teamsByOwner($owner: String ){
         teamsByOwner( owner: $owner ){
-            _id
+               _id
             teamtitle
             teamdescription
-                owner{
-                  username
-                }
+            owner{
+             username
+            }
             defaultproject {
-                _id
-                projecttitle
+              _id
+              projecttitle
             }
             users{
-                _id
-                username
-                profileImageUrl
+              _id
+              username
+              profileImageUrl
             }
-             projects{
-          _id
-          projecttitle
-          projectdescription
-        	iscompleted
-        groups{
-          _id
-          grouptitle
-          groupdescription
-          iscompleted
-          tasks{
-            _id
-            tasktitle
-            taskdescription
-            iscompleted
-          }
-        }
-      }
-            tasks{
+            projects{
+              _id
+              projecttitle
+              projectdescription
+              iscompleted
+              users{
                 _id
-                tasktitle
-                taskdescription
-                iscompleted
-                    priority{
-                        priority
+              }
+              projecttime{
+                _id
+              }
+              projectplannedtime{
+                _id
+              }
+              team{
+                _id
+              }
+              tasks{
+                      _id
+                      tasktitle
+                      taskdescription
+                      tasktime{
+                        _id
+                      }
+                      taskplannedtime{
+                        _id
+                      }
+                      tasktime{
+                        _id
+                      }
+                      comments{
+                        _id
+                      }
                     }
+                groups{
+                  _id
+                  grouptitle
+                  groupdescription
+                  iscompleted
+                  grouptime{
+                    _id
+                  }
+                  comments{
+                    _id
+                  }
+                  groupplannedtime{
+                    _id
+                  }
+                  grouptime{
+                    _id
+                  }
+                    users{
+                      _id
+                      username
+                    }
+                    tasks{
+                      _id
+                      tasktitle
+                      taskdescription
+                      tasktime{
+                        _id
+                      }
+                      taskplannedtime{
+                        _id
+                      }
+                      tasktime{
+                        _id
+                      }
+                      comments{
+                        _id
+                      }
+                    }
+                  }
+                }
+            tasks{
+              _id
+              tasktitle
+              taskdescription
+              iscompleted
+              priority{
+              priority
+              }
             }
         }
     }`;

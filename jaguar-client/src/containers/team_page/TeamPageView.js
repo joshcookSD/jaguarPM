@@ -13,7 +13,9 @@ const token = localStorage.getItem('token');
 
 
 class TeamPage extends Component {
+
     render() {
+
         const { user } = decode(token);
         const variables = {_id: user._id};
         return (
@@ -39,7 +41,7 @@ class TeamPage extends Component {
                             variables={variables}
                         />
                     </MainSidebar>
-                    <TeamPageMain/>
+                    <TeamPageMain />
                 </AppLayout>
             </div>
         }

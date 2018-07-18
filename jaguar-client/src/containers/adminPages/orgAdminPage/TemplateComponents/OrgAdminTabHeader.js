@@ -1,8 +1,11 @@
 import React from 'react';
+import {
+    AdminPageHeaderWrapper
+} from '../../../layout/AdminComponents.js'
 
 const TabHeader = (props) => (
 
-    <div className="orgHeader">
+    <AdminPageHeaderWrapper>
         <div>
             <span className="headerTitle " >Organization Title: </span>
             <span className="headerName">{props.orgTitle}</span>
@@ -11,7 +14,7 @@ const TabHeader = (props) => (
             <span className="headerTitle" >Organization Description:</span>
             <span className="headerName">{props.orgDescription}</span>
         </div>
-    </div> 
+    </AdminPageHeaderWrapper>
 );
 
 export default TabHeader;

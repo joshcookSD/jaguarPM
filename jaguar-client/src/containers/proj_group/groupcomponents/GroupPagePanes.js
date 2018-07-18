@@ -1,15 +1,11 @@
 import React, {Component} from 'react';
-import TeamProjectProgress from './TeamProjectProgress';
+// import TeamProjectProgress from './TeamProjectProgress';
 
 
 class TaskView extends Component {
 
-
-
     render () {
-
         if(this.props.activePageTab === 'feed') {
-
             return (
                 <div>
                     View
@@ -19,7 +15,7 @@ class TaskView extends Component {
         if(this.props.activePageTab === 'progress') {
             return (
                 <div>
-                    <TeamProjectProgress team={this.props.team}/>
+                    {/*<TeamProjectProgress team={this.props.team}/>*/}
                 </div>
             );
         }

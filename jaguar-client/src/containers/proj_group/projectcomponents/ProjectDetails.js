@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
-import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
+import { Dimmer, Loader, Form, Button} from 'semantic-ui-react';
 import { updateProject} from "../../apollo-graphql/groupProjectQueries";
 import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
+import {
+    GroupFormWrapper,
+
+} from '../../layout/Proj_GroupComponents.js'
 
 class ProjectDetail extends Component {
 
@@ -81,7 +85,6 @@ class ProjectDetail extends Component {
         return (
             <Query query={projectDetails} variables={queryVariables}>
                 {({loading, error, data}) => {
-                    console.log(data);
                      if (loading) return (
                         <div>
                             <Dimmer active>
@@ -90,11 +93,11 @@ class ProjectDetail extends Component {
                         </div>);
                     if (error) return <p>No Project Selected {projectId}</p>;
                     return (
-                        <Form onSubmit={() => _updateProject()}>
-                            <Card fluid raised>
-                                <Card.Content>
-                                    <Card.Header onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</Card.Header>
-                                    {/*header*/}
+                        <GroupFormWrapper onSubmit={() => _updateProject()}>
+                                <div>
+
+                                    <div className='cardHeader' onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</div>
+
                                     {titleInput &&
                                     <Form.Input
                                         fluid
@@ -103,9 +106,9 @@ class ProjectDetail extends Component {
                                         onChange={e => this.setState({title: e.target.value})}
                                     />}
                                     {/*description*/}
-                                    <Card.Meta onClick={() => this.setState({descriptionInput: !descriptionInput})}>
+                                    <div className='metaTag' onClick={() => this.setState({descriptionInput: !descriptionInput})}>
                                         Description: {!descriptionInput && data.project.projectdescription}
-                                    </Card.Meta>
+                                    </div>
                                     {descriptionInput &&
                                     <Form.Input
                                         fluid
@@ -114,10 +117,10 @@ class ProjectDetail extends Component {
                                         onChange={e => this.setState({description: e.target.value})}
                                     />}
                                     {/*plan date*/}
-                                    <Card.Description
+                                    <div className='cardDescription'
                                         onClick={() => this.setState({planDateInput: !planDateInput})}>
                                         Plan Date: {data.project.plannedcompletiondate ? moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'task needs to be planned'}
-                                    </Card.Description>
+                                    </div>
                                     {planDateInput &&
                                     <Form.Input
                                         fluid
@@ -126,9 +129,9 @@ class ProjectDetail extends Component {
                                         onChange={e => this.setState({plandate: e.target.value})}
                                     />}
                                     {/*due date*/}
-                                    <Card.Description onClick={() => this.setState({dueDateInput: !dueDateInput})}>
+                                    <div className='cardDescription' onClick={() => this.setState({dueDateInput: !dueDateInput})}>
                                         Due Date: {data.project.duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : 'No due date set'}
-                                    </Card.Description>
+                                    </div>
                                     {dueDateInput &&
                                     <Form.Input
                                         fluid
@@ -137,12 +140,12 @@ class ProjectDetail extends Component {
                                         onChange={e => this.setState({duedate: e.target.value})}
                                     />}
                                     {/*default group*/}
-                                    <Card.Description>
+                                    <div className='cardDescription'>
                                         Default Group: {data.project.defaultgroup ? data.project.defaultgroup.grouptitle : 'no default'}
-                                    </Card.Description>
+                                    </div>
 
                                     {/*assigned leader*/}
-                                    <Card.Description>
+                                    <div className='assignedLeader'>
                                    Assigned Leader:
                                         <TeamLeaderDropDown
                                         selectedProject={selectedProject}
@@ -150,13 +153,13 @@ class ProjectDetail extends Component {
                                         queryVariables={{_id: selectedProject}}
                                         leader={data.project.leader.username}
                                     />
-                                    </Card.Description>
-                                </Card.Content>
-                                <Card.Content extra>
+                                    </div>
+                                </div>
+
                                     <Button size='small' fluid type='submit'>update</Button>
-                                </Card.Content>
-                            </Card>
-                        </Form>
+
+
+                        </GroupFormWrapper>
                     )
                 }
                 }

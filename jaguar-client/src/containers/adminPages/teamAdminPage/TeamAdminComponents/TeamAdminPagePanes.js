@@ -3,22 +3,26 @@ import ProjTabHeader from "./ProjTabHeader";
 import ProjAddProjCard from "./ProjAddProjCard";
 import ProjUserDD from "./ProjAdminAddUser";
 import {teamsByOwner} from "../../../apollo-graphql/userQueries";
+import {
+    AdminPagePaneWrapper,
+} from '../../../layout/AdminComponents.js'
 
 class TeamAdminPagePanes extends Component {
     state = {
-        teamAdded: true,
+        projectAdded: true,
     };
 
     componentWillReceiveProps(nextProps){
-        if(this.props.activeView.teams !== nextProps.activeView.teams){
+        //change state so component rerenders with new view
+        if(this.props.activeView.projects !== nextProps.activeView.projects){
             this.setState({
-                teamAdded: !this.teamAdded,
+                projectAdded: !this.projectAdded,
             });
         }
     }
 
-    handleAfterSubmit = (org, selected) => {
-        this.props.handleAfterSubmit(org, selected)
+    handleAfterSubmit = (team, selected) => {
+        this.props.handleAfterSubmit(team, selected)
     };
 
     render () {
@@ -29,7 +33,7 @@ class TeamAdminPagePanes extends Component {
         } = this.props;
 
         return (
-            <div>
+            <AdminPagePaneWrapper>
                 <ProjTabHeader
                     teamTitle={activeView.teamtitle}
                     teamDescription={activeView.teamdescription}
@@ -48,7 +52,7 @@ class TeamAdminPagePanes extends Component {
                     variables={variables}
                     teamsToRemove={(activeView.projects || []).map((project, i) => project._id).toString()}
                 />
-            </div>
+            </AdminPagePaneWrapper>
         );
     }
 }

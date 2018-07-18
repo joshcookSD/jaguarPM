@@ -1,8 +1,11 @@
 import React from 'react';
+import {
+    AdminPageHeaderWrapper
+} from '../../../layout/AdminComponents.js'
 
 const ProjTabHeader = (props) => (
 
-        <div className="orgHeader">
+        <AdminPageHeaderWrapper>
             <div>
                 <span>Team Title: </span>
                 <span>{props.teamTitle}</span>
@@ -11,7 +14,7 @@ const ProjTabHeader = (props) => (
                 <span >Team Description:</span>
                 <span>{props.teamDescription}</span>
             </div>
-        </div>
+        </AdminPageHeaderWrapper>
     
 );
 

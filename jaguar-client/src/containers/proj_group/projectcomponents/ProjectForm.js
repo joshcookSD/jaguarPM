@@ -42,7 +42,8 @@ class ProjectForm extends Component {
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
-                                    const response = await createProject({
+                                    // const response = await
+                                        createProject({
                                         variables: {
                                             projecttitle: projecttitle,
                                             projectdescription: projectdescription,
@@ -55,8 +56,8 @@ class ProjectForm extends Component {
                                             variables: variables
                                         }]
                                     });
-                                    const { ok, errors } = response.data.createProject;
-                                    if (ok) {
+                                    // const { ok, errors } = response.data.createProject;
+                                    // if (ok) {
                                         this.handleSubmit(activeView);
                                         this.setState({
                                             projecttitle: "",
@@ -64,13 +65,13 @@ class ProjectForm extends Component {
                                             errors: {},
                                             projecttitleerror: ""
                                         });
-                                    } else {
-                                        const err = {};
-                                        errors.forEach(({ path, message }) => {
-                                            err[`${path}Error`] = message;
-                                        });
-                                        this.setState(err);
-                                    }
+                                    // } else {
+                                    //     const err = {};
+                                    //     errors.forEach(({ path, message }) => {
+                                    //         err[`${path}Error`] = message;
+                                    //     });
+                                    //     this.setState(err);
+                                    // }
                                 }}>
                                 <Form.Field error={!!projecttitleerror}>
                                     <label>Name</label>

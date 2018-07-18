@@ -90,6 +90,54 @@ mutation createGroup(
         }
 }`;
 
+const removeProjectFromTeam = gql`
+    mutation removeProjectFromTeam(
+        $projectGroupTasksComments : String,
+        $projectGroupTasks : String,
+        $projectGroupTasksTime : String,
+        $taskplannedtime : String,
+        $groupUsersId : String,
+        $projectGroupComments : String,
+        $projectGroupGroupTime : String,
+        $projectGroupPlannedTime : String,
+        $projectGroup : String,
+        $projecLevelTasksComments : String,
+        $projectlevelTasksTime : String,
+        $projectTaskplannedtime : String,
+        $projectLevelTasks : String,
+        $projectUsersId : String,
+        $projectTime : String,
+        $projectPlannedTime : String,
+        $groupToDeleteId : String,
+        $projectId : String,
+        $projectTeam : String
+    ) { removeProjectFromTeam (
+        projectGroupTasksComments : $projectGroupTasksComments,
+        projectGroupTasks : $projectGroupTasks,
+        projectGroupTasksTime : $projectGroupTasksTime,
+        taskplannedtime : $taskplannedtime,
+        groupUsersId : $groupUsersId,
+        projectGroupComments : $projectGroupComments,
+        projectGroupGroupTime : $projectGroupGroupTime,
+        projectGroupPlannedTime : $projectGroupPlannedTime,
+        projectGroup : $projectGroup,
+        projecLevelTasksComments : $projecLevelTasksComments,
+        projectlevelTasksTime : $projectlevelTasksTime,
+        projectTaskplannedtime : $projectTaskplannedtime,
+        projectLevelTasks : $projectLevelTasks,
+        projectUsersId : $projectUsersId,
+        projectTime : $projectTime,
+        projectPlannedTime : $projectPlannedTime,
+        groupToDeleteId : $groupToDeleteId,
+        projectId : $projectId,
+        projectTeam : $projectTeam,
+    )
+        {
+            teamtitle
+      }
+}
+`;
+
 
 const projectDetails = gql`
 query project($_id: String!) {
@@ -235,4 +283,17 @@ const createTaskByGroup = gql`
     }
 }`;
 
-export {userTeamProjects, createProject, projectDetails, updateProject, userProjectGroups, createGroup, groupDetails, updateGroup, createTaskByGroup, teamProjects, projectGroups }
+export {
+    userTeamProjects,
+    createProject,
+    projectDetails,
+    updateProject,
+    userProjectGroups,
+    createGroup,
+    groupDetails,
+    updateGroup,
+    createTaskByGroup,
+    teamProjects,
+    projectGroups,
+    removeProjectFromTeam
+}

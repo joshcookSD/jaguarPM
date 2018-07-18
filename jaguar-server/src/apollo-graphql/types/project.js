@@ -31,8 +31,7 @@ const ProjectType = `
         projectplannedtime: [PlannedTime]
         priority: Priority
     }
-    
-    type CreateProjectResponse {
+      type CreateProjectResponse {
         ok: Boolean!
         project: Project
         errors: [Error!]
@@ -78,11 +77,13 @@ const ProjectQueryResolver = {
 };
 
 const ProjectMutationResolver ={
-        createProject: async (parent, args, { Project}) => {
+        createProject: async (parent, args, { Project }) => {
             let project = await new Project(args).save();
             let user = await User.findById(args.users);
+
             user.projects.push(project._id);
             await user.save();
+
             let projectteam = await Team.findById(args.team);
             let group = await new Group({
                 grouptitle: 'General',
@@ -99,7 +100,7 @@ const ProjectMutationResolver ={
             await user.save();
             await Project.findByIdAndUpdate(project._id, {
                     $set: {
-                        groups: group._id,
+                        groups: [group._id],
                         defaultgroup: group._id,
                     }
                 },
@@ -108,6 +109,7 @@ const ProjectMutationResolver ={
             return {
                 ok: true,
                 project
+
             };
         },
     updateProject: async (parent, args, { Project}) => {

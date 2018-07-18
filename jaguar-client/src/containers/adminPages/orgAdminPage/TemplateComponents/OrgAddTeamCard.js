@@ -1,13 +1,18 @@
 import React from 'react';
 import TeamForm from '../../teamAdminPage/TeamAdminComponents/TeamForm';
-import { Card, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { TeamCardWrapper, CardLeftWrapper } from '../../../layout/AdminComponents.js'
-import styled from 'styled-components';
+import { CardLeftWrapper } from '../../../layout/AdminComponents.js'
+import {getOrgByOwner} from "../../../apollo-graphql/userQueries";
+import { removeTeamFromOrg } from "../../../apollo-graphql/teamOrgQueries";
+import { Mutation } from "react-apollo";
 
-const TeamCardListWarapper = styled.div`
-    margin-top: 10px;
-`;
+import {
+    OrgPageTeamCardWrapper,
+    NewUserCardName,
+    DeleteUserIcon,
+
+} from '../../../layout/AdminComponents.js'
 
 const AddTeamCard = (props) => {
     function handleAfterSubmit(org){
@@ -15,35 +20,58 @@ const AddTeamCard = (props) => {
     }
 
     return (
-        <CardLeftWrapper>
-            <TeamForm
-                className="teamForm"
-                handleAfterSubmit={handleAfterSubmit}
-                activeView={props.org}
-                orgId={props.org._id}
-                variables={props.variables}
-            />
-            {(props.orgData || []).map(org => {
-                if (org._id === props.org._id) {
-                    return (
-                        (org.teams).map((team, i) => (
-                            <Link to='/team-admin' key={i}>
-                                <TeamCardListWarapper>
-                                    <Card>
-                                        <Card.Content>
-                                            <TeamCardWrapper>
-                                                <Icon name='group'/>
-                                                <Card.Header>{team.teamtitle}</Card.Header>
-                                            </TeamCardWrapper>
-                                        </Card.Content>
-                                    </Card>
-                                </TeamCardListWarapper>
-                            </Link>
-                        ))
-                    )
-                }
-            })}
-        </CardLeftWrapper>
+        <Mutation mutation={removeTeamFromOrg}>
+            {(removeTeamFromOrg, { data, loading }) => (
+                <CardLeftWrapper>
+                    <TeamForm
+                        className="teamForm"
+                        handleAfterSubmit={handleAfterSubmit}
+                        activeView={props.org}
+                        orgId={props.org._id}
+                        variables={props.variables}
+                    />
+                    <div>
+                    {(props.orgData || []).map(org => {
+                        if (org._id === props.org._id) {
+                            return (
+                                (org.teams).map((team, i) => (
+                                    <Link to='/team-admin' key={i}>
+                                        <OrgPageTeamCardWrapper image key={i}>
+                                            <Icon name='group'/>
+                                            <NewUserCardName>{team.teamtitle}</NewUserCardName>
+                                            <DeleteUserIcon>
+                                                <Icon
+                                                    size='large'
+                                                    name='delete'
+                                                    onClick={async e => {
+                                                        console.log(team)
+                                                        e.preventDefault();
+                                                        await removeTeamFromOrg({
+                                                        variables: {
+                                                            teamId: team._id,
+                                                            orgId: team.organization._id,
+                                                            userId: props.variables.owner,
+                                                            projects: team.projects.map((project) => project._id).toString(),
+                                                            users: team.users.map((user) => user._id).toString(),
+                                                            tasks: team.tasks.map((task) => task._id).toString(),
+                                                            groups: team.groups.map((group) => group._id).toString(),
+                                                        },
+                                                            refetchQueries: [{query: getOrgByOwner, variables: props.variables}]
+                                                        });
+                                                    }}
+                                                />
+                                            </DeleteUserIcon>
+                                        </OrgPageTeamCardWrapper>
+                                    </Link>
+
+                                ))
+                            )
+                        }
+                    })}
+                    </div>
+                </CardLeftWrapper>
+            )}
+        </Mutation>
     );
 };
 
