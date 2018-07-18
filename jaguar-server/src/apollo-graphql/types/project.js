@@ -85,15 +85,17 @@ const ProjectMutationResolver ={
             await user.save();
 
             let projectteam = await Team.findById(args.team);
+
             let group = await new Group({
                 grouptitle: 'General',
                 groupdescription: `General Group`,
                 project: project._id,
                 users: user._id,
                 team: projectteam._id
-
             }).save();
+
             projectteam.projects.push(project._id);
+
             projectteam.groups.push(group._id);
             await projectteam.save();
             user.groups.push(group._id);

@@ -4,7 +4,7 @@ import {Header, Dimmer, Loader, Modal, Icon, List, Transition, Divider} from 'se
 import decode from 'jwt-decode';
 import { userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
 import ProjectItem from './ProjectItem'
-import ProjectForm from './ProjectForm'
+import ProjectFormForModal from './ProjectFormForModal.js'
 
 const token = localStorage.getItem('token');
 
@@ -52,8 +52,8 @@ class ProjectList extends Component {
                                         Create Project
                                     </Modal.Header>
                                     <Modal.Content>
-                                        <ProjectForm
-                                            team={team._id}
+                                        <ProjectFormForModal
+                                            teamId={team._id}
                                             userId={user._id}
                                             updateQuery={userTeamProjects}
                                             variables={variables}

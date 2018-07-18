@@ -22,6 +22,7 @@ const ProjAddProjCard = (props) => {
         <Mutation mutation={removeProjectFromTeam}>
             {(removeProjectFromTeam, { data, loading }) => (
                 <CardLeftWrapper>
+                    {console.log(props.variables)}
                     <ProjectForm
                         className="projectForm"
                         handleAfterSubmit={handleAfterSubmit}

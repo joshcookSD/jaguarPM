@@ -134,7 +134,7 @@ body {font-family: "Lato", sans-serif;}
 
 `;
 
-const GroupFormWrapper = styled.div`
+const GroupFormWrapper = styled.form`
     box-shadow: 0 0 0 1px #d4d4d5, 0 2px 4px 0 rgba(34,36,38,.12), 0 2px 10px 0 rgba(34,36,38,.15);
     background: #fff;
     border: none;
