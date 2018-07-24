@@ -17,14 +17,14 @@ class GroupView extends Component {
         isSelected: false,
     };
 
-    // selectProject = (project, team) => {
     selectGroup = (group) => {
-        // this.setState({selectedProject: project, isSelected: true, teamOfProject: team });
         this.setState({selectedGroup: group, isSelected: true});
     };
-
     selectProject = (project) => {
         this.setState({projectOfGroup: project });
+    };
+    removeGroupSwitchForDefault = () => {
+        this.setState({isSelected: false });
     };
 
     render() {
@@ -47,6 +47,7 @@ class GroupView extends Component {
                                 <GroupList
                                     selectTeam={this.selectTeam}
                                     selectGroup={this.selectGroup}
+                                    selectProject={this.selectProject}
                                     isSelected={isSelected}
                                 />
                             </MainSidebar>
@@ -54,6 +55,10 @@ class GroupView extends Component {
                                 selectedGroup={selectedGroup}
                                 groupDetails={groupDetails}
                                 queryVariables={{_id: selectedGroup}}
+                                userProjectGroups={userProjectGroups}
+                                variables={{_id: user._id}}
+                                removeGroupSwitchForDefault={this.removeGroupSwitchForDefault}
+
                             />
 
                         </AppLayout>

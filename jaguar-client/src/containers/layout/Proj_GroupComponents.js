@@ -144,8 +144,10 @@ const GroupFormWrapper = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: auto; 
 }
 `;
+
 
 const NavItems = styled.div`
   max-width: 100px; 
@@ -203,6 +205,7 @@ export {
     NavItems,
     NavItemContainer,
     TeamPageProjectListWrapper,
+
 
 
 };

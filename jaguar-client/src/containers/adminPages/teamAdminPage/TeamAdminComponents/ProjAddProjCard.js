@@ -22,7 +22,6 @@ const ProjAddProjCard = (props) => {
         <Mutation mutation={removeProjectFromTeam}>
             {(removeProjectFromTeam, { data, loading }) => (
                 <CardLeftWrapper>
-                    {console.log(props.variables)}
                     <ProjectForm
                         className="projectForm"
                         handleAfterSubmit={handleAfterSubmit}
@@ -44,38 +43,15 @@ const ProjAddProjCard = (props) => {
                                                         size='large'
                                                         name='delete'
                                                         onClick={async e => {
+                                                            console.log(project)
                                                             e.preventDefault();
                                                             await removeProjectFromTeam({
                                                                 variables: {
-                                                            // task level
-                                                                    projectGroupTasksComments : project.groups.map((group) => group.tasks.map(task => task.comments.map(comment => comment._id))).toString(),
-                                                                    projectGroupTasks : project.groups.map((group) => group.tasks.map(task => task._id)).toString(),
-                                                                    projectGroupTasksTime : project.groups.map((group) => group.tasks.map(task => task.tasktime.map(taskt => taskt._id))).toString(),
-                                                                    taskplannedtime : project.groups.map((group) => group.tasks.map(task => task.tasktime.map(taskt => taskt._id))).toString(),
-
-                                                            // group top level
-                                                                    groupUsersId : project.groups.map((group) => group.users.map(user => user._id)).toString(),
-                                                                    projectGroupComments : project.groups.map((group) => group.comments.map(comment => comment._id)).toString(),
-                                                                    projectGroupGroupTime : project.groups.map((group) => group.grouptime.map(gt => gt._id)).toString(),
-                                                                    projectGroupPlannedTime : project.groups.map((group) => group.groupplannedtime.map(gt => gt._id)).toString(),
-                                                                    projectGroup : project.groups.map((group) => group._id).toString(),
-                                                            // project level
-                                                            //     project tasks
-                                                                    projecLevelTasksComments : project.tasks.map((task) => task.comments.map(comment => comment._id)).toString(),
-                                                                    projectlevelTasksTime : project.tasks.map((task) => task.tasktime.map(tt => tt._id)).toString(),
-                                                                    projectTaskplannedtime : project.tasks.map((task) => task.projectplannedtime.map(ptt => ptt._id)).toString(),
-                                                                    projectLevelTasks : project.tasks.map((task) => task._id).toString(),
-                                                            //
-                                                            // project top level
-                                                            //         projectComments :
-                                                            //         projectMilestone :
-                                                                    projectUsersId :  project.users.map((user) => user._id).toString(),
-                                                                    projectTime : project.users.map((user) => user._id).toString(),
-                                                                    projectPlannedTime : project.projectplannedtime.map((ppt) => ppt._id).toString(),
-                                                            //
-                                                                    groupToDeleteId : project.groups.map((group) => group._id).toString(),
-                                                                    projectId : project._id,
-                                                                    projectTeam : project.team._id
+                                                                    projectToRemoveId: project._id,
+                                                                    projectUsersIds: project.users.map((user) => user._id).toString(),
+                                                                    projectsTeamId: project.team._id,
+                                                                    projectsGroupsTasks: project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
+                                                                    projectsGroups: project.groups.map((group) => group._id).toString()
                                                                 },
                                                                 refetchQueries: [{query: teamsByOwner, variables: props.variables}]
                                                             });

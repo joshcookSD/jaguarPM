@@ -17,6 +17,9 @@ import {
 } from '../../layout/Proj_GroupComponents.js'
 
 
+
+
+
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
@@ -65,6 +68,9 @@ class TeamPageMain extends Component {
                                         selectedGroup={this.props.selectedGroup}
                                         groupDetails={this.props.groupDetails}
                                         queryVariables={this.props.queryVariables}
+                                        userProjectGroups={this.props.userProjectGroups}
+                                        variables={this.props.variables}
+                                        removeGroupSwitchForDefault={this.props.removeGroupSwitchForDefault}
                                     />
                                 </Details>
                                 <Prioriety>

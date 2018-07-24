@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
-import { Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { updateProject} from "../../apollo-graphql/groupProjectQueries";
+import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
+import {removeProjectFromTeam, updateProject} from "../../apollo-graphql/groupProjectQueries";
 import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
+import { Mutation } from "react-apollo";
 import {
     GroupFormWrapper,
 } from '../../layout/Proj_GroupComponents.js'
 
-class ProjectDetail extends Component {
 
+class ProjectDetail extends Component {
     // set selected project to state
     componentWillUpdate(nextProps, nextState) {
         if(nextProps.selectedProject !== this.props.selectedProject) {
@@ -38,7 +39,9 @@ class ProjectDetail extends Component {
         const {
             selectedProject,
             projectDetails,
-            queryVariables
+            queryVariables,
+            userTaskDetails,
+            variables
         } = this.props;
 
         //state shortcut
@@ -83,81 +86,102 @@ class ProjectDetail extends Component {
 
         if(projectId) {
         return (
-            <Query query={projectDetails} variables={queryVariables}>
-                {({loading, error, data}) => {
-                     if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader/>
-                            </Dimmer>
-                        </div>);
-                    if (error) return <p>No Project Selected {projectId}</p>;
-                    return (
-                        <GroupFormWrapper onSubmit={() => _updateProject()}>
+            <Mutation mutation={removeProjectFromTeam}>
+                {(removeProjectFromTeam, { data, loading }) => (
+                    <Query query={projectDetails} variables={queryVariables}>
+                        {({loading, error, data}) => {
+                             if (loading) return (
                                 <div>
-                                    <div className='cardHeader' onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</div>
-                                    {titleInput &&
-                                    <Form.Input
-                                        fluid
-                                        placeholder={data.project.projecttitle}
-                                        value={title}
-                                        onChange={e => this.setState({title: e.target.value})}
-                                    />}
-                                    {/*description*/}
-                                    <div className='metaTag' onClick={() => this.setState({descriptionInput: !descriptionInput})}>
-                                        Description: {!descriptionInput && data.project.projectdescription}
-                                    </div>
-                                    {descriptionInput &&
-                                    <Form.Input
-                                        fluid
-                                        placeholder={data.project.projectdescription}
-                                        value={description}
-                                        onChange={e => this.setState({description: e.target.value})}
-                                    />}
-                                    {/*plan date*/}
-                                    <div className='cardDescription'
-                                        onClick={() => this.setState({planDateInput: !planDateInput})}>
-                                        Plan Date: {data.project.plannedcompletiondate ? moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'task needs to be planned'}
-                                    </div>
-                                    {planDateInput &&
-                                    <Form.Input
-                                        fluid
-                                        type='date'
-                                        placeholder={plandate ?  moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'No plan date set'}
-                                        onChange={e => this.setState({plandate: e.target.value})}
-                                    />}
-                                    {/*due date*/}
-                                    <div className='cardDescription' onClick={() => this.setState({dueDateInput: !dueDateInput})}>
-                                        Due Date: {data.project.duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : 'No due date set'}
-                                    </div>
-                                    {dueDateInput &&
-                                    <Form.Input
-                                        fluid
-                                        type='date'
-                                        placeholder={duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : Date.now()}
-                                        onChange={e => this.setState({duedate: e.target.value})}
-                                    />}
-                                    {/*default group*/}
-                                    <div className='cardDescription'>
-                                        Default Group: {data.project.defaultgroup ? data.project.defaultgroup.grouptitle : 'no default'}
-                                    </div>
-                                    {/*assigned leader*/}
-                                    <div className='assignedLeader'>
-                                   Assigned Leader:
-                                        <TeamLeaderDropDown
-                                        selectedProject={selectedProject}
-                                        projectDetails={projectDetails}
-                                        queryVariables={{_id: selectedProject}}
-                                        leader={data.project.leader.username}
-                                    />
-                                    </div>
-                                </div>
-                                    <Button size='small' fluid type='submit'>update</Button>
-                        </GroupFormWrapper>
-                    )
-                }
-                }
-            </Query>
+                                    <Dimmer active>
+                                        <Loader/>
+                                    </Dimmer>
+                                </div>);
+                            if (error) return <p>No Project Selected {projectId}</p>;
+                            return (
+                                <GroupFormWrapper onSubmit={() => _updateProject()}>
+                                        <div>
+                                            <div className='cardHeader' onClick={() => this.setState({titleInput: !titleInput})}>{!titleInput && data.project.projecttitle}</div>
+                                            {titleInput &&
+                                            <Form.Input
+                                                fluid
+                                                placeholder={data.project.projecttitle}
+                                                value={title}
+                                                onChange={e => this.setState({title: e.target.value})}
+                                            />}
+                                            <div className='metaTag' onClick={() => this.setState({descriptionInput: !descriptionInput})}>
+                                                Description: {!descriptionInput && data.project.projectdescription}
+                                            </div>
+                                            {descriptionInput &&
+                                            <Form.Input
+                                                fluid
+                                                placeholder={data.project.projectdescription}
+                                                value={description}
+                                                onChange={e => this.setState({description: e.target.value})}
+                                            />}
+                                            {/*plan date*/}
+                                            <div className='cardDescription'
+                                                onClick={() => this.setState({planDateInput: !planDateInput})}>
+                                                Plan Date: {data.project.plannedcompletiondate ? moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'task needs to be planned'}
+                                            </div>
+                                            {planDateInput &&
+                                            <Form.Input
+                                                fluid
+                                                type='date'
+                                                placeholder={plandate ?  moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'No plan date set'}
+                                                onChange={e => this.setState({plandate: e.target.value})}
+                                            />}
+                                            {/*due date*/}
+                                            <div className='cardDescription' onClick={() => this.setState({dueDateInput: !dueDateInput})}>
+                                                Due Date: {data.project.duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : 'No due date set'}
+                                            </div>
+                                            {dueDateInput &&
+                                            <Form.Input
+                                                fluid
+                                                type='date'
+                                                placeholder={duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : Date.now()}
+                                                onChange={e => this.setState({duedate: e.target.value})}
+                                            />}
+                                            {/*default group*/}
+                                            <div className='cardDescription'>
+                                                Default Group: {data.project.defaultgroup ? data.project.defaultgroup.grouptitle : 'no default'}
+                                            </div>
+                                            {/*assigned leader*/}
+                                            <div className='assignedLeader'>
+                                           Assigned Leader:
+                                                <TeamLeaderDropDown
+                                                selectedProject={selectedProject}
+                                                projectDetails={projectDetails}
+                                                queryVariables={{_id: selectedProject}}
+                                                leader={data.project.leader.username}
+                                            />
+                                            </div>
+                                        </div>
+                                    <Card.Content extra>
+                                        <Button.Group fluid>
+                                            <Button size='small' type='submit' color='green' basic>update</Button>
+                                            <Button size='small' basic color='red' onClick={async e => {
+                                                e.preventDefault();
+                                                await removeProjectFromTeam({
+                                                    variables: {
+                                                            projectToRemoveId : data.project._id,
+                                                            projectUsersIds : data.project.users.map((user) => user._id).toString(),
+                                                            projectsTeamId : data.project.team._id,
+                                                            projectsGroupsTasks : data.project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
+                                                            projectsGroups : data.project.groups.map((group) => group._id).toString(),
+                                                    },
+                                                    refetchQueries: [{query: userTaskDetails, variables: variables}]
+                                                });
+                                                this.props.removeProjectSwitchForDefault()
+                                            }} >remove</Button>
+                                        </Button.Group>
+                                    </Card.Content>
+                                </GroupFormWrapper>
+                            )
+                        }
+                        }
+                    </Query>
+                )}
+            </Mutation>
         )} else { return (<div/>)}
     }
 }

@@ -16,15 +16,12 @@ class TeamAdminMain extends Component {
         isSelected: false,
         projectAdd: false,
     };
-
     handleClick = (team) => {
         this.setState({activeView: team, isSelected: true });
     };
-
     handleAfterSubmit = (team) => {
         this.setState({activeView: team, projectAdd: true});
     };
-
     render() {
         const { activeView, isSelected } = this.state;
         return (

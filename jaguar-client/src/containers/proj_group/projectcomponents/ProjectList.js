@@ -28,12 +28,13 @@ class ProjectList extends Component {
                 { ({ loading, error, data }) => {
                     if(data.user && !this.props.isSelected) {
                         this.defaultProject(data.user.team[0].projects[0]._id, data.user.team[0].projects[0].team._id)}
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader />
-                            </Dimmer>
-                        </div>);
+                        if (loading) return (
+                            <div>
+                                <Dimmer active>
+                                    <Loader />
+                                </Dimmer>
+                            </div>
+                        );
                     if (error) return <p>Error :(</p>;
                     return <div>
                         { (data.user.team || []).map( team => (

@@ -31,12 +31,6 @@ const OrgAddUserCardWrapper = styled.div`
     padding: 10px;
 `;
 
-const PaneGrid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 10px;
-    grid-template-rows: 1fr 3fr;
-`;
 
 
 class OrgPagePanes extends Component {

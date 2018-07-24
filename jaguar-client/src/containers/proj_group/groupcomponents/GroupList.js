@@ -34,8 +34,7 @@ class GroupList extends Component {
                         </div>);
                     if (error) return <p>Error :(</p>;
                     return <div>
-                        { (data.user.projects || []).map( project => (
-
+                        { (data.user.projects || []).map((project, i) => (
                             <div key={project._id}>
                                 <Header >
                                     {project.team === null ? `no team -  ${project.projecttitle}` : `${project.team.teamtitle}  -  ${project.projecttitle}`}
@@ -69,9 +68,15 @@ class GroupList extends Component {
                                     relaxed
                                     size='large'
                                 >
-                                    { project.groups.map(group => {
-                                        // if(!isSelected) { this.props.selectProject(project._id, project.team._id)}
-                                        if(!isSelected) { this.props.selectGroup(group._id)}
+                                    {
+                                        project.groups.map(group => {
+                                       if(i === 0 && !isSelected){
+                                           project.groups.map((group,i ) => {
+                                               if(i ===0){
+                                                   this.props.selectGroup(group._id)
+                                               }
+                                           })
+                                       }
                                         return (
                                             <GroupTaskItem
                                                 key={group._id}

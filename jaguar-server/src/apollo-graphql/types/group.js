@@ -75,15 +75,20 @@ const GroupQueryResolver = {
 const GroupMutationResolver ={
     createGroup: async (parent, args, { Group}) => {
         let group = await new Group(args).save();
-        let groupTeam = await Team.findById(args.team);
-        groupTeam.groups.push(group._id);
+
+        if(args.team){
+            let groupTeam = await Team.findById(args.team);
+            groupTeam.groups.push(group._id);
+            await groupTeam.save();
+        }
+
         let user = await User.findById(args.users);
         user.groups.push(group._id);
+
         let project = await Project.findById(args.project);
         project.groups.push(group._id);
-        await user.save();
-        await groupTeam.save();
 
+        await user.save();
         await project.save();
         return {
             ok: true,

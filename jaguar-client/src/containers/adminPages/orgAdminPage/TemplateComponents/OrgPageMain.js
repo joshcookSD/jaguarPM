@@ -31,6 +31,7 @@ class OrgPageMain extends Component {
         return (
             <Query query={getOrgByOwner} variables={variables}>
                 {({ loading, error, data }) => {
+
                     if(this.state.isSelected === false ) {
                         (data.getOrgByOwner || []).forEach((org, i) => {
                             if (i === 0) {

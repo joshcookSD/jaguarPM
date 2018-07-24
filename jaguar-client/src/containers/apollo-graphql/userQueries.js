@@ -136,6 +136,10 @@ const getOrgByOwner = gql`
               groups{
                 _id
                 grouptitle
+                tasks{
+                _id
+                tasktitle
+                }
               }
         }
           owner{
