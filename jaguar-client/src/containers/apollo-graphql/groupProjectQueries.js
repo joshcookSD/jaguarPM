@@ -92,45 +92,17 @@ mutation createGroup(
 
 const removeProjectFromTeam = gql`
     mutation removeProjectFromTeam(
-        $projectGroupTasksComments : String,
-        $projectGroupTasks : String,
-        $projectGroupTasksTime : String,
-        $taskplannedtime : String,
-        $groupUsersId : String,
-        $projectGroupComments : String,
-        $projectGroupGroupTime : String,
-        $projectGroupPlannedTime : String,
-        $projectGroup : String,
-        $projecLevelTasksComments : String,
-        $projectlevelTasksTime : String,
-        $projectTaskplannedtime : String,
-        $projectLevelTasks : String,
-        $projectUsersId : String,
-        $projectTime : String,
-        $projectPlannedTime : String,
-        $groupToDeleteId : String,
-        $projectId : String,
-        $projectTeam : String
+        $projectToRemoveId: String,
+        $projectUsersIds: String,
+        $projectsTeamId: String,
+        $projectsGroupsTasks: String,
+        $projectsGroups: String
     ) { removeProjectFromTeam (
-        projectGroupTasksComments : $projectGroupTasksComments,
-        projectGroupTasks : $projectGroupTasks,
-        projectGroupTasksTime : $projectGroupTasksTime,
-        taskplannedtime : $taskplannedtime,
-        groupUsersId : $groupUsersId,
-        projectGroupComments : $projectGroupComments,
-        projectGroupGroupTime : $projectGroupGroupTime,
-        projectGroupPlannedTime : $projectGroupPlannedTime,
-        projectGroup : $projectGroup,
-        projecLevelTasksComments : $projecLevelTasksComments,
-        projectlevelTasksTime : $projectlevelTasksTime,
-        projectTaskplannedtime : $projectTaskplannedtime,
-        projectLevelTasks : $projectLevelTasks,
-        projectUsersId : $projectUsersId,
-        projectTime : $projectTime,
-        projectPlannedTime : $projectPlannedTime,
-        groupToDeleteId : $groupToDeleteId,
-        projectId : $projectId,
-        projectTeam : $projectTeam,
+        projectToRemoveId : $projectToRemoveId,
+        projectUsersIds : $projectUsersIds,
+        projectsTeamId : $projectsTeamId,
+        projectsGroupsTasks : $projectsGroupsTasks,
+        projectsGroups : $projectsGroups
     )
         {
             teamtitle
@@ -139,13 +111,39 @@ const removeProjectFromTeam = gql`
 `;
 
 
+const removeGroupFromProject = gql`
+     mutation removeGroupFromProject(
+        $groupToRemoveId: String,
+        $groupUsersIds: String,
+        $groupsTeamId: String,
+        $groupsProjectId: String,
+        $GroupsTasks: String
+    ) { removeGroupFromProject (
+        groupToRemoveId : $groupToRemoveId,
+        groupUsersIds : $groupUsersIds,
+        groupsTeamId : $groupsTeamId,
+        groupsProjectId : $groupsProjectId,
+        GroupsTasks : $GroupsTasks
+    )
+        {
+            projecttitle
+      }
+}
+`;
+
+
 const projectDetails = gql`
 query project($_id: String!) {
     project(_id: $_id) {
+        _id
         projecttitle
         projectdescription
         plannedcompletiondate
         duedate
+        users{
+            _id
+            username
+        }
         defaultgroup {
             _id
             grouptitle
@@ -166,6 +164,9 @@ query project($_id: String!) {
           _id
           grouptitle
           groupdescription
+          tasks{
+            _id
+          }
         }
     }
 }`;
@@ -295,5 +296,6 @@ export {
     createTaskByGroup,
     teamProjects,
     projectGroups,
-    removeProjectFromTeam
+    removeProjectFromTeam,
+    removeGroupFromProject
 }

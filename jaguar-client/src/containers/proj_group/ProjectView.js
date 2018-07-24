@@ -22,9 +22,11 @@ class ProjectView extends Component {
     selectProject =  (project, team) => {
         this.setState({selectedProject: project, isSelected: true, teamOfProject: team });
     };
-
     selectTeam = (team) => {
         this.setState({teamOfProject: team });
+    };
+    removeProjectSwitchForDefault = () => {
+        this.setState({isSelected: false });
     };
 
     render() {
@@ -56,6 +58,9 @@ class ProjectView extends Component {
                                     selectedProject={selectedProject}
                                     projectDetails={projectDetails}
                                     queryVariables={{_id: selectedProject}}
+                                    userTaskDetails={userTaskDetails}
+                                    variables={variables}
+                                    removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
                                 />
                         </AppLayout>
                     </div>

@@ -44,26 +44,26 @@ const AddTeamCard = (props) => {
                                                     size='large'
                                                     name='delete'
                                                     onClick={async e => {
-                                                        console.log(team)
                                                         e.preventDefault();
                                                         await removeTeamFromOrg({
                                                         variables: {
-                                                            teamId: team._id,
-                                                            orgId: team.organization._id,
-                                                            userId: props.variables.owner,
-                                                            projects: team.projects.map((project) => project._id).toString(),
-                                                            users: team.users.map((user) => user._id).toString(),
-                                                            tasks: team.tasks.map((task) => task._id).toString(),
-                                                            groups: team.groups.map((group) => group._id).toString(),
+                                                            teamToDeleteId: team._id,
+                                                            teamOrgId: team.organization._id,
+                                                            teamOwnerId: props.variables.owner,
+                                                            teamProjects: team.projects.map((project) => project._id).toString(),
+                                                            teamUsers: team.users.map((user) => user._id).toString(),
+                                                            teamGroupsTasks: team.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
+                                                            teamGroups: team.groups.map((group) => group._id).toString()
                                                         },
-                                                            refetchQueries: [{query: getOrgByOwner, variables: props.variables}]
+                                                            refetchQueries: [
+                                                                {query: getOrgByOwner, variables: props.variables}
+                                                            ]
                                                         });
                                                     }}
                                                 />
                                             </DeleteUserIcon>
                                         </OrgPageTeamCardWrapper>
                                     </Link>
-
                                 ))
                             )
                         }

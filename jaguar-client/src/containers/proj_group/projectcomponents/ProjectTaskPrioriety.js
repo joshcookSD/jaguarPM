@@ -7,7 +7,7 @@ class ProjectTaskPrioriety extends Component{
 
         return (
             <div>
-                ***task prioriety***
+                ***groups with number of compl***
             </div>
         )
     }

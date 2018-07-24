@@ -66,19 +66,6 @@ const HeaderWrapper = styled.div`
   padding-right: 1em;
 `;
 
-const CardLeft = styled.div`
-    padding: 10px;
-    grid-coloum-start: 2;
-    grid-column-start: 2;
-    grid-row-start: 2;
-    grid-row-end: 4;
-`;
-
-const TeamCardWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 25% 75%;
-`;
-
 const CardLeftWrapper = styled.div`
     grid-column-start: 1;
     grid-column-end: 1;

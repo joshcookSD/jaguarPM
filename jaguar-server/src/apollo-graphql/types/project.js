@@ -61,6 +61,13 @@ const ProjectMutation = `
         leader: String, 
         team: String
     ) : Project
+    removeGroupFromProject(
+      groupToRemoveId: String,
+      groupUsersIds: String,
+      groupsTeamId: String,
+      groupsProjectId: String,
+      GroupsTasks: String
+    ) : Project
 `;
 
 const ProjectQueryResolver = {
@@ -114,6 +121,48 @@ const ProjectMutationResolver ={
 
             };
         },
+    removeGroupFromProject: async (parent,
+                                  {
+                                      groupToRemoveId,
+                                      groupUsersIds,
+                                      groupsTeamId,
+                                      groupsProjectId,
+                                      GroupsTasks
+
+                                  }, {Project}) => {
+
+        await User.update(
+            {_id: {$in: groupUsersIds}},
+            {$pull: { groups : groupToRemoveId.split(',')}},
+            {multi: true}
+        );
+        if(groupsTeamId){
+            await Team.update(
+                {_id: groupsTeamId },
+                { $pull: { groups: groupToRemoveId } },
+                {multi: true}
+            );
+        }
+        //find all groups and remove tasks
+        if(groupsProjectId){
+            await Project.update(
+                {_id: groupsProjectId },
+                { $pull: { groups: groupToRemoveId } },
+                {multi: true}
+            );
+        }
+        //find all groups and remove
+        if(GroupsTasks){
+            await Task.remove(
+                {_id: {$in: GroupsTasks.split(',')}},
+            );
+        }
+        //find team and remove
+        await Group.deleteOne(
+            {_id: groupToRemoveId },
+        );
+
+    },
     updateProject: async (parent, args, { Project}) => {
 
         if(args.projecttitle) {

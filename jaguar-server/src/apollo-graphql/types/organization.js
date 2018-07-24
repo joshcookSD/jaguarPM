@@ -45,14 +45,14 @@ const OrganizationMutation = `
         user: String
         teamId: String
     ): Organization
-    removeTeamFromOrg(
-        teamId: String 
-        orgId: String 
-        userId: String
-        projects: String
-        users: String
-        tasks: String
-        groups: String
+    removeTeamFromOrg( 
+        teamToDeleteId: String 
+        teamOrgId: String 
+        teamOwnerId: String
+        teamProjects: String
+        teamUsers: String
+        teamGroupsTasks: String
+        teamGroups: String
     ): Organization
 
 `;
@@ -164,59 +164,51 @@ const OrganizationMutationResolver = {
     },
     removeTeamFromOrg: async (parent,
                               {
-                                  users,
-                                  projects,
-                                  groups,
-                                  tasks,
-                                  teamId,
-                                  userId,
-                                  orgId
-
+                                  teamUsers,
+                                  teamProjects,
+                                  teamGroups,
+                                  teamGroupsTasks,
+                                  teamOrgId,
+                                  teamOwnerId,
+                                  teamToDeleteId
                               }, {Organization}) => {
 
-
-        const usersIdArray = users.split(',');
-        const projectsIdArray = projects.split(',');
-        const groupsIdArray = groups.split(',');
-        const tasksIdArray = tasks.split(',');
-        if(groups) {
-            await Group.update(
-                {_id: {$in: groupsIdArray}},
-                {$unset: {team: null}},
-                {multi: true}
-            );
-        }
-        if(projects) {
-            await Project.update(
-                {_id: {$in: projectsIdArray}},
-                {$unset: {team: null}},
-                {multi: true}
-            );
-        }
-        if(tasks){
-            await Task.update(
-                {_id: {$in: tasksIdArray}},
-                {$unset: {team: null}},
-                {multi: true}
-            );
-        }
-        await Team.update(
-            {_id: teamId},
-            {$unset: {owner: null}},
-            {multi: true}
-        );
+        //find users pull teamToDeleteId out of there teams
         await User.update(
-            {_id: {$in: usersIdArray}},
-            { $pull: { team: teamId } },
+            {_id: {$in: teamUsers.split(',')}},
+            { $pull: { team: teamToDeleteId } },
             {multi: true}
         );
-        await Organization.update(
-            {_id: orgId},
-            { $pull: { team: teamId } },
-        );
-        await Team.deleteOne(
-            {_id: teamId}
-        );
+        //find org and pull team remove
+        if(teamOrgId){
+            await Organization.update(
+                {_id: teamOrgId },
+                { $pull: { team: teamToDeleteId } },
+                {multi: true}
+            );
+        }
+        //find all groups and remove tasks
+        if(teamGroupsTasks){
+            await Task.remove(
+                {_id: {$in: teamGroupsTasks.split(',')}},
+            );
+        }
+        //find all groups and remove
+        if(teamGroups){
+            await Group.remove(
+                {_id: {$in: teamGroups.split(',')}},
+            );
+        }
+        //find all projects and remove
+        if(teamProjects){
+            await Project.remove(
+                {_id: {$in: teamProjects.split(',')}},
+            );
+        }
+        //find team and remove
+            await Team.deleteOne(
+                {_id: teamToDeleteId },
+            );
     }
 };
 

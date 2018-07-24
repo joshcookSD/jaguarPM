@@ -57,25 +57,11 @@ const TeamMutation = `
         projectId: String
     ): Team
     removeProjectFromTeam(
-    projectGroupTasksComments : String,
-    projectGroupTasks : String,
-    projectGroupTasksTime : String,
-    taskplannedtime : String,
-    groupUsersId : String,
-    projectGroupComments : String,
-    projectGroupGroupTime : String,
-    projectGroupPlannedTime : String,
-    projectGroup : String,
-    projecLevelTasksComments : String,
-    projectlevelTasksTime : String,
-    projectTaskplannedtime : String,
-    projectLevelTasks : String,
-    projectUsersId : String,
-    projectTime : String,
-    projectPlannedTime : String,
-    groupToDeleteId : String,
-    projectId : String,
-    projectTeam : String
+      projectToRemoveId: String,
+      projectUsersIds: String,
+      projectsTeamId: String,
+      projectsGroupsTasks: String,
+      projectsGroups: String
     ): Team
 `;
 
@@ -183,8 +169,8 @@ const TeamMutationResolver = {
                 await Team.findByIdAndUpdate(newteam._id, {
                         $set: {
                             defaultproject: project._id,
-                            projects: project._id,
-                            groups: group._id,
+                            projects: [project._id],
+                            groups: [group._id],
                         }
                     },
                     {new: true}
@@ -225,206 +211,41 @@ const TeamMutationResolver = {
     },
     removeProjectFromTeam: async (parent,
                               {
-                                  projectGroupTasksComments,
-                                  projectGroupTasks,
-                                  projectGroupTasksTime,
-                                  taskplannedtime,
-                                  groupUsersId,
-                                  groupsToDeleteId,
-                                  projectGroupComments,
-                                  projectGroupGroupTime,
-                                  projectGroupPlannedTime,
-                                  projectGroup,
-                                  // projectGrouplevelTasksComments,
-                                  // projectGrouplevelTasksTime,
-                                  // groupTaskplannedtime,
-                                  // projectGroupLevelTasks,
-                                  projecLevelTasksComments,
-                                  projectlevelTasksTime,
-                                  projectTaskplannedtime,
-                                  projectLevelTasks,
-                                  projectUsersId,
-                                  // projectComments,
-                                  // projectMilestone,
-                                  projectTime,
-                                  projectPlannedTime,
-                                  projectId,
-                                  projectTeam
+                                  projectToRemoveId,
+                                  projectUsersIds,
+                                  projectsTeamId,
+                                  projectsGroupsTasks,
+                                  projectsGroups
+
                               }, {Team}) => {
-        //task level
-            const projectGroupTasksCommentsArray = projectGroupTasksComments.split(',');
-            const projectGroupTasksTimeArray = projectGroupTasksTime.split(',');
-            const taskplannedtimeArray = taskplannedtime.split(',');
-            const projectGroupTasksArray = projectGroupTasks.split(',');
 
-        //group level
-            //group level tasks
-            //     const projectGrouplevelTasksCommentsArray = projectGrouplevelTasksComments.split(',');
-            //     const projectGrouplevelTasksTimeArray = projectGrouplevelTasksTime.split(',');
-            //     const groupTaskplannedtimeArray = groupTaskplannedtime.split(',');
-            //     const projectGroupLevelTasksArray = projectGroupLevelTasks.split(',');
-
-            //group top level
-                const groupUsersIdArray = groupUsersId.split(',');
-                const projectGroupCommentsArray = projectGroupComments.split(',');
-                const projectGroupGroupTimeArray = projectGroupGroupTime.split(',');
-                const projectGroupPlannedTimeArray = projectGroupPlannedTime.split(',');
-                const projectGroupArray = projectGroup.split(',');
-
-        //project level
-            //project tasks
-                const projecLevelTasksCommentsArray = projecLevelTasksComments.split(',');
-                const projectlevelTasksTimeArray = projectlevelTasksTime.split(',');
-                const projectTaskplannedtimeArray = projectTaskplannedtime.split(',');
-                const projectLevelTasksArray = projectLevelTasks.split(',');
-
-            //project top level
-            //     const projectCommentsArray = projectComments.split(',');
-            //     const projectMilestoneArray = projectMilestone.splice(',');
-                const projectUsersIdArray = projectUsersId.split(',');
-                const projectTimeArray = projectTime.split(',');
-                const projectPlannedTimeArray = projectPlannedTime.split(',');
-
-        // group task level
-        // if( projectGroupTasksComments){
-        //      await Comment.remove(
-        //          {_id: {$in: projectGroupTasksCommentsArray}},
-        //     );
-        // }
-        // if( projectGroupTasksTime){
-        //     await Time.remove(
-        //         {_id: {$in: projectGroupTasksTimeArray}},
-        //     );
-        // }
-        // if( taskplannedtime){
-        //     await PlannedTime.remove(
-        //         {_id: {$in: taskplannedtimeArray}},
-        //     );
-        // }
-        if(projectGroupTasks){
-            await Task.remove(
-                {_id: {$in: projectGroupTasksArray}},
-            );
-        }
-        // //group level
-        // //group tasks
-        // // if( projectGrouplevelTasksComments){
-        // //     await Comment.remove(
-        // //         {_id: {$in: projectGrouplevelTasksCommentsArray}},
-        // //
-        // //     );
-        // // }
-        // // if( projectGrouplevelTasksTime){
-        // //     await Time.remove(
-        // //         {_id: {$in: projectGrouplevelTasksTimeArray}},
-        // //
-        // //     );
-        // // }
-        // // if( groupTaskplannedtime){
-        // //     await PlannedTime.remove(
-        // //         {_id: {$in: groupTaskplannedtimeArray}},
-        // //
-        // //     );
-        // // }
-        // // if(projectGroupLevelTasks){
-        // //     await Task.remove(
-        // //         {_id: {$in: projectGroupLevelTasksArray}},
-        // //
-        // //     );
-        // // }
-        //
-        // //group top level
-
-        if(groupsToDeleteId) {
-            await User.update(
-                {_id: {$in: groupUsersIdArray}},
-                {$pull: { groups : groupsToDeleteId }},
-                {multi: true}
-            );
-        }
-        // if(projectGroupComments) {
-        //     await Comment.remove(
-        //         {_id: {$in: projectGroupCommentsArray}},
-        //     );
-        // }
-        // if(projectGroupGroupTime) {
-        //     await Time.remove(
-        //         {_id: {$in: projectGroupGroupTimeArray}},
-        //     );
-        // }
-        // if(projectGroupPlannedTime) {
-        //     await PlannedTime.remove(
-        //         {_id: {$in: projectGroupPlannedTimeArray}},
-        //     );
-        // }
-        if(projectGroup){
-            await Group.remove(
-                {_id: {$in: projectGroupArray}}
-            );
-        }
-        // //project level
-        //     //project tasks
-        // if( projecLevelTasksComments){
-        //     await Comment.remove(
-        //         {_id: {$in: projecLevelTasksCommentsArray}},
-        //     );
-        // }
-        // if( projectlevelTasksTime){
-        //     await Time.remove(
-        //         {_id: {$in: projectlevelTasksTimeArray}},
-        //     );
-        // }
-        // if( projectTaskplannedtime){
-        //     await PlannedTime.remove(
-        //         {_id: {$in: projectTaskplannedtimeArray}},
-        //     );
-        // }
-        // if(projectLevelTasks){
-        //     await Task.remove(
-        //         {_id: {$in: projectLevelTasksArray}},
-        //
-        //     );
-        // }
-        // // // project comments
-        // // // if(projectComments) {
-        // // //     await Comment.remove(
-        // // //         {_id: {$in: projectCommentsArray}},
-        // // //
-        // // //     );
-        // // // }
-        // // // if(projectMilestone){
-        // // //     await Milestone.remove(
-        // // //         {_id: {$in: projectMilestoneArray}},
-        // // //
-        // // //     );
-        // // // }
-        // //
         await User.update(
-            {_id: {$in: projectUsersIdArray}},
-            {$pull: { projects : projectUsersIdArray}},
+            {_id: {$in: projectUsersIds}},
+            {$pull: { projects : projectToRemoveId.split(',')}},
             {multi: true}
         );
-        // if(projectTime) {
-        //     await Time.remove(
-        //         {_id: {$in: projectTimeArray}},
-        //     );
-        // }
-        // if(projectPlannedTime) {
-        //     await PlannedTime.remove(
-        //         {_id: {$in: projectPlannedTimeArray}},
-        //         {multi: true}
-        //     );
-        // }
-        if(projectTeam){
+        if(projectsTeamId){
             await Team.update(
-                {_id: projectTeam},
-                {$pull: {projects: projectId}},
+                {_id: projectsTeamId },
+                { $pull: { projects: projectToRemoveId } },
                 {multi: true}
             );
         }
-
+        //find all groups and remove tasks
+        if(projectsGroupsTasks){
+            await Task.remove(
+                {_id: {$in: projectsGroupsTasks.split(',')}},
+            );
+        }
+        //find all groups and remove
+        if(projectsGroups){
+            await Group.remove(
+                {_id: {$in: projectsGroups.split(',')}},
+            );
+        }
+        //find team and remove
         await Project.deleteOne(
-            {_id: projectId}
+            {_id: projectToRemoveId },
         );
 
     },

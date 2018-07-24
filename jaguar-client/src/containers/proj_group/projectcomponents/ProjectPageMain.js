@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import ProjectDetails from '../projectcomponents/ProjectDetails'
 import decode from 'jwt-decode';
-import { teamsByUser } from "../../apollo-graphql/userQueries";
+import {teamsByUser} from "../../apollo-graphql/userQueries";
 import ProjectPagePanes from './ProjectPagePanes.js';
 import ProjectPageTabs from './ProjectPageTabs.js';
 import ProjectTaskPrioriety from './ProjectTaskPrioriety.js';
@@ -63,10 +63,13 @@ class TeamPageMain extends Component {
                                         selectedProject={this.props.selectedProject}
                                         projectDetails={this.props.projectDetails}
                                         queryVariables={this.props.queryVariables}
+                                        userTaskDetails={this.props.userTaskDetails}
+                                        variables={this.props.variables}
+                                        removeProjectSwitchForDefault={this.props.removeProjectSwitchForDefault}
                                     />
                                 </Details>
                                 <Prioriety>
-                                    <ProjectTaskPrioriety/>
+                                    <ProjectTaskPrioriety />
                                 </Prioriety>
                             </TeamPagePaneGrid>
                         </div>
