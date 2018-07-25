@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button,  } from 'semantic-ui-react';
-import { getOrgByOwner, createTeam} from '../../../apollo-graphql/userQueries'
+import {getOrgByOwner, createTeam, teamsByOwner} from '../../../apollo-graphql/userQueries'
 import decode from 'jwt-decode';
 
 const token = localStorage.getItem('token');
@@ -53,10 +53,10 @@ class TeamForm extends Component {
                                         organization: orgId,
                                         owner: userId
                                     },
-                                    refetchQueries: [{
-                                        query: getOrgByOwner,
-                                        variables: {owner: userId }
-                                    }]
+                                    refetchQueries: [
+                                        {query: getOrgByOwner, variables: {owner: userId }},
+                                        {query: teamsByOwner, variables: {owner: userId } }
+                                    ]
                                 });
                                 // const { ok, errors } = response.data.createTeam;
                                 // if (ok) {

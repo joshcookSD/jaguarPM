@@ -10,6 +10,7 @@ const { user } = decode(token);
 const userId = user._id;
 const variables = { owner: userId };
 
+
 class OrgPageMain extends Component {
     state = {
         activeView: '',

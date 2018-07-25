@@ -19,7 +19,6 @@ class GroupForm extends Component {
             queryVariables,
             userId
         }  = this.props;
-
         const {
             grouptitle,
             groupdescription,
@@ -57,6 +56,7 @@ class GroupForm extends Component {
                                         errors: {},
                                         grouptitleerror: ""
                                     })
+                                    this.props.onClose()
                                 }}>
                                     <Form.Field error={!!grouptitleerror}>
                                         <label>Name</label>

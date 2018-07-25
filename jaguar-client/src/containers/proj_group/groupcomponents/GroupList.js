@@ -12,11 +12,17 @@ const token = localStorage.getItem('token');
 class GroupList extends Component {
     state = {
         open: false,
+        teamIdForForm:'',
+        projectIdForForm:''
     };
 
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
-
+    captureTeamId = (teamId, projectId) =>{
+        this.setState({ teamIdForForm: teamId });
+        this.setState({ projectIdForForm: projectId });
+        this.show()
+        };
     render() {
 
         const { user } = decode(token);
@@ -40,7 +46,7 @@ class GroupList extends Component {
                                     {project.team === null ? `no team -  ${project.projecttitle}` : `${project.team.teamtitle}  -  ${project.projecttitle}`}
                                     {/*{project.team.teamtitle} - {project.projecttitle}*/}
                                     <Icon
-                                        onClick={this.show}
+                                        onClick={() => this.captureTeamId(project.team._id, project._id)}
                                         color='green'
                                         name='add circle'
                                         floated='right'
@@ -53,8 +59,8 @@ class GroupList extends Component {
                                     </Modal.Header>
                                     <Modal.Content>
                                         <GroupForm
-                                            project={project._id}
-                                            team={project.team._id}
+                                            project={this.state.projectIdForForm}
+                                            team={this.state.teamIdForForm}
                                             userId={user._id}
                                             updateQuery={userProjectGroups}
                                             queryVariables={variables}
@@ -70,31 +76,31 @@ class GroupList extends Component {
                                 >
                                     {
                                         project.groups.map(group => {
-                                       if(i === 0 && !isSelected){
-                                           project.groups.map((group,i ) => {
-                                               if(i ===0){
-                                                   this.props.selectGroup(group._id)
-                                               }
-                                           })
-                                       }
-                                        return (
-                                            <GroupTaskItem
-                                                key={group._id}
-                                                groupId={group._id}
-                                                grouptitle={group.grouptitle}
-                                                groupdescription={group.groupdescription}
-                                                selectGroup={selectGroup}
-                                                selectTeam={selectTeam}
-                                            />
-                                        )})
+                                           if(i === 0 && !isSelected){
+                                               project.groups.map((group,i ) => {
+                                                   if(i ===0){
+                                                       this.props.selectGroup(group._id)
+                                                   }
+                                               })
+                                           }
+                                            return (
+                                                <GroupTaskItem
+                                                    key={group._id}
+                                                    groupId={group._id}
+                                                    grouptitle={group.grouptitle}
+                                                    groupdescription={group.groupdescription}
+                                                    selectGroup={selectGroup}
+                                                    selectTeam={selectTeam}
+                                                />
+                                            )
+                                        })
                                     }
                                 </Transition.Group>
                                 <Divider />
-                            </div>))}
-
+                            </div>
+                        ))}
                     </div>;
-                }
-                }
+                }}
             </Query>
         )
     }

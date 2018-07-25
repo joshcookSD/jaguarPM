@@ -11,10 +11,15 @@ const token = localStorage.getItem('token');
 class ProjectList extends Component {
     state = {
         open: false,
+        teamIdForForm:'',
     };
 
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
+    captureTeamId = (teamId) =>{
+        this.setState({ teamIdForForm: teamId },
+        this.show()
+        )};
     defaultProject = (defaultProjectId, defaultTeam ) => {this.props.selectProject(defaultProjectId, defaultTeam)};
 
     render() {
@@ -42,7 +47,7 @@ class ProjectList extends Component {
                                 <Header>
                                     {team.teamtitle}
                                     <Icon
-                                        onClick={this.show}
+                                        onClick={() => this.captureTeamId(team._id)}
                                         color='green'
                                         name='add circle'
                                         floated='right'
@@ -54,7 +59,7 @@ class ProjectList extends Component {
                                     </Modal.Header>
                                     <Modal.Content>
                                         <ProjectFormForModal
-                                            teamId={team._id}
+                                            teamId={this.state.teamIdForForm}
                                             userId={user._id}
                                             updateQuery={userTeamProjects}
                                             variables={variables}

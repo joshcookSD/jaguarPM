@@ -3,7 +3,7 @@ import TeamForm from '../../teamAdminPage/TeamAdminComponents/TeamForm';
 import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { CardLeftWrapper } from '../../../layout/AdminComponents.js'
-import {getOrgByOwner} from "../../../apollo-graphql/userQueries";
+import {getOrgByOwner, teamsByOwner} from "../../../apollo-graphql/userQueries";
 import { removeTeamFromOrg } from "../../../apollo-graphql/teamOrgQueries";
 import { Mutation } from "react-apollo";
 
@@ -45,6 +45,8 @@ const AddTeamCard = (props) => {
                                                     name='delete'
                                                     onClick={async e => {
                                                         e.preventDefault();
+                                                        console.log(team)
+                                                        console.log(team.groups.map((group) => group.tasks.map((task) => task._id)).join(''))
                                                         await removeTeamFromOrg({
                                                         variables: {
                                                             teamToDeleteId: team._id,
@@ -52,11 +54,12 @@ const AddTeamCard = (props) => {
                                                             teamOwnerId: props.variables.owner,
                                                             teamProjects: team.projects.map((project) => project._id).toString(),
                                                             teamUsers: team.users.map((user) => user._id).toString(),
-                                                            teamGroupsTasks: team.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
+                                                            teamGroupsTasks: team.groups.map((group) => group.tasks.map((task) => task._id)).join(''),
                                                             teamGroups: team.groups.map((group) => group._id).toString()
                                                         },
                                                             refetchQueries: [
-                                                                {query: getOrgByOwner, variables: props.variables}
+                                                                {query: getOrgByOwner, variables: props.variables},
+                                                                {query: teamsByOwner, variables: props.variables}
                                                             ]
                                                         });
                                                     }}

@@ -151,7 +151,6 @@ class TaskView extends Component {
                                     selectTask={this.selectTask}
                                 /></Section>
                                 {data.user.team.map((team) => (
-
                                     <Section key={team._id}>
                                         <TaskTeam
                                             tasks={team.tasks}
