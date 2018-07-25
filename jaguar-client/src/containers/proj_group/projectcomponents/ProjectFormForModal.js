@@ -1,25 +1,21 @@
 import React, {Component} from 'react'
 import { Mutation } from "react-apollo";
-import { Message, Button, Form } from 'semantic-ui-react'
-import {createProject} from "../../apollo-graphql/groupProjectQueries";
+import { Button, Form } from 'semantic-ui-react'
+import {createProject, userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
+
 
 class ProjectFormForModal extends Component {
-
-    onClose = () => {
-        this.props.onClose();
-    };
 
     state = {
         projecttitle: "",
         projectdescription: "",
         errors: {},
         projecttitleerror: "",
-
     };
 
     render() {
         const {
-            team,
+            teamId,
             variables,
         } = this.props;
 
@@ -40,36 +36,27 @@ class ProjectFormForModal extends Component {
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
-                                    // const response = await
-                                        createProject({
+                                    await createProject({
                                         variables: {
                                             projecttitle: projecttitle,
                                             projectdescription: projectdescription,
-                                            team: team,
+                                            team: teamId,
                                             leader: variables._id,
                                             users: variables._id
                                         },
-                                        refetchQueries: [{
-                                            query: this.props.updateQuery,
-                                            variables: variables
-                                        }]
+                                        refetchQueries: [
+                                            {query: this.props.updateQuery, variables: variables},
+                                            {query: userProjectGroups, variables: variables},
+                                        ]
                                     });
-                                    // const { ok, errors } = response.data.createProject;
-                                    // if (ok) {
-                                    //     this.handleSubmit(activeView);
+
                                         this.setState({
                                             projecttitle: "",
                                             projectdescription: "",
                                             errors: {},
                                             projecttitleerror: ""
                                         });
-                                    // } else {
-                                    //     const err = {};
-                                    //     errors.forEach(({ path, message }) => {
-                                    //         err[`${path}Error`] = message;
-                                    //     });
-                                    //     this.setState(err);
-                                    // }
+                                    this.props.onClose()
                                 }}>
                                 <Form.Field error={!!projecttitleerror}>
                                     <label>Name</label>
@@ -105,9 +92,6 @@ class ProjectFormForModal extends Component {
                                     content='New Project!'
                                 />
                             </Form>
-                            {errorList.length ? (
-                                <Message error header="There was some errors with your submission" list={errorList} />
-                            ) : null}
                         </div>
                     )
                 }}

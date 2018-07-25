@@ -28,7 +28,6 @@ class ProjectForm extends Component {
                                             team: team,
                                             project: project,
                                             group: group
-
                                         },
                                         refetchQueries: [{
                                             query: query,

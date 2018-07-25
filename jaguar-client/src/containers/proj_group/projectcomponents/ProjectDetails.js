@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
-import {removeProjectFromTeam, updateProject} from "../../apollo-graphql/groupProjectQueries";
+import {
+    removeProjectFromTeam,
+    updateProject,
+    userProjectGroups
+} from "../../apollo-graphql/groupProjectQueries";
 import TeamLeaderDropDown from "./TeamLeaderDropDown"
 import moment from 'moment';
 import { Mutation } from "react-apollo";
@@ -169,7 +173,10 @@ class ProjectDetail extends Component {
                                                             projectsGroupsTasks : data.project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
                                                             projectsGroups : data.project.groups.map((group) => group._id).toString(),
                                                     },
-                                                    refetchQueries: [{query: userTaskDetails, variables: variables}]
+                                                    refetchQueries: [
+                                                        {query: userTaskDetails, variables: variables},
+                                                        {query: userProjectGroups, variables: variables}
+                                                    ]
                                                 });
                                                 this.props.removeProjectSwitchForDefault()
                                             }} >remove</Button>

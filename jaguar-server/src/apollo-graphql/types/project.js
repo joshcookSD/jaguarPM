@@ -131,6 +131,8 @@ const ProjectMutationResolver ={
 
                                   }, {Project}) => {
 
+            const GroupsTasksArray = GroupsTasks.split(',');
+
         await User.update(
             {_id: {$in: groupUsersIds}},
             {$pull: { groups : groupToRemoveId.split(',')}},
@@ -152,7 +154,7 @@ const ProjectMutationResolver ={
             );
         }
         //find all groups and remove
-        if(GroupsTasks){
+        if(GroupsTasksArray){
             await Task.remove(
                 {_id: {$in: GroupsTasks.split(',')}},
             );

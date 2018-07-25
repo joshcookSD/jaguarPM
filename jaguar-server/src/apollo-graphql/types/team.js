@@ -118,6 +118,7 @@ const TeamNested = {
 
 const TeamMutationResolver = {
     createTeam: async (parent, {teamtitle, teamdescription, owner, organization}, {Team}) => {
+        let teamuser = await User.findById(owner.toString());
         try {
             const err = [];
             let teamtitleErr = await teamError(teamtitle);
@@ -129,12 +130,11 @@ const TeamMutationResolver = {
                     teamtitle,
                     teamdescription,
                     owner,
-                    users: owner,
-                    organization
+                    organization,
+                    users: teamuser._id
                 }).save();
                 console.log('saved team');
                 //look at user collection and find user that has id of owner
-                let teamuser = await User.findById(owner.toString());
                 //look at org collection and find org that has id of organization
                 let teamorganization = await Organization.findById(organization);
                 //using the found org look at its teams and push the new teams id into it
@@ -216,8 +216,9 @@ const TeamMutationResolver = {
                                   projectsTeamId,
                                   projectsGroupsTasks,
                                   projectsGroups
-
                               }, {Team}) => {
+
+        const projectsGroupsTasksArray = projectsGroupsTasks.split(',');
 
         await User.update(
             {_id: {$in: projectUsersIds}},
@@ -231,8 +232,7 @@ const TeamMutationResolver = {
                 {multi: true}
             );
         }
-        //find all groups and remove tasks
-        if(projectsGroupsTasks){
+        if(projectsGroupsTasksArray[0] !== ''){
             await Task.remove(
                 {_id: {$in: projectsGroupsTasks.split(',')}},
             );
