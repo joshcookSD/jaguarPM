@@ -38,6 +38,7 @@ class TeamLeaderDropDown extends Component {
                                                            variables: { _id: selectedProject, leader: option._id },
                                                            refetchQueries: [{ query: projectDetails, variables: queryVariables }]
                                                        });
+                                                       this.props.closeAssignedLeaderDropDown()
                                                    }}
                                                />)}
                                        </Dropdown.Menu>
