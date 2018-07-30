@@ -38,11 +38,15 @@ class ProjectDetail extends Component {
         leader: '',
         teamInput: false,
         team:'',
-        teamChangeInput:false
+        teamChangeInput:false,
+        teamLeaderDropDownInput:false,
     };
 
-    closeDropDown = () => {
+    closeTeamDropDown = () => {
         this.setState({teamChangeInput: false})
+    };
+    closeAssignedLeaderDropDown = () => {
+        this.setState({teamLeaderDropDownInput: false})
     };
 
     render() {
@@ -70,7 +74,8 @@ class ProjectDetail extends Component {
             description,
             leader,
             projectId,
-            teamChangeInput
+            teamChangeInput,
+            teamLeaderDropDownInput
         } = this.state;
 
         //calling mutation with variables
@@ -96,6 +101,7 @@ class ProjectDetail extends Component {
                 dueDateInput: false,
                 leaderInput: false,
                 teamInput: false,
+                teamLeaderDropDownInput: false,
             })
         };
 
@@ -166,7 +172,6 @@ class ProjectDetail extends Component {
                                                 onClick={() => this.setState({teamChangeInput: !teamChangeInput})}>
                                                 Currently Assigned Team: change teams
                                             </div>
-
                                             {teamChangeInput &&
                                                 <ProjectTeamDropDown
                                                     removeProjectSwitchForDefault={this.props.removeProjectSwitchForDefault}
@@ -177,19 +182,22 @@ class ProjectDetail extends Component {
                                                     projectDetails={projectDetails}
                                                     queryVariables={{_id: selectedProject}}
                                                     leader={data.project.leader.username}
-                                                    closeDropDown={this.closeDropDown}
+                                                    closeDropDown={this.closeTeamDropDown}
                                                 />
                                             }
-
-                                            <div className='assignedLeader'>
+                                            <div
+                                                onClick={() => this.setState({teamLeaderDropDownInput: !teamLeaderDropDownInput})}>
                                                 Assigned Leader:
+                                            </div>
+                                            {teamLeaderDropDownInput &&
                                                 <TeamLeaderDropDown
                                                     selectedProject={selectedProject}
                                                     projectDetails={projectDetails}
                                                     queryVariables={{_id: selectedProject}}
                                                     leader={data.project.leader.username}
+                                                    closeAssignedLeaderDropDown={this.closeAssignedLeaderDropDown}
                                                 />
-                                            </div>
+                                            }
                                         </div>
                                     <Card.Content extra>
                                         <Button.Group fluid>
