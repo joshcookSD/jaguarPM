@@ -204,11 +204,17 @@ const UserMutationResolver = {
                     email,
                     password: hashedPassword,
                 });
-                const personalteam = await new Team({
-                    teamtitle: `${user.username}'s`,
-                    teamdescription: `Personal Team for ${user.username}`,
+                const personalOrg = await new Organization({
+                    orgtitle: `${user.username}'s Org`,
+                    orgdescription: `Personal Team for ${user.username}`,
                     users: user._id,
                     owner: user._id
+                }).save();
+                const personalteam = await new Team({
+                    teamtitle: `${user.username}'s Team`,
+                    teamdescription: `Personal Team for ${user.username}`,
+                    users: user._id,
+                    owner: user._id,
                 }).save();
                 const personalproject = await new Project({
                     projecttitle: `${user.username}'s Project`,
@@ -224,17 +230,25 @@ const UserMutationResolver = {
                     team: personalteam._id,
                     project: personalproject._id
                 }).save();
+                //user
                 user.groups.push(personalgroup._id);
                 user.projects.push(personalproject._id);
                 user.team.push(personalteam._id);
+                user.organization.push(personalOrg._id);
                 await user.save();
-                console.log(user);
+                //organization
+                personalOrg.team.push(personalteam._id);
+                // personalOrg.project.push(personalproject._id);
+                await personalOrg.save();
+
                 personalproject.groups.push(personalgroup._id);
                 await personalproject.save();
+
                 personalteam.groups.push(personalgroup._id);
                 personalteam.projects.push(personalproject._id);
                 await personalteam.save();
-                console.log(personalgroup);
+
+
                 await User.findByIdAndUpdate(user._id, {
                         $set: {
                             defaultgroup: personalgroup._id,
@@ -247,6 +261,7 @@ const UserMutationResolver = {
                 await Team.findByIdAndUpdate(personalteam._id, {
                         $set: {
                             defaultproject: personalproject._id,
+                            organization: personalOrg._id
                         }
                     },
                     {new: true}

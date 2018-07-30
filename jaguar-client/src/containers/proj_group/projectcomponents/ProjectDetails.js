@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
-import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
+import { Dimmer, Loader, Form, Button, Card, Icon } from 'semantic-ui-react';
 import {
     removeProjectFromTeam,
     updateProject,
@@ -12,6 +12,8 @@ import { Mutation } from "react-apollo";
 import {
     GroupFormWrapper,
 } from '../../layout/Proj_GroupComponents.js'
+import ProjectTeamDropDown from './ProjectTeamDropDown.js'
+import {task} from "../../apollo-graphql/taskQueries";
 
 
 class ProjectDetail extends Component {
@@ -36,6 +38,11 @@ class ProjectDetail extends Component {
         leader: '',
         teamInput: false,
         team:'',
+        teamChangeInput:false
+    };
+
+    closeDropDown = () => {
+        this.setState({teamChangeInput: false})
     };
 
     render() {
@@ -45,7 +52,10 @@ class ProjectDetail extends Component {
             projectDetails,
             queryVariables,
             userTaskDetails,
-            variables
+            variables,
+            orgIdForDropDown,
+            projectsTeamId,
+            projectsGroupIds
         } = this.props;
 
         //state shortcut
@@ -59,7 +69,8 @@ class ProjectDetail extends Component {
             duedate,
             description,
             leader,
-            projectId
+            projectId,
+            teamChangeInput
         } = this.state;
 
         //calling mutation with variables
@@ -91,7 +102,7 @@ class ProjectDetail extends Component {
         if(projectId) {
         return (
             <Mutation mutation={removeProjectFromTeam}>
-                {(removeProjectFromTeam, { data, loading }) => (
+                {(removeProjectFromTeam, { loading }) => (
                     <Query query={projectDetails} variables={queryVariables}>
                         {({loading, error, data}) => {
                              if (loading) return (
@@ -134,6 +145,7 @@ class ProjectDetail extends Component {
                                                 placeholder={plandate ?  moment.utc(data.project.plannedcompletiondate).format('YYYY-MM-DD') : 'No plan date set'}
                                                 onChange={e => this.setState({plandate: e.target.value})}
                                             />}
+
                                             {/*due date*/}
                                             <div className='cardDescription' onClick={() => this.setState({dueDateInput: !dueDateInput})}>
                                                 Due Date: {data.project.duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : 'No due date set'}
@@ -145,19 +157,38 @@ class ProjectDetail extends Component {
                                                 placeholder={duedate ? moment.utc(data.project.duedate).format('YYYY-MM-DD') : Date.now()}
                                                 onChange={e => this.setState({duedate: e.target.value})}
                                             />}
-                                            {/*default group*/}
+
                                             <div className='cardDescription'>
                                                 Default Group: {data.project.defaultgroup ? data.project.defaultgroup.grouptitle : 'no default'}
                                             </div>
-                                            {/*assigned leader*/}
+
+                                            <div
+                                                onClick={() => this.setState({teamChangeInput: !teamChangeInput})}>
+                                                Currently Assigned Team: change teams
+                                            </div>
+
+                                            {teamChangeInput &&
+                                                <ProjectTeamDropDown
+                                                    removeProjectSwitchForDefault={this.props.removeProjectSwitchForDefault}
+                                                    projectsGroupIds={projectsGroupIds}
+                                                    projectsTeamId={projectsTeamId}
+                                                    orgIdForDropDown={orgIdForDropDown}
+                                                    selectedProject={selectedProject}
+                                                    projectDetails={projectDetails}
+                                                    queryVariables={{_id: selectedProject}}
+                                                    leader={data.project.leader.username}
+                                                    closeDropDown={this.closeDropDown}
+                                                />
+                                            }
+
                                             <div className='assignedLeader'>
-                                           Assigned Leader:
+                                                Assigned Leader:
                                                 <TeamLeaderDropDown
-                                                selectedProject={selectedProject}
-                                                projectDetails={projectDetails}
-                                                queryVariables={{_id: selectedProject}}
-                                                leader={data.project.leader.username}
-                                            />
+                                                    selectedProject={selectedProject}
+                                                    projectDetails={projectDetails}
+                                                    queryVariables={{_id: selectedProject}}
+                                                    leader={data.project.leader.username}
+                                                />
                                             </div>
                                         </div>
                                     <Card.Content extra>

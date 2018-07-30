@@ -301,8 +301,6 @@ const teamsByUser = gql`
     }`;
 
 
-    
-
 const allUsers = gql `
 {
   allUsers{

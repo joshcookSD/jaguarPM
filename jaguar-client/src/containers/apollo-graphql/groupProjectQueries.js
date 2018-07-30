@@ -6,12 +6,24 @@ const userTeamProjects = gql`
        team {
            _id
            teamtitle
+           organization{
+            _id
+            orgtitle
+            }
            projects {
              _id
              projecttitle
              projectdescription
+                groups{
+                _id
+                grouptitle
+                }
              team {
               _id
+              organization{
+                _id
+                orgtitle
+              }
              }
            } 
        }
@@ -208,6 +220,11 @@ const updateProject = gql`
         $duedate: Date,
         $leader: String, 
         $team: String
+        $projectIdToChange: String,
+        $projectsGroupIds: String,
+        $projectsTeamId: String,
+        $projectToChange: String,
+        $targetTeam: String,
     ){ updateProject(
         _id: $_id,    
         projecttitle: $projecttitle,
@@ -216,6 +233,11 @@ const updateProject = gql`
         duedate: $duedate,
         leader: $leader, 
         team: $team 
+        projectIdToChange: $projectIdToChange,
+        projectsGroupIds: $projectsGroupIds,
+        projectsTeamId: $projectsTeamId,
+        projectToChange: $projectToChange
+        targetTeam: $targetTeam
     ) {
         projecttitle
     }

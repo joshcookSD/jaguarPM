@@ -36,7 +36,7 @@ class ProjectForm extends Component {
 
         return (
             <Mutation mutation={createProject}>
-                {(createProject) => {
+                {(createProject, { data }) => {
                     return (
                         <div style={{ marginBottom: '.5em' }}>
                             <Form

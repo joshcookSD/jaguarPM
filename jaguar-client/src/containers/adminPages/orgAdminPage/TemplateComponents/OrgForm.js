@@ -7,7 +7,6 @@ import { createOrg } from '../../../apollo-graphql/teamOrgQueries.js';
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
-console.log(userId)
 
 class OrgForm extends Component {
     state = {

@@ -4,9 +4,14 @@ import { List } from 'semantic-ui-react';
 class ProjectItem extends Component {
 
       handleClick() {
-          this.props.selectProject(this.props.projectId);
-          this.props.selectTeam(this.props.team);
+          this.props.selectProject(
+              this.props.projectId,
+              this.props.teamOrgId,
+              this.props.projectTeam,
+              this.props.projectsGroupIds,
+          );
       }
+
 
     render() {
         const {projectId, projecttitle } = this.props;

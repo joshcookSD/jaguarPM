@@ -5,68 +5,75 @@ import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
 import decode from "jwt-decode";
-import { Query } from "react-apollo";
-import {Dimmer, Loader} from 'semantic-ui-react';
 import {userTaskDetails} from "../apollo-graphql/userQueries";
 import {projectDetails} from "../apollo-graphql/groupProjectQueries";
 const token = localStorage.getItem('token');
 
 class ProjectView extends Component {
-
     state = {
-        teamOfProject: '',
         selectedProject: '',
+        orgIdForDropDown: '',
+        projectsTeamId: '',
+        projectsGroupIds: '',
         isSelected: false,
     };
 
-    selectProject =  (project, team) => {
-        this.setState({selectedProject: project, isSelected: true, teamOfProject: team });
+    defualtSelectProject =  (project, orgId, projectsGroupIds, projectsTeamId) => {
+        this.setState({
+            orgIdForDropDown: orgId,
+            selectedProject: project,
+            projectsGroupIds: projectsGroupIds,
+            projectsTeamId: projectsTeamId,
+            isSelected: true,
+        });
     };
-    selectTeam = (team) => {
-        this.setState({teamOfProject: team });
+    selectProject =  (project, orgId, projectsTeamId, projectsGroupIds) => {
+        this.setState({
+            orgIdForDropDown: orgId,
+            selectedProject: project,
+            projectsTeamId: projectsTeamId,
+            projectsGroupIds: projectsGroupIds,
+            isSelected: true,
+        });
     };
+
+    //used to refetch after remove changes prop to force reload
+    //also using for dropdown mutation
     removeProjectSwitchForDefault = () => {
         this.setState({isSelected: false });
     };
 
     render() {
+
         const { user } = decode(token);
         const variables = {_id: user._id};
-        const { selectedProject, isSelected } = this.state;
-        return (
-            <Query query={userTaskDetails} variables={variables}>
-                {({loading, error}) => {
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader/>
-                            </Dimmer>
-                        </div>);
-                    if (error) return <p>Error :(</p>;
-                    return <div>
-                        <AppLayout>
-                            <NavSidebar/>
-                            <MainSidebar>
-                                <ProjectList
-                                    selectTeam={this.selectTeam}
-                                    selectProject={this.selectProject}
-                                    isSelected={isSelected}
-                                />
-                            </MainSidebar>
+        const { selectedProject, isSelected, orgIdForDropDown, projectsTeamId, projectsGroupIds } = this.state;
 
-                                <ProjectPageMain
-                                    selectedProject={selectedProject}
-                                    projectDetails={projectDetails}
-                                    queryVariables={{_id: selectedProject}}
-                                    userTaskDetails={userTaskDetails}
-                                    variables={variables}
-                                    removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
-                                />
-                        </AppLayout>
-                    </div>
-                }
-                }
-            </Query>
+        return (
+            <div>
+                <AppLayout>
+                    <NavSidebar/>
+                    <MainSidebar>
+                        <ProjectList
+                            selectProject={this.selectProject}
+                            defualtSelectProject={this.defualtSelectProject}
+                            isSelected={isSelected}
+                        />
+                    </MainSidebar>
+
+                        <ProjectPageMain
+                            selectedProject={selectedProject}
+                            orgIdForDropDown={orgIdForDropDown}
+                            projectDetails={projectDetails}
+                            queryVariables={{_id: selectedProject}}
+                            userTaskDetails={userTaskDetails}
+                            variables={variables}
+                            projectsTeamId={projectsTeamId}
+                            projectsGroupIds={projectsGroupIds}
+                            removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
+                        />
+                </AppLayout>
+            </div>
         )
     }
 }

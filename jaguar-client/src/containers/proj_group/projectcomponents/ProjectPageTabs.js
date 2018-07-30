@@ -3,6 +3,7 @@ import {
     NavItems,
     NavItemContainer,
 } from '../../layout/Proj_GroupComponents.js'
+import { Icon } from 'semantic-ui-react'
 
 
 const activeStyle = {
@@ -22,8 +23,8 @@ class ProjectPageTabs extends Component {
 
         return (
             <NavItemContainer>
-                {['feed', 'progress', 'project'].map((view) => (
-                    <NavItems key={view} onClick={ () => this.handleClick(view)} style={activePageTab === view ? activeStyle : {} }>{view}</NavItems>
+                {[<Icon size='large' name='feed' value='feed' />,<Icon size='large' name='chart bar outline' value='progress' />,<Icon size='large' name='clock' value='project' />].map((view) => (
+                    <NavItems key={view.props.value} onClick={ () => this.handleClick(view.props.value)} style={activePageTab === view.props.value ? activeStyle : {} }>{view}</NavItems>
                 ))}
             </NavItemContainer>
         )
