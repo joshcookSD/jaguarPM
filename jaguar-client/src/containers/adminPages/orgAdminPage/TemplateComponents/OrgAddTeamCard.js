@@ -45,8 +45,6 @@ const AddTeamCard = (props) => {
                                                     name='delete'
                                                     onClick={async e => {
                                                         e.preventDefault();
-                                                        console.log(team)
-                                                        console.log(team.groups.map((group) => group.tasks.map((task) => task._id)).join(''))
                                                         await removeTeamFromOrg({
                                                         variables: {
                                                             teamToDeleteId: team._id,

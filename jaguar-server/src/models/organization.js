@@ -31,10 +31,10 @@ const organizationSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Team"
         }],
-        project: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Project"
-        }],
+        // project: [{
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Project"
+        // }],
         // client: [{
         //     type: mongoose.Schema.Types.ObjectId,
         //     ref: "Client"

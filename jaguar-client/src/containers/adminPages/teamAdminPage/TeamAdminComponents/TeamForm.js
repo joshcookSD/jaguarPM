@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button,  } from 'semantic-ui-react';
-import {getOrgByOwner, createTeam, teamsByOwner} from '../../../apollo-graphql/userQueries'
+import {getOrgByOwner, createTeam, teamsByOwner, teamsByUser} from '../../../apollo-graphql/userQueries'
 import decode from 'jwt-decode';
+import {userTeamProjects} from "../../../apollo-graphql/groupProjectQueries";
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
+const variables = {_id: user._id};
 
 class TeamForm extends Component {
 
@@ -55,7 +57,10 @@ class TeamForm extends Component {
                                     },
                                     refetchQueries: [
                                         {query: getOrgByOwner, variables: {owner: userId }},
-                                        {query: teamsByOwner, variables: {owner: userId } }
+                                        {query: teamsByOwner, variables: {owner: userId }},
+                                        {query: teamsByUser, variables: { user: userId }},
+                                        //cant figure out why it does not work
+                                        // {query: userTeamProjects, variables: variables}
                                     ]
                                 });
                                 // const { ok, errors } = response.data.createTeam;

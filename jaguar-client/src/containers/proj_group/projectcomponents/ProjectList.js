@@ -6,24 +6,25 @@ import { userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
 import ProjectItem from './ProjectItem'
 import ProjectFormForModal from './ProjectFormForModal.js'
 
-const token = localStorage.getItem('token');
-
 class ProjectList extends Component {
     state = {
         open: false,
         teamIdForForm:'',
     };
-
+// getting variables to set first project on load => this parent
+    defaultProject = (defaultProjectId, defaultOrg, defualtProjectsGroups, defualtProjectTeam ) => {this.props.defualtSelectProject(defaultProjectId, defaultOrg, defualtProjectsGroups, defualtProjectTeam)};
+// for modal setting team id to state to use as variable in form
+    captureFormVariables = (teamId) =>{
+        this.setState({ teamIdForForm: teamId },
+            this.show()
+        )
+    };
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
-    captureTeamId = (teamId) =>{
-        this.setState({ teamIdForForm: teamId },
-        this.show()
-        )};
-    defaultProject = (defaultProjectId, defaultTeam ) => {this.props.selectProject(defaultProjectId, defaultTeam)};
 
     render() {
-        const {selectProject, selectTeam } = this.props;
+        const {selectProject } = this.props;
+        const token = localStorage.getItem('token');
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
@@ -32,7 +33,13 @@ class ProjectList extends Component {
             <Query query={userTeamProjects} variables={variables}>
                 { ({ loading, error, data }) => {
                     if(data.user && !this.props.isSelected) {
-                        this.defaultProject(data.user.team[0].projects[0]._id, data.user.team[0].projects[0].team._id)}
+                        this.defaultProject(
+                            data.user.team[0].projects[0]._id,
+                            data.user.team[0].organization._id,
+                            data.user.team[0].projects[0].groups.map(group => group._id),
+                            data.user.team[0].projects[0].team._id,
+                        )
+                    }
                         if (loading) return (
                             <div>
                                 <Dimmer active>
@@ -47,7 +54,7 @@ class ProjectList extends Component {
                                 <Header>
                                     {team.teamtitle}
                                     <Icon
-                                        onClick={() => this.captureTeamId(team._id)}
+                                        onClick={() => this.captureFormVariables(team._id)}
                                         color='green'
                                         name='add circle'
                                         floated='right'
@@ -79,12 +86,13 @@ class ProjectList extends Component {
                                         return (
                                             <ProjectItem
                                                 key={project._id}
-                                                team={project.team._id}
+                                                projectsGroupIds={project.groups.map((group,i) =>group._id)}
+                                                teamOrgId={project.team.organization._id}
+                                                projectTeam={project.team._id}
                                                 projectId={project._id}
                                                 projecttitle={project.projecttitle}
                                                 projectdescription={project.projectdescription}
                                                 selectProject={selectProject}
-                                                selectTeam={selectTeam}
                                             />
                                         )
                                     })}
