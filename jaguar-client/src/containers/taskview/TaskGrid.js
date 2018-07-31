@@ -5,15 +5,12 @@ import TableHeader from '../components/table/TableHeader';
 import TableHeaderRow from '../components/table/TableHeaderRow';
 import TableHeaderCell from '../components/table/TableHeaderCell';
 import TableBody from '../components/table/TableBody';
-import TableBodyRow from '../components/table/TableBodyRow';
-import TableCellCentered from '../components/table/TableCellCentered';
-import TableCellLeft from '../components/table/TableCellLeft';
-import TaskComplete from './taskscomponents/TaskComplete';
+import TaskGridRow from './taskscomponents/TaskGridRow'
 
 
 class TaskGrid extends Component {
     state = {
-        taskData: this.props.tasks
+        taskData: this.props.tasks,
     };
 
     componentWillReceiveProps(nextProps){
@@ -55,29 +52,13 @@ class TaskGrid extends Component {
                </TableHeader>
                 <TableBody>
                 {sortData.map((task) => (
-                    <TableBodyRow key={task._id}>
-                        <TableCellCentered>
-                            <TaskComplete
-                                _id={task._id}
-                                userId={user}
-                                completeddate={today}
-                                updateQuery={updateQuery}
-                                variables={variables}
-                                duedate={task.duedate}
-                                plandate={task.plandate}
-                                isComplete={task.iscompleted}
-                            />
-                        </TableCellCentered>
-                        <TableCellLeft> {task.tasktitle} </TableCellLeft>
-                        <TableCellLeft> {task.taskdescription}</TableCellLeft>
-                        <TableCellCentered> {task.duedate ? moment.utc(task.duedate).format('YYYY-MM-DD') : 'No Date'} </TableCellCentered>
-                        <TableCellCentered> {task.plandate ? moment.utc(task.plandate).format('YYYY-MM-DD') : 'No Date'} </TableCellCentered>
-                        <TableCellLeft> {task.group.grouptitle} </TableCellLeft>
-                        <TableCellLeft> {task.project.projecttitle} </TableCellLeft>
-                        <TableCellLeft> {task.team.teamtitle} </TableCellLeft>
-                        <TableCellCentered/>
-                        <TableCellCentered/>
-                    </TableBodyRow>
+                        <TaskGridRow
+                            key={task._id}
+                            task={task}
+                            user={user}
+                            updateQuery={updateQuery}
+                            variables={variables}
+                        />
                     )
                 )}
                 </TableBody>
