@@ -16,10 +16,6 @@ import {
     TeamPagePaneGrid
 } from '../../layout/Proj_GroupComponents.js'
 
-
-
-
-
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
@@ -35,52 +31,61 @@ class TeamPageMain extends Component {
     changeView = (view) => {
         this.setState({activePageTab: view, isSelectedPageTab: true });
     };
-
     handleClick = (team) => {
         this.setState({activeView: team, isSelected: true });
     };
 
     render() {
         const { activePageTab, isSelectedPageTab } = this.state;
+        const {
+            groupTeam,
+            groupUsers,
+            selectedTeamId,
+            selectedGroup,
+            groupDetails,
+            queryVariables,
+            userProjectGroups,
+            variables,
+            removeGroupSwitchForDefault,
+            groupProject,
+            groupProjectTeam
+        } = this.props
 
         return (
-            <Query query={teamsByUser} variables={variables}>
-                {({ loading, error, data }) => {
-                    return (
-                        <div className='container'>
-                            <NavBarStatic user={user}/>
+            <div className='container'>
+                <NavBarStatic user={user}/>
 
-                            <TeamPagePaneGrid>
-                                <Secondary>
-                                   <GroupPageTabs
-                                       changeView={this.changeView}
-                                       activePageTab={activePageTab}
-                                       isSelectedPageTab={isSelectedPageTab}
-                                   />
-                                </Secondary>
+                <TeamPagePaneGrid>
+                    <Secondary>
+                       <GroupPageTabs
+                           changeView={this.changeView}
+                           activePageTab={activePageTab}
+                           isSelectedPageTab={isSelectedPageTab}
+                       />
+                    </Secondary>
 
-                                <Activity>
-                                    <GroupPagePanes activePageTab={activePageTab} />
-                                </Activity>
-
-                                <Details>
-                                    <GroupDetail
-                                        selectedGroup={this.props.selectedGroup}
-                                        groupDetails={this.props.groupDetails}
-                                        queryVariables={this.props.queryVariables}
-                                        userProjectGroups={this.props.userProjectGroups}
-                                        variables={this.props.variables}
-                                        removeGroupSwitchForDefault={this.props.removeGroupSwitchForDefault}
-                                    />
-                                </Details>
-                                <Prioriety>
-                                    <GroupTaskPrioriety />
-                                </Prioriety>
-                            </TeamPagePaneGrid>
-                        </div>
-                    )
-                }}
-            </Query>
+                    <Activity>
+                        <GroupPagePanes activePageTab={activePageTab} />
+                    </Activity>
+                    <Details>
+                        <GroupDetail
+                            groupProjectTeam={groupProjectTeam}
+                            groupProject={groupProject}
+                            groupUsers={groupUsers}
+                            selectedTeamId={selectedTeamId}
+                            selectedGroup={selectedGroup}
+                            groupDetails={groupDetails}
+                            queryVariables={queryVariables}
+                            userProjectGroups={userProjectGroups}
+                            variables={variables}
+                            removeGroupSwitchForDefault={removeGroupSwitchForDefault}
+                        />
+                    </Details>
+                    <Prioriety>
+                        <GroupTaskPrioriety />
+                    </Prioriety>
+                </TeamPagePaneGrid>
+            </div>
         )
     }
 }

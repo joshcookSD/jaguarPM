@@ -23,8 +23,6 @@ const removeTeamFromOrg = gql`
   }
 `;
 
-
-
 const createOrg = gql`
     mutation createOrganization( $orgtitle: String!, $orgdescription: String, $owner: String!) {
         createOrganization(orgtitle: $orgtitle, orgdescription: $orgdescription, owner: $owner) {
@@ -70,6 +68,27 @@ query team($_id: String){
 }
 `;
 
+const teamsById = gql`
+query teamsById($_id: String){
+  teamsById(_id: $_id) {
+    _id
+    users{
+      _id
+    }
+    projects{
+       _id
+       projecttitle
+      users{
+      _id
+      }
+      team{
+        _id
+      }
+    }
+  }
+}
+`;
+
 const addTeamUser = gql`
     mutation addTeamUser( $_id: String, $user: String!) {
       addTeamUser(user: $user, _id: $_id) {
@@ -88,5 +107,6 @@ export {
   removeOrgUser,
   removeTeamUser,
   removeTeamFromOrg,
-  teamsByOrg
+  teamsByOrg,
+  teamsById
 };

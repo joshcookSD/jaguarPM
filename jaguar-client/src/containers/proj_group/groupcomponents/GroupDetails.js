@@ -3,6 +3,7 @@ import { Query, graphql } from "react-apollo";
 import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
 import {removeGroupFromProject, updateGroup} from "../../apollo-graphql/groupProjectQueries";
 import moment from 'moment';
+import GroupProjectDropDown from './GroupProjectDropDown';
 import { Mutation } from "react-apollo";
 import {
     GroupFormWrapper
@@ -28,6 +29,7 @@ class GroupDetail extends Component {
         duedate: '',
         teamInput: false,
         team:'',
+        groupDropDownChangeInput: true,
     };
 
     render() {
@@ -37,7 +39,11 @@ class GroupDetail extends Component {
             groupDetails,
             queryVariables,
             userProjectGroups,
-            variables
+            variables,
+            selectedTeamId,
+            groupUsers,
+            groupProject,
+            groupProjectTeam
         } = this.props;
 
         //state shortcut
@@ -50,8 +56,8 @@ class GroupDetail extends Component {
             dueDateInput,
             duedate,
             description,
-            // team,
-            groupId
+            groupId,
+            groupDropDownChangeInput
         } = this.state;
 
         //calling mutation with variables
@@ -63,7 +69,6 @@ class GroupDetail extends Component {
                     groupdescription: description,
                     plannedcompletiondate: plandate,
                     duedate,
-                    // team
                 },
                 refetchQueries:
                     [{query: groupDetails, variables: queryVariables}]
@@ -143,6 +148,20 @@ class GroupDetail extends Component {
                                                     <span key={i}>{user.username}</span>
                                                  ))}
                                             </div>
+                                            <div
+                                                onClick={() => this.setState({groupDropDownChangeInput: !groupDropDownChangeInput})}>
+                                                Currently Assigned project: project name
+                                            </div>
+                                            {groupDropDownChangeInput &&
+                                                <GroupProjectDropDown
+                                                    groupProject={groupProject}
+                                                    selectedTeamId={selectedTeamId}
+                                                    selectedGroup={selectedGroup}
+                                                    groupUsers={groupUsers}
+                                                    groupProjectTeam={groupProjectTeam}
+
+                                                />
+                                            }
                                         </div>
                                         <Card.Content extra>
                                             <Button.Group fluid>
@@ -170,7 +189,9 @@ class GroupDetail extends Component {
                         </Query>
                     )}
                 </Mutation>
-        )} else { return (<div/>)}
+        )} else {
+            return ( <div/> )
+        }
     }
 }
 

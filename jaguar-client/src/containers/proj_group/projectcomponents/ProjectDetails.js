@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
-import { Dimmer, Loader, Form, Button, Card, Icon } from 'semantic-ui-react';
+import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
 import {
     removeProjectFromTeam,
     updateProject,
@@ -13,7 +13,6 @@ import {
     GroupFormWrapper,
 } from '../../layout/Proj_GroupComponents.js'
 import ProjectTeamDropDown from './ProjectTeamDropDown.js'
-import {task} from "../../apollo-graphql/taskQueries";
 
 
 class ProjectDetail extends Component {

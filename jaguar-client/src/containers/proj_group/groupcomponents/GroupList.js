@@ -13,7 +13,7 @@ class GroupList extends Component {
     state = {
         open: false,
         teamIdForForm:'',
-        projectIdForForm:''
+        projectIdForForm:'',
     };
 
     show = () => this.setState({ open: true });
@@ -22,16 +22,19 @@ class GroupList extends Component {
         this.setState({ teamIdForForm: teamId });
         this.setState({ projectIdForForm: projectId });
         this.show()
-        };
+    };
+    teamOfisSelected = (team) => this.props.selectedTeamId(team);
+
     render() {
 
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
-        const {selectGroup, isSelected, selectTeam } = this.props;
+        const {selectGroup, isSelected, selectTeam, handleGroupUsers } = this.props;
         return(
             <Query query={userProjectGroups} variables={variables}>
                 { ({ loading, error, data }) => {
+                    console.log(data);
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -76,21 +79,34 @@ class GroupList extends Component {
                                 >
                                     {
                                         project.groups.map(group => {
+                                            console.log(group)
                                            if(i === 0 && !isSelected){
                                                project.groups.map((group,i ) => {
                                                    if(i ===0){
-                                                       this.props.selectGroup(group._id)
+                                                       this.props.selectGroup(group._id);
+                                                       this.teamOfisSelected(group.team._id);
+                                                       this.props.groupUsers((group.users || []).map(user => user._id).toString());
+                                                       this.props.handleGroupProject(group.project._id)
+                                                       this.props.handleGroupProjectTeam(group.project.team._id)
                                                    }
                                                })
                                            }
                                             return (
                                                 <GroupTaskItem
                                                     key={group._id}
+                                                    groupUsers={(group.users || []).map(user => user._id).toString()}
+                                                    handleGroup={this.props.handleGroupProject}
+                                                    teamOfIsSelected={group.team._id}
                                                     groupId={group._id}
                                                     grouptitle={group.grouptitle}
                                                     groupdescription={group.groupdescription}
+                                                    groupProject={group.project._id}
+                                                    groupProjectTeam={group.project.team._id}
+                                                    groupProjectTeamHandler={this.props.handleGroupProjectTeam}
                                                     selectGroup={selectGroup}
                                                     selectTeam={selectTeam}
+                                                    handleGroupUsers={handleGroupUsers}
+                                                    teamOfisSelectedHandler={this.teamOfisSelected}
                                                 />
                                             )
                                         })
