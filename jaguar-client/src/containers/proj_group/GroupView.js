@@ -5,8 +5,6 @@ import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
 import decode from "jwt-decode";
-import { Query } from "react-apollo";
-import {Dimmer, Loader} from 'semantic-ui-react';
 import {groupDetails, userProjectGroups} from "../apollo-graphql/groupProjectQueries";
 const token = localStorage.getItem('token');
 
@@ -15,6 +13,10 @@ class GroupView extends Component {
     state = {
         selectedGroup: '',
         isSelected: false,
+        selectedTeamId:'',
+        groupUsers: '',
+        groupProject: '',
+        GroupProjectTeam: '',
     };
 
     selectGroup = (group) => {
@@ -26,47 +28,67 @@ class GroupView extends Component {
     removeGroupSwitchForDefault = () => {
         this.setState({isSelected: false });
     };
+    selectedTeamId = (team) => {
+        this.setState({selectedTeamId: team });
+    };
+    groupUsersForDD = (users) => {
+        this.setState({groupUsers:users })
+    };
+    handleGroupUsers = (users) => {
+        this.setState({groupUsers:users })
+    };
+    handleGroupProject = (groupProject) => {
+        this.setState({groupProject: groupProject})
+    };
+    handleGroupProjectTeam = (projectTeam) => {
+        console.log(projectTeam)
+        this.setState({GroupProjectTeam: projectTeam})
+    };
 
     render() {
+
         const { user } = decode(token);
-        const {selectedGroup, isSelected} = this.state;
-        return (
-            <Query query={userProjectGroups} variables={{_id: user._id}}>
-                {({loading, error}) => {
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader/>
-                            </Dimmer>
-                        </div>);
-                    if (error) return <p>Error :(</p>;
-                    return <div>
-                        <AppLayout>
-                            <NavSidebar/>
-                            <MainSidebar>
-                                <GroupList
-                                    selectTeam={this.selectTeam}
-                                    selectGroup={this.selectGroup}
-                                    selectProject={this.selectProject}
-                                    isSelected={isSelected}
-                                />
-                            </MainSidebar>
-                            <GroupPageMain
-                                selectedGroup={selectedGroup}
-                                groupDetails={groupDetails}
-                                queryVariables={{_id: selectedGroup}}
-                                userProjectGroups={userProjectGroups}
-                                variables={{_id: user._id}}
-                                removeGroupSwitchForDefault={this.removeGroupSwitchForDefault}
 
-                            />
+        const {
+            selectedGroup,
+            isSelected,
+            selectedTeamId,
+            groupUsers,
+            groupProject,
+            groupProjectTeam
+        } = this.state;
 
-                        </AppLayout>
-                    </div>
-                }
-                }
-            </Query>
-        )
+            return <div>
+                <AppLayout>
+                    <NavSidebar/>
+                    <MainSidebar>
+                        <GroupList
+                            handleGroupUsers={this.handleGroupUsers}
+                            selectTeam={this.selectTeam}
+                            selectGroup={this.selectGroup}
+                            selectProject={this.selectProject}
+                            isSelected={isSelected}
+                            selectedTeamId={this.selectedTeamId}
+                            groupUsers={this.groupUsersForDD}
+                            handleGroupProject={this.handleGroupProject}
+                            groupTeamforDdDefault={this.groupTeamforDdDefault}
+                            handleGroupProjectTeam={this.handleGroupProjectTeam}
+                        />
+                    </MainSidebar>
+                    <GroupPageMain
+                        groupProjectTeam={groupProjectTeam}
+                        groupUsersForDd={groupUsers}
+                        selectedTeamId={selectedTeamId}
+                        selectedGroup={selectedGroup}
+                        groupDetails={groupDetails}
+                        queryVariables={{_id: selectedGroup}}
+                        userProjectGroups={userProjectGroups}
+                        variables={{_id: user._id}}
+                        groupProject={groupProject}
+                        removeGroupSwitchForDefault={this.removeGroupSwitchForDefault}
+                    />
+                </AppLayout>
+            </div>
     }
 }
 

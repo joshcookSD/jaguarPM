@@ -245,17 +245,29 @@ const updateProject = gql`
 
 const updateGroup = gql`
     mutation updateGroup(
-        $_id: String,
-        $grouptitle: String,
-        $groupdescription: String,
-        $plannedcompletiondate: Date,
-        $duedate: Date,
+        $_id: String
+        $grouptitle: String
+        $groupdescription: String
+        $plannedcompletiondate: Date
+        $duedate: Date
+        $targetProject : String
+        $groupToChange : String
+        $groupUsers : String
+        $groupTeam : String
+        $groupProject : String
+       $groupsProjectTeam: String
     ){ updateGroup(
         _id: $_id,    
-        grouptitle: $grouptitle,
-        groupdescription: $groupdescription,
-        plannedcompletiondate: $plannedcompletiondate,
+        grouptitle: $grouptitle
+        groupdescription: $groupdescription
+        plannedcompletiondate: $plannedcompletiondate
         duedate: $duedate
+        targetProject : $targetProject
+        groupToChange : $groupToChange
+        groupUsers : $groupUsers
+        groupTeam : $groupTeam
+        groupProject : $groupProject
+        groupsProjectTeam : $groupsProjectTeam
     ) {
         grouptitle
     }
@@ -276,6 +288,15 @@ const userProjectGroups = gql`
             _id
             grouptitle
             groupdescription
+            project{
+            _id
+            team{
+            _id
+            }
+            }
+            users{
+                _id
+            }
             team{
             _id
             teamtitle

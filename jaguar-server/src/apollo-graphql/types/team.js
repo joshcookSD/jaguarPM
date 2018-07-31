@@ -38,6 +38,7 @@ const TeamQuery = `
     teamsByOrg(organization: String): [Team]
     teamsByOwner( owner: String ): [Team]
     teamsByUser( user: String ): [Team]
+    teamsById(_id: String): Team
 `;
 
 const TeamMutation = `
@@ -74,6 +75,9 @@ const TeamQueryResolver = {
         })
     },
     team: async (parent, args, {Team}) => {
+        return await Team.findById(args._id.toString())
+    },
+    teamsById: async (parent, args, {Team}) => {
         return await Team.findById(args._id.toString())
     },
     teamsByOrg: async (parent, { organization }, { Team }) => {
