@@ -169,7 +169,7 @@ class ProjectDetail extends Component {
 
                                             <div
                                                 onClick={() => this.setState({teamChangeInput: !teamChangeInput})}>
-                                                Currently Assigned Team: change teams
+                                                Currently Assigned Team: {data.project.team.teamtitle}
                                             </div>
                                             {teamChangeInput &&
                                                 <ProjectTeamDropDown
@@ -186,7 +186,7 @@ class ProjectDetail extends Component {
                                             }
                                             <div
                                                 onClick={() => this.setState({teamLeaderDropDownInput: !teamLeaderDropDownInput})}>
-                                                Assigned Leader:
+                                                Assigned Leader: {data.project.leader.username}
                                             </div>
                                             {teamLeaderDropDownInput &&
                                                 <TeamLeaderDropDown

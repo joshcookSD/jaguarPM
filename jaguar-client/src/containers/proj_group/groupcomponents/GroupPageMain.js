@@ -39,7 +39,6 @@ class TeamPageMain extends Component {
         const {
             selectedTeamId,
             selectedGroup,
-            groupDetails,
             queryVariables,
             userProjectGroups,
             variables,

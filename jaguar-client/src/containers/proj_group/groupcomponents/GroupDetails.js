@@ -16,6 +16,9 @@ class GroupDetail extends Component {
             this.setState({groupId: nextProps.selectedGroup});
         }
     }
+    closeTeamDropDown = () => {
+        this.setState({groupDropDownChangeInput: false})
+    };
 
     state = {
         groupId: '',
@@ -29,7 +32,7 @@ class GroupDetail extends Component {
         duedate: '',
         teamInput: false,
         team:'',
-        groupDropDownChangeInput: true,
+        groupDropDownChangeInput: false,
     };
 
     render() {
@@ -137,20 +140,20 @@ class GroupDetail extends Component {
                                             />}
                                             {/*assigned leader*/}
                                             <div className='cardDescription'>
-                                                Group Users:
-                                                {data.group.users.map( (user, i ) => (
+                                                Group Users: {data.group.users.map( (user, i ) => (
                                                     <span key={i}>{user.username}</span>
                                                  ))}
                                             </div>
                                             <div
                                                 onClick={() => this.setState({groupDropDownChangeInput: !groupDropDownChangeInput})}>
-                                                Currently Assigned project: project name
+                                                Currently Assigned project: {data.group.project.projecttitle}
                                             </div>
                                             {groupDropDownChangeInput &&
                                                 <GroupProjectDropDown
                                                     groupProject={groupProject}
                                                     selectedTeamId={selectedTeamId}
                                                     selectedGroup={selectedGroup}
+                                                    closeTeamDropDown={this.closeTeamDropDown}
                                                 />
                                             }
                                         </div>
