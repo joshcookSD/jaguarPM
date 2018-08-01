@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f4fb954e-ae3c-4ad3-89fc-88cbaa90a5d5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/account/AccountHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/account/AccountHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-client/src/containers/account/AccountUpdateView.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-client/src/containers/account/AccountUpdateView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-server/keys.json" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-server/keys.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jaguar-server/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/jaguar-server/src/server.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,32 +16,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AccountUpdateView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/account/AccountUpdateView.js">
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jaguar-server/src/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1035">
-              <caret line="69" column="52" selection-start-line="69" selection-start-column="52" selection-end-line="69" selection-end-column="52" />
+            <state relative-caret-position="667">
+              <caret line="50" column="3" selection-start-line="50" selection-start-column="3" selection-end-line="50" selection-end-column="3" />
               <folding>
-                <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#43#67#0" expanded="true" />
+                <element signature="e#410#441#0" expanded="true" />
+                <element signature="e#578#610#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="userQueries.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/userQueries.js">
+      <file leaf-file-name="auth.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jaguar-server/src/apollo-graphql/auth.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6808">
-              <caret line="296" column="7" lean-forward="true" selection-start-line="296" selection-start-column="7" selection-end-line="296" selection-end-column="7" />
+            <state relative-caret-position="-1579">
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jaguar-server/src/server.js">
+      <file leaf-file-name="resolvers.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jaguar-server/src/apollo-graphql/resolvers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="50" column="3" lean-forward="true" selection-start-line="50" selection-start-column="3" selection-end-line="50" selection-end-column="3" />
+            <state relative-caret-position="161">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <element signature="e#720#801#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SignUpForm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/authorization/SignUpForm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2277">
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,9 +68,14 @@
         <entry file="file://$PROJECT_DIR$/jaguar-server/keys.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="253">
-              <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+              <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".env" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jaguar-server/.env">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="app.yaml" pinned="false" current-in-tab="false">
@@ -69,47 +88,9 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file leaf-file-name="OrgAddTeamCard.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/orgAdminPage/TemplateComponents/OrgAddTeamCard.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="575">
-              <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreateOrgForm.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/account/CreateOrgForm.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
-              <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrgForm.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/orgAdminPage/TemplateComponents/OrgForm.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignUpForm.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/authorization/SignUpForm.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1863">
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
+      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jaguar-server/config.js">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -203,6 +184,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -213,81 +195,6 @@
             <path>
               <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
               <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="account" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="adminPages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="adminPages" type="462c0819:PsiDirectoryNode" />
-              <item name="orgAdminPage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="adminPages" type="462c0819:PsiDirectoryNode" />
-              <item name="orgAdminPage" type="462c0819:PsiDirectoryNode" />
-              <item name="TemplateComponents" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="apollo-graphql" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="authorization" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
               <item name="jaguar-server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -302,32 +209,16 @@
               <item name="jaguar-server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="apollo-graphql" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="apollo-graphql" type="462c0819:PsiDirectoryNode" />
-              <item name="types" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaguarPM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaguarPM" type="462c0819:PsiDirectoryNode" />
-              <item name="jaguar-server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="defaultProject&#9;null&#9;null&#10;defaultPr&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="jaguardev&#9;null&#9;null&#10;defaultProject&#9;null&#9;null&#10;defaultPr&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/campReview" />
     <property name="node.js.detected.package.prettier" value="true" />
@@ -435,12 +326,13 @@
       <workItem from="1532096612551" duration="1756000" />
       <workItem from="1532107860368" duration="4115000" />
       <workItem from="1533066291154" duration="2918000" />
-      <workItem from="1533137124304" duration="5112000" />
+      <workItem from="1533137124304" duration="6088000" />
+      <workItem from="1533146952842" duration="2127000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="395800000" />
+    <option name="totallyTimeSpent" value="398903000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="22" width="1936" height="1066" extended-state="6" />
@@ -452,9 +344,9 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" x="368" y="797" width="674" height="310" id="Terminal" order="12" visible="true" weight="0.3483146" />
+      <window_info anchor="bottom" x="368" y="797" width="674" height="310" id="Terminal" order="12" visible="true" weight="0.3483146" />
       <window_info anchor="right" id="FAQ Robot" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19989339" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20202559" />
       <window_info id="Project Explorer" order="3" />
       <window_info id="Job Explorer" order="4" weight="0.32995737" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
@@ -478,12 +370,12 @@
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info id="npm" order="6" side_tool="true" />
       <window_info id="Project Explorer" order="3" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20042644" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="FAQ Robot" order="3" />
       <window_info id="DB Browser" order="2" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -492,7 +384,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" x="368" y="797" width="674" height="310" id="Terminal" order="12" visible="true" weight="0.34494382" />
       <window_info id="Favorites" order="5" side_tool="true" />
@@ -510,29 +402,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/orgAdminPage/OrgForm.jsx" />
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/teamAdminPage/teamInvite.js" />
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1265">
-          <caret line="58" column="53" selection-start-line="58" selection-start-column="53" selection-end-line="58" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/layout/NavSidebar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2714">
-          <caret line="121" column="74" selection-start-line="121" selection-start-column="74" selection-end-line="121" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-server/src/models/task.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="34" column="10" lean-forward="true" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-server/src/models/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-483" />
@@ -689,14 +558,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
           <caret line="7" column="23" lean-forward="true" selection-end-line="117" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/proj_group/projectcomponents/ProjectForm.js">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-server/src/apollo-graphql/types/group.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -737,9 +600,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1311">
           <caret line="64" column="20" selection-start-line="64" selection-start-column="20" selection-end-line="64" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -747,9 +607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2369">
           <caret line="112" column="64" selection-start-line="112" selection-start-column="34" selection-end-line="112" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -778,9 +635,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="353">
           <caret line="50" column="41" lean-forward="true" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -791,44 +645,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/authorization/SignUpForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1863">
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/account/CreateOrgForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/orgAdminPage/TemplateComponents/OrgForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/orgAdminPage/TemplateComponents/OrgAddTeamCard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/account/AccountUpdateView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
+        <state relative-caret-position="1334">
           <caret line="69" column="52" selection-start-line="69" selection-start-column="52" selection-end-line="69" selection-end-column="52" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -839,27 +658,95 @@
     <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/apollo-graphql/userQueries.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6808">
-          <caret line="296" column="7" lean-forward="true" selection-start-line="296" selection-start-column="7" selection-end-line="296" selection-end-column="7" />
+          <caret line="296" column="7" selection-start-line="296" selection-start-column="7" selection-end-line="296" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/orgAdminPage/TemplateComponents/OrgForm.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/account/CreateOrgForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/authorization/SignUpForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2277">
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/src/apollo-graphql/schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.yaml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-client/src/containers/adminPages/orgAdminPage/TemplateComponents/OrgAddTeamCard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/.env">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-server/keys.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
-          <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jaguar-server/src/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="50" column="3" lean-forward="true" selection-start-line="50" selection-start-column="3" selection-end-line="50" selection-end-column="3" />
+        <state relative-caret-position="667">
+          <caret line="50" column="3" selection-start-line="50" selection-start-column="3" selection-end-line="50" selection-end-column="3" />
+          <folding>
+            <element signature="e#43#67#0" expanded="true" />
+            <element signature="e#410#441#0" expanded="true" />
+            <element signature="e#578#610#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/src/apollo-graphql/auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1579">
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jaguar-server/src/apollo-graphql/resolvers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#720#801#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
