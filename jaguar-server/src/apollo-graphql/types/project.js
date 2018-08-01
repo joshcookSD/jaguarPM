@@ -159,11 +159,12 @@ const ProjectMutationResolver ={
             );
         }
         //find all groups and remove
-        if(GroupsTasksArray){
-            await Task.remove(
-                {_id: {$in: GroupsTasks.split(',')}},
-            );
-        }
+        (console.log(GroupsTasksArray))
+        // if(GroupsTasksArray){
+        //     await Task.remove(
+        //         {_id: {$in: GroupsTasks.split(',')}},
+        //     );
+        // }
         //find team and remove
         await Group.deleteOne(
             {_id: groupToRemoveId },

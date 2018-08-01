@@ -225,6 +225,7 @@ const updateProject = gql`
         $projectsTeamId: String,
         $projectToChange: String,
         $targetTeam: String,
+        $groupsProjectTeam : String
     ){ updateProject(
         _id: $_id,    
         projecttitle: $projecttitle,
@@ -238,6 +239,7 @@ const updateProject = gql`
         projectsTeamId: $projectsTeamId,
         projectToChange: $projectToChange
         targetTeam: $targetTeam
+        groupsProjectTeam: $groupsProjectTeam
     ) {
         projecttitle
     }
@@ -256,6 +258,7 @@ const updateGroup = gql`
         $groupTeam : String
         $groupProject : String
        $groupsProjectTeam: String
+       $groupUser: String
     ){ updateGroup(
         _id: $_id,    
         grouptitle: $grouptitle
@@ -268,6 +271,7 @@ const updateGroup = gql`
         groupTeam : $groupTeam
         groupProject : $groupProject
         groupsProjectTeam : $groupsProjectTeam
+        groupUser: $groupUser
     ) {
         grouptitle
     }
