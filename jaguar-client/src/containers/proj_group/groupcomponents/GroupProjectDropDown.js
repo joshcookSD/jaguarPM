@@ -3,7 +3,7 @@ import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'
 import { teamsById } from '../../apollo-graphql/teamOrgQueries.js';
 import decode from "jwt-decode";
-import {updateProject, userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
+import {userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
 import {updateGroup} from "../../apollo-graphql/groupProjectQueries";
 
 class GroupProjectDropDown extends Component {
@@ -12,27 +12,23 @@ class GroupProjectDropDown extends Component {
         const {
             selectedTeamId,
             selectedGroup,
-            groupUsers,
             groupProject,
-            groupProjectTeam
         } = this.props;
 
         const token = localStorage.getItem('token');
         const { user } = decode(token);
         const variables = {_id: user._id};
-        console.log(selectedTeamId)
 
         return (
             <Query query={teamsById} variables={{_id: selectedTeamId}}>
                 {({ loading, error, data }) => {
-                    console.log(data)
                     if (loading) return <div>Fetching</div>;
                     if (error) return <div>Error</div>;
                     const teamOptions = (data.teamsById.projects || []).map(project => ({ text:project.projecttitle, _id: project._id }));
                     return (
                         <div className="dropDownDiv">
                             <Mutation mutation={updateGroup}>
-                                {(updateGroup, { data }) => (
+                                {(updateGroup) => (
                                     <Dropdown text={'change team'}  scrolling floating labeled button className='icon'>
                                         <Dropdown.Menu>
                                             <Dropdown.Header content='New Project Leader' />
@@ -47,15 +43,11 @@ class GroupProjectDropDown extends Component {
                                                             variables: {
                                                                 targetProject: option._id,
                                                                 groupToChange: selectedGroup,
-                                                                groupUsers: groupUsers,
-                                                                groupTeam: selectedTeamId,
                                                                 groupProject: groupProject,
-                                                                // groupsProjectTeam: groupProjectTeam
                                                             },
-                                                            // refetchQueries: [
-                                                            //     { query: userTeamProjects, variables: variables },
-                                                            //     { query: projectDetails, variables: queryVariables },
-                                                            // ]
+                                                            refetchQueries: [
+                                                                { query: userProjectGroups, variables: variables },
+                                                            ]
                                                         });
                                                         // await closeDropDown();
                                                         // this.props.removeProjectSwitchForDefault();

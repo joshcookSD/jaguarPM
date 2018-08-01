@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import { Query } from "react-apollo";
 import GroupDetail from '../groupcomponents/GroupDetails'
+
 import decode from 'jwt-decode';
-import { teamsByUser } from "../../apollo-graphql/userQueries";
 import "./GroupPageMain.css";
 import GroupPagePanes from './GroupPagePanes.js';
 import GroupPageTabs from './GroupPageTabs.js';
@@ -19,7 +18,7 @@ import {
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
-const variables = { user: userId };
+
 
 class TeamPageMain extends Component {
     state = {
@@ -38,8 +37,6 @@ class TeamPageMain extends Component {
     render() {
         const { activePageTab, isSelectedPageTab } = this.state;
         const {
-            groupTeam,
-            groupUsers,
             selectedTeamId,
             selectedGroup,
             groupDetails,
@@ -48,7 +45,6 @@ class TeamPageMain extends Component {
             variables,
             removeGroupSwitchForDefault,
             groupProject,
-            groupProjectTeam
         } = this.props
 
         return (
@@ -69,12 +65,10 @@ class TeamPageMain extends Component {
                     </Activity>
                     <Details>
                         <GroupDetail
-                            groupProjectTeam={groupProjectTeam}
+                            userId={userId}
                             groupProject={groupProject}
-                            groupUsers={groupUsers}
                             selectedTeamId={selectedTeamId}
                             selectedGroup={selectedGroup}
-                            groupDetails={groupDetails}
                             queryVariables={queryVariables}
                             userProjectGroups={userProjectGroups}
                             variables={variables}

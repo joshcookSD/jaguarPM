@@ -57,6 +57,7 @@ const GroupMutation = `
         groupTeam : String
         groupProject : String
         groupsProjectTeam : String
+        groupUser: String
     ) : Group
      addGroupUser(
         _id: String,
@@ -73,6 +74,7 @@ const GroupQueryResolver = {
         })
     },
     group: async (parent, args, {Group}) => {
+        console.log(args)
         return await Group.findById(args._id.toString())
     },
 };
@@ -100,67 +102,80 @@ const GroupQueryResolver = {
                 group
             };
         },
-    // updateGroup: async (parent, args, { Group}) => {
-    //     console.log(args)
-    //     if(args.targetProject){
-    //         await Project.findByIdAndUpdate(args.targetProject, {
-    //                     $push: {
-    //                         groups: args.groupToChange
-    //                     }
-    //                 },
-    //                 {new: true}
-    //             );
-    //         }
-    //     },
-        // if(args.grouptitle) {
-        //     await Group.findByIdAndUpdate(args._id, {
-        //             $set: {
-        //                 grouptitle: args.grouptitle
-        //             }
-        //         },
-        //         {new: true}
-        //     );
-        // }
-        // if(args.groupdescription) {
-        //     await Group.findByIdAndUpdate(args._id, {
-        //             $set: {
-        //                 groupdescription: args.groupdescription
-        //             }
-        //         },
-        //         {new: true}
-        //     );
-        // }
-        //
-        // if(args.plannedcompletiondate != 'Invalid Date') {
-        //     await Group.findByIdAndUpdate(args._id, {
-        //             $set: {
-        //                 plannedcompletiondate: args.plannedcompletiondate
-        //             }
-        //         },
-        //         {new: true}
-        //     );
-        // }
-        //
-        // if(args.duedate != 'Invalid Date') {
-        //     await Group.findByIdAndUpdate(args._id, {
-        //             $set: {
-        //                 duedate: args.duedate
-        //             }
-        //         },
-        //         {new: true}
-        //     );
-        // }
-        //
-        // if(args.iscompleted != null) {
-        //     await Group.findByIdAndUpdate(args._id, {
-        //             $set: {
-        //                 iscompleted: args.iscompleted
-        //             }
-        //         },
-        //         {new: true}
-        //     );
-        // }
-
+    updateGroup: async (parent, args, { Group}) => {
+        if (args.groupProject) {
+            await Project.findByIdAndUpdate(args.groupProject, {
+                    $pull: {
+                        groups: args.groupToChange
+                    },
+                },
+                {new: true}
+            );
+        }
+        if (args.targetProject) {
+            await Project.findByIdAndUpdate(args.targetProject, {
+                    $push: {
+                        groups: args.groupToChange
+                    },
+                },
+                {new: true}
+            );
+        }
+        if (args.groupToChange) {
+            await Group.findByIdAndUpdate(args.groupToChange, {
+                    $set: {
+                        project: args.targetProject
+                    },
+                },
+                {new: true}
+            );
+        }
+        if (args.grouptitle) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        grouptitle: args.grouptitle
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.groupdescription) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        groupdescription: args.groupdescription
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.plannedcompletiondate != 'Invalid Date') {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        plannedcompletiondate: args.plannedcompletiondate
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.duedate != 'Invalid Date') {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        duedate: args.duedate
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.iscompleted != null) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        iscompleted: args.iscompleted
+                    }
+                },
+                {new: true}
+            );
+        }
+    },
         addGroupUser: async (parent, {_id, user}, {Group}) => {
             //find user by id with "user id"
             let groupuser = await User.findById(user);
@@ -173,7 +188,6 @@ const GroupQueryResolver = {
             return groups
         }
     };
-
 const GroupNested = {
     comments: async ({_id}) => {
         return (await Comment.find({group: _id}))

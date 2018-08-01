@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Query, graphql } from "react-apollo";
 import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
-import {removeGroupFromProject, updateGroup} from "../../apollo-graphql/groupProjectQueries";
+import {removeGroupFromProject, updateGroup, groupDetails} from "../../apollo-graphql/groupProjectQueries";
 import moment from 'moment';
 import GroupProjectDropDown from './GroupProjectDropDown';
 import { Mutation } from "react-apollo";
@@ -33,20 +33,15 @@ class GroupDetail extends Component {
     };
 
     render() {
-
         const {
             selectedGroup,
-            groupDetails,
             queryVariables,
             userProjectGroups,
             variables,
             selectedTeamId,
-            groupUsers,
             groupProject,
-            groupProjectTeam
         } = this.props;
 
-        //state shortcut
         const {
             title,
             titleInput,
@@ -60,7 +55,6 @@ class GroupDetail extends Component {
             groupDropDownChangeInput
         } = this.state;
 
-        //calling mutation with variables
         const _updateGroup = async () => {
             await this.props.updateGroup({
                 variables: {
@@ -73,7 +67,7 @@ class GroupDetail extends Component {
                 refetchQueries:
                     [{query: groupDetails, variables: queryVariables}]
             });
-            //set all state booleans to false to close input form after update
+
             this.setState({
                 titleInput: false,
                 descriptionInput: false,
@@ -95,7 +89,7 @@ class GroupDetail extends Component {
                                             <Loader/>
                                         </Dimmer>
                                     </div>);
-                                if (error) return <p>No Project Selected </p>;
+                                if (error) return <p>No Project Selected</p>;
                                 return (
                                     <GroupFormWrapper onSubmit={() => _updateGroup()}>
                                         <div>
@@ -157,9 +151,6 @@ class GroupDetail extends Component {
                                                     groupProject={groupProject}
                                                     selectedTeamId={selectedTeamId}
                                                     selectedGroup={selectedGroup}
-                                                    groupUsers={groupUsers}
-                                                    groupProjectTeam={groupProjectTeam}
-
                                                 />
                                             }
                                         </div>

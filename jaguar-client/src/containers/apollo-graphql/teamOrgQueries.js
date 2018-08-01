@@ -81,6 +81,9 @@ query teamsById($_id: String){
       users{
       _id
       }
+      groups{
+      _id
+      }
       team{
         _id
       }
