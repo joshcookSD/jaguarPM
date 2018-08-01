@@ -14,7 +14,7 @@ class ProjectItem extends Component {
 
 
     render() {
-        const {projectId, projecttitle } = this.props;
+        const {projectId, projecttitle, projectdescription } = this.props;
 
         return(
             <List.Item 
@@ -25,7 +25,7 @@ class ProjectItem extends Component {
                 <List.Icon color='blue' name='cubes' size='large' verticalAlign='middle'/>
                 <List.Content>
                     <List.Header>{projecttitle}</List.Header>
-                    {/*<List.Description>{projectdescription}</List.Description>*/}
+                    <List.Description>{projectdescription}</List.Description>
                 </List.Content>
             </List.Item>
         )

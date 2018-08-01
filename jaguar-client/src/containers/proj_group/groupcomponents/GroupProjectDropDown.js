@@ -13,6 +13,7 @@ class GroupProjectDropDown extends Component {
             selectedTeamId,
             selectedGroup,
             groupProject,
+            closeTeamDropDown
         } = this.props;
 
         const token = localStorage.getItem('token');
@@ -29,7 +30,7 @@ class GroupProjectDropDown extends Component {
                         <div className="dropDownDiv">
                             <Mutation mutation={updateGroup}>
                                 {(updateGroup) => (
-                                    <Dropdown text={'change team'}  scrolling floating labeled button className='icon'>
+                                    <Dropdown text={'change project'}  scrolling floating labeled button className='icon'>
                                         <Dropdown.Menu>
                                             <Dropdown.Header content='New Project Leader' />
                                             {teamOptions.map((option, i) =>
@@ -49,8 +50,7 @@ class GroupProjectDropDown extends Component {
                                                                 { query: userProjectGroups, variables: variables },
                                                             ]
                                                         });
-                                                        // await closeDropDown();
-                                                        // this.props.removeProjectSwitchForDefault();
+                                                        await closeTeamDropDown();
                                                     }}
                                                 />
                                             )}

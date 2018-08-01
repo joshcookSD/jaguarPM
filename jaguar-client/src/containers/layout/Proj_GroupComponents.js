@@ -15,7 +15,6 @@ const TeamPagePaneGrid = styled.div`
     grid-template-columns: 3fr 90px 5fr;
     grid-template-rows: repeat(6,1fr);
     grid-row-gap: 10px;
-    grid-column-gap: 10px;
      @media (max-width: 1000px) {
         grid-template-columns: 1fr;
         grid-template-rows: 3fr 3fr 1fr 5fr;
@@ -27,7 +26,10 @@ background-color: lightblue;
     grid-row-start: 1;
     grid-column-end: 3;
     grid-row-end: 7;
-    margin: 10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
     box-shadow: 0 0 0 1px #d4d4d5, 0 2px 4px 0 rgba(34,36,38,.12), 0 2px 10px 0 rgba(34,36,38,.15);
     background: #fff;
     /* padding: 0; */
@@ -45,8 +47,9 @@ const Details = styled.div`
     grid-row-start: 1;
     grid-column-end: 1;
     grid-row-end: 3;
-    padding: 10px;
-    padding-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
     @media (max-width: 1000px) {
         grid-column-start: 1;
         grid-row-start: 1;
@@ -59,7 +62,9 @@ background-color: lightgreen;
     grid-row-start: 3;
     grid-column-end: 1;
     grid-row-end: 7;
-    margin: 10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
     box-shadow: 0 0 0 1px #d4d4d5, 0 2px 4px 0 rgba(34,36,38,.12), 0 2px 10px 0 rgba(34,36,38,.15);
     background: #fff;
     /* padding: 0; */
