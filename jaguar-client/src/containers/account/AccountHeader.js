@@ -48,7 +48,7 @@ class AccountHeader extends Component {
 
         return (
             <HeaderWrapper>
-                {['info', 'account', 'organizations'].map((view) => (
+                {['info', 'account', 'orgs'].map((view) => (
                     <NavItems key={view} onClick={() => this.handleClick(view)} style={activeView === view ? activeStyle : {}}>{view}</NavItems>
                 ))}
                 <div/>

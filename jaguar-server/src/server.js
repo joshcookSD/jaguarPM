@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 require('dotenv').config();
 import 'babel-polyfill';
 import express from 'express';
@@ -33,17 +33,35 @@ import Comment from "./models/comment";
 import { refreshTokens } from './apollo-graphql/auth';
 
 //`mongodb://localhost:27017/jaguar`
+const isProduction = process.env.NODE_ENV === 'production';
 
-const user = nconf.get('mongoUser');
-const pass = nconf.get('mongoPass');
-const host = nconf.get('mongoHost');
-const port = nconf.get('mongoPort');
+let user = nconf.get('mongoUser');
+let pass = nconf.get('mongoPass');
+let host = nconf.get('mongoHost');
+let port = nconf.get('mongoPort');
+
+if(!isProduction){
+    user = nconf.get('mongoDevUser');
+    pass = nconf.get('mongoDevPass');
+    host = nconf.get('mongoDevHost');
+    port = nconf.get('mongoDevPort');
+}
 
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
-if (nconf.get('mongoDatabase')) {
-    uri = `${uri}/${nconf.get('mongoDatabase')}`;
+if(isProduction) {
+    if (nconf.get('mongoDatabase')) {
+        uri = `${uri}/${nconf.get('mongoDatabase')}`;
+        console.log(uri);
+    }
+} else {
+    if (nconf.get('mongoDevDatabase')) {
+        uri = `${uri}/${nconf.get('mongoDevDatabase')}`;
+        console.log(uri);
+    }
 }
-console.log(uri);
+
+
+
 
 mongoose.set("debug", true);
 mongoose.Promise = Promise;
@@ -88,8 +106,9 @@ app.use(session({
     })
 }));
 
-const isNotProduction = process.env.NODE_ENV !== 'production';
-if (isNotProduction) {
+
+if (!isProduction) {
+    console.log('Using Dev');
     app.use('*', cors({ origin: 'http://localhost:3000' }));
 }
 
@@ -97,7 +116,7 @@ if (isNotProduction) {
 const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
 app.use(staticFiles);
 
-if(!isNotProduction) {
+if(isProduction) {
     const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
     app.use(staticFiles);
     app.use('/*', staticFiles);

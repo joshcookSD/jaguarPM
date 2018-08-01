@@ -1,7 +1,12 @@
 {
-  "mongoHost": "ds217921.mlab.com",
-  "mongoPort": "17921",
-  "mongoDatabase": "jaguar-dev",
-  "mongoUser": "jaguar",
-  "mongoPass": "password123"
+  "mongoHost": "ds263161.mlab.com",
+  "mongoPort": "63161",
+  "mongoDatabase": "rapid-jaguar",
+  "mongoUser": "RapidJaguar",
+  "mongoPass": "jaguar20",
+  "mongoDevHost": "ds217921.mlab.com",
+  "mongoDevPort": "17921",
+  "mongoDevDatabase": "jaguar-dev",
+  "mongoDevUser": "jaguar",
+  "mongoDevPass": "password123"
 }
