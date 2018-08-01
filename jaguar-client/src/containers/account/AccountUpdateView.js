@@ -7,6 +7,7 @@ import AppLayout from '../layout/AppLayout';
 import NavSidebar from '../layout/NavSidebar';
 import MainSidebar from '../layout/MainSidebar';
 import AccountHeader from './AccountHeader';
+import CreateOrgForm from './CreateOrgForm';
 import ContentArea from '../layout/ContentArea';
 import {userDetails, userTaskDetails} from "../apollo-graphql/userQueries";
 
@@ -64,9 +65,9 @@ class AccountUpdateView extends Component {
                                 </ContentArea>
                             }
 
-                            {activeView === 'account' &&
+                            {activeView === 'orgs' &&
                                 <ContentArea>
-                                    <span>Update account goes here</span>
+                                    <CreateOrgForm/>
                                 </ContentArea>
                             }
 
