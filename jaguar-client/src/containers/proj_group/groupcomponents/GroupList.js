@@ -6,7 +6,6 @@ import { userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
 import GroupTaskItem from './GroupTaskItem'
 import GroupForm from './GroupForm'
 
-
 const token = localStorage.getItem('token');
 
 class GroupList extends Component {
@@ -23,14 +22,13 @@ class GroupList extends Component {
         this.setState({ projectIdForForm: projectId });
         this.show()
     };
-    teamOfisSelected = (team) => this.props.selectedTeamId(team);
 
     render() {
 
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
-        const {selectGroup, isSelected, selectTeam } = this.props;
+        const {selectGroup, isSelected } = this.props;
         return(
             <Query query={userProjectGroups} variables={variables}>
                 { ({ loading, error, data }) => {
@@ -39,7 +37,8 @@ class GroupList extends Component {
                             <Dimmer active>
                                 <Loader />
                             </Dimmer>
-                        </div>);
+                        </div>
+                    );
                     if (error) return <p>Error :(</p>;
                     return <div>
                         { (data.user.projects || []).map((project, i) => (
@@ -77,29 +76,21 @@ class GroupList extends Component {
                                     size='large'
                                 >
                                     {
-                                        project.groups.map(group => {
+                                        project.groups.map((group, i) => {
                                            if(i === 0 && !isSelected){
                                                project.groups.map((group,i ) => {
                                                    if(i ===0){
                                                        this.props.selectGroup(group._id);
-                                                       this.teamOfisSelected(group.team._id);
-                                                       this.props.handleGroupProject(group.project._id)
                                                    }
                                                })
                                            }
                                             return (
                                                 <GroupTaskItem
                                                     key={group._id}
-                                                    groupUsers={(group.users || []).map(user => user._id).toString()}
-                                                    teamOfIsSelected={group.team._id}
                                                     groupId={group._id}
                                                     grouptitle={group.grouptitle}
                                                     groupdescription={group.groupdescription}
-                                                    groupProject={group.project._id}
                                                     selectGroup={selectGroup}
-                                                    selectTeam={selectTeam}
-                                                    handleGroup={this.props.handleGroupProject}
-                                                    teamOfisSelectedHandler={this.teamOfisSelected}
                                                 />
                                             )
                                         })

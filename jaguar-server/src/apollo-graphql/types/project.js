@@ -67,11 +67,14 @@ const ProjectMutation = `
         targetTeam: String
     ) : Project
     removeGroupFromProject(
-      groupToRemoveId: String,
-      groupUsersIds: String,
-      groupsTeamId: String,
-      groupsProjectId: String,
+      groupToRemoveId: String
+      groupUsersIds: String
+      groupsTeamId: String
+      groupsProjectId: String
       GroupsTasks: String
+      newDefaultGroupForProj: String
+      projectsDefualtGroup: String
+      userId : String
     ) : Project
 `;
 
@@ -132,7 +135,11 @@ const ProjectMutationResolver ={
                                       groupUsersIds,
                                       groupsTeamId,
                                       groupsProjectId,
-                                      GroupsTasks
+                                      GroupsTasks,
+                                      newDefaultGroupForProj,
+                                      projectsDefualtGroup,
+                                      userId
+
 
                                   }, {Project}) => {
 
@@ -158,14 +165,32 @@ const ProjectMutationResolver ={
                 {multi: true}
             );
         }
-        //find all groups and remove
-        (console.log(GroupsTasksArray))
-        // if(GroupsTasksArray){
-        //     await Task.remove(
-        //         {_id: {$in: GroupsTasks.split(',')}},
-        //     );
-        // }
-        //find team and remove
+        if(groupToRemoveId && projectsDefualtGroup === groupToRemoveId){
+            await Project.findByIdAndUpdate(groupsProjectId, {
+                    $set: {
+                        defaultgroup: newDefaultGroupForProj
+                    }
+                },
+                {new: true}
+            );
+        }
+        if(userId){
+            await User.findByIdAndUpdate(userId, {
+                    $set: {
+                        defaultgroup: newDefaultGroupForProj
+                    }
+                },
+                {new: true}
+            );
+        }
+        //
+        // //find all groups and remove
+        // // if(GroupsTasksArray){
+        // //     await Task.remove(
+        // //         {_id: {$in: GroupsTasks.split(',')}},
+        // //     );
+        // // }
+
         await Group.deleteOne(
             {_id: groupToRemoveId },
         );

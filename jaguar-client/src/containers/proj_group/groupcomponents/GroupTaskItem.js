@@ -5,8 +5,6 @@ class ProjectItem extends Component {
 
     handleClick() {
         this.props.selectGroup(this.props.groupId);
-        this.props.teamOfisSelectedHandler(this.props.teamOfIsSelected);
-        this.props.handleGroup(this.props.groupProject);
     }
 
     render() {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Mutation } from "react-apollo";
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Dimmer, Loader } from 'semantic-ui-react'
 import {createProject, userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
 
 
@@ -30,7 +30,14 @@ class ProjectFormForModal extends Component {
 
         return (
             <Mutation mutation={createProject}>
-                {(createProject) => {
+                {(createProject, {loading}) => {
+                    if (loading) return (
+                        <div>
+                            <Dimmer active>
+                                <Loader/>
+                            </Dimmer>
+                        </div>
+                    );
                     return (
                         <div style={{ marginBottom: '.5em' }}>
                             <Form

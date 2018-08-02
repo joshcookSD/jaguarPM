@@ -13,33 +13,19 @@ class GroupView extends Component {
     state = {
         selectedGroup: '',
         isSelected: false,
-        selectedTeamId:'',
-        groupProject: '',
     };
 
     selectGroup = (group) => {
         this.setState({selectedGroup: group, isSelected: true});
     };
-    selectProject = (project) => {
-        this.setState({projectOfGroup: project });
-    };
     removeGroupSwitchForDefault = () => {
         this.setState({isSelected: false });
     };
-    selectedTeamId = (team) => {
-        this.setState({selectedTeamId: team });
-    };
-    handleGroupProject = (groupProject) => {
-        this.setState({groupProject: groupProject})
-    };
-
     render() {
         const { user } = decode(token);
         const {
             selectedGroup,
             isSelected,
-            selectedTeamId,
-            groupProject,
         } = this.state;
             return <div>
                 <AppLayout>
@@ -54,18 +40,15 @@ class GroupView extends Component {
                         />
                     </MainSidebar>
                     <GroupPageMain
-                        selectedTeamId={selectedTeamId}
                         selectedGroup={selectedGroup}
                         queryVariables={{_id: selectedGroup}}
                         userProjectGroups={userProjectGroups}
                         variables={{_id: user._id}}
-                        groupProject={groupProject}
                         removeGroupSwitchForDefault={this.removeGroupSwitchForDefault}
                     />
                 </AppLayout>
             </div>
     }
 }
-
 export default GroupView;
 
