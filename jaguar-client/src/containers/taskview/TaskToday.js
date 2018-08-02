@@ -22,11 +22,12 @@ class TaskToday extends Component {
         const {defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask} = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
-        const todaysPlan = tasks.filter(task => {
+        const currentTaskExclude = tasks.filter(task => {
+            return currentTask ? !task.iscompleted &&
+                task._id !== currentTask._id : !task.iscompleted});
+        const todaysPlan = currentTaskExclude.filter(task => {
             return moment.utc(task.plandate).format('YYYY-MM-DD') <= today &&
-                task.plandate != null &&
-                currentTask ? !task.iscompleted &&
-                task._id !== currentTask._id : !task.iscompleted });
+                task.plandate != null });
         return(
              <div>
             <TaskGroupHeader>Today ({moment.utc(today).format('dddd, MM/DD')})</TaskGroupHeader>
@@ -49,7 +50,7 @@ class TaskToday extends Component {
             >
                 <TaskCurrentLayout/>
                     <span>current task</span>
-                { currentTask && <TaskItem
+                { currentTask && !currentTask.iscompleted && <TaskItem
                     key={currentTask._id}
                     taskId={currentTask._id}
                     tasktitle={currentTask.tasktitle}

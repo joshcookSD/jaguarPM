@@ -206,7 +206,6 @@ const TaskMutationResolver ={
         if(args.project) {
             //save that project object to variable
             let projectTask = await Project.findById(args.project);
-            console.log(projectTask)
             //go into that projects tasks and push in new tasks id
             projectTask.tasks.push(task._id);
             await projectTask.save();

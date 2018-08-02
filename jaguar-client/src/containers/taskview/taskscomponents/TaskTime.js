@@ -57,6 +57,7 @@ class TaskTime extends Component {
                     <Input size='mini'
                         value={actualtime}
                         type='number'
+                        step='0.25'
                         placeholder='time'
                         onChange={e => this.setState({actualtime: e.target.value})}
                     />
@@ -82,6 +83,7 @@ class TaskTime extends Component {
                         <Input size='mini'
                             value={plannedtime}
                             type='number'
+                            step='0.25'
                             placeholder='plan'
                             onChange={e => this.setState({plannedtime: e.target.value})}
                         />
