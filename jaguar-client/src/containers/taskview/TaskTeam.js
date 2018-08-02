@@ -25,7 +25,7 @@ class TaskTeam extends Component {
 
         return(
             <TaskTeamGroup>
-                <TaskGroupHeader>{teamtitle} Team</TaskGroupHeader>
+                <TaskGroupHeader>{teamtitle}</TaskGroupHeader>
                 <TaskForm
                     team={teamId}
                     defaultgroup={defaultgroup}
