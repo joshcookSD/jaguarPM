@@ -109,19 +109,20 @@ const removeProjectFromTeam = gql`
         $projectsTeamId: String,
         $projectsGroupsTasks: String,
         $projectsGroups: String
+        $projectsDefualtGroup : String
     ) { removeProjectFromTeam (
         projectToRemoveId : $projectToRemoveId,
         projectUsersIds : $projectUsersIds,
         projectsTeamId : $projectsTeamId,
         projectsGroupsTasks : $projectsGroupsTasks,
         projectsGroups : $projectsGroups
+        projectsDefualtGroup : $projectsDefualtGroup
     )
         {
             teamtitle
       }
 }
 `;
-
 
 const removeGroupFromProject = gql`
      mutation removeGroupFromProject(
@@ -130,15 +131,23 @@ const removeGroupFromProject = gql`
         $groupsTeamId: String,
         $groupsProjectId: String,
         $GroupsTasks: String
+        $newDefaultGroupForProj: String
+        $projectsDefualtGroup: String
+        $userId : String
     ) { removeGroupFromProject (
         groupToRemoveId : $groupToRemoveId,
         groupUsersIds : $groupUsersIds,
         groupsTeamId : $groupsTeamId,
         groupsProjectId : $groupsProjectId,
         GroupsTasks : $GroupsTasks
+        newDefaultGroupForProj : $newDefaultGroupForProj
+        projectsDefualtGroup : $projectsDefualtGroup
+        userId : $userId
     )
         {
-            projecttitle
+            groups{
+                _id
+                }
       }
 }
 `;
@@ -167,6 +176,9 @@ query project($_id: String!) {
         team {
             _id
             teamtitle
+            organization{
+                _id
+            }
             users{
                 _id
                 username
@@ -185,30 +197,47 @@ query project($_id: String!) {
 
 const groupDetails = gql`
 query group($_id: String!) {
-    group(_id: $_id) {
+  group(_id: $_id) {
     _id
     grouptitle
     groupdescription
     plannedcompletiondate
     duedate
-        team{
-            _id
-            teamtitle
+    team {
+      _id
+      teamtitle
+      defaultproject{
+        _id
+        defaultgroup{
+          _id
         }
-        project{
-            projecttitle
-            _id
+      }
+      __typename
+    }
+    project {
+    defaultgroup{
+          _id
         }
-        users{
-            _id
-            username
-        }
-        tasks{
-            _id
-            tasktitle
-            taskdescription
-        }
-    }   
+      projecttitle
+      _id
+      groups{
+        _id
+      }
+      __typename
+    }
+    users {
+      _id
+      username
+      __typename
+    }
+    tasks {
+      _id
+      tasktitle
+      taskdescription
+      __typename
+    }
+    __typename
+  }
 }`;
 
 const updateProject = gql`
@@ -225,7 +254,6 @@ const updateProject = gql`
         $projectsTeamId: String,
         $projectToChange: String,
         $targetTeam: String,
-        $groupsProjectTeam : String
     ){ updateProject(
         _id: $_id,    
         projecttitle: $projecttitle,
@@ -239,7 +267,6 @@ const updateProject = gql`
         projectsTeamId: $projectsTeamId,
         projectToChange: $projectToChange
         targetTeam: $targetTeam
-        groupsProjectTeam: $groupsProjectTeam
     ) {
         projecttitle
     }

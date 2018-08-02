@@ -3,16 +3,22 @@ import { Mutation } from "react-apollo";
 import { Input, Form } from 'semantic-ui-react';
 import {createTask} from "../../apollo-graphql/taskQueries";
 
-
-
-
 class TaskForm extends Component {
     state = {
         newTask: "",
     };
 
     render() {
-        const {taskcurrentowner, plandate, updateQuery, variables, team, defaultgroup, defaultproject} = this.props;
+
+        const {
+            taskcurrentowner,
+            plandate,
+            updateQuery,
+            variables,
+            team,
+            defaultgroup,
+            defaultproject
+        } = this.props;
         const { newTask } = this.state;
 
         return (
@@ -24,7 +30,14 @@ class TaskForm extends Component {
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createTask({
-                                        variables: {tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, group: defaultgroup, project: defaultproject, team},
+                                        variables: {
+                                            tasktitle: newTask,
+                                            taskcurrentowner,
+                                            iscompleted: false,
+                                            plandate,
+                                            group: defaultgroup,
+                                            project: defaultproject,
+                                        },
                                         refetchQueries: [{ query: updateQuery, variables: variables}]
                                     });
                                     this.setState({newTask: ""});

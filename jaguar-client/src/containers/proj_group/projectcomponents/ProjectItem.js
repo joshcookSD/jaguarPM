@@ -6,9 +6,6 @@ class ProjectItem extends Component {
       handleClick() {
           this.props.selectProject(
               this.props.projectId,
-              this.props.teamOrgId,
-              this.props.projectTeam,
-              this.props.projectsGroupIds,
           );
       }
 

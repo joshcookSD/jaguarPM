@@ -37,13 +37,11 @@ class TeamPageMain extends Component {
     render() {
         const { activePageTab, isSelectedPageTab } = this.state;
         const {
-            selectedTeamId,
             selectedGroup,
             queryVariables,
             userProjectGroups,
             variables,
             removeGroupSwitchForDefault,
-            groupProject,
         } = this.props
 
         return (
@@ -65,8 +63,6 @@ class TeamPageMain extends Component {
                     <Details>
                         <GroupDetail
                             userId={userId}
-                            groupProject={groupProject}
-                            selectedTeamId={selectedTeamId}
                             selectedGroup={selectedGroup}
                             queryVariables={queryVariables}
                             userProjectGroups={userProjectGroups}

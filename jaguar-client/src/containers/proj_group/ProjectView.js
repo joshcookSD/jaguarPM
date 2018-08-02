@@ -12,27 +12,18 @@ const token = localStorage.getItem('token');
 class ProjectView extends Component {
     state = {
         selectedProject: '',
-        orgIdForDropDown: '',
-        projectsTeamId: '',
-        projectsGroupIds: '',
         isSelected: false,
     };
 
-    defualtSelectProject =  (project, orgId, projectsGroupIds, projectsTeamId) => {
+    defualtSelectProject =  (project) => {
         this.setState({
-            orgIdForDropDown: orgId,
             selectedProject: project,
-            projectsGroupIds: projectsGroupIds,
-            projectsTeamId: projectsTeamId,
             isSelected: true,
         });
     };
-    selectProject =  (project, orgId, projectsTeamId, projectsGroupIds) => {
+    selectProject =  (project) => {
         this.setState({
-            orgIdForDropDown: orgId,
             selectedProject: project,
-            projectsTeamId: projectsTeamId,
-            projectsGroupIds: projectsGroupIds,
             isSelected: true,
         });
     };
@@ -47,7 +38,7 @@ class ProjectView extends Component {
 
         const { user } = decode(token);
         const variables = {_id: user._id};
-        const { selectedProject, isSelected, orgIdForDropDown, projectsTeamId, projectsGroupIds } = this.state;
+        const { selectedProject, isSelected } = this.state;
 
         return (
             <div>
@@ -63,13 +54,10 @@ class ProjectView extends Component {
 
                         <ProjectPageMain
                             selectedProject={selectedProject}
-                            orgIdForDropDown={orgIdForDropDown}
                             projectDetails={projectDetails}
                             queryVariables={{_id: selectedProject}}
                             userTaskDetails={userTaskDetails}
                             variables={variables}
-                            projectsTeamId={projectsTeamId}
-                            projectsGroupIds={projectsGroupIds}
                             removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
                         />
                 </AppLayout>

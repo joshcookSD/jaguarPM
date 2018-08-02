@@ -82,13 +82,11 @@ class ProjectList extends Component {
                                     size='large'
                                 >
 
-                                    { team.projects.map( (project) => {
+                                    {
+                                        team.projects.map( (project) => {
                                         return (
                                             <ProjectItem
                                                 key={project._id}
-                                                projectsGroupIds={project.groups.map((group,i) =>group._id)}
-                                                teamOrgId={project.team.organization._id}
-                                                projectTeam={project.team._id}
                                                 projectId={project._id}
                                                 projecttitle={project.projecttitle}
                                                 projectdescription={project.projectdescription}

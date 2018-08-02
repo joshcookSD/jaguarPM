@@ -10,6 +10,9 @@ const GridArea = styled.div`
   flex-direction: row;
   flex-flow: row wrap;
   justify-content: flex-start;
-  align-items: stretch`;
+  align-items: stretch
+    display: flex;
+    flex-direction: column;
+    `;
 
 export default GridArea;

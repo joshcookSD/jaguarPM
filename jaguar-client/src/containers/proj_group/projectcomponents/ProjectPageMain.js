@@ -16,14 +16,13 @@ import {
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 
-class TeamPageMain extends Component {
+class ProjectPageMain extends Component {
     state = {
         activeView: '',
         activePageTab: 'feed',
         isSelectedPageTab: false,
         isSelected: false,
     };
-
     // change page tab view
     changeView = (view) => {
         this.setState({activePageTab: view, isSelectedPageTab: true });
@@ -36,14 +35,12 @@ class TeamPageMain extends Component {
 
     render() {
         const { activePageTab, isSelectedPageTab } = this.state;
-        const { projectsTeamId,
-                orgIdForDropDown,
+        const {
                 selectedProject,
                 projectDetails,
                 queryVariables,
                 userTaskDetails,
                 variables,
-                projectsGroupIds,
                 removeProjectSwitchForDefault,
         } = this.props;
 
@@ -64,15 +61,16 @@ class TeamPageMain extends Component {
                     </Activity>
 
                     <Details>
+
                         <ProjectDetails
-                            projectsTeamId={projectsTeamId}
-                            orgIdForDropDown={orgIdForDropDown}
+                            // projectsTeamId={projectsTeamId}
+                            // orgIdForDropDown={orgIdForDropDown}
                             selectedProject={selectedProject}
                             projectDetails={projectDetails}
                             queryVariables={queryVariables}
                             userTaskDetails={userTaskDetails}
                             variables={variables}
-                            projectsGroupIds={projectsGroupIds}
+                            // projectsGroupIds={projectsGroupIds}
                             removeProjectSwitchForDefault={removeProjectSwitchForDefault}
                         />
                     </Details>
@@ -85,4 +83,4 @@ class TeamPageMain extends Component {
     }
 }
 
-export default TeamPageMain;
+export default ProjectPageMain;
