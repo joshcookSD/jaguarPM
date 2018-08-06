@@ -27,7 +27,7 @@ class TaskTeam extends Component {
             <TaskTeamGroup>
                 <TaskGroupHeader>{teamtitle}</TaskGroupHeader>
                 <TaskForm
-                    team={teamId}
+                    defaultteam={teamId}
                     defaultgroup={defaultgroup}
                     defaultproject={defaultproject}
                     updateQuery={updateQuery}
