@@ -9,13 +9,12 @@ class TaskForm extends Component {
     };
 
     render() {
-
         const {
             taskcurrentowner,
             plandate,
             updateQuery,
             variables,
-            team,
+            defaultteam,
             defaultgroup,
             defaultproject
         } = this.props;
@@ -37,7 +36,9 @@ class TaskForm extends Component {
                                             plandate,
                                             group: defaultgroup,
                                             project: defaultproject,
+                                            team: defaultteam
                                         },
+
                                         refetchQueries: [{ query: updateQuery, variables: variables}]
                                     });
                                     this.setState({newTask: ""});

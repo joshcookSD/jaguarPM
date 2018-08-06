@@ -13,6 +13,7 @@ const GridArea = styled.div`
   align-items: stretch
     display: flex;
     flex-direction: column;
-    `;
+  `;
+
 
 export default GridArea;
