@@ -30,7 +30,7 @@ class TaskUnplanned extends Component {
                     taskcurrentowner={user._id}
                     defaultgroup={defaultgroup}
                     defaultproject={defaultproject}
-                    team={defaultteam}
+                    defaultteam={defaultteam}
                     updateQuery={updateQuery}
                     variables={variables}
                     clearTask={this.props.selectTask}

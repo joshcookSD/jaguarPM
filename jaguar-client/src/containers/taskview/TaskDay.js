@@ -31,7 +31,7 @@ class TaskDay extends Component {
                     plandate={day}
                     defaultgroup={defaultgroup}
                     defaultproject={defaultproject}
-                    team={defaultteam}
+                    defaultteam={defaultteam}
                     updateQuery={updateQuery}
                     variables={variables}
                     clearTask={this.props.selectTask}
