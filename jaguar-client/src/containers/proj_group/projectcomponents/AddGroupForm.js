@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
-import { Form } from 'semantic-ui-react';
+import { Form, Dimmer, Loader } from 'semantic-ui-react';
 import { createGroup } from '../../apollo-graphql/groupProjectQueries'
 
 class AddGroupForm extends Component {
@@ -31,7 +31,14 @@ class AddGroupForm extends Component {
         return (
 
             <Mutation mutation={createGroup}>
-                {(createGroup, { data }) => {
+                {(createGroup, { data, loading  }) => {
+                    if (loading) return (
+                        <div>
+                            <Dimmer active>
+                                <Loader/>
+                            </Dimmer>
+                        </div>
+                    );
                     return (
                     <div style={{ marginBottom: '.5em' }}>
                         <Form

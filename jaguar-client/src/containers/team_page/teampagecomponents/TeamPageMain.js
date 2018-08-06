@@ -42,7 +42,6 @@ class TeamPageMain extends Component {
         return (
         <Query query={teamsByUser} variables={variables}>
             {({ loading, error, data }) => {
-                console.log(data)
                 if(this.state.isSelected === false ) {
                     (data.teamsByUser || []).forEach((team, i) => {
                         if (i === 0) {

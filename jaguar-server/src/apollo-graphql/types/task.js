@@ -170,6 +170,7 @@ const TaskNested = {
 
 const TaskMutationResolver ={
     createTask: async (parent, args, { Task, User, Team }) => {
+        console.log(args)
         let task = await new Task(args).save();
         //if task object has current owner
         if(args.taskcurrentowner) {
@@ -179,7 +180,6 @@ const TaskMutationResolver ={
             owner.tasks.push(task._id);
             await owner.save();
         }
-
         //if task object has current team
         if(args.team) {
             //save that team object to variable
@@ -189,6 +189,17 @@ const TaskMutationResolver ={
             //save teamtask object with new tak id pushed in
             await teamTask.save();
         }
+        if(args.project) {
+            let project = await Project.findById(args.project);
+            project.tasks.push(task._id);
+            await project.save();
+        }
+        if(args.group) {
+            let group = await Group.findById(args.group);
+            group.tasks.push(task._id);
+            await group.save();
+        }
+
         return task
     },
     createTaskByGroup: async (parent, args, { Task, User, Team, Group, Project }) => {

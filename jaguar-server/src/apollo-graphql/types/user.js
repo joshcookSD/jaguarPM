@@ -215,6 +215,7 @@ const UserMutationResolver = {
                     teamdescription: `Personal Team for ${user.username}`,
                     users: user._id,
                     owner: user._id,
+                    organization: personalOrg._id
                 }).save();
                 const personalproject = await new Project({
                     projecttitle: `${user.username}'s Project`,

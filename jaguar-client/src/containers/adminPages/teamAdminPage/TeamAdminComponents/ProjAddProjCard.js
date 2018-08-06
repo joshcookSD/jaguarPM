@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Dimmer, Loader } from 'semantic-ui-react';
 import ProjectForm from '../../../proj_group/projectcomponents/ProjectForm';
 import { Link } from 'react-router-dom';
 import { CardLeftWrapper } from '../../../layout/AdminComponents.js'
@@ -21,53 +21,65 @@ const ProjAddProjCard = (props) => {
 
     return (
         <Mutation mutation={removeProjectFromTeam}>
-            {(removeProjectFromTeam, { data, loading }) => (
-                <CardLeftWrapper>
-                    <ProjectForm
-                        className="projectForm"
-                        handleAfterSubmit={handleAfterSubmit}
-                        activeView={props.team}
-                        teamId={props.team._id}
-                        variables={props.variables}
-                    />
+            {(removeProjectFromTeam, { data, loading }) => {
+                if (loading) return (
                     <div>
-                        {(props.teamData || []).map((team, i) => {
-                            if (team._id === props.team._id) {
-                                return (
-                                    (team.projects || []).map((project, i) => (
-                                        <Link to='/project-admin' key={i}>
-                                            <OrgPageTeamCardWrapper image key={i}>
-                                                <Icon name='group'/>
-                                                <NewUserCardName>{project.projecttitle}</NewUserCardName>
-                                                <DeleteUserIcon>
-                                                    <Icon
-                                                        size='large'
-                                                        name='delete'
-                                                        onClick={async e => {
-                                                            console.log(project)
-                                                            e.preventDefault();
-                                                            await removeProjectFromTeam({
-                                                                variables: {
-                                                                    projectToRemoveId: project._id,
-                                                                    projectUsersIds: project.users.map((user) => user._id).toString(),
-                                                                    projectsTeamId: project.team._id,
-                                                                    projectsGroupsTasks: project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
-                                                                    projectsGroups: project.groups.map((group) => group._id).toString()
-                                                                },
-                                                                refetchQueries: [{query: teamsByOwner, variables: props.variables}]
-                                                            });
-                                                        }}
-                                                    />
-                                                </DeleteUserIcon>
-                                            </OrgPageTeamCardWrapper>
-                                        </Link>
-                                    ))
-                                )
-                            }
-                        })}
+                        <Dimmer active>
+                            <Loader/>
+                        </Dimmer>
                     </div>
-                </CardLeftWrapper>
-            )}
+                );
+                return (
+                    <CardLeftWrapper>
+                        <ProjectForm
+                            className="projectForm"
+                            handleAfterSubmit={handleAfterSubmit}
+                            activeView={props.team}
+                            teamId={props.team._id}
+                            variables={props.variables}
+                        />
+                        <div>
+                            {(props.teamData || []).map((team, i) => {
+                                if (team._id === props.team._id) {
+                                    return (
+                                        (team.projects || []).map((project, i) => (
+                                            <Link to='/project-admin' key={i}>
+                                                <OrgPageTeamCardWrapper image key={i}>
+                                                    <Icon name='group'/>
+                                                    <NewUserCardName>{project.projecttitle}</NewUserCardName>
+                                                    <DeleteUserIcon>
+                                                        <Icon
+                                                            size='large'
+                                                            name='delete'
+                                                            onClick={async e => {
+                                                                console.log(project)
+                                                                e.preventDefault();
+                                                                await removeProjectFromTeam({
+                                                                    variables: {
+                                                                        projectToRemoveId: project._id,
+                                                                        projectUsersIds: project.users.map((user) => user._id).toString(),
+                                                                        projectsTeamId: project.team._id,
+                                                                        projectsGroupsTasks: project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
+                                                                        projectsGroups: project.groups.map((group) => group._id).toString()
+                                                                    },
+                                                                    refetchQueries: [{
+                                                                        query: teamsByOwner,
+                                                                        variables: props.variables
+                                                                    }]
+                                                                });
+                                                            }}
+                                                        />
+                                                    </DeleteUserIcon>
+                                                </OrgPageTeamCardWrapper>
+                                            </Link>
+                                        ))
+                                    )
+                                }
+                            })}
+                        </div>
+                    </CardLeftWrapper>
+                )
+            }}
         </Mutation>
     );
 };
