@@ -12,7 +12,7 @@ class TaskForm extends Component {
     };
 
     render() {
-        const {taskcurrentowner, plandate, updateQuery, variables, team, defaultgroup, defaultproject} = this.props;
+        const {taskcurrentowner, plandate, updateQuery, variables, defaultteam, defaultgroup, defaultproject} = this.props;
         const { newTask } = this.state;
 
         return (
@@ -24,7 +24,7 @@ class TaskForm extends Component {
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createTask({
-                                        variables: {tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, group: defaultgroup, project: defaultproject, team},
+                                        variables: {tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, group: defaultgroup, project: defaultproject, team: defaultteam},
                                         refetchQueries: [{ query: updateQuery, variables: variables}]
                                     });
                                     this.setState({newTask: ""});
