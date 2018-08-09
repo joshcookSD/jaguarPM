@@ -3,7 +3,7 @@ import TeamForm from '../../teamAdminPage/TeamAdminComponents/TeamForm';
 import { Icon, Dimmer, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { CardLeftWrapper } from '../../../layout/AdminComponents.js'
-import {getOrgByOwner, teamsByOwner} from "../../../apollo-graphql/userQueries";
+import {getOrgByOwner, teamsByOwner, teamsByUser} from "../../../apollo-graphql/userQueries";
 import { removeTeamFromOrg } from "../../../apollo-graphql/teamOrgQueries";
 import { Mutation } from "react-apollo";
 
@@ -13,6 +13,12 @@ import {
     DeleteUserIcon,
 
 } from '../../../layout/AdminComponents.js'
+import decode from 'jwt-decode';
+import {userProjectGroups, userTeamProjects} from "../../../apollo-graphql/groupProjectQueries";
+const token = localStorage.getItem('token');
+const { user } = decode(token);
+const userId = user._id;
+
 
 const AddTeamCard = (props) => {
     function handleAfterSubmit(org){
@@ -64,14 +70,12 @@ const AddTeamCard = (props) => {
                                                                         teamGroups: team.groups.map((group) => group._id).toString()
                                                                     },
                                                                     refetchQueries: [
-                                                                        {
-                                                                            query: getOrgByOwner,
-                                                                            variables: props.variables
-                                                                        },
-                                                                        {
-                                                                            query: teamsByOwner,
-                                                                            variables: props.variables
-                                                                        }
+                                                                        {query: getOrgByOwner, variables: props.variables},
+                                                                        {query: teamsByOwner, variables: props.variables},
+                                                                        {query: teamsByUser, variables: { user: userId }},
+                                                                        {query: userTeamProjects, variables: { _id: userId }},
+                                                                        {query: userProjectGroups, variables: { _id: userId }},
+
                                                                     ]
                                                                 });
                                                             }}

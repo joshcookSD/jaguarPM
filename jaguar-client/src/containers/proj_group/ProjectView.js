@@ -51,7 +51,6 @@ class ProjectView extends Component {
                             isSelected={isSelected}
                         />
                     </MainSidebar>
-
                         <ProjectPageMain
                             selectedProject={selectedProject}
                             projectDetails={projectDetails}

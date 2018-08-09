@@ -20,7 +20,6 @@ class TaskToday extends Component {
 
     render() {
         const {defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask} = this.props;
-        console.log(defaultteam);
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const currentTaskExclude = tasks.filter(task => {

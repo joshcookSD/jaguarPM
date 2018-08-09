@@ -102,21 +102,46 @@ mutation createGroup(
         }
 }`;
 
+const completeProject = gql`
+mutation completeProject($_id: String!, $iscompleted: Boolean, $completeddate:Date) {
+    completeProject(_id: $_id, iscompleted: $iscompleted, completeddate: $completeddate) {
+        _id
+        completeddate
+        iscompleted  
+        }
+    }
+`;
+
+const completeGroup = gql`
+mutation completeGroup($_id: String!, $iscompleted: Boolean, $completeddate:Date) {
+    completeGroup(_id: $_id, iscompleted: $iscompleted, completeddate: $completeddate) {
+        _id
+        iscompleted  
+        }
+    }
+`;
+
 const removeProjectFromTeam = gql`
     mutation removeProjectFromTeam(
-        $projectToRemoveId: String,
-        $projectUsersIds: String,
-        $projectsTeamId: String,
-        $projectsGroupsTasks: String,
+        $projectToRemoveId: String
+        $projectUsersIds: String
+        $projectsTeamId: String
+        $projectsGroupsTasks: String
         $projectsGroups: String
-        $projectsDefualtGroup : String
+        $newDefaultProject: String
+        $newDefaultProjectgroup: String
+        $userId : String
+        $teamsDefaultProject: String
     ) { removeProjectFromTeam (
-        projectToRemoveId : $projectToRemoveId,
-        projectUsersIds : $projectUsersIds,
-        projectsTeamId : $projectsTeamId,
-        projectsGroupsTasks : $projectsGroupsTasks,
+        projectToRemoveId : $projectToRemoveId
+        projectUsersIds : $projectUsersIds
+        projectsTeamId : $projectsTeamId
+        projectsGroupsTasks : $projectsGroupsTasks
         projectsGroups : $projectsGroups
-        projectsDefualtGroup : $projectsDefualtGroup
+        newDefaultProject : $newDefaultProject
+        newDefaultProjectgroup: $newDefaultProjectgroup
+        userId: $userId
+        teamsDefaultProject : $teamsDefaultProject
     )
         {
             teamtitle
@@ -161,35 +186,47 @@ query project($_id: String!) {
         projectdescription
         plannedcompletiondate
         duedate
-        users{
-            _id
-            username
-        }
-        defaultgroup {
-            _id
-            grouptitle
-        }
-        leader {
-            _id
-            username
-        }    
-        team {
-            _id
-            teamtitle
-            organization{
-                _id
-            }
             users{
                 _id
                 username
             }
-        }
+            defaultgroup {
+                _id
+                grouptitle
+            }
+            leader {
+                _id
+                username
+            }    
+            team {
+                _id
+                defaultproject{
+                    _id
+                    }
+                teamtitle
+                projects{
+                    _id
+                    groups{
+                    _id
+                    }
+                }
+                organization{
+                    _id
+                }
+                users{
+                    _id
+                    username
+                }
+            }
         groups{
           _id
           grouptitle
           groupdescription
+          iscompleted
           tasks{
             _id
+            tasktitle
+            iscompleted
           }
         }
     }
@@ -371,5 +408,7 @@ export {
     teamProjects,
     projectGroups,
     removeProjectFromTeam,
-    removeGroupFromProject
+    removeGroupFromProject,
+    completeProject,
+    completeGroup
 }

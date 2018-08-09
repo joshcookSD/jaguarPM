@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-// import TeamProjectProgress from './TeamProjectProgress';
-
 
 class TaskView extends Component {
 
@@ -15,7 +13,7 @@ class TaskView extends Component {
         if(this.props.activePageTab === 'progress') {
             return (
                 <div>
-                    {/*<TeamProjectProgress team={this.props.team}/>*/}
+                    progress
                 </div>
             );
         }

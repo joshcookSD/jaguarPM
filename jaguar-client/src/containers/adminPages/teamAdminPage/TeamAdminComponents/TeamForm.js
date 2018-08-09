@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import { Message, Form, Button, Dimmer, Loader  } from 'semantic-ui-react';
-import {getOrgByOwner, createTeam, teamsByOwner, teamsByUser} from '../../../apollo-graphql/userQueries'
+import {
+    getOrgByOwner,
+    createTeam,
+    teamsByOwner,
+    teamsByUser,
+    userTaskDetails
+} from '../../../apollo-graphql/userQueries'
+import {userTeamProjects} from '../../../apollo-graphql/groupProjectQueries'
 import decode from 'jwt-decode';
-
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
+
 
 class TeamForm extends Component {
 
@@ -64,8 +71,8 @@ class TeamForm extends Component {
                                         {query: getOrgByOwner, variables: {owner: userId }},
                                         {query: teamsByOwner, variables: {owner: userId }},
                                         {query: teamsByUser, variables: { user: userId }},
-                                        //cant figure out why it does not work
-                                        // {query: userTeamProjects, variables: variables}
+                                        {query: userTeamProjects, variables: { _id: userId }},
+                                        {query: userTaskDetails, variables: { _id: userId }},
                                     ]
                                 });
                                 // const { ok, errors } = response.data.createTeam;

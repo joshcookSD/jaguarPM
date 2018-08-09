@@ -27,18 +27,19 @@ class OrgAdminView extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    return <div>
+                    console.log(data)
+                     return <div>
                         <AppLayout>
                             <NavSidebar/>
                             <MainSidebar>
-                                <TaskToday
-                                    tasks={data.user.tasks}
-                                    defaultgroup={data.user.defaultgroup._id}
-                                    defaultproject={data.user.defaultproject._id}
-                                    defaultteam={data.user.defaultteam._id}
-                                    updateQuery={userTaskDetails}
-                                    variables={variables}
-                                />
+                                {!data.user.tasks ? <div></div> : <TaskToday
+                                tasks={data.user.tasks}
+                                defaultgroup={data.user.defaultgroup._id}
+                                defaultproject={data.user.defaultproject._id}
+                                defaultteam={data.user.defaultteam._id}
+                                updateQuery={userTaskDetails}
+                                variables={variables}
+                             />}
                             </MainSidebar>
                             <OrgPageMain user={user} />
                         </AppLayout>
