@@ -76,6 +76,11 @@ const ProjectMutation = `
       projectsDefualtGroup: String
       userId : String
     ) : Project
+     completeProject(
+        _id: String!
+        iscompleted: Boolean
+        completeddate: Date
+) : Project
 `;
 
 const ProjectQueryResolver = {
@@ -92,6 +97,15 @@ const ProjectQueryResolver = {
 };
 
 const ProjectMutationResolver ={
+    completeProject: async (parent, args, {Project}) =>{
+        let project = await Project.findByIdAndUpdate(
+            args._id,
+            {$set: {iscompleted: args.iscompleted
+                    , completeddate: args.completeddate}}, function (err, project){
+                if(err) return err;
+                return project;
+            });
+    },
         createProject: async (parent, args, { Project }) => {
             let project = await new Project(args).save();
             let user = await User.findById(args.users);
@@ -143,7 +157,7 @@ const ProjectMutationResolver ={
 
                                   }, {Project}) => {
 
-            const GroupsTasksArray = GroupsTasks.split(',');
+        const GroupsTasksArray = GroupsTasks.split(',');
 
         await User.update(
             {_id: {$in: groupUsersIds}},

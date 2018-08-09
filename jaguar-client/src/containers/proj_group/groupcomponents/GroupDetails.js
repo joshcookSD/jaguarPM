@@ -109,7 +109,8 @@ class GroupDetail extends Component {
                                                             />}
 
                                                             <div className='metaTag'
-                                                                 onClick={() => this.setState({descriptionInput: !descriptionInput, description: data.group.groupdescription})}>
+                                                                 onClick={() => this.setState({descriptionInput: !descriptionInput, description: data.group.groupdescription})}
+                                                            >
                                                                 Description: {!descriptionInput && data.group.groupdescription}
                                                             </div>
                                                             {descriptionInput &&
@@ -194,7 +195,7 @@ class GroupDetail extends Component {
                                                                     }}>update</Button>
                                                                 <Button size='small' basic color='red' onClick={async e => {
                                                                     e.preventDefault();
-                                                                    const newDefualtGroupArray = data.group.project.groups.filter(group => group._id !== data.group.project.defaultgroup._id)
+                                                                    const newDefualtGroupArray = data.group.project.groups.filter(group => group._id !== data.group.project.defaultgroup._id);
                                                                     if(newDefualtGroupArray.length === 0){
                                                                         alert('cant must have one group in each project')
                                                                     }else{

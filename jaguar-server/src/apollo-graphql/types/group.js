@@ -63,6 +63,10 @@ const GroupMutation = `
         _id: String,
         user: String,
     ) : Group
+    completeGroup(
+        _id: String!
+        iscompleted: Boolean
+    ) : Group
 `;
 
 const GroupQueryResolver = {
@@ -80,6 +84,13 @@ const GroupQueryResolver = {
 };
 
     const GroupMutationResolver ={
+        completeGroup: async (parent, args, {Group}) =>{
+            let project = await Project.findByIdAndUpdate(
+                args._id,
+                {$set: {iscompleted: args.iscompleted}
+                }
+            );
+        },
         createGroup: async (parent, args, { Group}) => {
             let group = await new Group(args).save();
 

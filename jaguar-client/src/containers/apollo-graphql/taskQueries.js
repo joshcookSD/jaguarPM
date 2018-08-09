@@ -334,8 +334,8 @@ mutation updateTaskUser($_id: String, $taskcurrentowner: String) {
 `;
 
 const completeTask = gql`
-mutation completeTask($_id: String!, $iscompleted: Boolean, $completeddate:Date) {
-    completeTask(_id: $_id, iscompleted: $iscompleted, completeddate: $completeddate) {
+mutation completeTask($_id: String!, $iscompleted: Boolean, $completeddate:Date, $groupForTasksId: String!) {
+    completeTask(_id: $_id, iscompleted: $iscompleted, completeddate: $completeddate, groupForTasksId: $groupForTasksId) {
         _id
         completeddate
         iscompleted  

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import GroupDetail from '../groupcomponents/GroupDetails'
-
 import decode from 'jwt-decode';
 import "./GroupPageMain.css";
 import GroupPagePanes from './GroupPagePanes.js';
@@ -18,7 +17,6 @@ import {
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
-
 
 class TeamPageMain extends Component {
     state = {
@@ -42,7 +40,7 @@ class TeamPageMain extends Component {
             userProjectGroups,
             variables,
             removeGroupSwitchForDefault,
-        } = this.props
+        } = this.props;
 
         return (
             <div className='container'>
@@ -58,7 +56,9 @@ class TeamPageMain extends Component {
                     </Secondary>
 
                     <Activity>
-                        <GroupPagePanes activePageTab={activePageTab} />
+                        <GroupPagePanes
+                            activePageTab={activePageTab}
+                        />
                     </Activity>
                     <Details>
                         <GroupDetail

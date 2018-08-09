@@ -91,6 +91,7 @@ const TaskMutation = `
         _id: String!
         iscompleted: Boolean
         completeddate: Date
+        groupForTasksId: String!
 ) : Task
     removeTask(
         _id: String!
@@ -170,7 +171,6 @@ const TaskNested = {
 
 const TaskMutationResolver ={
     createTask: async (parent, args, { Task, User, Team }) => {
-        console.log(args)
         let task = await new Task(args).save();
         //if task object has current owner
         if(args.taskcurrentowner) {
@@ -198,6 +198,14 @@ const TaskMutationResolver ={
             let group = await Group.findById(args.group);
             group.tasks.push(task._id);
             await group.save();
+        }
+
+        let group = await Group.findById(args.group);
+        if(group.iscompleted === true){
+            await Group.findByIdAndUpdate(
+                group,
+                {$set: {iscompleted: false}}
+                );
         }
 
         return task
@@ -281,7 +289,6 @@ const TaskMutationResolver ={
             taskpriority.tasks.push(task._id);
             await taskpriority.save();
         }
-
         return task
     },
     updateTaskTeam: async(parent, args, {Task}) => {
@@ -357,6 +364,7 @@ const TaskMutationResolver ={
             await task.save();
     },
     completeTask: async (parent, args, {Task}) =>{
+
         let task = await Task.findByIdAndUpdate(
             args._id,
             {$set: {iscompleted: args.iscompleted
@@ -364,6 +372,17 @@ const TaskMutationResolver ={
                 if(err) return err;
                 return task;
             });
+        let groupForTasks = await Group.findById(args.groupForTasksId);
+        let allTasks = await Task.find( { _id: { $in: groupForTasks.tasks } } );
+        let totalTasks = allTasks.length;
+        let totalTasksCompleted = allTasks.filter(task => task.iscompleted === true).length;
+        if(totalTasks === totalTasksCompleted){
+            await Group.findByIdAndUpdate(
+            args.groupForTasksId,
+            {$set: {iscompleted: true}
+            });
+        }
+
     },
     removeTask: async (parent, args, {Task}) =>{
          await Task.remove({_id: args._id});

@@ -58,11 +58,15 @@ const TeamMutation = `
         projectId: String
     ): Team
     removeProjectFromTeam(
-      projectToRemoveId: String,
-      projectUsersIds: String,
-      projectsTeamId: String,
-      projectsGroupsTasks: String,
+      projectToRemoveId: String
+      projectUsersIds: String
+      projectsTeamId: String
+      projectsGroupsTasks: String
       projectsGroups: String
+      newDefaultProject: String
+      newDefaultProjectgroup: String   
+      userId: String   
+      teamsDefaultProject: String
     ): Team
 `;
 
@@ -219,7 +223,11 @@ const TeamMutationResolver = {
                                   projectUsersIds,
                                   projectsTeamId,
                                   projectsGroupsTasks,
-                                  projectsGroups
+                                  newDefaultProject,
+                                  newDefaultProjectgroup,
+                                  projectsGroups,
+                                  teamsDefaultProject,
+                                  userId
                               }, {Team}) => {
 
         const projectsGroupsTasksArray = projectsGroupsTasks.split(',');
@@ -247,14 +255,44 @@ const TeamMutationResolver = {
                 {_id: {$in: projectsGroups.split(',')}},
             );
         }
-        //find team and remove
+
+        //if you are deleting a defualt then
+        if(projectToRemoveId && teamsDefaultProject === projectToRemoveId){
+            await Team.findByIdAndUpdate(projectsTeamId, {
+                    $set: {
+                        defaultproject: newDefaultProject
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        if(projectToRemoveId && teamsDefaultProject === projectToRemoveId){
+            await User.findByIdAndUpdate(userId, {
+                    $set: {
+                        defaultgroup: newDefaultProjectgroup,
+                        defaultproject: newDefaultProject
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        if(projectToRemoveId && teamsDefaultProject === projectToRemoveId){
+            await Project.findByIdAndUpdate(newDefaultProject, {
+                    $set: {
+                        defaultgroup: newDefaultProjectgroup,
+                    }
+                },
+                {new: true}
+            );
+        }
+
         await Project.deleteOne(
             {_id: projectToRemoveId },
         );
-
     },
     removeTeamUser: async (parent, {_id, user, projectId}, {Team}) => {
-        console.log(_id);
         let teamUserToRemove = await User.findById(user);
         let teamToRemoveUserFrom = await Team.findById(_id);
         let projectIdArray = projectId.split(',');

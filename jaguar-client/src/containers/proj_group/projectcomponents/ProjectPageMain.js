@@ -15,6 +15,7 @@ import {
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
+const userId = user._id;
 
 class ProjectPageMain extends Component {
     state = {
@@ -34,7 +35,8 @@ class ProjectPageMain extends Component {
     };
 
     render() {
-        const { activePageTab, isSelectedPageTab } = this.state;
+
+        const { activePageTab, isSelectedPageTab, isSelected  } = this.state;
         const {
                 selectedProject,
                 projectDetails,
@@ -61,21 +63,23 @@ class ProjectPageMain extends Component {
                     </Activity>
 
                     <Details>
-
                         <ProjectDetails
-                            // projectsTeamId={projectsTeamId}
-                            // orgIdForDropDown={orgIdForDropDown}
+                            userId={userId}
                             selectedProject={selectedProject}
                             projectDetails={projectDetails}
                             queryVariables={queryVariables}
                             userTaskDetails={userTaskDetails}
                             variables={variables}
-                            // projectsGroupIds={projectsGroupIds}
                             removeProjectSwitchForDefault={removeProjectSwitchForDefault}
                         />
                     </Details>
                     <Prioriety>
-                        <ProjectTaskPrioriety />
+                        <ProjectTaskPrioriety
+                            selectedProject={selectedProject}
+                            queryVariables={queryVariables}
+                            projectDetails={projectDetails}
+                            isSelected={isSelected}
+                        />
                     </Prioriety>
                 </TeamPagePaneGrid>
             </div>

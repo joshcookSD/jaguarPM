@@ -17,7 +17,7 @@ import ProjectTeamDropDown from './ProjectTeamDropDown.js'
 
 class ProjectDetail extends Component {
     // set selected project to state
-    componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate(nextProps) {
         if(nextProps.selectedProject !== this.props.selectedProject) {
             this.setState({projectId: nextProps.selectedProject});
         }
@@ -49,12 +49,14 @@ class ProjectDetail extends Component {
     };
 
     render() {
+
         const {
             selectedProject,
             projectDetails,
             queryVariables,
             userTaskDetails,
             variables,
+            userId
         } = this.props;
 
         const {
@@ -71,7 +73,6 @@ class ProjectDetail extends Component {
             teamChangeInput,
             teamLeaderDropDownInput
         } = this.state;
-
         if(projectId) {
             return (
                 <Mutation mutation={removeProjectFromTeam}>
@@ -81,7 +82,8 @@ class ProjectDetail extends Component {
                                 <Dimmer active>
                                     <Loader/>
                                 </Dimmer>
-                            </div>);
+                            </div>
+                        );
                         return (
                             <Query query={projectDetails} variables={queryVariables}>
                                 {({loading, error, data}) => {
@@ -90,7 +92,8 @@ class ProjectDetail extends Component {
                                             <Dimmer active>
                                                 <Loader/>
                                             </Dimmer>
-                                        </div>);
+                                        </div>
+                                    );
                                     if (error) return <p>No Project Selected {projectId}</p>;
                                     return (
                                         <Mutation mutation={updateProject}>
@@ -100,7 +103,8 @@ class ProjectDetail extends Component {
                                                         <Dimmer active>
                                                             <Loader/>
                                                         </Dimmer>
-                                                    </div>);
+                                                    </div>
+                                                );
                                                 return (
                                                     <GroupFormWrapper onSubmit={() => updateProject()}>
                                                         <div>
@@ -219,25 +223,34 @@ class ProjectDetail extends Component {
                                                                 <Button size='small' basic color='red'
                                                                     onClick={async e => {
                                                                         e.preventDefault();
-                                                                        await removeProjectFromTeam({
-                                                                            variables: {
-                                                                                projectToRemoveId: data.project._id,
-                                                                                projectUsersIds: data.project.users.map((user) => user._id).toString(),
-                                                                                projectsTeamId: data.project.team._id,
-                                                                                projectsGroupsTasks: data.project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
-                                                                                projectsGroups: data.project.groups.map((group) => group._id).toString(),
-                                                                            },
-                                                                            refetchQueries: [
-                                                                                {
-                                                                                    query: userTaskDetails,
-                                                                                    variables: variables
+                                                                        const newDefualtProjectArray = data.project.team.projects.filter(project => project._id !== data.project.team.defaultproject._id);
+                                                                        if(newDefualtProjectArray.length === 0){
+                                                                            alert('cant must have one project in each team')
+                                                                        }else {
+                                                                            await removeProjectFromTeam({
+                                                                                variables: {
+                                                                                    projectToRemoveId: data.project._id,
+                                                                                    projectUsersIds: data.project.users.map((user) => user._id).toString(),
+                                                                                    projectsTeamId: data.project.team._id,
+                                                                                    projectsGroupsTasks: data.project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
+                                                                                    projectsGroups: data.project.groups.map((group) => group._id).toString(),
+                                                                                    userId: userId,
+                                                                                    newDefaultProject: newDefualtProjectArray[0]._id,
+                                                                                    newDefaultProjectgroup: newDefualtProjectArray["0"].groups["0"]._id,
+                                                                                    teamsDefaultProject: data.project.team.defaultproject._id,
                                                                                 },
-                                                                                {
-                                                                                    query: userProjectGroups,
-                                                                                    variables: variables
-                                                                                }
-                                                                            ]
-                                                                        });
+                                                                                refetchQueries: [
+                                                                                    {
+                                                                                        query: userTaskDetails,
+                                                                                        variables: variables
+                                                                                    },
+                                                                                    {
+                                                                                        query: userProjectGroups,
+                                                                                        variables: variables
+                                                                                    }
+                                                                                ]
+                                                                            });
+                                                                        }
                                                                         this.props.removeProjectSwitchForDefault()
                                                                     }}>remove</Button>
                                                             </Button.Group>

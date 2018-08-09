@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import { Input, Form } from 'semantic-ui-react';
 import {createTask} from "../../apollo-graphql/taskQueries";
+import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
 
 class TaskForm extends Component {
     state = {
@@ -18,6 +19,7 @@ class TaskForm extends Component {
             defaultgroup,
             defaultproject
         } = this.props;
+
         const { newTask } = this.state;
 
         return (
@@ -39,7 +41,10 @@ class TaskForm extends Component {
                                             team: defaultteam
                                         },
 
-                                        refetchQueries: [{ query: updateQuery, variables: variables}]
+                                        refetchQueries: [
+                                            { query: updateQuery, variables: variables},
+                                            { query: projectDetails, variables: {_id: defaultproject}},
+                                        ]
                                     });
                                     this.setState({newTask: ""});
                                 }}
