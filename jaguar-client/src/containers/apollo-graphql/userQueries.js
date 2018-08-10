@@ -354,6 +354,7 @@ query user($_id: String ){
         tasks {
             _id
             tasktitle
+            taskdescription
             iscompleted
             group {
                 _id

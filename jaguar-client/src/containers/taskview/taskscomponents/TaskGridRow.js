@@ -10,6 +10,7 @@ import TaskComplete from './TaskComplete';
 
 class TaskGridRow extends Component {
     state = {
+        taskData: this.props.task,
         titleInput: false,
         title: '',
         descriptionInput: false,
@@ -21,13 +22,21 @@ class TaskGridRow extends Component {
         taskTeamInput: false,
         projectInput: false,
         groupInput: false,
-        group: '',
         assignedInput: false,
     };
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.tasks !== nextProps.tasks){
+            this.setState({
+                taskData: this.props.tasks
+            });
+        }
+    }
 
     render() {
         const {task, user, updateQuery, variables, today} = this.props;
         const {
+            taskData,
             titleInput,
             descriptionInput,
             planDateInput,
@@ -36,15 +45,26 @@ class TaskGridRow extends Component {
             taskTeamInput,
             projectInput,
             groupInput,
+            title,
             description,
             plandate,
             duedate
         } = this.state;
 
+        console.log(taskData);
+
+        const updateVariables = {
+            _id: task._id,
+            tasktitle: title,
+            taskdescription: description,
+            duedate,
+            plandate
+        };
+
         const _updateTask = async () => {
             await this.props.updateTask({
-                variables: variables,
-                refetchQueries: [{query: task, variables: variables}]
+                variables: updateVariables,
+                refetchQueries: [{query: updateQuery, variables: variables}]
             });
             this.setState({
                 descriptionInput: false,
@@ -65,7 +85,7 @@ class TaskGridRow extends Component {
         };
 
         return (
-            <TableBodyRow >
+            <TableBodyRow>
                 <TableCellCentered>
                     <TaskComplete
                         _id={task._id}
@@ -78,8 +98,19 @@ class TaskGridRow extends Component {
                         isComplete={task.iscompleted}
                     />
                 </TableCellCentered>
-                <TableCellLeft> {task.tasktitle} </TableCellLeft>
-                <TableCellLeft onClick={() => this.setState({descriptionInput: true})}>
+                <TableCellLeft onClick={() => this.setState({titleInput: true, title: task.tasktitle, description: task.taskdescription})}>
+                    {titleInput ?
+                        <Form onSubmit={() => _updateTask()}>
+                            <Form.Input
+                                fluid
+                                placeholder={taskData.tasktitle}
+                                value={title}
+                                onChange={e => this.setState({title: e.target.value})}
+                            />
+                        </Form>
+                        : taskData.tasktitle}
+                </TableCellLeft>
+                <TableCellLeft onClick={() => this.setState({descriptionInput: true, title: task.tasktitle, description: task.taskdescription})}>
                     {descriptionInput ?
                         <Form onSubmit={() => _updateTask()}>
                             <Form.Input
@@ -98,6 +129,7 @@ class TaskGridRow extends Component {
                 <TableCellLeft> {task.team.teamtitle} </TableCellLeft>
                 <TableCellCentered/>
                 <TableCellCentered/>
+                <TableCellCentered> <button type='submit'>U</button></TableCellCentered>
             </TableBodyRow>
         )
     }
