@@ -24,6 +24,7 @@ const NavItems = styled.div`
   margin: 0 15px 0 15px;
   text-align: center;
   color: white;
+  cursor: pointer;
   &:hover {
     border-style: solid;
     border-width: 0 0 5px 0;
