@@ -223,8 +223,8 @@ const tasksByTeam = gql`
  `;
 
 const createTask = gql`
-mutation createTask($tasktitle: String, $taskcurrentowner: String, $plandate: Date, $iscompleted: Boolean, $group:String, $project:String, $team: String) {
-    createTask(tasktitle: $tasktitle, taskcurrentowner: $taskcurrentowner, plandate: $plandate, iscompleted: $iscompleted, group: $group, project: $project, team: $team) {
+mutation createTask($tasktitle: String!, $taskcurrentowner: String!, $plandate: Date, $iscompleted: Boolean!, $group:String!, $project:String!, $team: String!, $dueDate: Date ) {
+    createTask(tasktitle: $tasktitle, taskcurrentowner: $taskcurrentowner, plandate: $plandate, iscompleted: $iscompleted, group: $group, project: $project, team: $team, dueDate: $dueDate) {
         _id
         tasktitle
         iscompleted
@@ -238,8 +238,8 @@ mutation createTask($tasktitle: String, $taskcurrentowner: String, $plandate: Da
 `;
 
 const updateTask = gql`
-mutation updateTask($_id: String, $tasktitle: String, $taskdescription: String, $taskcurrentowner: String, $iscompleted: Boolean, $plandate: Date, , $duedate: Date) {
-    updateTask(_id: $_id, tasktitle: $tasktitle, taskdescription: $taskdescription, taskcurrentowner: $taskcurrentowner, iscompleted: $iscompleted, plandate: $plandate, duedate: $duedate) {
+mutation updateTask($_id: String, $tasktitle: String, $taskdescription: String, $taskcurrentowner: String, $iscompleted: Boolean, $plandate: Date, , $duedate: Date, $taskGroupId: String!) {
+    updateTask(_id: $_id, tasktitle: $tasktitle, taskdescription: $taskdescription, taskcurrentowner: $taskcurrentowner, iscompleted: $iscompleted, plandate: $plandate, duedate: $duedate, taskGroupId: $taskGroupId) {
         _id
         tasktitle
         taskdescription

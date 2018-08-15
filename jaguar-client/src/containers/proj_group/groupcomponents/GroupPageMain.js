@@ -18,6 +18,7 @@ const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
 
+
 class TeamPageMain extends Component {
     state = {
         activeView: '',
@@ -71,7 +72,13 @@ class TeamPageMain extends Component {
                         />
                     </Details>
                     <Prioriety>
-                        <GroupTaskPrioriety />
+                        <GroupTaskPrioriety
+                            userId={userId}
+                            userName={user.username}
+                            selectedGroup={selectedGroup}
+                            // isSelected={isSelected}
+                            queryVariables={queryVariables}
+                        />
                     </Prioriety>
                 </TeamPagePaneGrid>
             </div>

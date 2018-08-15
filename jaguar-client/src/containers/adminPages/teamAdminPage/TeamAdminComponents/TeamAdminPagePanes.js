@@ -3,8 +3,11 @@ import ProjTabHeader from "./ProjTabHeader";
 import ProjAddProjCard from "./ProjAddProjCard";
 import ProjUserDD from "./ProjAdminAddUser";
 import {teamsByOwner} from "../../../apollo-graphql/userQueries";
+import ProjectForm from '../../../proj_group/projectcomponents/ProjectForm';
+import { Header } from 'semantic-ui-react';
 import {
     AdminPagePaneWrapper,
+    AddTeamWrapper,
 } from '../../../layout/AdminComponents.js'
 
 class TeamAdminPagePanes extends Component {
@@ -38,10 +41,11 @@ class TeamAdminPagePanes extends Component {
                     teamTitle={activeView.teamtitle}
                     teamDescription={activeView.teamdescription}
                 />
-                <ProjAddProjCard
+                <ProjectForm
+                    className="projectForm"
                     handleAfterSubmit={this.handleAfterSubmit}
-                    team={activeView}
-                    teamData={team}
+                    activeView={activeView}
+                    teamId={activeView._id}
                     variables={variables}
                 />
                 <ProjUserDD
@@ -52,6 +56,19 @@ class TeamAdminPagePanes extends Component {
                     variables={variables}
                     teamsToRemove={(activeView.projects || []).map((project, i) => project._id).toString()}
                 />
+                <AddTeamWrapper>
+                    <div>
+                        <Header as='h2' icon>
+                            Projects
+                        </Header>
+                    </div>
+                    <ProjAddProjCard
+                        handleAfterSubmit={this.handleAfterSubmit}
+                        team={activeView}
+                        teamData={team}
+                        variables={variables}
+                    />
+                </AddTeamWrapper>
             </AdminPagePaneWrapper>
         );
     }

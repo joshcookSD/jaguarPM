@@ -84,6 +84,7 @@ class GroupDetail extends Component {
                                             </Dimmer>
                                         </div>
                                     );
+                                    console.log(data)
                                     if (error) return <p>No Project Selected</p>;
                                     return (
                                         <Mutation mutation={updateGroup}>

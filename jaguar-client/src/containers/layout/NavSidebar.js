@@ -81,7 +81,7 @@ const NavSidebar = () => (
                     inverted
                 />
             </Link>
-            <Link to='/project-admin'>
+            <Link to='/project-page'>
                 <Popup
                     trigger={<NavItems><NavIcon><i className="fas fa-project-diagram" /></NavIcon></NavItems>}
                     content="projects"

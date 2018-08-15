@@ -5,6 +5,7 @@ import {getOrgByOwner} from "../../../apollo-graphql/userQueries";
 import { Query } from "react-apollo";
 import decode from "jwt-decode";
 
+
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;

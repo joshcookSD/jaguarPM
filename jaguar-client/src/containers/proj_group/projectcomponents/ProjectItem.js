@@ -8,10 +8,6 @@ const ListItemWrapper = styled.div`
     padding-left: 5px;
     padding-right: 5px;
     align-items: center;
- &:hover  {
-    background-color: #a8efc7;  
-    border-radius: .28571429rem;
-  }
 `;
 
 
@@ -23,14 +19,12 @@ class ProjectItem extends Component {
 
     render() {
         const {projectId, projecttitle, projectdescription } = this.props;
-
         return(
             <ListItemWrapper
-                className="listItem" 
+                className="listItem"
                 key={projectId}
-                onClick={(e) => this.handleClick(e)}
+                onClick={() => this.handleClick()}
             >
-
                 <List.Icon color='blue' name='cubes' size='large' verticalAlign='middle'/>
                 <List.Content>
                     <List.Header>{projecttitle}</List.Header>

@@ -38,12 +38,12 @@ class ProjectPageMain extends Component {
 
         const { activePageTab, isSelectedPageTab, isSelected  } = this.state;
         const {
-                selectedProject,
-                projectDetails,
-                queryVariables,
-                userTaskDetails,
-                variables,
-                removeProjectSwitchForDefault,
+            selectedProject,
+            projectDetails,
+            queryVariables,
+            userTaskDetails,
+            variables,
+            removeProjectSwitchForDefault,
         } = this.props;
 
         return (
@@ -57,11 +57,9 @@ class ProjectPageMain extends Component {
                             isSelectedPageTab={isSelectedPageTab}
                         />
                     </Secondary>
-
                     <Activity>
                         <ProjectPagePanes activePageTab={activePageTab}/>
                     </Activity>
-
                     <Details>
                         <ProjectDetails
                             userId={userId}

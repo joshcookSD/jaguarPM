@@ -6,6 +6,20 @@ import { userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
 import ProjectItem from './ProjectItem'
 import ProjectFormForModal from './ProjectFormForModal.js'
 
+import styled from 'styled-components';
+
+const ListItemWrapper = styled.div`
+    margin-bottom: 10px;    
+    padding-left: 5px;
+    padding-right: 5px;
+    align-items: center;
+ &:hover  {
+    background-color: #c0eaca;  
+    border-radius: .28571429rem;
+  }
+`;
+
+
 class ProjectList extends Component {
     state = {
         open: false,
@@ -83,15 +97,17 @@ class ProjectList extends Component {
                                 >
 
                                     {
-                                        team.projects.map( (project) => {
+                                        team.projects.map( (project, i) => {
                                         return (
-                                            <ProjectItem
-                                                key={project._id}
-                                                projectId={project._id}
-                                                projecttitle={project.projecttitle}
-                                                projectdescription={project.projectdescription}
-                                                selectProject={selectProject}
-                                            />
+                                            <ListItemWrapper style={this.props.selectedProject === project._id ? {backgroundColor : '#c0eaca'} : {}}>
+                                                <ProjectItem
+                                                    key={i}
+                                                    projectId={project._id}
+                                                    projecttitle={project.projecttitle}
+                                                    projectdescription={project.projectdescription}
+                                                    selectProject={selectProject}
+                                                />
+                                            </ListItemWrapper>
                                         )
                                     })}
                                 </Transition.Group>

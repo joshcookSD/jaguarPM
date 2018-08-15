@@ -152,13 +152,12 @@ class TaskView extends Component {
                                 /></Section>
                                 {data.user.team.map((team) => (
                                     <Section key={team._id}>
-
                                         <TaskTeam
                                             tasks={team.tasks}
                                             teamId={team._id}
                                             teamtitle={team.teamtitle}
-                                            defaultgroup={team.defaultproject.defaultgroup._id ? team.defaultproject.defaultgroup._id : team.projects[0].groups[0]._id}
-                                            defaultproject={team.defaultproject._id ? team.defaultproject._id : team.projects[0]._id }
+                                            defaultgroup={team.defaultproject.defaultgroup._id}
+                                            defaultproject={team.defaultproject._id}
                                             updateQuery={userTaskDetails}
                                             variables={variables}
                                             currentTask={data.user.currenttask}

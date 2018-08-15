@@ -252,6 +252,13 @@ query group($_id: String!) {
       __typename
     }
     project {
+    team{
+    _id
+        users{
+            _id
+            username
+        }
+    }
     defaultgroup{
           _id
         }
@@ -269,8 +276,12 @@ query group($_id: String!) {
     }
     tasks {
       _id
+      iscompleted
       tasktitle
       taskdescription
+      group{
+        _id
+        }
       __typename
     }
     __typename

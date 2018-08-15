@@ -71,6 +71,7 @@ background-color: lightgreen;
     border: none;
     border-radius: .28571429rem;
     padding: 10px;
+     overflow: auto;
         @media (max-width: 1000px) {
         grid-column-start: 1;
         grid-row-start: 2;

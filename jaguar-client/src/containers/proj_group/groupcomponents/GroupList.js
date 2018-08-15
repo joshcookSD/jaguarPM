@@ -44,17 +44,21 @@ class GroupList extends Component {
                         { (data.user.projects || []).map((project, i) => (
                             <div key={project._id}>
                                 <Header >
-                                    {project.team === null ? `no team -  ${project.projecttitle}` : `${project.team.teamtitle}  -  ${project.projecttitle}`}
-                                    {/*{project.team.teamtitle} - {project.projecttitle}*/}
-                                    <Icon
-                                        onClick={() => this.captureTeamId(project.team._id, project._id)}
-                                        color='green'
-                                        name='add circle'
-                                        floated='right'
-                                    />
+                                    {
+                                        <div>
+                                            <div>
+                                                <div>{project.team.teamtitle}</div>
+                                                <div>{project.projecttitle}</div>
+                                            </div>
+                                            <div><Icon
+                                                onClick={() => this.captureTeamId(project.team._id, project._id)}
+                                                color='green'
+                                                name='add circle'
+                                            /></div>
+                                        </div>
+                                    }
                                 </Header>
-
-                                <Modal size='small' open={open} onClose={this.close}>
+                                <Modal open={open} onClose={this.close}>
                                     <Modal.Header>
                                         Create Group
                                     </Modal.Header>
