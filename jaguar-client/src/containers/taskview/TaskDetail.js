@@ -66,17 +66,16 @@ class TaskDetail extends Component {
         const queryVariables = {_id: taskId};
         const {descriptionInput, planDateInput, dueDateInput, assignedInput, taskTeamInput, projectInput, groupInput, description, plandate, duedate} = this.state;
 
-        const updateVariables = {
-            _id: taskId,
-            tasktitle,
-            taskdescription: description,
-            duedate,
-            plandate
-        };
 
         const _updateTask = async () => {
             await this.props.updateTask({
-                variables: updateVariables,
+                variables: {
+                    _id: taskId,
+                    tasktitle,
+                    taskdescription: description,
+                    duedate,
+                    plandate,
+                },
                 refetchQueries: [{query: task, variables: queryVariables}]
             });
             this.setState({
@@ -106,9 +105,7 @@ class TaskDetail extends Component {
                                     <Loader/>
                                 </Dimmer>
                             </div>);
-
                         if (error) return <p>Error :(</p>;
-
                         return (
                             <Form onSubmit={() => _updateTask()}>
                                 <TaskDetailLayout>
@@ -123,7 +120,6 @@ class TaskDetail extends Component {
                                             value={description}
                                             onChange={e => this.setState({description: e.target.value})}
                                         />}
-
                                         <TaskDetailLine
                                             onClick={() => this.setState({planDateInput: !planDateInput})}>
                                             Plan Date: {data.task.plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : ''}
@@ -135,7 +131,6 @@ class TaskDetail extends Component {
                                             placeholder={plandate ? moment.utc(data.task.plandate).format('YYYY-MM-DD') : 'No plan date set'}
                                             onChange={e => this.setState({plandate: e.target.value})}
                                         />}
-
                                         <TaskDetailLine onClick={() => this.setState({dueDateInput: !dueDateInput})}>
                                             Due Date: {data.task.duedate ? moment.utc(data.task.duedate).format('YYYY-MM-DD') : ''}
                                         </TaskDetailLine>
@@ -146,31 +141,27 @@ class TaskDetail extends Component {
                                             placeholder={duedate ? moment(data.task.duedate).format('YYYY-MM-DD') : Date.now()}
                                             onChange={e => this.setState({duedate: e.target.value})}
                                         />}
-
                                         <TaskDetailLine
                                             onClick={() => this.setState({taskTeamInput: !taskTeamInput})}>
                                             Team: {!data.task.team ? 'unassigned' : data.task.team.teamtitle}
                                         </TaskDetailLine>
                                         {taskTeamInput && <TeamTaskDropDown taskId={taskId} userId={userId} teamDetails={data.task.team}  query={task} variables={queryVariables} closeTeam={this.closeTeam}/>}
-
                                         <TaskDetailLine
                                             onClick={() => this.setState({projectInput: !projectInput})}>
                                             Project: {!data.task.project ? 'unassigned' : data.task.project.projecttitle}
                                         </TaskDetailLine>
                                         {projectInput && <ProjectTaskDropDown taskId={taskId} teamId={data.task.team._id} projectDetails={data.task.project}  query={task} variables={queryVariables} closeProject={this.closeProject}/>}
-
                                         <TaskDetailLine
                                             onClick={() => this.setState({groupInput: !groupInput})}>
                                             Group: {!data.task.group ? 'unassigned' : data.task.group.grouptitle}
                                         </TaskDetailLine>
                                         {groupInput && <GroupTaskDropDown taskId={taskId} projectId={data.task.project._id} groupDetails={data.task.group}  query={task} variables={queryVariables} closeGroup={this.closeGroup}/>}
-
                                         <TaskDetailLine
                                             onClick={() => this.setState({assignedInput: !assignedInput})}>
                                             Assigned to: {!data.task.taskcurrentowner ? 'unassigned' : data.task.taskcurrentowner.username}
                                         </TaskDetailLine>
+                                        {console.log(data)}
                                         {assignedInput && <AssignedTaskDropDown taskId={taskId} teamId={data.task.team._id} userDetails={data.task.taskcurrentowner}  query={task} variables={queryVariables} closeAssigned={this.closeAssigned}/>}
-
                                         <TaskDetailLine>
                                             Created: {moment.utc(data.task.createdAt).format('YYYY-MM-DD')}
                                         </TaskDetailLine>

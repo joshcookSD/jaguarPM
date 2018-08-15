@@ -46,6 +46,7 @@ class ProjectView extends Component {
                     <NavSidebar/>
                     <MainSidebar>
                         <ProjectList
+                            selectedProject={selectedProject}
                             selectProject={this.selectProject}
                             defualtSelectProject={this.defualtSelectProject}
                             isSelected={isSelected}

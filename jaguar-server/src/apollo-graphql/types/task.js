@@ -51,6 +51,7 @@ const TaskMutation = `
         taskdescription: String,
         taskcurrentowner: String,
         plandate: Date,
+        dueDate: Date,
         iscompleted: Boolean,
         group: String,
         project: String,
@@ -67,6 +68,7 @@ const TaskMutation = `
         plandate: Date,
         iscompleted: Boolean,
         completeddate: Date
+        taskGroupId: String
 ) : Task
     updateTaskTeam(
         _id: String,
@@ -138,7 +140,6 @@ const TaskQueryResolver = {
         return await Task.find({taskcurrentowner: null, iscompleted: args.iscompleted, team: teams})
     },
 };
-
 const TaskNested = {
     comments: async ({_id}) => {
         return await Comment.find({task: _id})
@@ -168,46 +169,40 @@ const TaskNested = {
         return (await Organization.find({task: _id}))
     },
 };
-
 const TaskMutationResolver ={
-    createTask: async (parent, args, { Task, User, Team }) => {
-        let task = await new Task(args).save();
-        //if task object has current owner
-        if(args.taskcurrentowner) {
-            //save that user object to variable
-            let owner = await User.findById(args.taskcurrentowner);
-            //go into that users tasks and push in new tasks id
-            owner.tasks.push(task._id);
-            await owner.save();
-        }
-        //if task object has current team
-        if(args.team) {
-            //save that team object to variable
-            let teamTask = await Team.findById(args.team);
-            //go into that teams tasks and push in new tasks id
-            teamTask.tasks.push(task._id);
-            //save teamtask object with new tak id pushed in
-            await teamTask.save();
-        }
-        if(args.project) {
-            let project = await Project.findById(args.project);
-            project.tasks.push(task._id);
-            await project.save();
-        }
-        if(args.group) {
-            let group = await Group.findById(args.group);
-            group.tasks.push(task._id);
-            await group.save();
-        }
+    createTask: async (parent, args, { Task, User }) => {
+        let task = await new Task(
+            {
+                tasktitle : args.tasktitle,
+                taskdescription: args.taskdescription,
+                group: args.group,
+                project: args.project,
+                team: args.team,
+                taskcurrentowner: args.taskcurrentowner,
+            }
+        ).save();
 
+        if(args.plandate != 'Invalid Date'  ) {
+            await Task.findByIdAndUpdate(task._id, {
+                    $set: {
+                        plandate: args.plandate}},
+                {new: true}
+            );
+        }
+        if(args.dueDate != 'Invalid Date') {
+            await Task.findByIdAndUpdate(task._id, {
+                    $set: {
+                        duedate: args.dueDate}},
+                {new: true}
+            );
+        }
         let group = await Group.findById(args.group);
         if(group.iscompleted === true){
             await Group.findByIdAndUpdate(
                 group,
                 {$set: {iscompleted: false}}
-                );
+            );
         }
-
         return task
     },
     createTaskByGroup: async (parent, args, { Task, User, Team, Group, Project }) => {
@@ -275,14 +270,12 @@ const TaskMutationResolver ={
             owner.tasks.push(task._id);
             await owner.save();
         }
-
         if(args.team) {
             let taskteam = await Team.findById(args.team);
             await task.team.save(taskteam._id);
             taskteam.tasks.push(task._id);
             await taskteam.save();
         }
-
         if(args.priority) {
             let taskpriority = await Priority.findById(args.priority);
             await task.priority.save(taskpriority._id);
@@ -350,6 +343,14 @@ const TaskMutationResolver ={
             let taskgroup = await Group.findById(args.group);
             taskgroup.tasks.push(task._id);
             await taskgroup.save();
+
+            let group = await Group.findById(args.group);
+            if(group.iscompleted === true){
+                await Group.findByIdAndUpdate(
+                    group,
+                    {$set: {iscompleted: false}}
+                );
+            }
     },
     updateTaskUser: async(parent, args, {Task}) => {
             let oldtask = await Task.findById(args._id);

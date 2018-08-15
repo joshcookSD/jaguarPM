@@ -3,6 +3,9 @@ import { Mutation } from "react-apollo";
 import { Message, Button, Form, Loader, Dimmer } from 'semantic-ui-react'
 import {createProject} from "../../apollo-graphql/groupProjectQueries";
 import { teamsByOwner } from "../../apollo-graphql/userQueries";
+import {
+    AdminFormWrapper
+} from '../../layout/AdminComponents.js'
 
 class ProjectForm extends Component {
 
@@ -45,7 +48,7 @@ class ProjectForm extends Component {
                         </div>
                     );
                     return (
-                        <div style={{ marginBottom: '.5em' }}>
+                        <AdminFormWrapper>
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
@@ -117,7 +120,7 @@ class ProjectForm extends Component {
                             {errorList.length ? (
                                 <Message error header="There was some errors with your submission" list={errorList} />
                             ) : null}
-                        </div>
+                        </AdminFormWrapper>
                     )
                 }}
             </Mutation>

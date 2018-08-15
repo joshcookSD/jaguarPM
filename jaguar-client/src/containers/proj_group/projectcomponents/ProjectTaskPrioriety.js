@@ -1,12 +1,16 @@
 
 import React, {Component} from 'react';
-import { Query } from "react-apollo";
-import { Dimmer, Loader, Checkbox } from 'semantic-ui-react';
+import { Query, Mutation } from "react-apollo";
+import { Dimmer, Loader, Checkbox, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {completeTask} from "../../apollo-graphql/taskQueries";
 import {completeGroup} from "../../apollo-graphql/groupProjectQueries";
 import moment from "moment/moment";
-import { Mutation } from "react-apollo";
+
+
+const GroupCompleteWrapper = styled.div`
+    display: flex;
+`;
 
 const GroupTitleWrapper = styled.div`
     display: flex;
@@ -121,7 +125,12 @@ class ProjectTaskPrioriety extends Component {
                                                                         {//map through tasks
                                                                             (group.tasks.length === 0) ? <div>No Tasks</div> :
                                                                                 (group.tasks.filter(task => task.iscompleted === true).length) === (group.tasks.length)
-                                                                                    ? (<div>Group Completed</div>)
+                                                                                    ? (
+                                                                                        <GroupCompleteWrapper>
+                                                                                            <Icon name='flag checkered' />
+                                                                                            {/*<div>Group Completed</div>*/}
+                                                                                        </GroupCompleteWrapper>
+                                                                                    )
                                                                                     : (<TaskDataAndIconWrapper>
                                                                                         <div>{group.tasks.filter(task => task.iscompleted === true).length} / {group.tasks.length}</div>
                                                                                     </TaskDataAndIconWrapper>)

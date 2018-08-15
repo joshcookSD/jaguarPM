@@ -2,40 +2,17 @@ import React, {Component} from 'react';
 import TabHeader from './OrgAdminTabHeader.js';
 import AddTeamCard from './OrgAddTeamCard.js';
 import OrgAddUserCard from './OrgAdminAddUser.js';
+import TeamForm from '../../teamAdminPage/TeamAdminComponents/TeamForm';
+import { Header } from 'semantic-ui-react';
 import './OrgPagePanes.css'
-import styled from 'styled-components';
 import {
     AdminPagePaneWrapper,
+    AddTeamWrapper
 } from '../../../layout/AdminComponents.js'
-
-const PaneHeaderWrapper = styled.div`
-    grid-column-start: 1;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 1;
-`;
-
-const AddTeamWrapper = styled.div`
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    padding: 10px;
-`;
-
-const OrgAddUserCardWrapper = styled.div`
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 3;
-    grid-row-end: 3;
-    padding: 10px;
-`;
-
-
 
 class OrgPagePanes extends Component {
     state = {
-      teamAdded: true,
+        teamAdded: true,
     };
 
     componentWillReceiveProps(nextProps){
@@ -51,17 +28,33 @@ class OrgPagePanes extends Component {
     };
 
     render () {
-    const {activeView, variables, org} = this.props;
+        const {activeView, variables, org} = this.props;
         return (
             <AdminPagePaneWrapper>
-                <PaneHeaderWrapper>
-                    <TabHeader
-                        orgTitle={activeView.orgtitle}
-                        orgDescription={activeView.orgdescription}
-                    />
-                </PaneHeaderWrapper>
-
+                <TabHeader
+                    orgTitle={activeView.orgtitle}
+                    orgDescription={activeView.orgdescription}
+                />
+                <TeamForm
+                    className="teamForm"
+                    handleAfterSubmit={this.handleAfterSubmit}
+                    activeView={activeView}
+                    orgId={activeView._id}
+                    variables={variables}
+                />
+                <OrgAddUserCard
+                    org={activeView}
+                    orgData={org}
+                    orgId={activeView._id}
+                    variables={variables}
+                    teamsToRemove={(activeView.teams || []).map((team, i) => team._id).toString()}
+                />
                 <AddTeamWrapper>
+                    <div>
+                        <Header as='h2' icon>
+                            Teams
+                        </Header>
+                    </div>
                     <AddTeamCard
                         handleAfterSubmit={this.handleAfterSubmit}
                         org={activeView}
@@ -69,17 +62,6 @@ class OrgPagePanes extends Component {
                         variables={variables}
                     />
                 </AddTeamWrapper>
-
-                <OrgAddUserCardWrapper>
-                    <OrgAddUserCard
-                        org={activeView}
-                        orgData={org}
-                        orgId={activeView._id}
-                        variables={variables}
-                        teamsToRemove={(activeView.teams || []).map((team, i) => team._id).toString()}
-                    />
-                </OrgAddUserCardWrapper>
-
             </AdminPagePaneWrapper>
         );
     }

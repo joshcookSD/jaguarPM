@@ -6,6 +6,7 @@ const UserWrapper = styled.div`
     color: black
     border-width: 1px;
     border radius: 0 0 !important
+    background: #f8f8f8;
     width: 90%;
     height: 42px;
     display:grid
@@ -17,10 +18,13 @@ const OrgPageTeamCardWrapper = styled.div`
     color: black
     border-width: 1px;
     border radius: 0 0 !important
-    width: 90%;
     height: 42px;
     display:grid
     grid-template-columns: 25% 60% 15%;
+    background: chocolate;
+    padding: 10px;
+    background: #e0e1e2;
+    border-radius: .28571429rem;
 `;
 
 const ImageWrapper = styled.img`
@@ -52,7 +56,7 @@ const NewUserCardName = styled.span`
 `;
 
 const DeleteUserIcon = styled.span`
-    justify-self: center;
+    justify-self: end;
     align-self: center;
 `;
 
@@ -78,8 +82,8 @@ const AdminPagePaneWrapper = styled.div`
     height: 94vh;
     width: 50%;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 4fr 4fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr 6fr;
     grid-column-gap: 10px;
 
 `;
@@ -89,6 +93,26 @@ const AdminPageHeaderWrapper = styled.div`
     grid-column-start: 1;
     grid-column-end: 3;
 `;
+const AddCardWrapper = styled.div`
+  width: 80%;
+`;
+
+const AddTeamWrapper = styled.div`
+    grid-column-start: 2;
+    grid-row-start: 3;
+    padding: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    
+`;
+
+const AdminFormWrapper = styled.div`
+    grid-row-start: 2;
+    grid-column-end: 3;
+    grid-column-start: 1;
+`;
+
 
 export {
     UserWrapper,
@@ -100,6 +124,9 @@ export {
     CardLeftWrapper,
     OrgPageTeamCardWrapper,
     AdminPagePaneWrapper,
-    AdminPageHeaderWrapper
+    AdminPageHeaderWrapper,
+    AddCardWrapper,
+    AddTeamWrapper,
+    AdminFormWrapper
 
 };
