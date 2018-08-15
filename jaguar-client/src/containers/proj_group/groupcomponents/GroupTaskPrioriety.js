@@ -10,7 +10,6 @@ import moment from "moment/moment";
 
 const GroupAddTaskWrapper = styled.div`
     align-self: flex-end;
-  
 `;
 
 const InnerGroupWrapper = styled.div`
@@ -53,24 +52,18 @@ class GroupTaskPrioriety extends Component {
     };
 
     render() {
+
+        const {
+            data
+        } = this.props;
+
         const today = moment(Date.now()).format('YYYY-MM-DD');
-        if(this.state.groupId) {
+
             return (
                 <Mutation mutation={completeTask}>
                     {(completeTask) => {
                         return (
-                            <Query query={groupDetails} variables={{_id: this.state.groupId}}>
-                                {({loading, error, data}) => {
-                                    if (loading) return (
-                                        <div>
-                                            <Dimmer active>
-                                                <Loader/>
-                                            </Dimmer>
-                                        </div>
-                                    );
-
-                                    return (
-                                        <div>
+                            <div>
                                             <ProjectTitleWrapper>
                                                 <div>Group : {data.group.grouptitle}</div>
                                                 {
@@ -112,16 +105,19 @@ class GroupTaskPrioriety extends Component {
                                                         </TaskTitleWrapper>
                                                     )}
 
-                                                <Modal floated='right' trigger={
-                                                    <GroupAddTaskWrapper>
-                                                        <Icon
-                                                            name='plus circle'
-                                                            floated='right'
-                                                            size='big'
-                                                            color='green'
-                                                        />
-                                                    </GroupAddTaskWrapper>
-                                                }>
+                                                <Modal
+                                                    floated='right'
+                                                    trigger={
+                                                        <GroupAddTaskWrapper>
+                                                            <Icon
+                                                                name='plus circle'
+                                                                floated='right'
+                                                                size='big'
+                                                                color='green'
+                                                            />
+                                                        </GroupAddTaskWrapper>
+                                                    }
+                                                >
                                                     <Modal.Header>Add Task To Group</Modal.Header>
                                                     <Modal.Content >
                                                         <GroupTaskForModal
@@ -136,15 +132,10 @@ class GroupTaskPrioriety extends Component {
                                                 </Modal>
                                             </InnerGroupWrapper>
                                         </div>
-
-                                    )
-                                }}
-                            </Query>
                         )
                     }}
                 </Mutation>
             )
-        } else { return (<div/>) }
     }
 }
 

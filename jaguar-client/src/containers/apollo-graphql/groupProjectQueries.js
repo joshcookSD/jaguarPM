@@ -279,6 +279,12 @@ query group($_id: String!) {
       iscompleted
       tasktitle
       taskdescription
+      taskplannedtime{
+        time
+      }
+       tasktime{
+        time
+      }
       group{
         _id
         }

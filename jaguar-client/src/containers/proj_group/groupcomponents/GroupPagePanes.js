@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import GroupTimeMain from './GroupTimeMain'
+
 
 class TaskView extends Component {
 
@@ -17,10 +19,10 @@ class TaskView extends Component {
                 </div>
             );
         }
-        if(this.props.activePageTab === 'project') {
+        if(this.props.activePageTab === 'time') {
             return (
                 <div>
-                    project
+                    <GroupTimeMain data={this.props.data}/>
                 </div>
             );
         }
