@@ -47,7 +47,7 @@ class TaskItem extends Component {
     };
 
     render() {
-        const {taskId, tasktitle, userId, completeddate, variables, updateQuery, duedate, plandate, projecttitle, time, planTime, currentTask} = this.props;
+        const {taskId, tasktitle, groupId, projectId, userId, completeddate, variables, updateQuery, duedate, plandate, projecttitle, time, planTime, currentTask} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
         const active = isHovering ? '1px solid rgba(0,0,0,0.2)': 'none';
         const style = {
@@ -95,7 +95,7 @@ class TaskItem extends Component {
                 </List.Content>
 
                 { detail && (<TaskDetail userId={userId} taskId={taskId} tasktitle={tasktitle} updateQuery={updateQuery} refreshVariables={variables} />)}
-                { timeOpen && (<TaskTime userId={userId} taskId={taskId} date={completeddate} closeTime={this.closeTime} time={time} planTime={planTime} updateQuery={updateQuery} refreshVariables={variables}/>)}
+                { timeOpen && (<TaskTime userId={userId} taskId={taskId} group={groupId} project={projectId} date={completeddate} closeTime={this.closeTime} time={time} planTime={planTime} updateQuery={updateQuery} refreshVariables={variables}/>)}
                 { commentOpen && (<TaskComments taskId={taskId} userId={userId}/>)}
                 { (detail || timeOpen || commentOpen) && (<Divider fitted />)}
             </List.Item>

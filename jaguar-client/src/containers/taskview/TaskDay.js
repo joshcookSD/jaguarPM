@@ -57,6 +57,8 @@ class TaskDay extends Component {
                             tasktitle={tasktitle}
                             duedate={duedate}
                             grouptitle={group.grouptitle}
+                            groupId={group._id}
+                            projectId={project._id}
                             projecttitle={project.projecttitle}
                             teamtitle={team.teamtitle}
                             completeddate={today}

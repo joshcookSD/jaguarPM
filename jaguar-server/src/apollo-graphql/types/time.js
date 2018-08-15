@@ -62,14 +62,18 @@ const TimeNested = {
 };
 
 const TimeMutationResolver ={
-    createTimeTask: async (parent, {time, timecomment, date, task, user}, { Time, Task, User }) => {
-        let newtime = await new Time({time, timecomment, user, task, date}).save();
+    createTimeTask: async (parent, {time, timecomment, date, task, group, project, user}, { Time, Task, User }) => {
+        let newtime = await new Time({time, timecomment, user, task, group, project, date}).save();
         let usertime = await User.findById(user);
-        console.log(usertime);
+        let grouptime = await Group.findById(group);
+        let projecttime = await Project.findById(project);
         usertime.time.push(newtime._id);
+        grouptime.grouptime.push(newtime._id);
+        projecttime.projecttime.push(newtime._id);
         await usertime.save();
+        await grouptime.save();
+        await projecttime.save();
         let task_time = await Task.findById(task);
-        console.log(task_time);
         task_time.tasktime.push(newtime._id);
         await task_time.save();
         return newtime
