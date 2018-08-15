@@ -5,9 +5,14 @@ class GroupTimeCards extends Component {
 
     render () {
         console.log(this.props.data)
+
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
-        const tasktime = this.props.data.group.tasks.map((task) => task.tasktime.map(tasktimes => tasktimes.time))
-        console.log(tasktime[0].reduce(reducer))
+
+        let tasktime = this.props.data.group.tasks.map((task) => task.tasktime.map(tasktimes => tasktimes.time))
+        tasktime = tasktime[0].reduce(reducer);
+
+        let taskPlannedTime = this.props.data.group.tasks.map((task) => task.taskplannedtime.map(tasktimes => tasktimes.time))
+        taskPlannedTime = taskPlannedTime[0].reduce(reducer);
 
         return(
             <div>
