@@ -26,11 +26,11 @@ class TaskTime extends Component {
     };
 
     render() {
-        const { taskId, userId, date, time, planTime, updateQuery, refreshVariables } = this.props;
+        const { taskId, userId, date, group, project, time, planTime, updateQuery, refreshVariables } = this.props;
         const { actualtime, comment, plannedtime } = this.state;
         const _addTime = async () => {
             await this.props.addTime({
-                variables: {task: taskId, user: userId, date: date, time: actualtime, timecomment: comment},
+                variables: {task: taskId, user: userId, group, project, date: date, time: actualtime, timecomment: comment},
                 refetchQueries: [{query: updateQuery, variables: refreshVariables}]
             });
             this.setState({time: '', comment: ''});
@@ -38,7 +38,7 @@ class TaskTime extends Component {
         };
         const _addPlanTime = async () => {
             await this.props.addPlanTime({
-                variables: {task: taskId, createdBy: userId, date: date, time: plannedtime},
+                variables: {task: taskId, createdBy: userId, group, project, date: date, time: plannedtime},
                 refetchQueries: [{query: updateQuery, variables: refreshVariables}]
             });
             this.setState({plannedtime: ''});

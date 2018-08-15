@@ -9,7 +9,6 @@ const timeSchema = new mongoose.Schema(
         time: {
             type: Number,
             required: true,
-            min: 0
         },
         date: {
           type: Date,
