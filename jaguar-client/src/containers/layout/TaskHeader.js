@@ -13,7 +13,7 @@ const HeaderWrapper = styled.div`
   display: grid;
   height: 100%;
   width: 100%;
-  grid-template-columns: 70px 70px 70px auto 50px;
+  grid-template-columns: 70px 70px 70px 70px auto 50px;
 `;
 
 const NavItems = styled.div`
@@ -49,7 +49,7 @@ class TaskHeader extends Component {
 
         return (
             <HeaderWrapper>
-                {['plan', 'grid', 'other'].map((view) => (
+                {['plan', 'grid','time','other'].map((view) => (
                     <NavItems key={view} onClick={() => this.handleClick(view)} style={activeView === view ? activeStyle : {}}>{view}</NavItems>
                 ))}
                 <div/>
