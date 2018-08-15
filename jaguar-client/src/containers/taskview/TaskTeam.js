@@ -18,7 +18,7 @@ const TaskTeamGroup = styled.div`
 class TaskTeam extends Component {
 
     render() {
-        const { teamtitle, teamId, defaultgroup, defaultproject, taskSelected, tasks, group, project, updateQuery, variables, currentTask } = this.props;
+        const { teamtitle, teamId, defaultgroup, defaultproject, taskSelected, tasks, updateQuery, variables, currentTask } = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const teamPlan = tasks.filter(task => { return task.taskcurrentowner === null && !task.iscompleted });
@@ -48,9 +48,9 @@ class TaskTeam extends Component {
                             taskId={task._id}
                             tasktitle={task.tasktitle}
                             duedate={task.duedate}
-                            groupId={group._id}
+                            groupId={task.group._id}
                             grouptitle={task.group.grouptitle}
-                            projectId={project._id}
+                            projectId={task.project._id}
                             projecttitle={task.project.projecttitle}
                             teamtitle={task.team.teamtitle}
                             completeddate={today}
