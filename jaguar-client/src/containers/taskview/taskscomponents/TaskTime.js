@@ -28,14 +28,18 @@ class TaskTime extends Component {
     render() {
         const { taskId, userId, date, group, project, time, planTime, updateQuery, refreshVariables } = this.props;
         const { actualtime, comment, plannedtime } = this.state;
+        
+
         const _addTime = async () => {
             await this.props.addTime({
                 variables: {task: taskId, user: userId, group, project, date: date, time: actualtime, timecomment: comment},
                 refetchQueries: [{query: updateQuery, variables: refreshVariables}]
             });
+
             this.setState({time: '', comment: ''});
             this.props.closeTime();
         };
+
         const _addPlanTime = async () => {
             await this.props.addPlanTime({
                 variables: {task: taskId, createdBy: userId, group, project, date: date, time: plannedtime},
@@ -44,13 +48,13 @@ class TaskTime extends Component {
             this.setState({plannedtime: ''});
             this.props.closeTime();
         };
+
         return(
             <TaskTimeLayout>
             <Form
                   onSubmit={async e => {
                 e.preventDefault();
-                console.log(actualtime);
-                if(actualtime != null) {await _addTime()}
+                if(actualtime != null) { await _addTime() }
             }}>
                 <Form.Group style={{marginBottom: '2px'}} inline>
                 <Form.Field width='six'>
