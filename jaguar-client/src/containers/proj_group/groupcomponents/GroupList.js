@@ -32,6 +32,11 @@ class GroupList extends Component {
         return(
             <Query query={userProjectGroups} variables={variables}>
                 { ({ loading, error, data }) => {
+                    if(data.user && !isSelected) {
+                        this.props.selectGroup(
+                            data.user.projects[0].groups[0]._id,
+                        )
+                    }
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -81,13 +86,6 @@ class GroupList extends Component {
                                 >
                                     {
                                         project.groups.map((group, i) => {
-                                           if(i === 0 && !isSelected){
-                                               project.groups.map((group,i ) => {
-                                                   if(i ===0){
-                                                       this.props.selectGroup(group._id);
-                                                   }
-                                               })
-                                           }
                                             return (
                                                 <GroupTaskItem
                                                     key={group._id}
