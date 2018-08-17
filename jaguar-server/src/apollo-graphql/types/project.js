@@ -106,7 +106,7 @@ const ProjectMutationResolver ={
                 return project;
             });
     },
-        createProject: async (parent, args, { Project }) => {
+    createProject: async (parent, args, { Project }) => {
             let project = await new Project(args).save();
             let user = await User.findById(args.users);
 
@@ -143,20 +143,17 @@ const ProjectMutationResolver ={
 
             };
         },
-    removeGroupFromProject: async (parent,
-                                  {
-                                      groupToRemoveId,
-                                      groupUsersIds,
-                                      groupsTeamId,
-                                      groupsProjectId,
-                                      GroupsTasks,
-                                      newDefaultGroupForProj,
-                                      projectsDefualtGroup,
-                                      userId
+    removeGroupFromProject: async (parent, {
+        groupToRemoveId,
+        groupsTeamId,
+        groupsProjectId,
+        newDefaultGroupForProj,
+        projectsDefualtGroup,
+        userId,
+        GroupsTasks,
+        groupUsersIds,
 
-
-                                  }, {Project}) => {
-
+    }, {Project}) => {
         const GroupsTasksArray = GroupsTasks.split(',');
 
         await User.update(
@@ -164,6 +161,24 @@ const ProjectMutationResolver ={
             {$pull: { groups : groupToRemoveId.split(',')}},
             {multi: true}
         );
+        // find all groups and remove tasks
+        if(groupsProjectId){
+            let GroupsProject = await Project.findById(groupsProjectId);
+            GroupsProject.groups.pull(groupToRemoveId);
+            await GroupsProject.save();
+        }
+
+        if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
+            console.log('switched defualt project')
+            await Project.findByIdAndUpdate(groupsProjectId, {
+                    $set: {
+                        defaultgroup: newDefaultGroupForProj
+                    }
+                },
+                {upsert: true}
+            );
+        }
+
         if(groupsTeamId){
             await Team.update(
                 {_id: groupsTeamId },
@@ -171,23 +186,9 @@ const ProjectMutationResolver ={
                 {multi: true}
             );
         }
-        //find all groups and remove tasks
-        if(groupsProjectId){
-            await Project.update(
-                {_id: groupsProjectId },
-                { $pull: { groups: groupToRemoveId } },
-                {multi: true}
-            );
-        }
-        if(groupToRemoveId && projectsDefualtGroup === groupToRemoveId){
-            await Project.findByIdAndUpdate(groupsProjectId, {
-                    $set: {
-                        defaultgroup: newDefaultGroupForProj
-                    }
-                },
-                {new: true}
-            );
-        }
+
+        //if default
+        //set new defualt in user
         if(userId){
             await User.findByIdAndUpdate(userId, {
                     $set: {
@@ -197,18 +198,16 @@ const ProjectMutationResolver ={
                 {new: true}
             );
         }
-        //
-        // //find all groups and remove
-        // // if(GroupsTasksArray){
-        // //     await Task.remove(
-        // //         {_id: {$in: GroupsTasks.split(',')}},
-        // //     );
-        // // }
+
+        if(GroupsTasks !== ''){
+            await Task.remove(
+                {_id: {$in: GroupsTasks.split(',')}},
+            );
+        }
 
         await Group.deleteOne(
             {_id: groupToRemoveId },
         );
-
     },
     updateProject: async (parent, args, { Project}) => {
         if(args.projecttitle) {
