@@ -5,6 +5,13 @@ import decode from 'jwt-decode';
 import { userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
 import GroupTaskItem from './GroupTaskItem'
 import GroupForm from './GroupForm'
+import styled from 'styled-components';
+
+const ModalGroupWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
 
 const token = localStorage.getItem('token');
 
@@ -50,17 +57,16 @@ class GroupList extends Component {
                             <div key={project._id}>
                                 <Header >
                                     {
-                                        <div>
+                                        <ModalGroupWrapper>
                                             <div>
-                                                <div>{project.team.teamtitle}</div>
-                                                <div>{project.projecttitle}</div>
+                                                <div>{` ${project.team.teamtitle} - ${project.projecttitle}`}</div>
                                             </div>
                                             <div><Icon
                                                 onClick={() => this.captureTeamId(project.team._id, project._id)}
                                                 color='green'
                                                 name='add circle'
                                             /></div>
-                                        </div>
+                                        </ModalGroupWrapper>
                                     }
                                 </Header>
                                 <Modal open={open} onClose={this.close}>
