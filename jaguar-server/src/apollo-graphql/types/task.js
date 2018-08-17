@@ -182,6 +182,14 @@ const TaskMutationResolver ={
             }
         ).save();
 
+        if(args.group) {
+            let groupForTasks = await Group.findById(args.group);
+            //go into that groups tasks and push in new tasks id
+            groupForTasks.tasks.push(task._id);
+            //save groupTask object with new task id pushed in
+            await groupForTasks.save();
+        }
+
         if(args.plandate != 'Invalid Date'  ) {
             await Task.findByIdAndUpdate(task._id, {
                     $set: {

@@ -113,7 +113,11 @@ const GroupQueryResolver = {
                 group
             };
         },
-    updateGroup: async (parent, args, { Group}) => {
+        updateGroup: async (parent, args, { Group}) => {
+            console.log(args)
+        if (args.tasks) {
+                await Group.findByIdAndUpdate(args.yargetproject)
+        }
         if (args.groupProject) {
             await Project.findByIdAndUpdate(args.groupProject, {
                     $pull: {
