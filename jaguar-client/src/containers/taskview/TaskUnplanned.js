@@ -18,10 +18,10 @@ const TaskUnplannedGroup = styled.div`
 class TaskUnplanned extends Component {
 
     render() {
-        const { defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask } = this.props;
+        const { defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask, lastDay } = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
-        const unPlanned = tasks.filter(task => { return task.plandate === null && !task.iscompleted });
+        const unPlanned = tasks.filter(task => { return (task.plandate === null || moment(task.plandate).format('YYYY-MM-DD') > lastDay) && !task.iscompleted });
 
         return(
             <TaskUnplannedGroup>

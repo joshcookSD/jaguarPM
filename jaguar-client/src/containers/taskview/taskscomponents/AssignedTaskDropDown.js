@@ -31,7 +31,7 @@ class GroupTaskDropDown extends Component {
                         <div className="dropDownDiv">
                             <Mutation mutation={updateTaskUser}>
                                 {(updateTask, { data }) => (
-                                    <Dropdown text={userDetails.username} fluid scrolling floating labeled button className='icon'>
+                                    <Dropdown text={userDetails? userDetails.username : 'unassigned'} fluid scrolling floating labeled button className='icon'>
                                         <Dropdown.Menu>
                                             <Dropdown.Header content='Assign to' />
                                             {userOptions.map((option, i) =>
