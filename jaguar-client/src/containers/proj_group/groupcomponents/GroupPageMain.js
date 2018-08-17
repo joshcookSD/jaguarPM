@@ -22,13 +22,19 @@ const { user } = decode(token);
 const userId = user._id;
 
 
-class TeamPageMain extends Component {
-
+class GroupPageMain extends Component {
     componentWillUpdate(nextProps) {
         if(nextProps.selectedGroup !== this.props.selectedGroup) {
             this.setState({groupId: nextProps.selectedGroup});
         }
     }
+
+    changeView = (view) => {
+        this.setState({activePageTab: view, isSelectedPageTab: true });
+    };
+    handleClick = (team) => {
+        this.setState({activeView: team, isSelected: true });
+    };
 
     state = {
         groupId: '',
@@ -37,14 +43,9 @@ class TeamPageMain extends Component {
         isSelectedPageTab: false,
         isSelected: false,
     };
-    changeView = (view) => {
-        this.setState({activePageTab: view, isSelectedPageTab: true });
-    };
-    handleClick = (team) => {
-        this.setState({activeView: team, isSelected: true });
-    };
 
     render() {
+
         const { activePageTab, isSelectedPageTab } = this.state;
 
         const {
@@ -57,7 +58,7 @@ class TeamPageMain extends Component {
 
             if(this.state.groupId){
                 return (
-                <Query query={groupDetails} variables={{_id: selectedGroup}}>
+                <Query query={groupDetails} variables={queryVariables}>
                     {({loading, error, data}) => {
                         if (loading) return (
                             <div>
@@ -67,46 +68,49 @@ class TeamPageMain extends Component {
                             </div>
                         );
                         if (error) return <p>No Project Selected</p>;
-                        return (
-                            <div className='container'>
-                                <NavBarStatic user={user}/>
-                                <TeamPagePaneGrid>
-                                    <Secondary>
-                                        <GroupPageTabs
-                                            changeView={this.changeView}
-                                            activePageTab={activePageTab}
-                                            isSelectedPageTab={isSelectedPageTab}
-                                        />
-                                    </Secondary>
-                                    <Activity>
-                                        <GroupPagePanes
-                                            data={data}
-                                            activePageTab={activePageTab}
-                                        />
-                                    </Activity>
-                                    <Details>
-                                        <GroupDetail
-                                            data={data}
-                                            userId={userId}
-                                            selectedGroup={selectedGroup}
-                                            queryVariables={queryVariables}
-                                            userProjectGroups={userProjectGroups}
-                                            variables={variables}
-                                            removeGroupSwitchForDefault={removeGroupSwitchForDefault}
-                                        />
-                                    </Details>
-                                    <Prioriety>
-                                        <GroupTaskPrioriety
-                                            data={data}
-                                            userId={userId}
-                                            userName={user.username}
-                                            selectedGroup={selectedGroup}
-                                            queryVariables={queryVariables}
-                                        />
-                                    </Prioriety>
-                                </TeamPagePaneGrid>
-                            </div>
-                        )
+
+                            return (
+                                <div className='container'>
+                                    <NavBarStatic user={user}/>
+                                    <TeamPagePaneGrid>
+                                        <Secondary>
+                                            <GroupPageTabs
+                                                changeView={this.changeView}
+                                                activePageTab={activePageTab}
+                                                isSelectedPageTab={isSelectedPageTab}
+                                            />
+                                        </Secondary>
+                                        <Activity>
+                                            <GroupPagePanes
+                                                data={data}
+                                                activePageTab={activePageTab}
+                                            />
+                                        </Activity>
+                                        <Details>
+                                            <GroupDetail
+                                                data={data}
+                                                userId={userId}
+                                                selectedGroup={selectedGroup}
+                                                queryVariables={queryVariables}
+                                                userProjectGroups={userProjectGroups}
+                                                variables={variables}
+                                                removeGroupSwitchForDefault={removeGroupSwitchForDefault}
+                                            />
+                                        </Details>
+                                        <Prioriety>
+                                            <GroupTaskPrioriety
+                                                data={data}
+                                                refetch={{_id: this.state.groupId}}
+                                                userId={userId}
+                                                userName={user.username}
+                                                selectedGroup={selectedGroup}
+                                                queryVariables={queryVariables}
+                                                removeGroupSwitchForDefault={removeGroupSwitchForDefault}
+                                            />
+                                        </Prioriety>
+                                    </TeamPagePaneGrid>
+                                </div>
+                            )
                     }}
                 </Query>
             )
@@ -114,4 +118,4 @@ class TeamPageMain extends Component {
     }
 }
 
-export default TeamPageMain;
+export default GroupPageMain;

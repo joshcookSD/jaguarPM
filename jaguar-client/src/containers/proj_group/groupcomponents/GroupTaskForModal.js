@@ -25,7 +25,8 @@ class TaskForm extends Component {
             project,
             team,
             teamUsers,
-            userName
+            userName,
+            queryVariables
         } = this.props;
 
         const {
@@ -61,10 +62,10 @@ class TaskForm extends Component {
                                             team: team,
                                         },
                                         refetchQueries: [
-                                            { query: userProjectGroups, variables: {_id: taskcurrentowner}},
                                             { query: groupDetails, variables: {_id: group}},
+                                            // { query: userProjectGroups, variables: {_id: taskcurrentowner}},
                                             { query: userTaskDetails, variables: {_id: taskcurrentowner}},
-                                            { query: projectDetails, variables: {_id: project}},
+                                            // { query: projectDetails, variables: {_id: project}},
 
                                         ]
                                     });
