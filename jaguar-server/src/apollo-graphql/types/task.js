@@ -265,6 +265,8 @@ const TaskMutationResolver ={
             );
         }
         if(args.taskcurrentowner) {
+            task.taskpriorowners.push(task.taskcurrentowner);
+            await task.save();
             let owner = await User.findById(args.taskcurrentowner);
             await task.taskcurrentowner.save(owner._id);
             owner.tasks.push(task._id);
