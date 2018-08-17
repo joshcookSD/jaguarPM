@@ -190,6 +190,21 @@ const TaskMutationResolver ={
             await groupForTasks.save();
         }
 
+        if(args.project) {
+            let projectForTasks = await Project.findById(args.project);
+            //go into that groups tasks and push in new tasks id
+            projectForTasks.tasks.push(task._id);
+            //save groupTask object with new task id pushed in
+            await projectForTasks.save();
+        }
+        if(args.team) {
+            let teamForTasks = await Team.findById(args.team);
+            //go into that groups tasks and push in new tasks id
+            teamForTasks.tasks.push(task._id);
+            //save groupTask object with new task id pushed in
+            await teamForTasks.save();
+        }
+
         if(args.plandate != 'Invalid Date'  ) {
             await Task.findByIdAndUpdate(task._id, {
                     $set: {
