@@ -17,8 +17,6 @@ import {Section} from '../layout/Section';
 import TaskGrid from './TaskGrid';
 import TaskTimeView from './TaskTimeView';
 import {userTaskDetails} from "../apollo-graphql/userQueries";
-import {projectDetails} from "../apollo-graphql/groupProjectQueries";
-
 
 const token = localStorage.getItem('token');
 
@@ -27,7 +25,7 @@ class TaskView extends Component {
         activeView: 'plan',
         isSelected: false,
         taskSelected: '',
-        weekSelected: {key: '2018-08-12', text: 'Week of August 12, 2018', value: '2018-08-12'},
+
     };
     changeView = (view) => {
         this.setState({activeView: view, isSelected: true });
@@ -35,9 +33,7 @@ class TaskView extends Component {
     selectTask = (task) => {
         this.setState({taskSelected: task});
     };
-    selectWeek = (week) => {
-        this.setState({weekSelected: week});
-    };
+
 
 
     render() {
@@ -49,14 +45,7 @@ class TaskView extends Component {
         const plus4 = moment(Date.now()).add(4,'day').format('YYYY-MM-DD');
         const plus5 = moment(Date.now()).add(5,'day').format('YYYY-MM-DD');
         const variables = {_id: user._id};
-        const weekOptions = [
-            {key: '2018-07-29', text: 'Week of July 29, 2018', value: '2018-07-29'},
-            {key: '2018-08-05', text: 'Week of August 5, 2018', value: '2018-08-05'},
-            {key: '2018-08-12', text: 'Week of August 12, 2018', value: '2018-08-12'},
-            {key: '2018-08-19', text: 'Week of August 19, 2018', value: '2018-08-19'},
-            {key: '2018-08-26', text: 'Week of August 26, 2018', value: '2018-08-26'},
-            {key: '2018-09-02', text: 'Week of September 2, 2018', value: '2018-09-02'}
-        ];
+
         const currentWeek = {key: '2018-08-12', text: 'Week of August 12, 2018', value: '2018-08-12'};
         console.log(weekSelected);
 
@@ -215,8 +204,10 @@ class TaskView extends Component {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
+                                <br/>
                                 <TaskTimeView user={user} selectedWeek={weekSelected.value}/>
                             </GridArea>
+
                             }
                         </AppLayout>
                     </div>;
