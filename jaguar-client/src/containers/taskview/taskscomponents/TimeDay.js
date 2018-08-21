@@ -19,7 +19,7 @@ class TimeDay extends Component {
 
         return (
             <TimeDayGroup>
-                <TaskGroupHeader>{day}</TaskGroupHeader>
+                <TaskGroupHeader>{moment.utc(day).format('dddd')}, {moment.utc(day).format('MM/DD')}</TaskGroupHeader>
                 <Transition.Group
                     as={List}
                     duration={200}
