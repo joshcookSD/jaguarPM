@@ -19,6 +19,7 @@ const TimeType = `
 const TimeQuery = `
     allTime: [Time]
     time(_id: String): Time
+    timeByUser(user: String): [Time]
 `;
 
 const TimeMutation = `
@@ -43,7 +44,12 @@ const TimeQueryResolver = {
     },
     time: async (parent, args, {Time}) => {
         return await Time.findById(args._id.toString())
-    }
+    },
+    timeByUser: async (parent, args, {Time}) => {
+        const user = await User.findById(args.user.toString());
+        console.log(user);
+        return await Time.find({user})
+    },
 };
 
 const TimeNested = {
@@ -51,7 +57,7 @@ const TimeNested = {
         return (await Task.findById(task))
     },
     user: async ({user}) => {
-        return (await User.findById(user))
+        return await User.findById(user)
     },
     group: async ({group}) => {
         return (await Group.findById(group))

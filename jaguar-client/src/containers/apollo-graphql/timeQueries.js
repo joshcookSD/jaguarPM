@@ -45,4 +45,29 @@ mutation createPlannedTime($time: Float!, $date: Date, $createdBy: String, $task
 }
 `;
 
-export {createTaskTime, createPlannedTimeTask};
+const timeByUser = gql`
+ query timeByUser($user: String!){
+  timeByUser(user: $user) {
+    _id
+    time
+    date
+    task {
+        _id
+        tasktitle
+        tasktime {
+            time
+        }
+    }
+    group {
+        _id
+        grouptitle
+    }
+    project {
+        _id
+        projecttitle
+    }
+    }
+}
+ `;
+
+export {createTaskTime, createPlannedTimeTask, timeByUser};

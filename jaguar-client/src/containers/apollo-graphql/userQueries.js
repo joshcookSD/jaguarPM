@@ -351,6 +351,26 @@ query user($_id: String ){
                 time
                 }
             }   
+        time{
+            _id
+            time
+            date
+            task {
+                _id
+                tasktitle
+                tasktime {
+                    time
+                }
+            }
+            group {
+                _id
+                grouptitle
+            }
+            project {
+                _id
+                projecttitle
+            }
+        }    
         tasks {
             _id
             tasktitle
