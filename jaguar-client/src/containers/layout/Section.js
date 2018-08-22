@@ -9,14 +9,7 @@ const Section = styled.div`
     display: flex;
 `;
 
-const TimeSection = styled.div`
-    min-height: 400px
-    min-width: 185px
-    max-height: 450px
-    max-width: 300px
-    flex-grow: 1;
-    display: flex;
-`;
+
 
 const TopSection = styled.div`
     min-height: 400px

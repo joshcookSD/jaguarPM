@@ -25,7 +25,6 @@ class TaskView extends Component {
         activeView: 'plan',
         isSelected: false,
         taskSelected: '',
-
     };
     changeView = (view) => {
         this.setState({activeView: view, isSelected: true });
@@ -37,7 +36,7 @@ class TaskView extends Component {
 
 
     render() {
-        const { activeView, isSelected, taskSelected, weekSelected } = this.state;
+        const { activeView, isSelected, taskSelected} = this.state;
         const { user } = decode(token);
         const tomorrow = moment(Date.now()).add(1,'day').format('YYYY-MM-DD');
         const plus2 = moment(Date.now()).add(2,'day').format('YYYY-MM-DD');
@@ -45,9 +44,6 @@ class TaskView extends Component {
         const plus4 = moment(Date.now()).add(4,'day').format('YYYY-MM-DD');
         const plus5 = moment(Date.now()).add(5,'day').format('YYYY-MM-DD');
         const variables = {_id: user._id};
-
-        const currentWeek = {key: '2018-08-12', text: 'Week of August 12, 2018', value: '2018-08-12'};
-        console.log(weekSelected);
 
         return(
             <Query query={userTaskDetails} variables={variables}>
@@ -189,25 +185,7 @@ class TaskView extends Component {
                                     </GridArea>
                             }
                             {activeView === 'time' &&
-                            <GridArea>
-                                <div>
-                                    <Dropdown text={weekSelected.text} fluid scrolling floating labeled button className='icon' >
-                                        <Dropdown.Menu>
-                                            <Dropdown.Header content='New Group' />
-                                            {weekOptions.map((option, i) =>
-                                                <Dropdown.Item
-                                                    key={i}
-                                                    value={option.value}
-                                                    {...option}
-                                                    onClick={() => this.selectWeek(option)}
-                                                />)}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
-                                <br/>
-                                <TaskTimeView user={user} selectedWeek={weekSelected.value}/>
-                            </GridArea>
-
+                                <TaskTimeView user={user} time={data.user.time}/>
                             }
                         </AppLayout>
                     </div>;

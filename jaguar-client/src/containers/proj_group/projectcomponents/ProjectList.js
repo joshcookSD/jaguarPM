@@ -71,7 +71,9 @@ class ProjectList extends Component {
                                         onClick={() => this.captureFormVariables(team._id)}
                                         color='green'
                                         name='add circle'
-                                        floated='right'
+                                        style={{
+                                            float: 'right',
+                                        }}
                                     />
                                 </Header>
                                 <Modal size='small' open={open} onClose={this.close}>
