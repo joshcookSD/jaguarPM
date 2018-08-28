@@ -52,6 +52,7 @@ class TaskTeam extends Component {
                             grouptitle={task.group.grouptitle}
                             projectId={task.project._id}
                             projecttitle={task.project.projecttitle}
+                            teamId={task.team._id}
                             teamtitle={task.team.teamtitle}
                             completeddate={today}
                             updateQuery={updateQuery}

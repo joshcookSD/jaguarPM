@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
-import {Icon} from 'semantic-ui-react';
+import {Icon, Modal} from 'semantic-ui-react';
+import TimeForm from './TimeForm';
 
 const TimeDayGroup = styled.div`
     width: 100%;
     padding: 1em 0.25em 0.25em 0.25em;
     position: relative;
+    min-width: 200px;
 `;
 
 const TimeTaskList = styled.ul`
@@ -33,16 +35,23 @@ const TimeTask = styled.li`
 `;
 
 class TimeDay extends Component {
+    state = {
+        open: false,
+    };
+
+    show = () => this.setState({ open: true });
+    close = () => this.setState({ open: false });
 
     render() {
-        const { day, time } = this.props;
-        const dayTime = time.filter(time => { return moment.utc(time.date).format('YYYY-MM-DD') === day && time.time != 0 });
+        const { day, time, user, defaultgroup, defaultproject, defaultteam, team} = this.props;
+        const { open } = this.state;
+        const dayTime = time.filter(time => { return moment.utc(time.date).format('YYYY-MM-DD') === day && time.time !== 0 });
         return (
             <TimeDayGroup>
                 <TimeHeader>
                     {moment.utc(day).format('dddd')}, {moment.utc(day).format('M/DD')}
                     <Icon
-                        // onClick={}
+                        onClick={() => this.show()}
                         link
                         color='green'
                         name='add circle'
@@ -52,9 +61,24 @@ class TimeDay extends Component {
                     />
                 </TimeHeader>
                 <TimeTaskList>
-                    {dayTime.map( time => (<TimeTask key={time._id}>{time.task.tasktitle} {time.time}hrs</TimeTask>))}
-
+                    {dayTime.map( time => (<TimeTask key={time._id}>{time.task ? time.task.tasktitle: time.group.grouptitle} {time.time}hrs</TimeTask>))}
                 </TimeTaskList>
+                <Modal size='small' open={open} onClose={this.close}>
+                    <Modal.Header>
+                        Time Entry for {day}
+                    </Modal.Header>
+                    <Modal.Content>
+                        <TimeForm
+                            userId={user}
+                            date={day}
+                            defaultgroup={defaultgroup}
+                            defaultproject={defaultproject}
+                            defaultteam={defaultteam}
+                            team={team}
+                            onClose={this.close}
+                        />
+                    </Modal.Content>
+                </Modal>
                 <span>
                     Total {dayTime.map(({time}) => time).reduce((a, b) => (a + b), 0)}hrs
                 </span>

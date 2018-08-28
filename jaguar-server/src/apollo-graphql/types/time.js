@@ -2,6 +2,7 @@ import User from "../../models/user";
 import Task from "../../models/task";
 import Group from "../../models/group";
 import Project from "../../models/project";
+import Team from "../../models/team";
 
 const TimeType = `
     type Time {
@@ -13,6 +14,7 @@ const TimeType = `
         task: Task
         group: Group
         project: Project
+        team: Team
     }
 `;
 
@@ -31,6 +33,7 @@ const TimeMutation = `
         task: String
         group: String
         project: String
+        team: String
 ) : Time
 `;
 
@@ -65,23 +68,32 @@ const TimeNested = {
     project: async ({project}) => {
         return (await Project.findById(project))
     },
+    team: async ({team}) => {
+        return (await Team.findById(team))
+    },
 };
 
 const TimeMutationResolver ={
-    createTimeTask: async (parent, {time, timecomment, date, task, group, project, user}, { Time, Task, User }) => {
-        let newtime = await new Time({time, timecomment, user, task, group, project, date}).save();
+    createTimeTask: async (parent, {time, timecomment, date, task, group, project, team, user}, { Time, Task, User }) => {
+        let newtime = await new Time({time, timecomment, user, task, group, project, team, date}).save();
         let usertime = await User.findById(user);
         let grouptime = await Group.findById(group);
         let projecttime = await Project.findById(project);
+        let teamtime = await Team.findById(team);
         usertime.time.push(newtime._id);
         grouptime.grouptime.push(newtime._id);
         projecttime.projecttime.push(newtime._id);
+        teamtime.teamtime.push(newtime._id);
         await usertime.save();
         await grouptime.save();
         await projecttime.save();
-        let task_time = await Task.findById(task);
-        task_time.tasktime.push(newtime._id);
-        await task_time.save();
+        await teamtime.save();
+        if(task) {
+            let task_time = await Task.findById(task);
+            task_time.tasktime.push(newtime._id);
+            await task_time.save();
+        }
+
         return newtime
     }
 };

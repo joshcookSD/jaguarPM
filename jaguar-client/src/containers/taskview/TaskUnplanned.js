@@ -53,6 +53,7 @@ class TaskUnplanned extends Component {
                             grouptitle={group.grouptitle}
                             projectId={project._id}
                             projecttitle={project.projecttitle}
+                            teamId={team._id}
                             teamtitle={team.teamtitle}
                             completeddate={today}
                             updateQuery={updateQuery}

@@ -404,13 +404,15 @@ query user($_id: String ){
             teamtitle
             defaultproject {
                 _id
+                projecttitle
                 defaultgroup {
                 _id
+                grouptitle
                 }
             }
             tasks {
                  _id
-            tasktitle
+                tasktitle
             taskdescription
             iscompleted
             taskcurrentowner {
@@ -443,24 +445,58 @@ query user($_id: String ){
             projects{
                 _id
                 projecttitle
+                defaultgroup {
+                    _id
+                    grouptitle
+                }
             groups{
                 _id
                 grouptitle
                 groupdescription
+                tasks {
+                 _id
+                tasktitle
+                }
              }
             }
         }
         defaultgroup{
             _id
             grouptitle
+            tasks {
+                 _id
+                tasktitle
+            }    
         }
         defaultproject{
             _id
             projecttitle
+            defaultgroup {
+                    _id
+                    grouptitle
+                }
+            groups{
+                _id
+                grouptitle
+                
+             }    
         }
         defaultteam{
             _id
             teamtitle
+            projects{
+                _id
+                projecttitle
+                defaultgroup {
+                    _id
+                    grouptitle
+                }
+                groups{
+                _id
+                grouptitle
+                groupdescription
+             }
+            }
         }
     }
 }`;

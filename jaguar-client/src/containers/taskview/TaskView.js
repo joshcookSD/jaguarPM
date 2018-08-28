@@ -185,7 +185,14 @@ class TaskView extends Component {
                                     </GridArea>
                             }
                             {activeView === 'time' &&
-                                <TaskTimeView user={user} time={data.user.time}/>
+                                <TaskTimeView
+                                    user={user}
+                                    defaultgroup={data.user.defaultgroup}
+                                    defaultproject={data.user.defaultproject}
+                                    defaultteam={data.user.defaultteam}
+                                    time={data.user.time}
+                                    team={data.user.team}
+                                />
                             }
                         </AppLayout>
                     </div>;
