@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import {Dropdown, Icon } from 'semantic-ui-react';
-import TimeDay from './taskscomponents/TimeDay';
+import TimeDay from './timecomponents/TimeDay';
+
 import styled from 'styled-components';
 
 
@@ -16,6 +17,7 @@ const TimeDayRow = styled.div`
     grid-row-end: 2;
     display: flex
     justify-content: space-between;
+    overflow-x: auto;
     `;
 
 const TimeHeaderRow = styled.div`
@@ -42,7 +44,7 @@ class TaskTimeView extends Component {
         for (let date = initialWeek.value; date > beginDate; date = moment(date).add(-7,'day').format('YYYY-MM-DD')){
             weekOptions.push({key: date, text: 'Week of ' + moment(date).format('MMMM Do, YYYY'), value: date})
         }
-        const { user, time } = this.props;
+        const { user, time, defaultgroup, defaultproject, defaultteam, team} = this.props;
         const selectedWeekArray = [];
         const showDays = includeWeekend ? moment(selectedWeek.value).add(7,'day').format('YYYY-MM-DD') : moment(selectedWeek.value).add(5,'day').format('YYYY-MM-DD');
         for (let day = selectedWeek.value; day < showDays ; day = moment(day).add(1,'day').format('YYYY-MM-DD')) {
@@ -81,8 +83,19 @@ class TaskTimeView extends Component {
                         />
                     </span>
                 </TimeHeaderRow>
+
                 <TimeDayRow>
-                    {selectedWeekArray.map(day => (<TimeDay key={day} day={day} user={user} time={time}/>))}
+                    {selectedWeekArray.map(day =>
+                        (<TimeDay
+                            key={day}
+                            day={day}
+                            user={user}
+                            time={time}
+                            defaultgroup={defaultgroup}
+                            defaultproject={defaultproject}
+                            defaultteam={defaultteam}
+                            team={team}
+                        />))}
                 </TimeDayRow>
             </TimeView>
         )

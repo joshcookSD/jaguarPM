@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+ import React, {Component} from 'react'
 import { Mutation } from "react-apollo";
 import { Button, Form, Dimmer, Loader } from 'semantic-ui-react'
 import {createProject, userProjectGroups} from "../../apollo-graphql/groupProjectQueries";

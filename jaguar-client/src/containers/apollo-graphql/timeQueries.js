@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const createTaskTime = gql`
-mutation createTimeTask($time: Float!, $timecomment: String, $date: Date, $task:String, $user: String, $group: String, $project: String) {
-    createTimeTask(time: $time, timecomment:$timecomment, date: $date, task: $task, user: $user, group: $group project: $project) {
+mutation createTimeTask($time: Float!, $timecomment: String, $date: Date, $task:String, $user: String, $group: String, $project: String, $team: String) {
+    createTimeTask(time: $time, timecomment:$timecomment, date: $date, task: $task, user: $user, group: $group project: $project, team: $team ) {
         time
         timecomment
         date
