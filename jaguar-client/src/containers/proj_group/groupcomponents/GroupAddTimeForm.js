@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Dropdown, Form } from 'semantic-ui-react';
-import TaskTime from '../../taskview/taskscomponents/TaskTime.js'
+import GroupTaskTimeModalForm from './GroupTaskTimeModalForm.js'
 import decode from 'jwt-decode';
 import moment from 'moment';
 const token = localStorage.getItem('token');
@@ -48,16 +48,15 @@ class GroupAddTimeForm extends Component {
                     </Dropdown.Menu>
                 </Dropdown>
                 </Form>
-                <TaskTime
+                <GroupTaskTimeModalForm
                     userId={userId}
                     taskId={selectedTask}
                     group={data.group._id}
                     project={data.group.project._id}
                     date={today}
-                    closeTime={this.props.close}
+                    onClose={this.props.onClose}
                     time={tasktime}
                     planTime={taskPlannedTime}
-
                 />
             </div>
         );

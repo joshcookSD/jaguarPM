@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Query, Mutation } from "react-apollo";
-import { Dimmer, Loader, Checkbox, Icon, Modal } from 'semantic-ui-react';
+import { Dimmer, Loader, Checkbox, Icon, Modal, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {completeTask} from "../../apollo-graphql/taskQueries";
 import { groupDetails} from "../../apollo-graphql/groupProjectQueries";
@@ -8,9 +8,16 @@ import GroupTaskForModal from './GroupTaskForModal'
 import moment from "moment/moment";
 import {userTaskDetails} from "../../apollo-graphql/userQueries";
 
+const TaskDescript = styled.div`
+    padding-left: 10px;
+`;
 
 const GroupAddTaskWrapper = styled.div`
     align-self: flex-end;
+`;
+
+const TaskTitleAndDescWrapper = styled.div`
+    
 `;
 
 const InnerGroupWrapper = styled.div`
@@ -39,8 +46,6 @@ const TaskTitleWrapper = styled.div`
   }
 `;
 class GroupTaskPrioriety extends Component {
-    show = () => this.setState({ open: true });
-    close = () => this.setState({ open: false });
 
     componentWillUpdate(nextProps) {
         if(nextProps.selectedGroup !== this.props.selectedGroup) {
@@ -48,7 +53,27 @@ class GroupTaskPrioriety extends Component {
         }
     }
 
-    state = { groupId: ''};
+    state = {
+        groupId: '',
+        taskTimeDropedDown: false,
+        taskTimeDropedDownIndex: '',
+        hovering: false,
+        hoveringSquare: false,
+        hoveringSquareindex: ''
+    };
+
+    handleClick = (i) => {
+        this.setState({taskTimeDropedDown:!this.state.taskTimeDropedDown});
+        this.setState({taskTimeDropedDownIndex:i});
+    };
+    show = () => this.setState({ open: true });
+    close = () => this.setState({ open: false });
+
+    onEnter = () => this.setState({ hovering: true });
+    onExit = () => this.setState({ hovering: false });
+
+    onEnterSquare = (i) => this.setState({ hoveringSquare: true, hoveringSquareindex: i });
+    onExitSquare = () => this.setState({ hoveringSquare: false, hoveringSquareindex: '' });
 
     render() {
 
@@ -73,49 +98,17 @@ class GroupTaskPrioriety extends Component {
                                         ? <Icon name='flag checkered' />
                                         :<div>Tasks Completed : {data.group.tasks.filter(task => task.iscompleted === true).length} / {data.group.tasks.length}</div>
                                 }
-                            </ProjectTitleWrapper>
-                            <InnerGroupWrapper>
-                                { data.group.tasks.map(task =>
-                                    <TaskTitleWrapper>
-                                        <div>{task.tasktitle}</div>
-                                        {
-
-                                            (task.iscompleted === true)
-                                                ?
-                                                <div>done!</div>
-                                                :
-                                                <Checkbox
-                                                    radio
-                                                    onChange={async e => {
-                                                        e.preventDefault();
-                                                        await completeTask({
-                                                            variables: {
-                                                                _id: task._id,
-                                                                iscompleted: true,
-                                                                completeddate: today,
-                                                                groupForTasksId: task.group._id
-                                                            },
-                                                            refetchQueries:
-                                                                [
-                                                                    {query: groupDetails, variables: {_id: this.state.groupId}},
-                                                                    { query: userTaskDetails, variables: {_id: userId}},
-                                                                ]
-                                                        });
-                                                    }}
-                                                />
-                                        }
-                                    </TaskTitleWrapper>
-                                )}
-
                                 <Modal
                                     floated='right'
                                     trigger={
                                         <GroupAddTaskWrapper>
                                             <Icon
+                                                onMouseEnter={this.onEnter}
+                                                onMouseLeave={this.onExit}
                                                 name='plus circle'
                                                 floated='right'
                                                 size='big'
-                                                color='green'
+                                                color={this.state.hovering ? 'blue' : 'green'}
                                             />
                                         </GroupAddTaskWrapper>
                                     }
@@ -134,6 +127,45 @@ class GroupTaskPrioriety extends Component {
                                         />
                                     </Modal.Content>
                                 </Modal>
+                            </ProjectTitleWrapper>
+                            <InnerGroupWrapper>
+                                { data.group.tasks.map((task, i) =>
+                                    <TaskTitleWrapper>
+                                        <TaskTitleAndDescWrapper onClick={() => this.handleClick(i)}>
+                                            <div>{task.tasktitle}</div>
+                                            {this.state.taskTimeDropedDown && (this.state.taskTimeDropedDownIndex === i) && <TaskDescript>{task.taskdescription}</TaskDescript>}
+                                        </TaskTitleAndDescWrapper>
+                                        {
+                                            (task.iscompleted === true)
+                                                ?
+                                                <Icon name='check circle' color='green' size='large'/>
+                                                :
+                                                <Icon
+                                                    name='square outline'
+                                                    onMouseEnter={() => this.onEnterSquare(i)}
+                                                    onMouseLeave={this.onExitSquare}
+                                                    color={this.state.hoveringSquare && this.state.hoveringSquareindex === i ? 'blue' : 'green'}
+                                                    size='large'
+                                                    onClick={async e => {
+                                                        e.preventDefault();
+                                                        await completeTask({
+                                                            variables: {
+                                                                _id: task._id,
+                                                                iscompleted: true,
+                                                                completeddate: today,
+                                                                groupForTasksId: task.group._id
+                                                            },
+                                                            refetchQueries:
+                                                                [
+                                                                    {query: groupDetails, variables: {_id: data.group._id}},
+                                                                    // { query: userTaskDetails, variables: {_id: userId}},
+                                                                ]
+                                                        });
+                                                    }}
+                                                />
+                                        }
+                                    </TaskTitleWrapper>
+                                )}
                             </InnerGroupWrapper>
                         </div>
                     )

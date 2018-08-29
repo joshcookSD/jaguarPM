@@ -79,7 +79,6 @@ class TaskTime extends Component {
                     onSubmit={async e => {
                         e.preventDefault();
                         if(plannedtime > 0 && taskId) {await _addPlanTime()}else{alert('pleaser enter task')}
-
                     }}
                 >
                 <Form.Group style={{marginBottom: '2px'}} inline>

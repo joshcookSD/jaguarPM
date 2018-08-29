@@ -30,6 +30,7 @@ background-color: lightblue;
     margin-right: 10px;
     margin-left: 10px;
     margin-top: 10px;
+      overflow: auto;
     box-shadow: 0 0 0 1px #d4d4d5, 0 2px 4px 0 rgba(34,36,38,.12), 0 2px 10px 0 rgba(34,36,38,.15);
     background: #fff;
     /* padding: 0; */
@@ -37,6 +38,7 @@ background-color: lightblue;
     border-radius: .28571429rem;
     padding: 10px;
         @media (max-width: 1000px) {
+        overflow: auto;
         grid-column-start: 1;
         grid-row-start: 4;
   }
@@ -84,13 +86,14 @@ const Secondary = styled.div`
     grid-row-start: 1;
     grid-column-end: 2;
     grid-row-end: 7;
+  
      @media (max-width: 1000px) {
         grid-column-start: 1;
         grid-row-start: 3;
         grid-row-end: 3;
   }
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     * {box-sizing: border-box}
 body {font-family: "Lato", sans-serif;}
 
