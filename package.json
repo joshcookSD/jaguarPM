@@ -22,13 +22,16 @@
     "@google-cloud/storage": "^1.6.0",
     "concurrently": "^3.5.1",
     "google-cloud": "^0.57.0",
+    "immutability-helper": "^2.7.1",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
     "rimraf": "^2.6.2"
   },
   "scripts": {
     "build": "cd jaguar-client && yarn && yarn build && cd .. && cd jaguar-server && yarn && yarn build && cd ..",
     "clean": "concurrently \"rimraf node_modules yarn.lock\" \"cd jaguar-client && rimraf node_modules build yarn.lock\" \"cd jaguar-server && rimraf node_modules build yarn.lock\"",
     "postinstall": "yarn build",
-    "start": "concurrently \"cd jaguar-client && yarn start\" \"cd jaguar-server && yarn start\"",
-    "start:prod": "cd jaguar-server && yarn start:prod"
+    "devstart": "concurrently \"cd jaguar-client && yarn start\" \"cd jaguar-server && yarn start\"",
+    "start": "cd jaguar-server && yarn start:prod"
   }
 }

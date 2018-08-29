@@ -18,6 +18,8 @@ import {CommentMutation, CommentQuery, CommentType} from "./types/comment";
 
 //schema for graphql
 const typeDefs = `
+    scalar Date
+
     ${UserType}
     ${TaskType}
     ${TimeType}

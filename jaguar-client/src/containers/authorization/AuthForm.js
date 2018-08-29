@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Mutation, graphql, compose } from "react-apollo";
-import { Message, Form, Button, Input, Container, Header, Icon } from 'semantic-ui-react';
+import { Message, Form, Button, Container, Header, Icon } from 'semantic-ui-react';
 import Navbar from "../Navbar";
 import {loginUser, getCurrentUser} from "../apollo-graphql/userQueries";
 
@@ -11,11 +11,18 @@ class AuthForm extends Component {
             email: "",
             emailError: "",
             passwordError: "",
+            showPassword: false,
             errors: {},
         };
 
+    showHide = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({showPassword: !this.state.showPassword})
+    };
+
     render() {
-        const { email, password, emailError, passwordError } = this.state;
+        const { email, password, emailError, passwordError, showPassword } = this.state;
         const errorList = [];
         if (emailError) {errorList.push(emailError);}
         if (passwordError) {errorList.push(passwordError);}
@@ -26,7 +33,7 @@ class AuthForm extends Component {
                     <div>
                     <Navbar/>
                     <Container text style={{ marginTop: '7em' }}>
-                        <Header as="h2">login</Header>
+                        <Header as="h2" >login</Header>
                         <Form
                             onSubmit={async e => {
 
@@ -50,35 +57,36 @@ class AuthForm extends Component {
 
                             <Form.Field error={!!emailError}>
                                 <Form.Input
-                                    placeholder="email"
+                                    placeholder='email'
                                     value={email}
-                                    type="text"
-                                    label="email"
-                                    name="email"
+                                    type='text'
+                                    label='email'
+                                    name='email'
                                     fluid
                                     onChange={e => this.setState({ email: e.target.value })}
                                 />
                             </Form.Field>
-
                             <Form.Field error={!!passwordError}>
-                                <i className="material-icons prefix">lock</i>
-                                <Input
-                                    placeholder="password"
+                                <Form.Input
+                                    placeholder='password'
                                     value={password}
-                                    type="text"
-                                    id="password"
-                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    id='password'
+                                    name='password'
+                                    label='password'
                                     fluid
                                     onChange={e => this.setState({ password: e.target.value })}
-                                />
+                                >
+                                <input/>
+                                    <div style={{marginLeft: 5+'px', marginTop: 7+'px'}} onClick={ this.showHide }><Icon name={showPassword ? 'hide' : 'unhide'} /></div>
+                                </Form.Input>
                             </Form.Field>
                             <Button floated='right' icon labelPosition='left'><Icon name='plus'/>login</Button>
                         </Form>
-
+                        <Link to='/signup'> need to create an account?</Link>
                         {errorList.length ? (
-                            <Message error header="There was some errors with your submission" list={errorList} />
+                            <Message error header='There was some errors with your submission' list={errorList} />
                         ) : null}
-                        <Link to="/signup"> need to create an account?</Link>
                     </Container>
                     </div>
                 )}

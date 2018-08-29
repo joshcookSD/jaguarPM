@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 import Organization from './organization';
 import User from './user';
 import Project from './project';
+import Group from './group';
+import Task from './task';
+import Time from './time';
 
 
 const teamSchema = new mongoose.Schema(
@@ -24,6 +27,10 @@ const teamSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Task"
         }],
+        teamtime: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Time"
+        }],
         owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
@@ -31,6 +38,14 @@ const teamSchema = new mongoose.Schema(
         projects: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Project"
+        }],
+        defaultproject: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Project"
+        },
+        groups: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group"
         }],
         organization: {
             type: mongoose.Schema.Types.ObjectId,

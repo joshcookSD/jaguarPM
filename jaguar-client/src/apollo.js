@@ -6,9 +6,9 @@ import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
 
 
-const uri =  'http://localhost:3001/graphql';
+const uri =  `${process.env.REACT_APP_SERVER_URL}/graphql`;
 
-const httpLink = new createFileLink({ uri });
+const httpLink = new createFileLink({ uri: uri });
 
 const cache = new InMemoryCache({});
 persistCache({

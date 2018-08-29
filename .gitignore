@@ -3,7 +3,9 @@
 # dependencies
 node_modules
 jaguar-client/node_modules
+jaguar-client/build
 jaguar-server/node_modules
+jaguar-server/build
 .idea
 
 # testing

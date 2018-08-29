@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn start
+  /usr/local/bin/node /usr/local/bin/yarn devstart
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -31,7 +31,7 @@ npm manifest:
     "engines": {
       "node": "9.9.0",
       "npm": "5.6.0",
-      "yarn": "1.5.1"
+      "yarn": "1.6.0"
     },
     "homepage": "https://github.com/joshcookSD/jaguarPM#readme",
     "dependencies": {
@@ -44,8 +44,8 @@ npm manifest:
       "build": "cd jaguar-client && yarn && yarn build && cd .. && cd jaguar-server && yarn && yarn build && cd ..",
       "clean": "concurrently \"rimraf node_modules yarn.lock\" \"cd jaguar-client && rimraf node_modules build yarn.lock\" \"cd jaguar-server && rimraf node_modules build yarn.lock\"",
       "postinstall": "yarn build",
-      "start": "concurrently \"cd jaguar-client && yarn start\" \"cd jaguar-server && yarn start\"",
-      "start:prod": "cd jaguar-server && yarn start:prod"
+      "devstart": "concurrently \"cd jaguar-client && yarn start\" \"cd jaguar-server && yarn start\"",
+      "start": "cd jaguar-server && yarn start:prod"
     }
   }
 
@@ -365,7 +365,7 @@ Lockfile:
       stream-events "^1.0.1"
       through2 "^2.0.3"
   
-  "@google-cloud/storage@^1.0.0":
+  "@google-cloud/storage@^1.0.0", "@google-cloud/storage@^1.6.0":
     version "1.6.0"
     resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-1.6.0.tgz#3dea740e24bf097d91f16596e2915052907679a2"
     dependencies:

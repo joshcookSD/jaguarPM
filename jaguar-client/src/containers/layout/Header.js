@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image } from 'semantic-ui-react';
-import Logo from '../../images/jaguarwhite.png';
+import HeaderMenu from './HeaderMenu'
 
 const HeaderWrapper = styled.div`
   grid-column-start: 3;
@@ -13,11 +12,8 @@ const HeaderWrapper = styled.div`
   padding-right: 1em;
 `;
 
-export default () => (
+export default (props) => (
     <HeaderWrapper>
-        <Image verticalAlign='middle' floated='right'
-            size='mini'
-            src={Logo}
-        />
+        <HeaderMenu user={props.user}/>
     </HeaderWrapper>
 );

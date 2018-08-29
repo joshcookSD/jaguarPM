@@ -1,0 +1,6 @@
+{
+  "GCLOUD_PROJECT": "devjag-203103",
+  "DATA_BACKEND": "mongodb",
+  "MONGO_URL": "mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar",
+  "MONGO_COLLECTION": "jaguar"
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 
 const NavSideWrapper = styled.div`
@@ -20,29 +21,84 @@ const NavItems = styled.li`
   height: 50px;
   width: 50px;
   background-color: #232929;
-  color: #958993;
+  color: rgb(230, 255, 241);
   margin: auto;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
   border-radius: 11px;
   &:hover {
     border-style: solid;
-    border-width: thick;
-    border-color: #767676;
+    border-width: 2px;
+    border-color: rgb(230, 255, 241);
   }
 `;
+
+const NavIcon = styled.i`
+    display: inline-block;
+    opacity: 1;
+    width: auto;
+    margin: 0;
+    height: 1em;
+    font-family: Icons;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    font-smoothing: antialiased;
+    backface-visibility: hidden;
+    line-height: 1;
+    vertical-align: middle;
+    font-size: 2em;
+`;
+
+const style = {
+    borderRadius: 3,
+    opacity: 0.95,
+    padding: '0.5em',
+};
 
 const NavSidebar = () => (
     <NavSideWrapper>
         <NavList>
-            <NavItems><Link to='/view'>t</Link></NavItems>
-            <NavItems><Link to='/view-users'>u</Link></NavItems>
-            <NavItems><Link to='/project-admin'>p</Link></NavItems>
-            <NavItems><Link to='/org-admin'>oa</Link></NavItems>
-            <NavItems><Link to='/team-admin'>ta</Link></NavItems>
+            <Link to='/view'>
+                <Popup
+                    trigger={<NavItems><NavIcon className='fas fa-tasks'/></NavItems>}
+                    content="tasks"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/view-group'>
+                <Popup
+                    trigger={<NavItems><NavIcon className='fas fa-cube' /></NavItems>}
+                    content="groups"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/project-page'>
+                <Popup
+                    trigger={<NavItems><NavIcon><i className="fas fa-project-diagram" /></NavIcon></NavItems>}
+                    content="projects"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
+            <Link to='/team-page'>
+                <Popup
+                    trigger={<NavItems><NavIcon fitted size='big' className='fas fa-users' /></NavItems>}
+                    content="teams"
+                    position='right center'
+                    style={style}
+                    inverted
+                />
+            </Link>
         </NavList>
     </NavSideWrapper>
 );

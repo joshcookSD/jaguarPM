@@ -1,65 +1,75 @@
 import React, {Component} from 'react';
-import { Query } from "react-apollo";
-import { List,Header, Segment, Dimmer, Loader, Transition} from 'semantic-ui-react';
+import { List, Transition} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
-import {tasksByUser} from "../apollo-graphql/taskQueries";
+import styled from 'styled-components';
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
+import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
 
 const token = localStorage.getItem('token');
+
+const TaskUnplannedGroup = styled.div`
+    width: 100%;
+    padding: 1em;
+    position: relative;
+`;
 
 class TaskUnplanned extends Component {
 
     render() {
-
+        const { defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask, lastDay } = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
-        const variables = {taskcurrentowner: user._id, iscompleted: false};
+        const unPlanned = tasks.filter(task => { return (task.plandate === null || moment(task.plandate).format('YYYY-MM-DD') > lastDay) && !task.iscompleted });
 
         return(
-            <Query query={tasksByUser} variables={variables}>
-                { ({ loading, error, data }) => {
-                    if (loading) return (
-                    <div>
-                        <Dimmer active>
-                            <Loader />
-                        </Dimmer>
-                    </div>);
-                    if (error) return <p>Error :(</p>;
-                return <Segment style={{width: '100%'}}>
-                        <Header>Backlog</Header>
-                        <TaskForm
-                            taskcurrentowner={user._id}
-                            updateQuery={tasksByUser}
+            <TaskUnplannedGroup>
+                <TaskGroupHeader>Backlog</TaskGroupHeader>
+                <TaskForm
+                    taskcurrentowner={user._id}
+                    defaultgroup={defaultgroup}
+                    defaultproject={defaultproject}
+                    defaultteam={defaultteam}
+                    updateQuery={updateQuery}
+                    variables={variables}
+                    clearTask={this.props.selectTask}
+                />
+                <Transition.Group
+                    as={List}
+                    duration={200}
+                    divided
+                    relaxed
+                    size='large'
+                    style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, minHeight: '300px', maxHeight: '325px'}}
+                >
+                    {unPlanned.map(({_id, tasktitle, duedate, tasktime, group, project, team, taskplannedtime}) => (
+                        <TaskItem
+                            key={_id}
+                            taskId={_id}
+                            tasktitle={tasktitle}
+                            duedate={duedate}
+                            groupId={group._id}
+                            grouptitle={group.grouptitle}
+                            projectId={project._id}
+                            projecttitle={project.projecttitle}
+                            teamId={team._id}
+                            teamtitle={team.teamtitle}
+                            completeddate={today}
+                            updateQuery={updateQuery}
                             variables={variables}
+                            userId={user._id}
+                            date={today}
+                            time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                            planTime={taskplannedtime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                            currentTask={currentTask ? currentTask._id : ''}
+                            taskSelected={taskSelected}
+                            selectTask={this.props.selectTask}
                         />
-                        <Transition.Group
-                            as={List}
-                            duration={200}
-                            divided
-                            relaxed
-                            size='large'
-                            style={{overflowY: 'auto', overflowX: 'hidden', minHeight: '300px', maxHeight: '325px'}}
-                        >
-                            {data.tasksByUser.map(({_id, tasktitle}) => (
-                                <TaskItem
-                                    key={_id}
-                                    taskId={_id}
-                                    tasktitle={tasktitle}
-                                    completeddate={today}
-                                    updateQuery={tasksByUser}
-                                    variables={variables}
-                                    userId={user._id}
-                                    date={today}
-                                />
-                            ))
-                            }
-                        </Transition.Group>
-                    </Segment>;
-                }
-                }
-            </Query>
+                    ))
+                    }
+                </Transition.Group>
+        </TaskUnplannedGroup>
         )
     }
 }

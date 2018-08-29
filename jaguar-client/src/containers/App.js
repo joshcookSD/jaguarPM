@@ -56,7 +56,7 @@ const AsyncViewUsers = Loadable({
     loading: Loading,
 });
 const AsyncUpdateUser = Loadable({
-    loader: () => import('./authorization/UpdateUser'),
+    loader: () => import('./account/AccountUpdateView'),
     loading: Loading,
 });
 const AsyncView = Loadable({
@@ -64,14 +64,14 @@ const AsyncView = Loadable({
     loading: Loading,
 });
 const AsyncCreateOrg = Loadable({
-    loader: () => import('./org_team/OrgForm'),
+    loader: () => import('./adminPages/orgAdminPage/TemplateComponents/OrgForm.js'),
     loading: Loading,
 });
 const AsyncCreateTeam = Loadable({
-    loader: () => import('./org_team/TeamForm'),
+    loader: () => import('./adminPages/teamAdminPage/TeamAdminComponents/TeamForm'),
     loading: Loading,
 });
-const AsyncProjectAdmin = Loadable({
+const AsyncProject = Loadable({
     loader: () => import('./proj_group/ProjectView'),
     loading: Loading,
 });
@@ -79,16 +79,22 @@ const AsyncTaskDetail = Loadable({
     loader: () => import('./taskview/TaskDetail'),
     loading: Loading,
 });
-const AsyncOrgAdmin = Loadable({
-    loader: () => import('./adminPages/orgAdmin'),
-    loading: Loading,
-});
 const AsyncTeamAdmin = Loadable({
-    loader: () => import('./adminPages/teamAdmin'),
+    loader: () => import('./adminPages/teamAdminPage/teamAdminView.js'),
     loading: Loading,
 });
-
-
+const AsyncTeamPage = Loadable({
+    loader: () => import('./team_page/TeamPageView.js'),
+    loading: Loading,
+});
+const AsyncViewGroup = Loadable({
+    loader: () => import('./proj_group/GroupView.js'),
+    loading: Loading,
+});
+const AsyncOrgAdmin = Loadable({
+    loader: () => import('./adminPages/orgAdminPage/OrgAdminView.js'),
+    loading: Loading,
+});
 
 class App extends Component {
     render(){
@@ -96,7 +102,7 @@ class App extends Component {
             <Router>
                 <div>
                 <Switch>
-                    <Route path="/" exact component={AsyncHome} />
+                    <Route path="/" exact component={isAuthenticated() ? AsyncView : AsyncHome } />
                     <Route path="/signup" exact component={AsyncSignUp} />
                     <Route path="/login" exact component={AsyncLogin} />
                     <PrivateRoute path="/view-users" exact component={AsyncViewUsers} />
@@ -105,9 +111,11 @@ class App extends Component {
                     <PrivateRoute path="/create-team" exact component={AsyncCreateTeam} />
                     <PrivateRoute path="/org-admin" exact component={AsyncOrgAdmin} />
                     <PrivateRoute path="/task-detail" exact component={AsyncTaskDetail} />
-                    <PrivateRoute path="/project-admin" exact component={AsyncProjectAdmin} />
+                    <PrivateRoute path="/project-page" exact component={AsyncProject} />
                     <PrivateRoute path="/create-org" exact component={AsyncCreateOrg} />
                     <PrivateRoute path="/team-admin" exact component={AsyncTeamAdmin} />
+                    <PrivateRoute path="/view-group" exact component={AsyncViewGroup} />
+                    <PrivateRoute path="/team-page" exact component={AsyncTeamPage} />
                 </Switch>
                 </div>
             </Router>

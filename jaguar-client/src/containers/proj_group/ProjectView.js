@@ -1,62 +1,55 @@
 import React, {Component} from 'react';
-import { Query } from "react-apollo";
-import decode from 'jwt-decode';
-import {Dimmer, Loader} from 'semantic-ui-react';
+import ProjectList from './projectcomponents/ProjectList'
+import ProjectPageMain from './projectcomponents/ProjectPageMain'
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
-import Header from '../layout/Header'
-import ContentArea from '../layout/ContentArea'
-import ProjectList from './projectcomponents/ProjectList'
-import ProjectDetails from './projectcomponents/ProjectDetails'
-import { TopSection } from '../layout/Section'
-import {userTeams} from "../apollo-graphql/userQueries";
-
+import decode from "jwt-decode";
+import {userTaskDetails} from "../apollo-graphql/userQueries";
+import {projectDetails} from "../apollo-graphql/groupProjectQueries";
 const token = localStorage.getItem('token');
 
 class ProjectView extends Component {
     state = {
-        projectId: "",
-    };
-    selectProject = (project) => {
-        this.setState({projectId: project});
-        console.log('has been clicked');
-        console.log(project);
+        selectedProject: '',
+        isSelected: false,
     };
 
+    selectProject = (project) => {
+        this.setState({selectedProject: project, isSelected: true});
+    };
+    //used to refetch after remove changes prop to force reload
+    //also using for dropdown mutation
+    removeProjectSwitchForDefault = () => {
+        this.setState({isSelected: false });
+    };
     render() {
         const { user } = decode(token);
-        const {projectId} = this.state;
-        return(
-            <Query query={userTeams} variables={{_id: user._id}}>
-                { ({ loading, error, data }) => {
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader />
-                            </Dimmer>
-                        </div>);
-                    if (error) return <p>Error :(</p>;
-                    return <div>
-                        <AppLayout>
-                            <NavSidebar/>
-                            <MainSidebar><ProjectList selectProject={this.selectProject}/></MainSidebar>
-                            <Header/>
-                            <ContentArea>
-                                <TopSection>
-                                    <ProjectDetails projectId={projectId}/>
-                                </TopSection>
-                            </ContentArea>
-                        </AppLayout>
-                    </div>;
-                }
-                }
-            </Query>
+        const variables = {_id: user._id};
+        const { selectedProject, isSelected } = this.state;
+        return (
+            <div>
+                <AppLayout>
+                    <NavSidebar/>
+                    <MainSidebar>
+                        <ProjectList
+                            selectedProject={selectedProject}
+                            selectProject={this.selectProject}
+                            isSelected={isSelected}
+                        />
+                    </MainSidebar>
+                        <ProjectPageMain
+                            selectedProject={selectedProject}
+                            projectDetails={projectDetails}
+                            queryVariables={{_id: selectedProject}}
+                            userTaskDetails={userTaskDetails}
+                            variables={variables}
+                            removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
+                        />
+                </AppLayout>
+            </div>
         )
     }
 }
 
-
-
 export default ProjectView;
-

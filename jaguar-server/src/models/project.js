@@ -10,7 +10,6 @@ const projectSchema = new mongoose.Schema(
     {
         projecttitle: {
             type: String,
-            required: true,
             maxLength: 50,
             minLength: 3
         },
@@ -28,6 +27,10 @@ const projectSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }],
+        iscompleted: {
+            type: Boolean,
+            default: false
+        },
         leader: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
@@ -44,6 +47,10 @@ const projectSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group"
         }],
+        defaultgroup: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group"
+        },
         milestones: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Milestone"

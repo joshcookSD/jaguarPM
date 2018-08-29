@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import { Input, Form } from 'semantic-ui-react';
 import {createTask} from "../../apollo-graphql/taskQueries";
-
+import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
 
 class TaskForm extends Component {
     state = {
@@ -10,7 +10,15 @@ class TaskForm extends Component {
     };
 
     render() {
-        const {taskcurrentowner, plandate, updateQuery, variables, team} = this.props;
+        const {
+            taskcurrentowner,
+            plandate,
+            updateQuery,
+            variables,
+            defaultteam,
+            defaultgroup,
+            defaultproject
+        } = this.props;
 
         const { newTask } = this.state;
 
@@ -18,18 +26,31 @@ class TaskForm extends Component {
             <Mutation mutation={createTask}>
                 {(createTask, {data}) => {
                     return (
-                        <div style={{marginBottom: '.5em'}}>
+                        <div style={{marginBottom: '.1em'}} onClick={() => this.props.clearTask('NA')}>
                             <Form
                                 onSubmit={async e => {
                                     e.preventDefault();
                                     await createTask({
-                                        variables: {tasktitle: newTask, taskcurrentowner, iscompleted: false, plandate, team},
-                                        refetchQueries: [{ query: updateQuery, variables: variables}]
+                                        variables: {
+                                            tasktitle: newTask,
+                                            taskcurrentowner,
+                                            iscompleted: false,
+                                            plandate,
+                                            group: defaultgroup,
+                                            project: defaultproject,
+                                            team: defaultteam
+                                        },
+
+                                        refetchQueries: [
+                                            { query: updateQuery, variables: variables},
+                                            { query: projectDetails, variables: {_id: defaultproject}},
+                                        ]
                                     });
                                     this.setState({newTask: ""});
                                 }}
                             >
                                 <Input
+                                    fluid
                                     value={newTask}
                                     type='text'
                                     action={{icon: 'add circle'}}
