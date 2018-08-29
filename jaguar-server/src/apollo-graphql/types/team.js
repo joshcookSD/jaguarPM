@@ -10,7 +10,6 @@ import PlannedTime from "../../models/plannedtime";
 import Milestone from "../../models/milestone";
 import Team from "../../models/team";
 
-
 const TeamType = `
     type Team {
         _id: String
@@ -67,6 +66,10 @@ const TeamMutation = `
       newDefaultProjectgroup: String   
       userId: String   
       teamsDefaultProject: String
+      projectPlannedTime : String
+      projectTime: String
+      groupPlannedTime: String
+      groupTime: String
     ): Team
 `;
 
@@ -97,9 +100,6 @@ const TeamQueryResolver = {
         return await Team.find({users: owner})
     },
 };
-
-
-
 const TeamNested = {
     tasks: async ({_id}) => {
         return (await Task.find({team: _id}))
@@ -141,13 +141,10 @@ const TeamMutationResolver = {
                     organization,
                     users: teamuser._id
                 }).save();
-                console.log('saved team');
-                //look at user collection and find user that has id of owner
-                //look at org collection and find org that has id of organization
+
+
                 let teamorganization = await Organization.findById(organization);
-                //using the found org look at its teams and push the new teams id into it
                 teamorganization.team.push(newteam._id);
-                //wait for teamorg to come back and save
                 await teamorganization.save();
 
                 //save new project to the new team w/ users
@@ -158,7 +155,6 @@ const TeamMutationResolver = {
                     leader: teamuser._id,
                     users: teamuser._id
                 }).save();
-                console.log('saved project')
 
                 //save new group to the new project and team w/users
                 let group = await new Group({
@@ -172,24 +168,25 @@ const TeamMutationResolver = {
                 teamuser.groups.push(group._id);
                 teamuser.projects.push(project._id);
                 teamuser.team.push(newteam._id);
+                newteam.projects.push(project._id)
+                newteam.groups.push(group._id)
                 await teamuser.save();
 
-                await Team.findByIdAndUpdate(newteam._id, {
-                        $set: {
-                            defaultproject: project._id,
-                            projects: [project._id],
-                            groups: [group._id],
-                        }
-                    },
-                    {new: true}
-                );
                 await Project.findByIdAndUpdate(project._id, {
                         $set: {
                             defaultgroup: group._id,
                             group: group._id
                         }
                     },
-                    {new: true}
+                    {upsert: true}
+                );
+                await Team.findByIdAndUpdate(newteam._id, {
+                        $set: {
+                            defaultproject: project._id,
+                            project: project._id
+                        }
+                    },
+                    {upsert: true}
                 );
                 return {
                     ok: true,
@@ -227,16 +224,71 @@ const TeamMutationResolver = {
                                   newDefaultProjectgroup,
                                   projectsGroups,
                                   teamsDefaultProject,
-                                  userId
+                                  userId,
+                                  projectPlannedTime,
+                                  projectTime,
+                                  groupPlannedTime,
+                                  groupTime
                               }, {Team}) => {
 
         const projectsGroupsTasksArray = projectsGroupsTasks.split(',');
+        const projectPlannedTimeArray = projectPlannedTime.split(',');
+        const projectTimeArray = projectTime.split(',');
+        const groupPlannedTimeArray = groupPlannedTime.split(',');
+        const groupTimeArray = groupTime.split(',');
 
-        await User.update(
-            {_id: {$in: projectUsersIds}},
-            {$pull: { projects : projectToRemoveId.split(',')}},
-            {multi: true}
-        );
+
+        //USERS
+        if(projectUsersIds){
+            await User.update(
+                {_id: {$in: projectUsersIds.split(',')}},
+                {$pull: { projects : projectToRemoveId}},
+                {multi: true}
+            );
+        }
+        if(projectUsersIds){
+            await User.update(
+                {_id: {$in: projectUsersIds.split(',')}},
+                {$pullAll: { groups : projectsGroups.split(',')}},
+                {multi: true}
+            );
+        }
+        if(projectsGroupsTasksArray[0] !== ''){
+            await User.update(
+                {_id: {$in: projectUsersIds.split(',')}},
+                {$pullAll: { tasks : projectsGroupsTasks.split(',')}},
+                {multi: true}
+            );
+        }
+        if(projectPlannedTimeArray[0] !== ''){
+                await User.update(
+                    {_id: {$in: projectUsersIds.split(',')}},
+                    {$pullAll: { plannedtime : projectPlannedTimeArray}},
+                    {multi: true}
+                );
+        }
+        if(projectTimeArray[0] !== ''){
+                await User.update(
+                    {_id: {$in: projectUsersIds.split(',')}},
+                    {$pullAll: { time : projectTimeArray}},
+                    {multi: true}
+                );
+        }
+        if(groupPlannedTimeArray[0] !== ''){
+            await User.update(
+                {_id: {$in: projectUsersIds.split(',')}},
+                {$pullAll: { plannedtime : groupPlannedTimeArray}},
+                {multi: true}
+            );
+        }
+        if(groupTimeArray[0] !== ''){
+            await User.update(
+                {_id: {$in: projectUsersIds.split(',')}},
+                {$pullAll: { time : groupTimeArray}},
+                {multi: true}
+            );
+        }
+        //TEAM
         if(projectsTeamId){
             await Team.update(
                 {_id: projectsTeamId },
@@ -244,19 +296,56 @@ const TeamMutationResolver = {
                 {multi: true}
             );
         }
+        if(projectsTeamId){
+            await Team.update(
+                {_id: projectsTeamId },
+                {$pullAll: { groups : projectsGroups.split(',')}},
+                {multi: true}
+            );
+        }
+        if(projectsGroupsTasksArray[0] !== ''){
+            await Team.update(
+                {_id: projectsTeamId },
+                {$pullAll: { tasks : projectsGroupsTasks.split(',')}},
+                {multi: true}
+            );
+        }
+        //PROJECT
+        //need to delete projects milestones
+        //need to delete projects comments
+        //need to delete projects requirements
         if(projectsGroupsTasksArray[0] !== ''){
             await Task.remove(
                 {_id: {$in: projectsGroupsTasks.split(',')}},
             );
         }
-        //find all groups and remove
-        if(projectsGroups){
-            await Group.remove(
-                {_id: {$in: projectsGroups.split(',')}},
+        if(projectPlannedTimeArray[0] !== ''){
+            await PlannedTime.remove(
+                    {_id: {$in: projectPlannedTime.split(',')}},
+                );
+        }
+        if(projectTimeArray[0] !== ''){
+            await Time.remove(
+                {_id: {$in: projectTime.split(',')}},
             );
         }
-
-        //if you are deleting a defualt then
+        //GROUPS
+        if(projectsGroupsTasksArray[0] !== ''){
+            await Group.remove(
+                {_id: {$in: projectsGroupsTasks.split(',')}},
+            );
+        }
+        if(groupPlannedTimeArray[0] !== ''){
+            await PlannedTime.remove(
+                    {_id: {$in: groupPlannedTimeArray}},
+                );
+        }
+        if(groupTimeArray[0] !== ''){
+            await Time.remove(
+                {_id: {$in: groupTimeArray}},
+            );
+        }
+        //defaults
         if(projectToRemoveId && teamsDefaultProject === projectToRemoveId){
             await Team.findByIdAndUpdate(projectsTeamId, {
                     $set: {
@@ -266,7 +355,6 @@ const TeamMutationResolver = {
                 {new: true}
             );
         }
-
         if(projectToRemoveId && teamsDefaultProject === projectToRemoveId){
             await User.findByIdAndUpdate(userId, {
                     $set: {
@@ -277,7 +365,6 @@ const TeamMutationResolver = {
                 {new: true}
             );
         }
-
         if(projectToRemoveId && teamsDefaultProject === projectToRemoveId){
             await Project.findByIdAndUpdate(newDefaultProject, {
                     $set: {
@@ -287,7 +374,11 @@ const TeamMutationResolver = {
                 {new: true}
             );
         }
-
+        if(projectsGroups){
+            await Group.remove(
+                {_id: {$in: projectsGroups.split(',')}},
+            );
+        }
         await Project.deleteOne(
             {_id: projectToRemoveId },
         );

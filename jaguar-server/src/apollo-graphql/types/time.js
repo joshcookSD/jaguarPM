@@ -31,6 +31,23 @@ const TimeMutation = `
         group: String
         project: String
 ) : Time
+    createTimeProject(
+        time: Float
+        timecomment: String
+        date: Date
+        user: String
+        project: String
+) : Time
+    createGroupTime(
+        time: Float
+        timecomment: String
+        date: Date
+        user: String
+        task: String
+        group: String
+        project: String
+) : Time
+
 `;
 
 const TimeQueryResolver = {
@@ -63,21 +80,63 @@ const TimeNested = {
 
 const TimeMutationResolver ={
     createTimeTask: async (parent, {time, timecomment, date, task, group, project, user}, { Time, Task, User }) => {
-        let newtime = await new Time({time, timecomment, user, task, group, project, date}).save();
+            let newtime = await new Time({time, timecomment, user, task, group, project, date}).save();
+            let usertime = await User.findById(user);
+            let grouptime = await Group.findById(group);
+            let projecttime = await Project.findById(project);
+            usertime.time.push(newtime._id);
+            grouptime.grouptime.push(newtime._id);
+            projecttime.projecttime.push(newtime._id);
+            await usertime.save();
+            await grouptime.save();
+            await projecttime.save();
+            let task_time = await Task.findById(task);
+            task_time.tasktime.push(newtime._id);
+            await task_time.save();
+            return newtime
+    },
+    createTimeProject: async (parent, {time, timecomment, date, project, user}, { Time, Task, User }) => {
+
+        let newtime = await new Time({time, timecomment, user, project, date}).save();
         let usertime = await User.findById(user);
-        let grouptime = await Group.findById(group);
         let projecttime = await Project.findById(project);
+
         usertime.time.push(newtime._id);
-        grouptime.grouptime.push(newtime._id);
         projecttime.projecttime.push(newtime._id);
         await usertime.save();
-        await grouptime.save();
         await projecttime.save();
-        let task_time = await Task.findById(task);
-        task_time.tasktime.push(newtime._id);
-        await task_time.save();
+
         return newtime
-    }
+    },
+    createGroupTime: async (parent, {time, timecomment, date, group, user, task}, { Time, Task, User }) => {
+        if(task){
+            let newtime = await new Time({time, timecomment, user, date, task}).save();
+            let usertime = await User.findById(user);
+            let taskTarget = await Task.findById(task);
+
+            taskTarget.tasktime.push(newtime._id);
+            usertime.time.push(newtime._id);
+
+            await taskTarget.save();
+            await usertime.save();
+
+            return newtime
+        }else{
+            let newtime = await new Time({time, timecomment, user, group, date}).save();
+            let usertime = await User.findById(user);
+            let grouptime = await Group.findById(group);
+
+            usertime.time.push(newtime._id);
+            grouptime.grouptime.push(newtime._id);
+
+            await usertime.save();
+            await grouptime.save();
+
+            return newtime
+        }
+
+    },
+
 };
 
 export {TimeType, TimeQuery, TimeMutation, TimeQueryResolver, TimeNested, TimeMutationResolver};

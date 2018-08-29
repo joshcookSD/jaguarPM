@@ -173,13 +173,12 @@ const OrganizationMutationResolver = {
                                   teamToDeleteId
                               }, {Organization}) => {
 
-        //find users pull teamToDeleteId out of there teams
-        await User.update(
-            {_id: {$in: teamUsers.split(',')}},
-            { $pull: { team: teamToDeleteId } },
-            {multi: true}
-        );
-        //find org and pull team remove
+        let user = await User.findById({_id: teamOwnerId })
+        user.projects.pull({_id: teamProjects.split() })
+        user.groups.pull({_id: teamGroups.split() })
+        user.team.pull({_id: teamToDeleteId })
+
+        // find org and pull team remove
         if(teamOrgId){
             await Organization.update(
                 {_id: teamOrgId },
@@ -187,19 +186,19 @@ const OrganizationMutationResolver = {
                 {multi: true}
             );
         }
-        //find all groups and remove tasks
+        // //find all groups and remove tasks
         if(teamGroupsTasks){
             await Task.remove(
                 {_id: {$in: teamGroupsTasks.split(',')}},
             );
         }
-        //find all groups and remove
+        // //find all groups and remove
         if(teamGroups){
             await Group.remove(
                 {_id: {$in: teamGroups.split(',')}},
             );
         }
-        //find all projects and remove
+        // //find all projects and remove
         if(teamProjects){
             await Project.remove(
                 {_id: {$in: teamProjects.split(',')}},
