@@ -35,6 +35,23 @@ const TimeMutation = `
         project: String
         team: String
 ) : Time
+    createTimeProject(
+        time: Float
+        timecomment: String
+        date: Date
+        user: String
+        project: String
+) : Time
+    createGroupTime(
+        time: Float
+        timecomment: String
+        date: Date
+        user: String
+        task: String
+        group: String
+        project: String
+) : Time
+
 `;
 
 const TimeQueryResolver = {
@@ -74,18 +91,18 @@ const TimeNested = {
 };
 
 const TimeMutationResolver ={
+
     createTimeTask: async (parent, {time, timecomment, date, task, group, project, team, user}, { Time, Task, User }) => {
         let newtime = await new Time({time, timecomment, user, task, group, project, team, date}).save();
+
         let usertime = await User.findById(user);
-        let grouptime = await Group.findById(group);
         let projecttime = await Project.findById(project);
         let teamtime = await Team.findById(team);
+
         usertime.time.push(newtime._id);
-        grouptime.grouptime.push(newtime._id);
         projecttime.projecttime.push(newtime._id);
         teamtime.teamtime.push(newtime._id);
         await usertime.save();
-        await grouptime.save();
         await projecttime.save();
         await teamtime.save();
         if(task) {
@@ -95,7 +112,36 @@ const TimeMutationResolver ={
         }
 
         return newtime
-    }
+    },
+    createGroupTime: async (parent, {time, timecomment, date, group, user, task}, { Time, Task, User }) => {
+        if(task){
+            let newtime = await new Time({time, timecomment, user, date, task}).save();
+            let usertime = await User.findById(user);
+            let taskTarget = await Task.findById(task);
+
+            taskTarget.tasktime.push(newtime._id);
+            usertime.time.push(newtime._id);
+
+            await taskTarget.save();
+            await usertime.save();
+
+            return newtime
+        }else{
+            let newtime = await new Time({time, timecomment, user, group, date}).save();
+            let usertime = await User.findById(user);
+            let grouptime = await Group.findById(group);
+
+            usertime.time.push(newtime._id);
+            grouptime.grouptime.push(newtime._id);
+
+            await usertime.save();
+            await grouptime.save();
+
+            return newtime
+        }
+
+    },
+
 };
 
 export {TimeType, TimeQuery, TimeMutation, TimeQueryResolver, TimeNested, TimeMutationResolver};

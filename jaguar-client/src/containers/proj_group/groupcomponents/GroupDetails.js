@@ -5,6 +5,7 @@ import moment from 'moment';
 import GroupProjectDropDown from './GroupProjectDropDown';
 import { Mutation } from "react-apollo";
 import {GroupFormWrapper} from '../../layout/Proj_GroupComponents.js'
+import {userTaskDetails} from "../../apollo-graphql/userQueries";
 
 class GroupDetail extends Component {
     closeTeamDropDown = () => {
@@ -27,6 +28,7 @@ class GroupDetail extends Component {
     };
 
     render() {
+
         const {
             selectedGroup,
             queryVariables,
@@ -71,7 +73,6 @@ class GroupDetail extends Component {
                                         return (
                                             <GroupFormWrapper onSubmit={() => updateGroup()}>
                                                 <div>
-                                                    {console.log(data)}
                                                     <div className='cardHeader'
                                                          onClick={() => this.setState({
                                                              titleInput: !titleInput,
@@ -190,10 +191,12 @@ class GroupDetail extends Component {
                                                                         projectsDefualtGroup: data.group.project.defaultgroup._id,
                                                                         userId: userId
                                                                     },
-                                                                    refetchQueries: [{
-                                                                        query: userProjectGroups,
-                                                                        variables: variables
-                                                                    }]
+                                                                    refetchQueries: [
+                                                                        // {query: userTaskDetails, variables: {_id: userId}},
+                                                                        // {query: userProjectGroups, variables: variables},
+                                                                        {query: groupDetails, variables: {_id: data.group._id}},
+
+                                                                    ]
                                                                 });
                                                             }
                                                             this.props.removeGroupSwitchForDefault()

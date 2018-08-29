@@ -65,7 +65,6 @@ class OrgForm extends Component {
                                     onChange={e => this.setState({ orgtitle: e.target.value })}
                                 />
                             </Form.Field>
-
                             <Form.Field>
                                 <Input
                                     placeholder="orgdescription"

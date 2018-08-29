@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-// import TeamProjectProgress from './TeamProjectProgress';
+import ProjectTimeMain from './ProjectTimeMain'
 
-
-class TaskView extends Component {
+class ProjectPagePanes extends Component {
 
     render () {
         if(this.props.activePageTab === 'feed') {
@@ -22,11 +21,11 @@ class TaskView extends Component {
         if(this.props.activePageTab === 'project') {
             return (
                 <div>
-                    project
+                    <ProjectTimeMain data={this.props.data}/>
                 </div>
             );
         }
     }
 }
 
-export default TaskView;
+export default ProjectPagePanes;

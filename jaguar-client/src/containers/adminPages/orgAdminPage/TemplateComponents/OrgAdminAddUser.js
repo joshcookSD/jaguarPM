@@ -13,6 +13,14 @@ import {
 } from '../../../layout/AdminComponents.js'
 
 class OrgAddUserCard extends Component {
+    state = {
+        hovering: false,
+        index: ''
+    };
+
+    onEnter = (i) => this.setState({ hovering: true, index: i });
+    onExit = () => this.setState({ hovering: false, index:'' });
+
     render(){
         const {
             orgId,
@@ -46,13 +54,13 @@ class OrgAddUserCard extends Component {
                                             <NewUserCardName>{user.username}</NewUserCardName>
                                             <DeleteUserIcon>
                                                 <Icon
-                                                    size='large'
+                                                    onMouseEnter={(() => this.onEnter(i))}
+                                                    onMouseLeave={this.onExit}
+                                                    size={this.state.hovering && this.state.index === i  ? 'big' : 'large'}
                                                     name='delete'
+                                                    color={this.state.hovering && this.state.index === i  ? 'red' : 'black'}
                                                     onClick={async e => {
                                                         e.preventDefault();
-                                                        if(loading){
-                                                            console.log('loading')
-                                                        }
                                                         await removeOrgUser({
                                                             variables: {_id: orgId, user: user._id, teamId: teamsToRemove},
                                                             refetchQueries: [{query: getOrgByOwner, variables: variables}]

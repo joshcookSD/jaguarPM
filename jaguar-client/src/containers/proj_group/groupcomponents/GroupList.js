@@ -20,10 +20,13 @@ class GroupList extends Component {
         open: false,
         teamIdForForm:'',
         projectIdForForm:'',
+        index:''
     };
 
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
+    onEnter = (i) => this.setState({ hovering: true, index: i });
+    onExit = () => this.setState({ hovering: false, index: '' });
     captureTeamId = (teamId, projectId) =>{
         this.setState({ teamIdForForm: teamId });
         this.setState({ projectIdForForm: projectId });
@@ -62,9 +65,12 @@ class GroupList extends Component {
                                                 <div>{` ${project.team.teamtitle} - ${project.projecttitle}`}</div>
                                             </div>
                                             <div><Icon
+                                                onMouseEnter={() => this.onEnter(i)}
+                                                onMouseLeave={this.onExit}
                                                 onClick={() => this.captureTeamId(project.team._id, project._id)}
-                                                color='green'
+                                                color={this.state.hovering && this.state.index === i ? 'blue' : 'green'}
                                                 name='add circle'
+                                                size='large'
                                             /></div>
                                         </ModalGroupWrapper>
                                     }

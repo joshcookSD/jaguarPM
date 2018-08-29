@@ -22,11 +22,9 @@ class GroupView extends Component {
         this.setState({isSelected: false });
     };
     render() {
+
         const { user } = decode(token);
-        const {
-            selectedGroup,
-            isSelected,
-        } = this.state;
+        const { selectedGroup, isSelected } = this.state;
             return <div>
                 <AppLayout>
                     <NavSidebar/>
