@@ -165,7 +165,7 @@ class TimeForm extends Component {
                         selectTask={this.selectTask}
                     />
                     </Form.Field>
-                    <Form.Group style={{marginBottom: '2px'}} inline>
+                    <Form.Group inline>
                         <Form.Field width='5'>
                             <Input size='mini'
                                    value={actualTime}
