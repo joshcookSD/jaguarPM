@@ -116,6 +116,14 @@ const getOrgByOwner = gql`
             _id
             teamtitle
             teamdescription
+             defaultproject{
+                _id
+                projecttitle
+                defaultgroup{
+                  grouptitle
+                  _id
+                }
+              }
             organization{
                 _id
                 orgtitle

@@ -27,7 +27,6 @@ class OrgAdminView extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    console.log(data)
                      return <div>
                         <AppLayout>
                             <NavSidebar/>

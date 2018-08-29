@@ -107,42 +107,42 @@ const ProjectMutationResolver ={
             });
     },
     createProject: async (parent, args, { Project }) => {
-            let project = await new Project(args).save();
-            let user = await User.findById(args.users);
 
-            user.projects.push(project._id);
-            await user.save();
+        let user = await User.findById(args.users);
+        let projectteam = await Team.findById(args.team);
+        //PROJECT
+        let project = await new Project(args).save();
+        //GROUP
+        let group = await new Group({
+            grouptitle: 'General',
+            groupdescription: `General Group`,
+            project: project._id,
+            users: user._id,
+            team: projectteam._id
+        }).save();
 
-            let projectteam = await Team.findById(args.team);
+        await Project.findByIdAndUpdate(project._id, {
+                $set: {
+                    groups: [group._id],
+                    defaultgroup: group._id,
+                }
+            },
+            {new: true}
+        );
+        //TEAM
+        projectteam.projects.push(project._id);
+        projectteam.groups.push(group._id);
+        await projectteam.save();
+        //USER
+        user.groups.push(group._id);
+        user.projects.push(project._id);
+        await user.save();
+        return {
+            ok: true,
+            project
 
-            let group = await new Group({
-                grouptitle: 'General',
-                groupdescription: `General Group`,
-                project: project._id,
-                users: user._id,
-                team: projectteam._id
-            }).save();
-
-            projectteam.projects.push(project._id);
-
-            projectteam.groups.push(group._id);
-            await projectteam.save();
-            user.groups.push(group._id);
-            await user.save();
-            await Project.findByIdAndUpdate(project._id, {
-                    $set: {
-                        groups: [group._id],
-                        defaultgroup: group._id,
-                    }
-                },
-                {new: true}
-            );
-            return {
-                ok: true,
-                project
-
-            };
-        },
+        };
+    },
     removeGroupFromProject: async (parent, {
         groupToRemoveId,
         groupsTeamId,
@@ -154,22 +154,19 @@ const ProjectMutationResolver ={
         groupUsersIds,
 
     }, {Project}) => {
-        const GroupsTasksArray = GroupsTasks.split(',');
-
+        const GroupsTasksArray = GroupsTasks.split(',')
         await User.update(
             {_id: {$in: groupUsersIds}},
             {$pull: { groups : groupToRemoveId.split(',')}},
             {multi: true}
         );
-        // find all groups and remove tasks
+
         if(groupsProjectId){
             let GroupsProject = await Project.findById(groupsProjectId);
             GroupsProject.groups.pull(groupToRemoveId);
             await GroupsProject.save();
         }
-
         if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
-            console.log('switched defualt project')
             await Project.findByIdAndUpdate(groupsProjectId, {
                     $set: {
                         defaultgroup: newDefaultGroupForProj
@@ -178,7 +175,6 @@ const ProjectMutationResolver ={
                 {upsert: true}
             );
         }
-
         if(groupsTeamId){
             await Team.update(
                 {_id: groupsTeamId },
@@ -186,9 +182,6 @@ const ProjectMutationResolver ={
                 {multi: true}
             );
         }
-
-        //if default
-        //set new defualt in user
         if(userId){
             await User.findByIdAndUpdate(userId, {
                     $set: {
@@ -198,13 +191,11 @@ const ProjectMutationResolver ={
                 {new: true}
             );
         }
-
         if(GroupsTasks !== ''){
             await Task.remove(
                 {_id: {$in: GroupsTasks.split(',')}},
             );
         }
-
         await Group.deleteOne(
             {_id: groupToRemoveId },
         );
