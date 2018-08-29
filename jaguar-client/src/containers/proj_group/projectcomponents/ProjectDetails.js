@@ -219,19 +219,25 @@ class ProjectDetail extends Component {
                                                             }else {
                                                                 await removeProjectFromTeam({
                                                                     variables: {
-                                                                        projectToRemoveId: data.project._id,
-                                                                        projectUsersIds: data.project.users.map((user) => user._id).toString(),
-                                                                        projectsTeamId: data.project.team._id,
-                                                                        projectsGroupsTasks: data.project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
-                                                                        projectsGroups: data.project.groups.map((group) => group._id).toString(),
+                                                                        //users
                                                                         userId: userId,
+                                                                        projectUsersIds: data.project.users.map((user) => user._id).toString(),
+                                                                        //team
+                                                                        projectsTeamId: data.project.team._id,
+                                                                        //project
+                                                                        projectToRemovesTasks:data.project.tasks.map(task => task._id),
+                                                                        projectToRemoveId: data.project._id,
+                                                                        projectPlannedTime: data.project.projectplannedtime.map(ppt => ppt._id).toString(),
+                                                                        projectTime: data.project.projecttime.map(pt => pt._id).toString(),
+                                                                        //group
+                                                                        projectsGroups: data.project.groups.map((group) => group._id).toString(),
+                                                                        projectsGroupsTasks: data.project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
+                                                                        groupPlannedTime: allGroupPlannedTimeIds.toString(),
+                                                                        groupTime: allGroupTimeIds.toString(),
+                                                                        //defaults
                                                                         newDefaultProject: newDefualtProjectArray[0]._id,
                                                                         newDefaultProjectgroup: newDefualtProjectArray["0"].groups["0"]._id,
                                                                         teamsDefaultProject: data.project.team.defaultproject._id,
-                                                                        projectPlannedTime: data.project.projectplannedtime.map(ppt => ppt._id).toString(),
-                                                                        projectTime: data.project.projecttime.map(pt => pt._id).toString(),
-                                                                        groupPlannedTime: allGroupPlannedTimeIds.toString(),
-                                                                        groupTime: allGroupTimeIds.toString()
                                                                     },
                                                                     refetchQueries: [
                                                                         {

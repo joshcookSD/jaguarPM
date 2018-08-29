@@ -160,7 +160,7 @@ const ProjectMutationResolver ={
             {$pull: { groups : groupToRemoveId.split(',')}},
             {multi: true}
         );
-        // find all groups and remove tasks
+
         if(groupsProjectId){
             let GroupsProject = await Project.findById(groupsProjectId);
             GroupsProject.groups.pull(groupToRemoveId);
