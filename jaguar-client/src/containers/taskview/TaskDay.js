@@ -60,6 +60,7 @@ class TaskDay extends Component {
                             groupId={group._id}
                             projectId={project._id}
                             projecttitle={project.projecttitle}
+                            teamId={team._id}
                             teamtitle={team.teamtitle}
                             completeddate={today}
                             updateQuery={updateQuery}

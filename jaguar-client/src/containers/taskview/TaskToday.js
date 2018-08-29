@@ -60,6 +60,7 @@ class TaskToday extends Component {
                     grouptitle={currentTask.group.grouptitle}
                     projectId={currentTask.project._id}
                     projecttitle={currentTask.project.projecttitle}
+                    teamId={currentTask.team._id}
                     teamtitle={currentTask.team.teamtitle}
                     completeddate={today}
                     updateQuery={updateQuery}
@@ -84,6 +85,7 @@ class TaskToday extends Component {
                             grouptitle={group.grouptitle}
                             projectId={project._id}
                             projecttitle={project.projecttitle}
+                            teamId={team._id}
                             teamtitle={team.teamtitle}
                             completeddate={today}
                             updateQuery={updateQuery}

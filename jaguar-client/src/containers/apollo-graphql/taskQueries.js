@@ -84,6 +84,7 @@ const tasksByUser = gql`
     }
         tasktime {
         time
+        date
     }
     taskplannedtime{
         time

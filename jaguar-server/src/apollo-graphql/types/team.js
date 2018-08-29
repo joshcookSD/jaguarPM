@@ -22,6 +22,7 @@ const TeamType = `
         defaultproject: Project
         groups: [Group]
         organization: Organization
+        teamtime: Time
     }
     
     type CreateTeamResponse {
@@ -109,6 +110,9 @@ const TeamNested = {
     },
     users: async ({_id}) => {
         return (await User.find({team: _id}))
+    },
+    teamtime: async ({_id}) => {
+        return (await Time.find({team: _id}))
     },
     owner: async ({owner}) => {
         return await User.findById(owner)

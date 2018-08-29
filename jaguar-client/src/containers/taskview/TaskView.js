@@ -17,8 +17,6 @@ import {Section} from '../layout/Section';
 import TaskGrid from './TaskGrid';
 import TaskTimeView from './TaskTimeView';
 import {userTaskDetails} from "../apollo-graphql/userQueries";
-import {projectDetails} from "../apollo-graphql/groupProjectQueries";
-
 
 const token = localStorage.getItem('token');
 
@@ -27,7 +25,6 @@ class TaskView extends Component {
         activeView: 'plan',
         isSelected: false,
         taskSelected: '',
-        weekSelected: {key: '2018-08-12', text: 'Week of August 12, 2018', value: '2018-08-12'},
     };
     changeView = (view) => {
         this.setState({activeView: view, isSelected: true });
@@ -35,13 +32,11 @@ class TaskView extends Component {
     selectTask = (task) => {
         this.setState({taskSelected: task});
     };
-    selectWeek = (week) => {
-        this.setState({weekSelected: week});
-    };
+
 
 
     render() {
-        const { activeView, isSelected, taskSelected, weekSelected } = this.state;
+        const { activeView, isSelected, taskSelected} = this.state;
         const { user } = decode(token);
         const tomorrow = moment(Date.now()).add(1,'day').format('YYYY-MM-DD');
         const plus2 = moment(Date.now()).add(2,'day').format('YYYY-MM-DD');
@@ -49,16 +44,6 @@ class TaskView extends Component {
         const plus4 = moment(Date.now()).add(4,'day').format('YYYY-MM-DD');
         const plus5 = moment(Date.now()).add(5,'day').format('YYYY-MM-DD');
         const variables = {_id: user._id};
-        const weekOptions = [
-            {key: '2018-07-29', text: 'Week of July 29, 2018', value: '2018-07-29'},
-            {key: '2018-08-05', text: 'Week of August 5, 2018', value: '2018-08-05'},
-            {key: '2018-08-12', text: 'Week of August 12, 2018', value: '2018-08-12'},
-            {key: '2018-08-19', text: 'Week of August 19, 2018', value: '2018-08-19'},
-            {key: '2018-08-26', text: 'Week of August 26, 2018', value: '2018-08-26'},
-            {key: '2018-09-02', text: 'Week of September 2, 2018', value: '2018-09-02'}
-        ];
-        const currentWeek = {key: '2018-08-12', text: 'Week of August 12, 2018', value: '2018-08-12'};
-        console.log(weekSelected);
 
         return(
             <Query query={userTaskDetails} variables={variables}>
@@ -202,23 +187,14 @@ class TaskView extends Component {
                                     </GridArea>
                             }
                             {activeView === 'time' &&
-                            <GridArea>
-                                <div>
-                                    <Dropdown text={weekSelected.text} fluid scrolling floating labeled button className='icon' >
-                                        <Dropdown.Menu>
-                                            <Dropdown.Header content='New Group' />
-                                            {weekOptions.map((option, i) =>
-                                                <Dropdown.Item
-                                                    key={i}
-                                                    value={option.value}
-                                                    {...option}
-                                                    onClick={() => this.selectWeek(option)}
-                                                />)}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
-                                <TaskTimeView user={user} selectedWeek={weekSelected.value}/>
-                            </GridArea>
+                                <TaskTimeView
+                                    user={user}
+                                    defaultgroup={data.user.defaultgroup}
+                                    defaultproject={data.user.defaultproject}
+                                    defaultteam={data.user.defaultteam}
+                                    time={data.user.time}
+                                    team={data.user.team}
+                                />
                             }
                         </AppLayout>
                     </div>;

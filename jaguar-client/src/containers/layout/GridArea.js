@@ -16,4 +16,5 @@ const GridArea = styled.div`
   `;
 
 
+
 export default GridArea;

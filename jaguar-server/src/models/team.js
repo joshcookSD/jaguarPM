@@ -3,6 +3,8 @@ import Organization from './organization';
 import User from './user';
 import Project from './project';
 import Group from './group';
+import Task from './task';
+import Time from './time';
 
 
 const teamSchema = new mongoose.Schema(
@@ -24,6 +26,10 @@ const teamSchema = new mongoose.Schema(
         tasks: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Task"
+        }],
+        teamtime: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Time"
         }],
         owner: {
             type: mongoose.Schema.Types.ObjectId,

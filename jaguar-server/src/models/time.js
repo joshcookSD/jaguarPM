@@ -3,6 +3,7 @@ const User = require("./user");
 const Task = require("./task");
 const Group = require("./group");
 const Project = require("./project");
+const Team = require("./team");
 
 const timeSchema = new mongoose.Schema(
     {
@@ -32,6 +33,10 @@ const timeSchema = new mongoose.Schema(
         project: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "project"
+        },
+        team: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "team"
         }
     },
     {

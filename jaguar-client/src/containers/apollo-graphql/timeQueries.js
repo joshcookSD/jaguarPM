@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const createTaskTime = gql`
-mutation createTimeTask($time: Float!, $timecomment: String, $date: Date, $task:String, $user: String, $group: String, $project: String) {
-    createTimeTask(time: $time, timecomment:$timecomment, date: $date, task: $task, user: $user, group: $group project: $project) {
+mutation createTimeTask($time: Float!, $timecomment: String, $date: Date, $task:String, $user: String, $group: String, $project: String, $team: String) {
+    createTimeTask(time: $time, timecomment:$timecomment, date: $date, task: $task, user: $user, group: $group project: $project, team: $team ) {
         time
         timecomment
         date
@@ -84,6 +84,7 @@ mutation createPlannedTime($time: Float!, $date: Date, $createdBy: String, $task
 }
 `;
 
+
 const createPlannedTimeGroup = gql`
 mutation createPlannedTimeGroup(
     $time: Float!, 
@@ -122,6 +123,30 @@ mutation createPlannedTime($time: Float!, $date: Date, $createdBy: String, $proj
     }
 }
 `;
+const timeByUser = gql`
+ query timeByUser($user: String!){
+  timeByUser(user: $user) {
+    _id
+    time
+    date
+    task {
+        _id
+        tasktitle
+        tasktime {
+            time
+        }
+    }
+    group {
+        _id
+        grouptitle
+    }
+    project {
+        _id
+        projecttitle
+    }
+    }
+}
+ `;
 
+export {createTaskTime, createPlannedTimeTask, createTimeProject, createPlannedTimeProject,  createPlannedTimeGroup, createGroupTime, timeByUser};
 
-export {createTaskTime, createPlannedTimeTask, createTimeProject, createPlannedTimeProject,  createPlannedTimeGroup, createGroupTime};

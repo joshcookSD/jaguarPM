@@ -9,6 +9,8 @@ const Section = styled.div`
     display: flex;
 `;
 
+
+
 const TopSection = styled.div`
     min-height: 400px
     max-height: 450px
