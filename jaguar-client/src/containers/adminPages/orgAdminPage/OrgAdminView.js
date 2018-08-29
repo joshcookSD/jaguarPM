@@ -20,7 +20,6 @@ class OrgAdminView extends Component {
         return (
             <Query query={userTaskDetails} variables={variables}>
                 {({loading, error, data}) => {
-                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>
