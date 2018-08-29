@@ -1,3 +1,4 @@
+ 'use strict';
 require('dotenv').config();
 import 'babel-polyfill';
 import express from 'express';
@@ -10,7 +11,9 @@ import cors from 'cors';
 const MongoStore = require('connect-mongo')(session);
 import jwt from 'jsonwebtoken';
 import path from 'path';
+const nconf = require('nconf');
 
+nconf.argv().env().file('keys.json');
 
 // mongoose models for graphql context
 import User from './models/user'
@@ -25,17 +28,44 @@ import UsertypeOrg from "./models/usertypeorg";
 import Milestone from "./models/milestone";
 import Organization from "./models/organization";
 import Team from "./models/team";
+import Comment from "./models/comment";
 
 import { refreshTokens } from './apollo-graphql/auth';
 
-const mongo_uri =`mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`;
 //`mongodb://localhost:27017/jaguar`
-//     `mongodb://JoshCook:password123@ds237669.mlab.com:37669/jaguar`
+const isProduction = process.env.NODE_ENV === 'production';
+
+let user = nconf.get('mongoUser');
+let pass = nconf.get('mongoPass');
+let host = nconf.get('mongoHost');
+let port = nconf.get('mongoPort');
+
+if(!isProduction){
+    user = nconf.get('mongoDevUser');
+    pass = nconf.get('mongoDevPass');
+    host = nconf.get('mongoDevHost');
+    port = nconf.get('mongoDevPort');
+}
+
+let uri = `mongodb://${user}:${pass}@${host}:${port}`;
+if(isProduction) {
+    if (nconf.get('mongoDatabase')) {
+        uri = `${uri}/${nconf.get('mongoDatabase')}`;
+        console.log(uri);
+    }
+} else {
+    if (nconf.get('mongoDevDatabase')) {
+        uri = `${uri}/${nconf.get('mongoDevDatabase')}`;
+        console.log(uri);
+    }
+}
+
+
 
 
 mongoose.set("debug", true);
 mongoose.Promise = Promise;
-mongoose.connect(mongo_uri, {
+mongoose.connect(uri, {
     keepAlive: true
 });
 
@@ -71,23 +101,32 @@ app.use(session({
     secret: SECRET,
     saveUninitialized: true,
     store: new MongoStore({
-        url: mongo_uri,
+        url: uri,
         autoReconnect: true
     })
 }));
 
-const isNotProduction = process.env.NODE_ENV !== 'production';
-if (isNotProduction) {
+
+if (!isProduction) {
+    console.log('Using Dev');
     app.use('*', cors({ origin: 'http://localhost:3000' }));
 }
 
-const staticFiles = express.static(path.join(__dirname, '../jaguar-client/build'));
+
+const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
 app.use(staticFiles);
+
+if(isProduction) {
+    const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
+    app.use(staticFiles);
+    app.use('/*', staticFiles);
+}
+
 
 app.use('/graphql', bodyParser.json(),
     graphqlExpress(req => ({ schema,
     context: {
-    User, Task, Time, PlannedTime, Organization, UsertypeOrg, Priority, Group, Milestone, Project, Requirement, Team,
+    User, Task, Time, PlannedTime, Organization, UsertypeOrg, Priority, Group, Milestone, Project, Requirement, Team, Comment,
         user: req.user,
         SECRET,
         SECRET2,
@@ -95,7 +134,10 @@ app.use('/graphql', bodyParser.json(),
 })));
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
+
 app.use('/*', staticFiles);
+
+
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
@@ -104,5 +146,3 @@ app.listen(app.get('port'), function() {
     console.log(`Listening on ${app.get('port')}`);
 });
 
-
-    // ? User.findOne({ where: { id: req.user.id } }) : Promise.resolve(null)

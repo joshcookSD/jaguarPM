@@ -12,8 +12,8 @@ const RequirementType = `
         requirementtitle: String
         requirementdescription: String
         isApproved: Boolean
-        plannedcompletiondate: String
-        duedate: String
+        plannedcompletiondate: Date
+        duedate: Date
         group: Group
         project: [Project] 
         users: [User]

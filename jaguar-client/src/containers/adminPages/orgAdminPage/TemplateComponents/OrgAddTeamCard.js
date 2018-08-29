@@ -1,0 +1,84 @@
+import React from 'react';
+
+import { Icon, Dimmer, Loader } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import {getOrgByOwner, teamsByOwner, teamsByUser} from "../../../apollo-graphql/userQueries";
+import { removeTeamFromOrg } from "../../../apollo-graphql/teamOrgQueries";
+import { Mutation } from "react-apollo";
+
+import {
+    OrgPageTeamCardWrapper,
+    NewUserCardName,
+    DeleteUserIcon,
+    AddCardWrapper
+} from '../../../layout/AdminComponents.js'
+import decode from 'jwt-decode';
+import {userProjectGroups, userTeamProjects} from "../../../apollo-graphql/groupProjectQueries";
+const token = localStorage.getItem('token');
+const { user } = decode(token);
+const userId = user._id;
+
+
+const AddTeamCard = (props) => {
+    return (
+        <Mutation mutation={removeTeamFromOrg}>
+            {(removeTeamFromOrg, { data, loading }) => {
+                if (loading) return (
+                    <div>
+                        <Dimmer active>
+                            <Loader/>
+                        </Dimmer>
+                    </div>
+                );
+                return (
+                    <AddCardWrapper>
+                        {(props.orgData || []).map(org => {
+                            if (org._id === props.org._id) {
+                                return (
+                                    (org.teams).map((team, i) => (
+                                        <Link to='/team-admin' key={i}>
+                                            <OrgPageTeamCardWrapper image key={i}>
+                                                <Icon name='group' style={{'align-self': 'center'}}/>
+                                                <NewUserCardName>{team.teamtitle}</NewUserCardName>
+                                                <DeleteUserIcon>
+                                                    <Icon
+                                                        size='large'
+                                                        name='delete'
+                                                        onClick={async e => {
+                                                            e.preventDefault();
+                                                            await removeTeamFromOrg({
+                                                                variables: {
+                                                                    teamToDeleteId: team._id,
+                                                                    teamOrgId: team.organization._id,
+                                                                    teamOwnerId: props.variables.owner,
+                                                                    teamProjects: team.projects.map((project) => project._id).toString(),
+                                                                    teamUsers: team.users.map((user) => user._id).toString(),
+                                                                    teamGroupsTasks: team.groups.map((group) => group.tasks.map((task) => task._id)).join(''),
+                                                                    teamGroups: team.groups.map((group) => group._id).toString()
+                                                                },
+                                                                refetchQueries: [
+                                                                    {query: getOrgByOwner, variables: props.variables},
+                                                                    {query: teamsByOwner, variables: props.variables},
+                                                                    {query: teamsByUser, variables: { user: userId }},
+                                                                    {query: userTeamProjects, variables: { _id: userId }},
+                                                                    {query: userProjectGroups, variables: { _id: userId }},
+
+                                                                ]
+                                                            });
+                                                        }}
+                                                    />
+                                                </DeleteUserIcon>
+                                            </OrgPageTeamCardWrapper>
+                                        </Link>
+                                    ))
+                                )
+                            }
+                        })}
+                    </AddCardWrapper>
+                )
+            }}
+        </Mutation>
+    );
+};
+
+export default AddTeamCard;

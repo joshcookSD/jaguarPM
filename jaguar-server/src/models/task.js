@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./user");
 const Team = require("./team");
+const Comment = require("./comment");
 // const TaskType = require("./tasktype");
 // const Priority = require("./priority");
 
@@ -25,6 +26,10 @@ const taskSchema = new mongoose.Schema(
             ref: "User"
         }],
         iscompleted: {
+            type: Boolean,
+            default: false
+        },
+        iscurrent: {
             type: Boolean,
             default: false
         },
@@ -63,9 +68,17 @@ const taskSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Priority"
         },
+        project: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Project"
+        },
         group: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group"
+        },
+        project: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Project"
         },
         team: {
             type: mongoose.Schema.Types.ObjectId,

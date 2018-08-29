@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 const User = require("./user");
+const Project = require("./project");
+const Task = require("./task");
+const Time = require("./time");
+const Team = require("./team");
+const PlannedTime = require("./plannedtime");
+const Comment = require("./comment");
 const Priority = require("./priority");
 
 const groupSchema = new mongoose.Schema(
@@ -12,13 +18,24 @@ const groupSchema = new mongoose.Schema(
         },
         groupdescription: {
             type: String,
-            required: true,
             maxLength: 160
         },
-        task: [{
+        project: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "task"
+            ref: "Project"
+        },
+        team: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Team"
+        },
+        tasks: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Task"
         }],
+        iscompleted: {
+            type: Boolean,
+            default: false
+        },
         users: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"

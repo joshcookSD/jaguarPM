@@ -1,65 +1,107 @@
 import React, {Component} from 'react';
-import { Query } from "react-apollo";
-import { List,Header, Transition, Dimmer, Loader} from 'semantic-ui-react';
+import { List, Transition} from 'semantic-ui-react';
 import moment from 'moment';
 import decode from 'jwt-decode';
-import { tasksToday} from "../apollo-graphql/taskQueries";
 import TaskForm from './taskscomponents/TaskForm';
 import TaskItem from './taskscomponents/TaskItem';
-
+import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
+import styled from 'styled-components';
 
 const token = localStorage.getItem('token');
 
+const TaskCurrentLayout = styled.div`
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 5px;
+    margin: 0;
+`;
+
 class TaskToday extends Component {
 
-    render() {
 
+    render() {
+        const {defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask} = this.props;
         const { user } = decode(token);
         const today = moment(Date.now()).format('YYYY-MM-DD');
-        const variables = {taskcurrentowner: user._id, iscompleted: false, plandate: today};
+        const currentTaskExclude = tasks.filter(task => {
+            return currentTask ? !task.iscompleted &&
+                task._id !== currentTask._id : !task.iscompleted});
+        const todaysPlan = currentTaskExclude.filter(task => {
+            return moment.utc(task.plandate).format('YYYY-MM-DD') <= today &&
+                task.plandate != null });
         return(
-            <Query query={tasksToday} variables={variables}>
-                { ({ loading, error, data }) => {
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader />
-                            </Dimmer>
-                        </div>);
-                    if (error) return <p>Error :(</p>;
-                    return <div>
-                            <Header>Today</Header>
-                        <TaskForm
-                            taskcurrentowner={user._id}
-                            plandate={today}
-                            updateQuery={tasksToday}
-                            variables={{taskcurrentowner: user._id, iscompleted: false, plandate: today}}
+             <div>
+            <TaskGroupHeader>Today ({moment.utc(today).format('dddd, MM/DD')})</TaskGroupHeader>
+            <TaskForm
+                taskcurrentowner={user._id}
+                plandate={today}
+                defaultgroup={defaultgroup}
+                defaultproject={defaultproject}
+                defaultteam={defaultteam}
+                updateQuery={updateQuery}
+                variables={variables}
+                clearTask={this.props.selectTask}
+            />
+            <Transition.Group
+                as={List}
+                duration={200}
+                relaxed
+                size='large'
+                style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, height: '100%'}}
+            >
+                <TaskCurrentLayout/>
+                    <span>current task</span>
+                { currentTask && !currentTask.iscompleted && <TaskItem
+                    key={currentTask._id}
+                    taskId={currentTask._id}
+                    tasktitle={currentTask.tasktitle}
+                    duedate={currentTask.duedate}
+                    plandate={currentTask.plandate}
+                    groupId={currentTask.group._id}
+                    grouptitle={currentTask.group.grouptitle}
+                    projectId={currentTask.project._id}
+                    projecttitle={currentTask.project.projecttitle}
+                    teamId={currentTask.team._id}
+                    teamtitle={currentTask.team.teamtitle}
+                    completeddate={today}
+                    updateQuery={updateQuery}
+                    variables={variables}
+                    userId={user._id}
+                    date={today}
+                    time={currentTask.tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                    planTime={currentTask.taskplannedtime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                    currentTask={currentTask ? currentTask._id : ''}
+                    taskSelected={taskSelected}
+                    selectTask={this.props.selectTask}
+                />}
+                <TaskCurrentLayout/>
+                {todaysPlan.map(({_id, tasktitle, duedate, group, project, team, plandate, tasktime, taskplannedtime}) => {
+                        return <TaskItem
+                            key={_id}
+                            taskId={_id}
+                            tasktitle={tasktitle}
+                            duedate={duedate}
+                            plandate={plandate}
+                            groupId={group._id}
+                            grouptitle={group.grouptitle}
+                            projectId={project._id}
+                            projecttitle={project.projecttitle}
+                            teamId={team._id}
+                            teamtitle={team.teamtitle}
+                            completeddate={today}
+                            updateQuery={updateQuery}
+                            variables={variables}
+                            userId={user._id}
+                            date={today}
+                            time={tasktime.map(({time}) => time).reduce((a, b) => (a + b), 0)}
+                            planTime={taskplannedtime.map(({time}) => time).reduce((a, b) => (a + b), 0)}
+                            ccurrentTask={currentTask ? currentTask._id : ''}
+                            taskSelected={taskSelected}
+                            selectTask={this.props.selectTask}
                         />
-                            <Transition.Group
-                                as={List}
-                                duration={200}
-                                divided
-                                relaxed
-                                size='large'
-                            >
-                            {data.tasksToday.map(({_id, tasktitle}) => (
-                                 <TaskItem
-                                     key={_id}
-                                     taskId={_id}
-                                     tasktitle={tasktitle}
-                                     completeddate={today}
-                                     updateQuery={tasksToday}
-                                     variables={variables}
-                                     userId={user._id}
-                                     date={today}
-                                 />
-                            ))
-                            }
-                            </Transition.Group>
-                    </div>;
+                })
                 }
-                }
-            </Query>
+            </Transition.Group>
+        </div>
         )
     }
 }

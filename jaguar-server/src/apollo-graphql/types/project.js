@@ -1,4 +1,5 @@
 import Task from "../../models/task";
+import Project from "../../models/project";
 import Group from "../../models/group";
 import Milestone from "../../models/milestone";
 import Requirement from "../../models/requirement";
@@ -8,16 +9,19 @@ import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
 import Team from "../../models/team";
 
+
 const ProjectType = `
     type Project {
         _id: String
         projecttitle: String
         projectdescription: String
-        plannedcompletiondate: String
-        duedate: String
+        iscompleted: Boolean
+        plannedcompletiondate: Date
+        duedate: Date
         tasks: [Task]
         comments: [Comment]
         groups: [Group]
+        defaultgroup: Group
         milestone: [Milestone]
         requirements: [Requirement] 
         users: [User]
@@ -26,6 +30,11 @@ const ProjectType = `
         projecttime: [Time]
         projectplannedtime: [PlannedTime]
         priority: Priority
+    }
+      type CreateProjectResponse {
+        ok: Boolean!
+        project: Project
+        errors: [Error!]
     }
 `;
 
@@ -41,15 +50,37 @@ const ProjectMutation = `
         team: String!,
         leader: String,
         users: String
-) : Project
+) : CreateProjectResponse
     updateProject(
+        _id: String,
         projecttitle: String,
         projectdescription: String,
-        plannedcompletiondate: String,
-        duedate: String,
+        plannedcompletiondate: Date,
+        duedate: Date,
+        iscompleted: Boolean,
         leader: String, 
         team: String
+        projectIdToChange: String,
+        projectsGroupIds: String,
+        projectsTeamId: String,
+        projectToChange: String,
+        targetTeam: String
     ) : Project
+    removeGroupFromProject(
+      groupToRemoveId: String
+      groupUsersIds: String
+      groupsTeamId: String
+      groupsProjectId: String
+      GroupsTasks: String
+      newDefaultGroupForProj: String
+      projectsDefualtGroup: String
+      userId : String
+    ) : Project
+     completeProject(
+        _id: String!
+        iscompleted: Boolean
+        completeddate: Date
+) : Project
 `;
 
 const ProjectQueryResolver = {
@@ -66,33 +97,220 @@ const ProjectQueryResolver = {
 };
 
 const ProjectMutationResolver ={
-    createProject: async (parent, args, { Project}) => {
-        let project = await new Project(args).save();
-        let user = await User.findById(args.users);
-        user.projects.push(project._id);
-        await user.save();
-        let projectteam = await Team.findById(args.team);
-        projectteam.projects.push(project._id);
-        await projectteam.save();
-        return project
+    completeProject: async (parent, args, {Project}) =>{
+        let project = await Project.findByIdAndUpdate(
+            args._id,
+            {$set: {iscompleted: args.iscompleted
+                    , completeddate: args.completeddate}}, function (err, project){
+                if(err) return err;
+                return project;
+            });
+    },
+    createProject: async (parent, args, { Project }) => {
+            let project = await new Project(args).save();
+            let user = await User.findById(args.users);
+
+            user.projects.push(project._id);
+            await user.save();
+
+            let projectteam = await Team.findById(args.team);
+
+            let group = await new Group({
+                grouptitle: 'General',
+                groupdescription: `General Group`,
+                project: project._id,
+                users: user._id,
+                team: projectteam._id
+            }).save();
+
+            projectteam.projects.push(project._id);
+
+            projectteam.groups.push(group._id);
+            await projectteam.save();
+            user.groups.push(group._id);
+            await user.save();
+            await Project.findByIdAndUpdate(project._id, {
+                    $set: {
+                        groups: [group._id],
+                        defaultgroup: group._id,
+                    }
+                },
+                {new: true}
+            );
+            return {
+                ok: true,
+                project
+
+            };
+        },
+    removeGroupFromProject: async (parent, {
+        groupToRemoveId,
+        groupsTeamId,
+        groupsProjectId,
+        newDefaultGroupForProj,
+        projectsDefualtGroup,
+        userId,
+        GroupsTasks,
+        groupUsersIds,
+
+    }, {Project}) => {
+        const GroupsTasksArray = GroupsTasks.split(',');
+
+        await User.update(
+            {_id: {$in: groupUsersIds}},
+            {$pull: { groups : groupToRemoveId.split(',')}},
+            {multi: true}
+        );
+        // find all groups and remove tasks
+        if(groupsProjectId){
+            let GroupsProject = await Project.findById(groupsProjectId);
+            GroupsProject.groups.pull(groupToRemoveId);
+            await GroupsProject.save();
+        }
+
+        if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
+            console.log('switched defualt project')
+            await Project.findByIdAndUpdate(groupsProjectId, {
+                    $set: {
+                        defaultgroup: newDefaultGroupForProj
+                    }
+                },
+                {upsert: true}
+            );
+        }
+
+        if(groupsTeamId){
+            await Team.update(
+                {_id: groupsTeamId },
+                { $pull: { groups: groupToRemoveId } },
+                {multi: true}
+            );
+        }
+
+        //if default
+        //set new defualt in user
+        if(userId){
+            await User.findByIdAndUpdate(userId, {
+                    $set: {
+                        defaultgroup: newDefaultGroupForProj
+                    }
+                },
+                {new: true}
+            );
+        }
+
+        if(GroupsTasks !== ''){
+            await Task.remove(
+                {_id: {$in: GroupsTasks.split(',')}},
+            );
+        }
+
+        await Group.deleteOne(
+            {_id: groupToRemoveId },
+        );
     },
     updateProject: async (parent, args, { Project}) => {
-        let project = await Project.findByIdAndUpdate(args._id, {
-                $set: { projecttitle: args.projecttitle, projectdescription: args.projectdescription}},
-            {new: true}
-        );
+        if(args.projecttitle) {
+           await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        projecttitle: args.projecttitle
+                    }
+                },
+                {new: true}
+            );
+        }
+        const project = await Project.findById(args._id);
+
         if(args.leader) {
-            let leader = await User.findById(args.leader);
-            await project.leader.save(leader._id);
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        leader: args.leader
+                    }
+                },
+                {new: true}
+            );
+        }
+        if(args.projectdescription) {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        projectdescription: args.projectdescription
+                    }
+                },
+                {new: true}
+            );
+        }
+        if(args.plannedcompletiondate != 'Invalid Date') {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        plannedcompletiondate: args.plannedcompletiondate
+                    }
+                },
+                {new: true}
+            );
+        }
+        if(args.duedate != 'Invalid Date') {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        duedate: args.duedate
+                    }
+                },
+                {new: true}
+            );
+        }
+        if(args.projectsTeamId) {
+            await Team.update(
+                //find team with id provided
+                { _id: args.projectsTeamId },
+                //go to teams projects pull projects provided from array
+                { $pull: { projects: args.projectToChange } }
+            );
+        }
+        if(args.projectsGroupIds){
+            await Team.update(
+                //find each project with id provided from array
+                { _id: args.projectsTeamId   },
+                //got to that projects users and pull out user from that array
+                { $pullAll: { groups: args.projectsGroupIds.split(',')  } },
+                //multiple documents
+                { multi: true }
+            );
+        }
+        if(args.targetTeam){
+            await Team.update(
+                //find each project with id provided from array
+                { _id: args.targetTeam   },
+                //got to that projects users and pull out user from that array
+                { $push: { projects: args.projectToChange  } },
+                //multiple documents
+                { multi: true }
+            );
+        }
+        if(args.targetTeam && args.projectsGroupIds){
+            await Team.update(
+                //find each project with id provided from array
+                { _id: args.targetTeam   },
+                //got to that projects users and pull out user from that array
+                { $push: { groups: { $each: args.projectsGroupIds.split(',')  } } },
+            );
         }
 
-        if(args.team) {
-            let projectteam = await Team.findById(args.team);
-            await project.team.save(projectteam._id);
-            projectteam.projects.push(project._id);
-            await projectteam.save();
+        if(args.projectToChange){
+            await Project.update(
+                //find each project with id provided from array
+                { _id: args.projectToChange   },
+                //got to that projects users and pull out user from that array
+                { $set: { team: args.targetTeam } },
+            );
         }
-
+        if(args.iscompleted != null) {
+            await Project.findByIdAndUpdate(args._id, {
+                    $set: {
+                        iscompleted: args.iscompleted
+                    }
+                },
+                {new: true}
+            );
+        }
     }
 };
 
@@ -115,11 +333,14 @@ const ProjectNested = {
     comments: async ({comment}) => {
         return (await Comment.find({comment}))
     },
-    tasks: async ({task}) => {
-        return (await Task.find({task: _id}))
+    tasks: async ({_id}) => {
+        return (await Task.find({project: _id}))
     },
-    groups: async ({group}) => {
-        return (await Group.find({group: _id}))
+    groups: async ({_id}) => {
+        return (await Group.find({project: _id}))
+    },
+    defaultgroup: async ({defaultgroup}) => {
+        return (await Group.findById(defaultgroup))
     },
     milestone: async ({milestone}) => {
         return (await Milestone.find({milestone: _id}))
