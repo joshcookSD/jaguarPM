@@ -67,6 +67,7 @@ class TaskItem extends Component {
             >
                 <TaskComplete
                     _id={taskId}
+                    groupForTasksId={groupId}
                     userId={userId}
                     completeddate={completeddate}
                     updateQuery={updateQuery}
