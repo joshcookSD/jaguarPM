@@ -18,8 +18,10 @@ class GroupTimeDropdown extends Component {
         const _selectGroup = (group) => {
             this.setState({selectedGroup: group});
             this.props.selectGroup(group);
-            this.props.createGroupOptions(group);
+            this.props.createTaskOptions(group);
+            console.log(group);
         };
+
 
         return(
             <Dropdown text={timeGroup.grouptitle}  fluid scrolling floating labeled button className='icon'>

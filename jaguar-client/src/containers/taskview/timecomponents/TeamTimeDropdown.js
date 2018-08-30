@@ -10,10 +10,11 @@ class TeamTimeDropdown extends Component {
         const { teamOptions} = this.props;
         const { selectedTeam } = this.state;
         const _selectTeam = (team) => {
-            console.log(team);
             this.setState({selectedTeam: team});
             this.props.selectTeam(team);
             this.props.createProjectOptions(team);
+            this.props.createGroupOptions(team.defaultproject);
+            this.props.createTaskOptions(team.defaultgroup);
         };
 
         return(

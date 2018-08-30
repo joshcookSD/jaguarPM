@@ -55,6 +55,7 @@ class TimeForm extends Component {
         await this.setState({
             timeTeam: team,
             timeProject: team.defaultproject,
+            timeGroup: team.defaultgroup,
         });
     };
 
@@ -67,7 +68,6 @@ class TimeForm extends Component {
                 defaultgroup: project.defaultgroup
             }))
         });
-        console.log(this.state.projectOptions);
     };
 
     selectProject = async (project) => {
@@ -95,8 +95,14 @@ class TimeForm extends Component {
     };
 
     createTaskOptions = async (group) => {
-        await this.setState({groupOptions: group.tasks});
+        await this.setState({taskOptions: (group.tasks || []).map(task => ({
+                text: task.tasktitle,
+                tasktitle: task.tasktitle,
+                _id: task._id,
+            }))
+        });
     };
+
 
     selectTask = async (task) => {
         await this.setState({
@@ -140,6 +146,8 @@ class TimeForm extends Component {
                         timeTeam={timeTeam}
                         selectTeam={this.selectTeam}
                         createProjectOptions={this.createProjectOptions}
+                        createGroupOptions={this.createGroupOptions}
+                        createTaskOptions={this.createTaskOptions}
                         />
                     </Form.Field>
                     <Form.Field width='fifteen'>
@@ -148,6 +156,7 @@ class TimeForm extends Component {
                         timeProject={timeProject}
                         selectProject={this.selectProject}
                         createGroupOptions={this.createGroupOptions}
+                        createTaskOptions={this.createTaskOptions}
                     />
                     </Form.Field>
                     <Form.Field width='fifteen'>

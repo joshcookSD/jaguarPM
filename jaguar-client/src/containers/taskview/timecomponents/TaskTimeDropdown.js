@@ -23,7 +23,7 @@ class TaskTimeDropdown extends Component {
         return(
             <Dropdown text={timeTask.tasktitle}  fluid scrolling floating labeled button className='icon'>
                 <Dropdown.Menu>
-                    <Dropdown.Header content='Task' />
+                    <Dropdown.Header content={taskOptions.length > 0 ? 'Task' : 'No Tasks Currently for this group'} />
                     {(taskOptions || []).map((option, i) =>
                         <Dropdown.Item
                             key={i}
