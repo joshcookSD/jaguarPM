@@ -95,6 +95,10 @@ const AsyncOrgAdmin = Loadable({
     loader: () => import('./adminPages/orgAdminPage/OrgAdminView.js'),
     loading: Loading,
 });
+const AsyncResetPassword = Loadable({
+    loader: () => import('./authorization/ResetPassword.js'),
+    loading: Loading,
+});
 
 class App extends Component {
     render(){
@@ -105,6 +109,7 @@ class App extends Component {
                     <Route path="/" exact component={isAuthenticated() ? AsyncView : AsyncHome } />
                     <Route path="/signup" exact component={AsyncSignUp} />
                     <Route path="/login" exact component={AsyncLogin} />
+                    <Route path="/reset-password" exact component={AsyncResetPassword} />
                     <PrivateRoute path="/view-users" exact component={AsyncViewUsers} />
                     <PrivateRoute path="/view" exact component={AsyncView} />
                     <PrivateRoute path="/update-user" exact component={AsyncUpdateUser} />
