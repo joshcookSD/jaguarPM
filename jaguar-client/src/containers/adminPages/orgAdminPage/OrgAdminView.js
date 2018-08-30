@@ -16,7 +16,6 @@ class OrgAdminView extends Component {
         const { user } = decode(token);
         const variables = {_id: user._id};
 
-
         return (
             <Query query={userTaskDetails} variables={variables}>
                 {({loading, error, data}) => {
