@@ -35,6 +35,7 @@ class TaskGridRow extends Component {
 
     render() {
         const {task, user, updateQuery, variables, today} = this.props;
+        console.log(task);
         const {
             taskData,
             titleInput,
@@ -50,8 +51,6 @@ class TaskGridRow extends Component {
             plandate,
             duedate
         } = this.state;
-
-        console.log(taskData);
 
         const updateVariables = {
             _id: task._id,
@@ -89,6 +88,7 @@ class TaskGridRow extends Component {
                 <TableCellCentered>
                     <TaskComplete
                         _id={task._id}
+                        groupForTasksId={task.group._id}
                         userId={user}
                         completeddate={today}
                         updateQuery={updateQuery}
