@@ -533,6 +533,10 @@ query user($_id: String ){
             groups{
                 _id
                 grouptitle 
+                 tasks {
+                     _id
+                    tasktitle
+                }
              }    
         }
         defaultteam{
@@ -550,9 +554,13 @@ query user($_id: String ){
                     }
                 }
                 groups{
-                _id
-                grouptitle
-                groupdescription
+                    _id
+                    grouptitle
+                    groupdescription
+                     tasks {
+                         _id
+                        tasktitle
+                    }
              }
             }
         }
