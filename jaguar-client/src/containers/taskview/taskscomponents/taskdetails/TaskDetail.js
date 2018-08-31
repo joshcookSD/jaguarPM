@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import { Query, graphql, compose } from "react-apollo";
 import { Card, Dimmer, Loader, Form, Button} from 'semantic-ui-react';
-import { task, updateTask, removeTask } from "../apollo-graphql/taskQueries";
+import { task, updateTask, removeTask } from "../../../apollo-graphql/taskQueries";
 import moment from 'moment';
 import styled from 'styled-components';
-import TeamTaskDropDown from './taskscomponents/TeamTaskDropDown';
-import ProjectTaskDropDown from './taskscomponents/ProjectTaskDropDown';
-import GroupTaskDropDown from './taskscomponents/GroupTaskDropDown';
-import AssignedTaskDropDown from './taskscomponents/AssignedTaskDropDown';
+import TeamTaskDropDown from './TeamTaskDropDown';
+import ProjectTaskDropDown from './ProjectTaskDropDown';
+import GroupTaskDropDown from './GroupTaskDropDown';
+import AssignedTaskDropDown from './AssignedTaskDropDown';
 
 const TaskDetailLayout = styled.div`
     background-color: rgb(255,255,255);

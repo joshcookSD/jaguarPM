@@ -3,9 +3,9 @@ import { List, Transition} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
 import styled from 'styled-components';
-import TaskForm from './taskscomponents/TaskForm';
-import TaskItem from './taskscomponents/TaskItem';
-import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
+import TaskForm from '../taskscomponents/TaskForm';
+import TaskItem from '../taskscomponents/TaskItem';
+import TaskGroupHeader from '../taskscomponents/TaskGroupHeader';
 
 const token = localStorage.getItem('token');
 

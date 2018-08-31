@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
-const TableCellLeft = styled.td`
+const TableCellCentered = styled.td`
     border: none;
-    margin: calc(2rem - .14285714em) 0 1rem;
-    padding: 0.5em 0;
+    padding: 0em 0.5em;
     line-height: 1.28571429em;
-    text-align: left;
+    text-align: centered;
     text-transform: none;
     color: rgba(0,0,0,.87);
     border-bottom: 1px solid rgba(34,36,38,.15);
@@ -15,4 +14,4 @@ const TableCellLeft = styled.td`
     }
 `;
 
-export default TableCellLeft;
+export default TableCellCentered;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { graphql, compose } from "react-apollo";
-import {createTaskTime, createPlannedTimeTask} from '../../apollo-graphql/timeQueries';
-import { Form, Input, List, Button } from 'semantic-ui-react';
+import {createTaskTime, createPlannedTimeTask} from '../../../apollo-graphql/timeQueries';
+import { Form, Input, List } from 'semantic-ui-react';
 import styled from "styled-components";
 
 const TaskTimeLayout = styled.div`
@@ -26,12 +26,12 @@ class TaskTime extends Component {
     };
 
     render() {
-        const { taskId, userId, date, group, project, time, planTime, updateQuery, refreshVariables } = this.props;
+        const { taskId, userId, date, group, project, team, time, planTime, updateQuery, refreshVariables } = this.props;
         const { actualtime, comment, plannedtime } = this.state;
 
         const _addTime = async () => {
             await this.props.addTime({
-                variables: {task: taskId, user: userId, group, project, date: date, time: actualtime, timecomment: comment},
+                variables: {task: taskId, user: userId, group, project, team, date: date, time: actualtime, timecomment: comment},
                 refetchQueries: [{query: updateQuery, variables: refreshVariables}]
             });
             this.setState({time: '', comment: ''});

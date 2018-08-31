@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import {Dropdown, Icon } from 'semantic-ui-react';
-import TimeDay from './timecomponents/TimeDay';
-
 import styled from 'styled-components';
+import TimeDay from './timecomponents/TimeDay';
 
 
 const TimeView = styled.div`
