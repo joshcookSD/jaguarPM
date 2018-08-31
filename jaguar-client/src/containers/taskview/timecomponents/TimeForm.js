@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { graphql, compose } from "react-apollo";
 import {createTaskTime } from '../../apollo-graphql/timeQueries';
 import styled from "styled-components";
-import {Form, Input, Dropdown} from 'semantic-ui-react';
+import {Form, Input} from 'semantic-ui-react';
 import {userTaskDetails} from "../../apollo-graphql/userQueries";
 import TeamTimeDropdown from './TeamTimeDropdown';
 import ProjectTimeDropdown from './ProjectTimeDropdown';
@@ -55,6 +55,7 @@ class TimeForm extends Component {
         await this.setState({
             timeTeam: team,
             timeProject: team.defaultproject,
+            timeGroup: team.defaultgroup,
         });
     };
 
@@ -67,7 +68,6 @@ class TimeForm extends Component {
                 defaultgroup: project.defaultgroup
             }))
         });
-        console.log(this.state.projectOptions);
     };
 
     selectProject = async (project) => {
@@ -95,7 +95,12 @@ class TimeForm extends Component {
     };
 
     createTaskOptions = async (group) => {
-        await this.setState({groupOptions: group.tasks});
+        await this.setState({taskOptions: group.tasks.map(task => ({
+                text: task.tasktitle,
+                tasktitle: task.tasktitle,
+                _id: task._id,
+            }))
+        });
     };
 
     selectTask = async (task) => {
@@ -140,6 +145,8 @@ class TimeForm extends Component {
                         timeTeam={timeTeam}
                         selectTeam={this.selectTeam}
                         createProjectOptions={this.createProjectOptions}
+                        createGroupOptions={this.createGroupOptions}
+                        createTaskOptions={this.createTaskOptions}
                         />
                     </Form.Field>
                     <Form.Field width='fifteen'>
@@ -148,6 +155,7 @@ class TimeForm extends Component {
                         timeProject={timeProject}
                         selectProject={this.selectProject}
                         createGroupOptions={this.createGroupOptions}
+                        createTaskOptions={this.createTaskOptions}
                     />
                     </Form.Field>
                     <Form.Field width='fifteen'>

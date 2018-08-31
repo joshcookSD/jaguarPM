@@ -3,7 +3,7 @@ import { Comment, Dimmer, Loader} from 'semantic-ui-react'
 import { Query } from "react-apollo";
 import { taskComments } from "../../apollo-graphql/commentQueries";
 import moment from 'moment';
-import TaskCommentForm from "./TaskCommentForm";
+import TaskCommentForm from "./taskdetails/TaskCommentForm";
 import styled from "styled-components";
 
 const TaskCommentLayout = styled.div`

@@ -20,6 +20,7 @@ class ProjectTimeDropdown extends Component {
             this.setState({selectedProject: project});
             this.props.selectProject(project);
             this.props.createGroupOptions(project);
+            this.props.createTaskOptions(project.defaultgroup);
         };
 
         return(
