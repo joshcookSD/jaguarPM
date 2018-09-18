@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
-import { Icon, Modal } from 'semantic-ui-react';
+import { Icon, Modal, Checkbox } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {completeTask} from "../../apollo-graphql/taskQueries";
 import { groupDetails} from "../../apollo-graphql/groupProjectQueries";
@@ -158,7 +158,7 @@ class GroupTaskPrioriety extends Component {
                                         />
                                     </Modal.Content>
                                 </Modal>
-                            </ProjectTitleWrapper>
+                            </InnerGroupWrapper>
                             <InnerGroupWrapper>
                                 { data.group.tasks.map((task, i) =>
                                     <TaskTitleWrapper>

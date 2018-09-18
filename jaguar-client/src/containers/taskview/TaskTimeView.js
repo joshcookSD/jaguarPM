@@ -5,7 +5,7 @@ import moment from 'moment';
 import {Dropdown, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import TimeDay from './timecomponents/TimeDay';
 import styled from 'styled-components';
-import TimeDay from './timecomponents/TimeDay';
+
 
 
 export const userTime = gql`
