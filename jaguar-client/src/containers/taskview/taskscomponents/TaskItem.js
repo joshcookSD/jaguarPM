@@ -47,7 +47,7 @@ class TaskItem extends Component {
     };
 
     render() {
-        const {taskId, tasktitle, groupId, projectId, teamId, userId, completeddate, variables, updateQuery, duedate, plandate, projecttitle, time, planTime, currentTask} = this.props;
+        const {taskId, tasktitle, groupId, projectId, teamId, userId, completeddate, variables, updateQuery, duedate, plandate, projecttitle, time, planTime, currentTask, queryType} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
         const active = isHovering ? '1px solid rgba(0,0,0,0.2)': 'none';
         const style = {
@@ -74,6 +74,8 @@ class TaskItem extends Component {
                     duedate={duedate}
                     plandate={plandate}
                     isComplete={false}
+                    group={groupId}
+                    queryType={queryType}
                 />
                 <List.Content style={{width: '100%'}}>
 

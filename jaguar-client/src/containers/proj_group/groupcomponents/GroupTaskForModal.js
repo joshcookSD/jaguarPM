@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import { Input, Form, Button, Icon, Dropdown } from 'semantic-ui-react';
-import {userTaskDetails} from "../../apollo-graphql/userQueries";
 import {createTask} from "../../apollo-graphql/taskQueries";
 import {groupDetails, projectDetails, userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
 
@@ -64,7 +63,7 @@ class TaskForm extends Component {
                                         refetchQueries: [
                                             { query: groupDetails, variables: {_id: group}},
                                             // { query: userProjectGroups, variables: {_id: taskcurrentowner}},
-                                            { query: userTaskDetails, variables: {_id: taskcurrentowner}},
+                                            // { query: userTaskDetails, variables: {_id: taskcurrentowner}},
                                             // { query: projectDetails, variables: {_id: project}},
 
                                         ]

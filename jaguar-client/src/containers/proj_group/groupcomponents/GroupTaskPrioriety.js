@@ -6,7 +6,6 @@ import {completeTask} from "../../apollo-graphql/taskQueries";
 import { groupDetails} from "../../apollo-graphql/groupProjectQueries";
 import GroupTaskForModal from './GroupTaskForModal'
 import moment from "moment/moment";
-import {userTaskDetails} from "../../apollo-graphql/userQueries";
 
 
 const GroupAddTaskWrapper = styled.div`
@@ -98,7 +97,6 @@ class GroupTaskPrioriety extends Component {
                                                             refetchQueries:
                                                                 [
                                                                     {query: groupDetails, variables: {_id: this.state.groupId}},
-                                                                    { query: userTaskDetails, variables: {_id: userId}},
                                                                 ]
                                                         });
                                                     }}
