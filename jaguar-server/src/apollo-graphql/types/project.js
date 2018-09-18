@@ -152,7 +152,6 @@ const ProjectMutationResolver ={
         userId,
         GroupsTasks,
         groupUsersIds,
-
     }, {Project}) => {
         const GroupsTasksArray = GroupsTasks.split(',')
         await User.update(
@@ -160,7 +159,7 @@ const ProjectMutationResolver ={
             {$pull: { groups : groupToRemoveId.split(',')}},
             {multi: true}
         );
-        // find all groups and remove tasks
+
         if(groupsProjectId){
             let GroupsProject = await Project.findById(groupsProjectId);
             GroupsProject.groups.pull(groupToRemoveId);
@@ -191,7 +190,7 @@ const ProjectMutationResolver ={
                 {new: true}
             );
         }
-        if(GroupsTasks !== ''){
+        if(GroupsTasks[0] !== ''){
             await Task.remove(
                 {_id: {$in: GroupsTasks.split(',')}},
             );
@@ -284,7 +283,6 @@ const ProjectMutationResolver ={
                 { $push: { groups: { $each: args.projectsGroupIds.split(',')  } } },
             );
         }
-
         if(args.projectToChange){
             await Project.update(
                 //find each project with id provided from array
@@ -316,6 +314,7 @@ const ProjectNested = {
         return (await Time.find({project: _id}))
     },
     projectplannedtime: async ({_id}) => {
+        console.log(_id)
         return (await PlannedTime.find({project: _id}))
     },
     priority: async ({priority}) => {
@@ -333,11 +332,13 @@ const ProjectNested = {
     defaultgroup: async ({defaultgroup}) => {
         return (await Group.findById(defaultgroup))
     },
-    milestone: async ({milestone}) => {
-        return (await Milestone.find({milestone: _id}))
+    milestone: async ({_id}) => {
+        return (await Milestone.find({project: _id}))
     },
-    requirements: async ({requirement}) => {
-        return (await Requirement.find({requirement: _id}))
+    requirements: async ({_id}) => {
+        //fix this
+        console.log(_id)
+        return (await Requirement.find({project: _id}))
     },
     team: async ({team}) => {
         return (await Team.findById(team))

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
+import gql from 'graphql-tag';
 import TaskToday from '../taskview/TaskToday'
-import TaskDay from '../taskview/TaskDay'
-import TaskUnplanned from '../taskview/TaskUnplanned'
-import TaskTeam from '../taskview/TaskTeam'
+import TaskDay from './taskviewcomponents/TaskDay'
+import TaskUnplanned from './taskviewcomponents/TaskUnplanned'
+import TaskTeam from './taskviewcomponents/TaskTeam'
 import moment from 'moment';
 import decode from 'jwt-decode';
 import {Dimmer, Loader, Dropdown} from 'semantic-ui-react';
@@ -14,9 +15,106 @@ import TaskHeader from '../layout/TaskHeader';
 import ContentArea from '../layout/ContentArea';
 import GridArea from '../layout/GridArea';
 import {Section} from '../layout/Section';
-import TaskGrid from './TaskGrid';
+import TaskGridView from './TaskGridView';
 import TaskTimeView from './TaskTimeView';
-import {userTaskDetails} from "../apollo-graphql/userQueries";
+
+export const userTaskDetails = gql`
+query user($_id: String ){
+    user(_id: $_id){
+        currenttask {
+            _id
+            tasktitle
+            duedate
+            iscompleted
+            group {
+                _id
+                grouptitle
+            }
+            project {
+                _id 
+                projecttitle
+            }
+            team {
+                _id
+                teamtitle
+            }
+            plandate
+            tasktime {
+                _id
+                time
+            }
+            taskplannedtime {
+                _id
+                time
+            }
+        }       
+        tasks {
+            _id
+            tasktitle
+            taskdescription
+            iscompleted
+            group {
+                _id
+                grouptitle
+            }
+            project {
+                _id 
+                projecttitle
+            }
+            team {
+                _id
+                teamtitle
+            }
+            plandate
+            duedate
+            tasktime {
+                _id
+                time
+            }
+            taskplannedtime {
+                _id
+                time
+            }
+        }
+        defaultgroup {
+            _id
+            grouptitle
+            tasks {
+                _id
+                tasktitle
+            }
+        }
+        defaultproject {
+            _id
+            projecttitle
+            defaultgroup {
+                _id
+                grouptitle
+            }
+            groups {
+                _id
+                grouptitle
+            }
+        }
+        defaultteam {
+            _id
+            teamtitle
+            projects {
+                _id
+                projecttitle
+            }
+        }
+        team {
+            _id
+            teamtitle
+            defaultproject {
+                _id
+                projecttitle
+            }
+        }
+    }
+}`;
+
 
 const token = localStorage.getItem('token');
 
@@ -34,7 +132,6 @@ class TaskView extends Component {
     };
 
 
-
     render() {
         const { activeView, isSelected, taskSelected} = this.state;
         const { user } = decode(token);
@@ -43,6 +140,7 @@ class TaskView extends Component {
         const plus3 = moment(Date.now()).add(3,'day').format('YYYY-MM-DD');
         const plus4 = moment(Date.now()).add(4,'day').format('YYYY-MM-DD');
         const plus5 = moment(Date.now()).add(5,'day').format('YYYY-MM-DD');
+        const planDays = [tomorrow, plus2, plus3, plus4, plus5];
         const variables = {_id: user._id};
 
         return(
@@ -79,68 +177,21 @@ class TaskView extends Component {
                                 user={user}
                             />
                             {activeView === 'plan' &&
-
                                 <ContentArea>
-                                <Section><TaskDay
-                                    tasks={data.user.tasks}
-                                    day={tomorrow}
-                                    defaultgroup={data.user.defaultgroup._id}
-                                    defaultproject={data.user.defaultproject._id}
-                                    defaultteam={data.user.defaultteam._id}
-                                    updateQuery={userTaskDetails}
-                                    variables={variables}
-                                    currentTask={data.user.currenttask}
-                                    taskselected={taskSelected}
-                                    selectTask={this.selectTask}
-                                /></Section>
-                                <Section><TaskDay
-                                    tasks={data.user.tasks}
-                                    day={plus2}
-                                    defaultgroup={data.user.defaultgroup._id}
-                                    defaultproject={data.user.defaultproject._id}
-                                    defaultteam={data.user.defaultteam._id}
-                                    updateQuery={userTaskDetails}
-                                    variables={variables}
-                                    currentTask={data.user.currenttask}
-                                    taskselected={taskSelected}
-                                    selectTask={this.selectTask}
-                                /></Section>
-                                <Section><TaskDay
-                                    tasks={data.user.tasks}
-                                    day={plus3}
-                                    defaultgroup={data.user.defaultgroup._id}
-                                    defaultproject={data.user.defaultproject._id}
-                                    defaultteam={data.user.defaultteam._id}
-                                    updateQuery={userTaskDetails}
-                                    variables={variables}
-                                    currentTask={data.user.currenttask}
-                                    taskselected={taskSelected}
-                                    selectTask={this.selectTask}
-                                /></Section>
-                                <Section><TaskDay
-                                    tasks={data.user.tasks}
-                                    day={plus4}
-                                    defaultgroup={data.user.defaultgroup._id}
-                                    defaultproject={data.user.defaultproject._id}
-                                    defaultteam={data.user.defaultteam._id}
-                                    updateQuery={userTaskDetails}
-                                    variables={variables}
-                                    currentTask={data.user.currenttask}
-                                    taskselected={taskSelected}
-                                    selectTask={this.selectTask}
-                                /></Section>
-                                <Section><TaskDay
-                                    tasks={data.user.tasks}
-                                    day={plus5}
-                                    defaultgroup={data.user.defaultgroup._id}
-                                    defaultproject={data.user.defaultproject._id}
-                                    defaultteam={data.user.defaultteam._id}
-                                    updateQuery={userTaskDetails}
-                                    variables={variables}
-                                    currentTask={data.user.currenttask}
-                                    taskselected={taskSelected}
-                                    selectTask={this.selectTask}
-                                /></Section>
+                                {planDays.map( day => (
+                                    <Section key={day}><TaskDay
+                                        tasks={data.user.tasks}
+                                        day={day}
+                                        defaultgroup={data.user.defaultgroup._id}
+                                        defaultproject={data.user.defaultproject._id}
+                                        defaultteam={data.user.defaultteam._id}
+                                        updateQuery={userTaskDetails}
+                                        variables={variables}
+                                        currentTask={data.user.currenttask}
+                                        taskselected={taskSelected}
+                                        selectTask={this.selectTask}
+                                    /></Section>
+                                ))}
                                 <Section><TaskUnplanned
                                     tasks={data.user.tasks}
                                     lastDay={plus5}
@@ -156,13 +207,9 @@ class TaskView extends Component {
                                 {data.user.team.map((team) => (
 
                                     <Section key={team._id}>
-                                        {console.log(team)}
                                         <TaskTeam
-                                            tasks={team.tasks}
                                             teamId={team._id}
                                             teamtitle={team.teamtitle}
-                                            defaultgroup={team.defaultproject.defaultgroup._id}
-                                            defaultproject={team.defaultproject._id}
                                             updateQuery={userTaskDetails}
                                             variables={variables}
                                             currentTask={data.user.currenttask}
@@ -178,7 +225,7 @@ class TaskView extends Component {
                                     <div>
                                         <Dropdown placeholder='team' fluid selection options={(data.user.team || []).map(team => ({ key: team._id, text: team.teamtitle, value: team._id}))}/>
                                     </div>
-                                    <TaskGrid
+                                    <TaskGridView
                                         user={user._id}
                                         tasks={data.user.tasks}
                                         updateQuery={userTaskDetails}
@@ -192,8 +239,8 @@ class TaskView extends Component {
                                     defaultgroup={data.user.defaultgroup}
                                     defaultproject={data.user.defaultproject}
                                     defaultteam={data.user.defaultteam}
-                                    time={data.user.time}
                                     team={data.user.team}
+                                    variables={variables}
                                 />
                             }
                         </AppLayout>

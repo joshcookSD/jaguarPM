@@ -64,8 +64,8 @@ mutation createTimeProject($time: Float!, $timecomment: String, $date: Date, $us
 `;
 
 const createPlannedTimeTask = gql`
-mutation createPlannedTime($time: Float!, $date: Date, $createdBy: String, $task: String ) {
-    createPlannedTime(time: $time, date: $date, createdBy: $createdBy,task: $task) {
+mutation createPlannedTime($time: Float!, $date: Date, $group: String, $project: String, $createdBy: String, $task: String ) {
+    createPlannedTime(time: $time, date: $date, createdBy: $createdBy,task: $task, group: $group, project: $project) {
         time
         date
         task {
@@ -93,6 +93,7 @@ mutation createPlannedTimeGroup(
     $group: String,
     $task: String 
     $user: String
+    $project: String
 ) {
     createPlannedTimeGroup(
     time: $time, 
@@ -101,6 +102,7 @@ mutation createPlannedTimeGroup(
     group: $group
     task: $task
     user: $user
+    project: $project
     ) {
         time
         date
@@ -123,6 +125,19 @@ mutation createPlannedTime($time: Float!, $date: Date, $createdBy: String, $proj
     }
 }
 `;
+const createPlannedTimeRequirement = gql`
+mutation createPlannedTimeRequirement($time: Float!, $date: Date, $createdBy: String, $project: String, $requirement: String ) {
+    createPlannedTimeRequirement(time: $time, date: $date, createdBy: $createdBy,project: $project, requirement: $requirement) {
+        time
+        date
+        project {
+            _id
+            projecttitle
+        }
+    }
+}
+`;
+
 const timeByUser = gql`
  query timeByUser($user: String!){
   timeByUser(user: $user) {
@@ -148,5 +163,13 @@ const timeByUser = gql`
 }
  `;
 
-export {createTaskTime, createPlannedTimeTask, createTimeProject, createPlannedTimeProject,  createPlannedTimeGroup, createGroupTime, timeByUser};
+const plannedtimebyproject = gql`
+ query plannedtimebyproject($project: String!){
+  plannedtimebyproject(project: $project) {
+   _id
+  	time
+}
+}
+ `;
+export {createTaskTime, createPlannedTimeTask, createTimeProject, createPlannedTimeProject,  createPlannedTimeGroup, createGroupTime, timeByUser, createPlannedTimeRequirement, plannedtimebyproject};
 

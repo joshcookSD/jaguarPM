@@ -1,17 +1,16 @@
 
 import React, {Component} from 'react';
 import { Icon, Modal } from 'semantic-ui-react';
-import GroupAddTimeForm from './GroupAddTimeForm'
 import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
-import TaskTime from '../../taskview/taskscomponents/taskdetails/TaskTime.js'
+import ProjectRequirementForm from './ProjectRequirementForm.js'
 
 const ModalHeaderWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 `;
 
-class GroupTimeModal extends Component {
+class ProjectRequirementModal extends Component {
     state = {
         open: false,
         hovering: false
@@ -29,7 +28,7 @@ class GroupTimeModal extends Component {
         } = this.props;
         return(
             <ModalHeaderWrapper>
-                <Header as='h2'>Time</Header>
+                <Header as='h2'>Requirements</Header>
                 <Modal
                     open={this.state.open}
                     floated='right'
@@ -48,9 +47,9 @@ class GroupTimeModal extends Component {
                         </div>
                     }
                 >
-                    <Modal.Header>Add Time To Group</Modal.Header>
+                    <Modal.Header>add requirement</Modal.Header>
                     <Modal.Content >
-                        <GroupAddTimeForm
+                        <ProjectRequirementForm
                             data={data}
                             onClose={this.close}
                         />
@@ -61,4 +60,4 @@ class GroupTimeModal extends Component {
     }
 }
 
-export default GroupTimeModal;
+export default ProjectRequirementModal;

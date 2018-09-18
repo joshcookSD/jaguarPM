@@ -42,13 +42,13 @@ class GroupTimeCards extends Component {
     };
 
     render () {
-        if(!this.props.data.group.tasks.length > 0 ) {
-            return (
-                <div>
-                 no tasks :[
-                </div>
-            );
-        } else {
+        // if(!this.props.data.group.tasks.length > 0 ) {
+        //     return (
+        //         <div>
+        //          no tasks :[
+        //         </div>
+        //     );
+        // } else {
             //total task hours
             let totalTaskTimeWorked = this.props.data.group.tasks.map((task) => task.tasktime.map(taskt => taskt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
             //total group hours
@@ -119,7 +119,7 @@ class GroupTimeCards extends Component {
                 </div>
             )
         }
-    }
+    // }
 }
 
 export default GroupTimeCards;

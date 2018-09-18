@@ -30,6 +30,10 @@ const plannedTimeSchema = new mongoose.Schema(
         project: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Project"
+        },
+        requirement: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Requirement"
         }
     },
     {

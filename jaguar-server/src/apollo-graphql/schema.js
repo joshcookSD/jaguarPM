@@ -35,6 +35,7 @@ const typeDefs = `
     ${CommentType}
     
     type Query {
+ 
         ${UserQuery}
         ${TaskQuery}
         ${TimeQuery}
@@ -50,6 +51,7 @@ const typeDefs = `
         ${CommentQuery}
     }
     type Mutation {
+  
         ${TaskMutation}
         ${UserMutation}
         ${TimeMutation}

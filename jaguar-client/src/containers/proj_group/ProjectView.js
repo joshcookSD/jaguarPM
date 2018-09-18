@@ -5,7 +5,6 @@ import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
 import decode from "jwt-decode";
-import {userTaskDetails} from "../apollo-graphql/userQueries";
 import {projectDetails} from "../apollo-graphql/groupProjectQueries";
 const token = localStorage.getItem('token');
 
@@ -27,28 +26,27 @@ class ProjectView extends Component {
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { selectedProject, isSelected } = this.state;
-        return (
-            <div>
-                <AppLayout>
-                    <NavSidebar/>
-                    <MainSidebar>
-                        <ProjectList
-                            selectedProject={selectedProject}
-                            selectProject={this.selectProject}
-                            isSelected={isSelected}
-                        />
-                    </MainSidebar>
+            return (
+                <div>
+                    <AppLayout>
+                        <NavSidebar/>
+                        <MainSidebar>
+                            <ProjectList
+                                selectedProject={selectedProject}
+                                selectProject={this.selectProject}
+                                isSelected={isSelected}
+                            />
+                        </MainSidebar>
                         <ProjectPageMain
                             selectedProject={selectedProject}
                             projectDetails={projectDetails}
                             queryVariables={{_id: selectedProject}}
-                            userTaskDetails={userTaskDetails}
                             variables={variables}
                             removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
                         />
-                </AppLayout>
-            </div>
-        )
+                    </AppLayout>
+                </div>
+            )
     }
 }
 

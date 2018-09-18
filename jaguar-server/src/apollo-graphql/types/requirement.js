@@ -5,6 +5,7 @@ import Requirement from "../../models/requirement";
 import User from "../../models/user";
 import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
+import Time from "../../models/time";
 
 const RequirementType = `
     type Requirement {
@@ -31,7 +32,11 @@ const RequirementMutation = `
     createRequirement(
         requirementtitle: String,
         requirementdescription: String
-) : Requirement
+        project: String
+        duedate: Date
+        isApproved: Boolean
+        plannedcompletiondate: Date
+    ) : Requirement
 `;
 
 const RequirementQueryResolver = {
@@ -48,27 +53,60 @@ const RequirementQueryResolver = {
 };
 
 const RequirementMutationResolver ={
-    createRequirement: async (parent, args, { Requirement}) => {
-        let requirement = await new Requirement(args).save();
+    createRequirement: async (parent, args, { Requirement, Project}) => {
+        let requirement = await new Requirement({
+            requirementtitle: args.requirementtitle,
+            requirementdescription: args.requirementdescription,
+            project: args.project,
+        }).save();
+        if(args.project){
+            await Project.findByIdAndUpdate(args.project, {
+                    $push: {
+                        requirements: requirement._id
+                    }
+                },
+                {upsert: true}
+            );
+        }
+        if(args.duedate != 'Invalid Date'){
+            await Requirement.findByIdAndUpdate(requirement._id, {
+                    $set: {
+                        duedate: args.duedate
+                    }
+                },
+                {upsert: true}
+            );
+        }
+        if(args.plannedcompletiondate != 'Invalid Date'){
+            await Requirement.findByIdAndUpdate(requirement._id, {
+                    $set: {
+                        plannedcompletiondate: args.plannedcompletiondate
+                    }
+                },
+                {upsert: true}
+            );
+        }
         return requirement
     }
 };
 
 const RequirementNested = {
-    users: async ({users}) => {
+    users: async ({_id}) => {
         return (await User.find({users: _id}))
     },
-    requirementplannedtime: async ({requirementplannedtime}) => {
-        return (await PlannedTime.find({requirementplannedtime: _id}))
+    requirementplannedtime: async ({_id}) => {
+        return (await PlannedTime.find({requirement: _id}))
     },
-    priority: async ({priority}) => {
+    priority: async ({_id}) => {
         return (await Priority.find({priority: _id}))
     },
-    group: async ({group}) => {
-        return (await Group.find({group: _id}))
+    group: async ({_id}) => {
+        let req = await Requirement.findById(_id);
+        return (await Group.findById(req.group));
     },
-    project: async ({project}) => {
-        return (await Project.find({project: _id}))
+    project: async ({_id}) => {
+        console.log(_id)
+        return (await Project.find({requirements: _id}))
     },
 };
 

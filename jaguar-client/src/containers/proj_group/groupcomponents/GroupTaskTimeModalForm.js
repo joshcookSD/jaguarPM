@@ -1,23 +1,8 @@
 import React, {Component} from 'react';
-import {groupDetails, projectDetails} from "../../apollo-graphql/groupProjectQueries";
-import { Input, Form, Button, Icon, Dropdown } from 'semantic-ui-react';
+import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
+import { Input, Form, Button } from 'semantic-ui-react';
 import { Mutation } from "react-apollo";
-import { createPlannedTimeGroup, createGroupTime} from '../../apollo-graphql/timeQueries';
-import styled from "styled-components";
-
-const TaskTimeLayout = styled.div`
-    background-color: rgb(255,255,255);
-    border-radius: .3em;
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow .1s ease;
-    box-sizing: inherit;
-    font-size: 1rem;
-    line-height: 1.15em;
-    position: relative;
-    padding: .5em 1em;
-`;
-
+import {createPlannedTimeGroup, createGroupTime, plannedtimebyproject} from '../../apollo-graphql/timeQueries';
 
 class GroupTaskTimeModalForm extends Component {
     state = {
@@ -52,6 +37,7 @@ class GroupTaskTimeModalForm extends Component {
                                                         timecomment: comment
                                                     },
                                                     refetchQueries: [
+                                                        {query: plannedtimebyproject, variables: {project: project}},
                                                         {query: projectDetails, variables: {_id: project}}
                                                     ]
                                                 });
@@ -98,9 +84,11 @@ class GroupTaskTimeModalForm extends Component {
                                                         date: date,
                                                         time: plannedTime,
                                                         createdBy: userId,
-                                                        user: userId
+                                                        user: userId,
+                                                        project: project
                                                     },
                                                     refetchQueries: [
+                                                        {query: plannedtimebyproject, variables: {project: project}},
                                                         {query: projectDetails, variables: {_id: project}}
                                                     ]
                                                 });

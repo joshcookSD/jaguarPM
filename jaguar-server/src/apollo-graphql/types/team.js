@@ -127,7 +127,6 @@ const TeamNested = {
         return (await Group.find({team: _id}))
     }
 };
-
 const TeamMutationResolver = {
     createTeam: async (parent, {teamtitle, teamdescription, owner, organization}, {Team}) => {
         let teamuser = await User.findById(owner.toString());

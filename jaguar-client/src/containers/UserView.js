@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import TaskToday from './taskview/TaskToday'
-import TaskDay from './taskview/TaskDay'
-import TaskUnplanned from './taskview/TaskUnplanned'
-import TaskTeam from './taskview/TaskTeam'
+import TaskDay from './taskview/taskviewcomponents/TaskDay'
+import TaskUnplanned from './taskview/taskviewcomponents/TaskUnplanned'
+import TaskTeam from './taskview/taskviewcomponents/TaskTeam'
 import moment from 'moment';
 import decode from 'jwt-decode';
 import {Dimmer, Loader} from 'semantic-ui-react';

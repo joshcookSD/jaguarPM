@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { Query, Mutation } from "react-apollo";
-import { Dimmer, Loader, Checkbox, Icon, Modal, Header } from 'semantic-ui-react';
+import { Mutation } from "react-apollo";
+import { Icon, Modal } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {completeTask} from "../../apollo-graphql/taskQueries";
 import { groupDetails} from "../../apollo-graphql/groupProjectQueries";
 import GroupTaskForModal from './GroupTaskForModal'
 import moment from "moment/moment";
-import {userTaskDetails} from "../../apollo-graphql/userQueries";
+
 
 const TaskDescript = styled.div`
     padding-left: 10px;
@@ -78,7 +78,6 @@ class GroupTaskPrioriety extends Component {
     render() {
 
         const {
-            userId,
             data,
             removeGroupSwitchForDefault,
             queryVariables
@@ -98,6 +97,38 @@ class GroupTaskPrioriety extends Component {
                                         ? <Icon name='flag checkered' />
                                         :<div>Tasks Completed : {data.group.tasks.filter(task => task.iscompleted === true).length} / {data.group.tasks.length}</div>
                                 }
+                            </ProjectTitleWrapper>
+                            <InnerGroupWrapper>
+                                { data.group.tasks.map(task =>
+                                    <TaskTitleWrapper>
+                                        <div>{task.tasktitle}</div>
+                                        {
+
+                                            (task.iscompleted === true)
+                                                ?
+                                                <div>done!</div>
+                                                :
+                                                <Checkbox
+                                                    radio
+                                                    onChange={async e => {
+                                                        e.preventDefault();
+                                                        await completeTask({
+                                                            variables: {
+                                                                _id: task._id,
+                                                                iscompleted: true,
+                                                                completeddate: today,
+                                                                groupForTasksId: task.group._id
+                                                            },
+                                                            refetchQueries:
+                                                                [
+                                                                    {query: groupDetails, variables: {_id: this.state.groupId}},
+                                                                ]
+                                                        });
+                                                    }}
+                                                />
+                                        }
+                                    </TaskTitleWrapper>
+                                )}
                                 <Modal
                                     floated='right'
                                     trigger={

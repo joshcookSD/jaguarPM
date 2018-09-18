@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import { Input, Form } from 'semantic-ui-react';
-import { createTaskComments } from "../../apollo-graphql/commentQueries";
+import { createTaskComments } from "../../../apollo-graphql/commentQueries";
 
 
 class TaskCommentForm extends Component {

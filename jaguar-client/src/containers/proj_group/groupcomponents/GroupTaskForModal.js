@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import { Input, Form, Button, Icon, Dropdown } from 'semantic-ui-react';
-import {userTaskDetails} from "../../apollo-graphql/userQueries";
 import {createTask} from "../../apollo-graphql/taskQueries";
-import {groupDetails, projectDetails, userProjectGroups} from "../../apollo-graphql/groupProjectQueries";
+import {groupDetails} from "../../apollo-graphql/groupProjectQueries";
 
 
 class TaskForm extends Component {
@@ -20,13 +19,10 @@ class TaskForm extends Component {
 
     render() {
         const {
-            taskcurrentowner,
             group,
             project,
             team,
-            teamUsers,
-            userName,
-            queryVariables
+            teamUsers
         } = this.props;
 
         const {

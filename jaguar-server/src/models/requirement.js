@@ -51,10 +51,10 @@ const requirementSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Group"
         },
-        project: {
+        project: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Project"
-        }
+        }]
     },
     {
         timestamps: true

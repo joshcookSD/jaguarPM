@@ -1,9 +1,21 @@
 import React, {Component} from 'react';
 import ProjectTimeMain from './ProjectTimeMain'
+import ProjectRequirementsMain from './ProjectRequirementsMain'
 
 class ProjectPagePanes extends Component {
+    state = {
+        selectedProject:''
+    };
 
     render () {
+        console.log(this.props.selectedProject);
+        if(this.props.activePageTab === 'requirements') {
+            return (
+                <div>
+                    <ProjectRequirementsMain data={this.props.data}/>
+                </div>
+            );
+        }
         if(this.props.activePageTab === 'feed') {
             return (
                 <div>
@@ -21,7 +33,7 @@ class ProjectPagePanes extends Component {
         if(this.props.activePageTab === 'project') {
             return (
                 <div>
-                    <ProjectTimeMain data={this.props.data}/>
+                    <ProjectTimeMain data={this.props.data} selectedProject={this.props.selectedProject}/>
                 </div>
             );
         }
