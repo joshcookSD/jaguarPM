@@ -32,32 +32,32 @@ const ProjAddProjCard = (props) => {
                             if (team._id === props.team._id) {
                                 return (
                                     (team.projects || []).map((project, i) => (
-                                        <Link to='/project-admin' key={i}>
+                                        <Link to='/project-page' key={i}>
                                             <OrgPageTeamCardWrapper image key={i}>
                                                 <Icon name='group'/>
                                                 <NewUserCardName>{project.projecttitle}</NewUserCardName>
                                                 <DeleteUserIcon>
-                                                    <Icon
-                                                        size='large'
-                                                        name='delete'
-                                                        onClick={async e => {
-                                                            console.log(project)
-                                                            e.preventDefault();
-                                                            await removeProjectFromTeam({
-                                                                variables: {
-                                                                    projectToRemoveId: project._id,
-                                                                    projectUsersIds: project.users.map((user) => user._id).toString(),
-                                                                    projectsTeamId: project.team._id,
-                                                                    projectsGroupsTasks: project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),
-                                                                    projectsGroups: project.groups.map((group) => group._id).toString()
-                                                                },
-                                                                refetchQueries: [{
-                                                                    query: teamsByOwner,
-                                                                    variables: props.variables
-                                                                }]
-                                                            });
-                                                        }}
-                                                    />
+                                                    {/*<Icon*/}
+                                                        {/*size='large'*/}
+                                                        {/*name='delete'*/}
+                                                        {/*onClick={async e => {*/}
+                                                            {/*console.log(project.groups.map((group) => group._id).toString())*/}
+                                                            {/*e.preventDefault();*/}
+                                                            {/*await removeProjectFromTeam({*/}
+                                                                {/*variables: {*/}
+                                                                    {/*projectToRemoveId: project._id,*/}
+                                                                    {/*projectUsersIds: project.users.map((user) => user._id).toString(),*/}
+                                                                    {/*projectsTeamId: project.team._id,*/}
+                                                                    {/*projectsGroupsTasks: project.groups.map((group) => group.tasks.map((task) => task._id)).toString(),*/}
+                                                                    {/*projectsGroups: project.groups.map((group) => group._id).toString()*/}
+                                                                {/*},*/}
+                                                                {/*refetchQueries: [{*/}
+                                                                    {/*query: teamsByOwner,*/}
+                                                                    {/*variables: props.variables*/}
+                                                                {/*}]*/}
+                                                            {/*});*/}
+                                                        {/*}}*/}
+                                                    {/*/>*/}
                                                 </DeleteUserIcon>
                                             </OrgPageTeamCardWrapper>
                                         </Link>

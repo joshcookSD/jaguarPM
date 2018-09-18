@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Mutation, graphql, compose } from "react-apollo";
-import { Message, Form, Button, Container, Header, Icon } from 'semantic-ui-react';
+import { Message, Form, Button, Container, Header, Icon, Popup,  } from 'semantic-ui-react';
 import Navbar from "../Navbar";
 import {loginUser, getCurrentUser} from "../apollo-graphql/userQueries";
+const style = {
+    borderRadius: 3,
+    opacity: 0.95,
+    padding: '0.5em',
+};
 
 class AuthForm extends Component {
     state = {
@@ -21,6 +26,7 @@ class AuthForm extends Component {
         this.setState({showPassword: !this.state.showPassword})
     };
 
+
     render() {
         const { email, password, emailError, passwordError, showPassword } = this.state;
         const errorList = [];
@@ -33,7 +39,16 @@ class AuthForm extends Component {
                     <div>
                     <Navbar/>
                     <Container text style={{ marginTop: '7em' }}>
-                        <Header as="h2" >login</Header>
+                        <div >
+                            <Header as="h2" >login <Popup
+                                trigger={<Link to='/reset-password' style={{float: 'right', color : 'black'}} ><i className="fas fa-meh-rolling-eyes" /></Link>}
+                                content="forgot?"
+                                position='right center'
+                                inverted
+                                style={style}
+                            /></Header>
+                        </div>
+
                         <Form
                             onSubmit={async e => {
 
@@ -66,6 +81,7 @@ class AuthForm extends Component {
                                     onChange={e => this.setState({ email: e.target.value })}
                                 />
                             </Form.Field>
+
                             <Form.Field error={!!passwordError}>
                                 <Form.Input
                                     placeholder='password'
@@ -81,9 +97,15 @@ class AuthForm extends Component {
                                     <div style={{marginLeft: 5+'px', marginTop: 7+'px'}} onClick={ this.showHide }><Icon name={showPassword ? 'hide' : 'unhide'} /></div>
                                 </Form.Input>
                             </Form.Field>
+
                             <Button floated='right' icon labelPosition='left'><Icon name='plus'/>login</Button>
                         </Form>
-                        <Link to='/signup'> need to create an account?</Link>
+                        <div style={{'display' : 'flex', 'flex-direction': 'column'}}>
+                            <Link to='/signup'> need to create an account?</Link>
+
+
+                        </div>
+
                         {errorList.length ? (
                             <Message error header='There was some errors with your submission' list={errorList} />
                         ) : null}

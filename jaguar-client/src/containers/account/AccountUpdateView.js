@@ -17,7 +17,17 @@ const token = localStorage.getItem('token');
 class AccountUpdateView extends Component {
     state = {
         activeView: 'info',
+        selectedFile: null
     };
+    fileSelectedHandler = event => {
+        console.log(event.target.files[0])
+        this.setState({selectedFile: event.target.files[0]})
+    };
+
+    fileUploadHandler = () => {
+
+    };
+
     changeView = (view) => {
         this.setState({activeView: view});
     };
@@ -60,7 +70,10 @@ class AccountUpdateView extends Component {
 
                             {activeView === 'account' &&
                                 <ContentArea>
-                                    <span>Update account goes here</span>
+                                    <span>
+                                        <input type="file" onChange={this.fileSelectedHandler}/>
+                                        <button onClick={this.fileUploadHandler}>upload</button>
+                                    </span>
                                 </ContentArea>
                             }
 

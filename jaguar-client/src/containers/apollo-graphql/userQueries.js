@@ -19,6 +19,25 @@ mutation signup($username: String!, $password: String!, $email: String!) {
   }
 }
 `;
+const updatePassword = gql`
+mutation updatePassword($username: String!, $newPassword: String!, $email: String!) {
+  updatePassword(username: $username, newPassword: $newPassword, email: $email) {
+        ok
+        token
+        refreshToken
+        user {
+            _id
+            email
+            username
+            profileImageUrl
+            }
+        errors {
+            path
+            message
+            }
+  }
+}
+`;
 
 const getCurrentUser = gql`
     query {
@@ -116,6 +135,14 @@ const getOrgByOwner = gql`
             _id
             teamtitle
             teamdescription
+             defaultproject{
+                _id
+                projecttitle
+                defaultgroup{
+                  grouptitle
+                  _id
+                }
+              }
             organization{
                 _id
                 orgtitle
@@ -378,6 +405,7 @@ export {
     createTeam,
     userDetails,
     teamsByUser,
-    updateCurrentTask
+    updateCurrentTask,
+    updatePassword
 };
 

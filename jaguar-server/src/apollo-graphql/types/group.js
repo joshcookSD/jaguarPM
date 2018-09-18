@@ -78,7 +78,7 @@ const GroupQueryResolver = {
         })
     },
     group: async (parent, args, {Group}) => {
-        console.log(args)
+
         return await Group.findById(args._id.toString())
     },
 };

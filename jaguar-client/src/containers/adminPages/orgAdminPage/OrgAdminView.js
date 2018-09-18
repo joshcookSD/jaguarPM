@@ -75,10 +75,10 @@ class OrgAdminView extends Component {
         const { user } = decode(token);
         const variables = {_id: user._id};
 
-
         return (
             <Query query={tasksToday} variables={variables}>
                 {({loading, error, data}) => {
+                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>
@@ -86,7 +86,6 @@ class OrgAdminView extends Component {
                             </Dimmer>
                         </div>);
                     if (error) return <p>Error :(</p>;
-                    console.log(data)
                      return <div>
                         <AppLayout>
                             <NavSidebar/>

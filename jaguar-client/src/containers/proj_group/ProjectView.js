@@ -14,31 +14,18 @@ class ProjectView extends Component {
         isSelected: false,
     };
 
-    defualtSelectProject =  (project) => {
-        this.setState({
-            selectedProject: project,
-            isSelected: true,
-        });
+    selectProject = (project) => {
+        this.setState({selectedProject: project, isSelected: true});
     };
-    selectProject =  (project) => {
-        this.setState({
-            selectedProject: project,
-            isSelected: true,
-        });
-    };
-
     //used to refetch after remove changes prop to force reload
     //also using for dropdown mutation
     removeProjectSwitchForDefault = () => {
         this.setState({isSelected: false });
     };
-
     render() {
-
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { selectedProject, isSelected } = this.state;
-
         return (
             <div>
                 <AppLayout>
@@ -47,7 +34,6 @@ class ProjectView extends Component {
                         <ProjectList
                             selectedProject={selectedProject}
                             selectProject={this.selectProject}
-                            defualtSelectProject={this.defualtSelectProject}
                             isSelected={isSelected}
                         />
                     </MainSidebar>

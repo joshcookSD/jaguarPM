@@ -87,6 +87,11 @@ const UserMutation = `
         password: String!, 
         username: String!
         ): RegisterResponse
+    updatePassword(
+        email: String!, 
+        newPassword: String!,
+        username: String!
+    ) : LoginResponse! 
 `;
 
 const UserQueryResolver = {
@@ -152,6 +157,27 @@ const UserMutationResolver = {
         let user = await User.findByIdAndUpdate(args._id.toString(),);
         user._id = user._id.toString();
         return user
+    },
+    updatePassword: async (parent, args,{User}, info) => {
+        let user = await User.find({email: args.email});
+        if(user[0].username === args.username){
+            let newHash = await bcrypt.hash(args.newPassword, 10);
+            await User.findByIdAndUpdate(user[0]._id, {
+                    $set: {
+                        password: newHash,
+                    }
+                },
+                {new: true}
+
+            );
+            return {
+                ok: true
+            }
+        }else{
+            return {
+                ok: false
+            }
+        }
     },
     updateCurrentTask: async (parent, {_id, currenttask, previoustask},{User}) => {
         let task = await Task.findByIdAndUpdate(currenttask, {

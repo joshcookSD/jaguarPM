@@ -1,17 +1,17 @@
 
 import React, {Component} from 'react';
 import { Icon, Modal } from 'semantic-ui-react';
-import GroupAddTimeForm from './GroupAddTimeForm'
 import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
-import TaskTime from '../../taskview/taskscomponents/taskdetails/TaskTime.js'
+import ProjectAddTimeForm from './ProjectAddTimeForm.js'
+
 
 const ModalHeaderWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 `;
 
-class GroupTimeModal extends Component {
+class ProjectTimeModal extends Component {
     state = {
         open: false,
         hovering: false
@@ -48,9 +48,9 @@ class GroupTimeModal extends Component {
                         </div>
                     }
                 >
-                    <Modal.Header>Add Time To Group</Modal.Header>
+                    <Modal.Header>Add Time To Project</Modal.Header>
                     <Modal.Content >
-                        <GroupAddTimeForm
+                        <ProjectAddTimeForm
                             data={data}
                             onClose={this.close}
                         />
@@ -61,4 +61,4 @@ class GroupTimeModal extends Component {
     }
 }
 
-export default GroupTimeModal;
+export default ProjectTimeModal;

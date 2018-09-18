@@ -38,9 +38,6 @@ class TaskForm extends Component {
             selectedAssigneeName
         } = this.state;
 
-        const currentOwner =  selectedAssignee ? selectedAssignee : taskcurrentowner;
-        const currentOwnerName =  selectedAssigneeName ? selectedAssigneeName : userName;
-
         return (
             <Mutation mutation={createTask}>
                 {(createTask, {loading}) => {
@@ -51,8 +48,8 @@ class TaskForm extends Component {
                                     await createTask({
                                         variables: {
                                             tasktitle: newTaskTitle,
-                                            newTaskDescription,
-                                            taskcurrentowner: currentOwner,
+                                            taskdescription: newTaskDescription,
+                                            taskcurrentowner: selectedAssignee,
                                             iscompleted: false,
                                             dueDate:duedate ,
                                             plandate,
@@ -65,7 +62,6 @@ class TaskForm extends Component {
                                             // { query: userProjectGroups, variables: {_id: taskcurrentowner}},
                                             // { query: userTaskDetails, variables: {_id: taskcurrentowner}},
                                             // { query: projectDetails, variables: {_id: project}},
-
                                         ]
                                     });
                                     this.setState({newTaskTitle: ""});
@@ -118,7 +114,7 @@ class TaskForm extends Component {
                                 <Form.Group widths='equal'>
                                     <Form.Field>
                                         <label>assign to user</label>
-                                        <Dropdown text={currentOwnerName} scrolling floating labeled button className='icon'>
+                                        <Dropdown text={selectedAssignee ? selectedAssigneeName : 'choose user'} scrolling floating labeled button className='icon'>
                                             <Dropdown.Menu>
                                                 <Dropdown.Header content='Assign to' />
                                                 {teamUsers.map((option, i) =>

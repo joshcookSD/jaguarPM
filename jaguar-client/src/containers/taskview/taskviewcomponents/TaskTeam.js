@@ -4,10 +4,10 @@ import { Query } from "react-apollo";
 import { List, Transition, Loader} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
-import TaskForm from './taskscomponents/TaskForm';
-import TaskItem from './taskscomponents/TaskItem';
+import TaskForm from '../taskscomponents/TaskForm';
+import TaskItem from '../taskscomponents/TaskItem';
 import styled from 'styled-components';
-import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
+import TaskGroupHeader from '../taskscomponents/TaskGroupHeader';
 
 const tasksByTeam = gql`
     query team($_id: String){

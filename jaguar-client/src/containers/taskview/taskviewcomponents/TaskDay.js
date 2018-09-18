@@ -3,31 +3,32 @@ import { List, Transition} from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import moment from 'moment';
 import styled from 'styled-components';
-import TaskForm from './taskscomponents/TaskForm';
-import TaskItem from './taskscomponents/TaskItem';
-import TaskGroupHeader from './taskscomponents/TaskGroupHeader';
+import TaskForm from '../taskscomponents/TaskForm';
+import TaskItem from '../taskscomponents/TaskItem';
+import TaskGroupHeader from '../taskscomponents/TaskGroupHeader';
 
 const token = localStorage.getItem('token');
 
-const TaskUnplannedGroup = styled.div`
+const TaskDayGroup = styled.div`
     width: 100%;
     padding: 1em;
     position: relative;
 `;
 
-class TaskUnplanned extends Component {
+class TaskDay extends Component {
 
     render() {
-        const { defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask, lastDay } = this.props;
-        const { user } = decode(token);
+        const {day, defaultgroup, defaultproject, defaultteam, taskSelected, tasks, updateQuery, variables, currentTask} = this.props;
         const today = moment(Date.now()).format('YYYY-MM-DD');
-        const unPlanned = tasks.filter(task => { return (task.plandate === null || moment(task.plandate).format('YYYY-MM-DD') > lastDay) && !task.iscompleted });
+        const {user} = decode(token);
+        const dayPlan = tasks.filter(task => { return moment.utc(task.plandate).format('YYYY-MM-DD') === day && !task.iscompleted });
 
-        return(
-            <TaskUnplannedGroup>
-                <TaskGroupHeader>Backlog</TaskGroupHeader>
+        return (
+            <TaskDayGroup>
+                <TaskGroupHeader>{moment.utc(day).format('dddd')}, {moment.utc(day).format('MM/DD')}</TaskGroupHeader>
                 <TaskForm
                     taskcurrentowner={user._id}
+                    plandate={day}
                     defaultgroup={defaultgroup}
                     defaultproject={defaultproject}
                     defaultteam={defaultteam}
@@ -39,19 +40,25 @@ class TaskUnplanned extends Component {
                 <Transition.Group
                     as={List}
                     duration={200}
-                    divided
                     relaxed
                     size='large'
-                    style={{overflowY: 'auto', overflowX: 'hidden', paddingTop: '1em', marginTop: 0, minHeight: '300px', maxHeight: '325px'}}
+                    style={{
+                        overflowY: 'auto',
+                        overflowX: 'hidden',
+                        paddingTop: '1em',
+                        marginTop: 0,
+                        minHeight: '300px',
+                        maxHeight: '325px'
+                    }}
                 >
-                    {unPlanned.map(({_id, tasktitle, duedate, tasktime, group, project, team, taskplannedtime}) => (
+                    {dayPlan.map(({_id, tasktitle, duedate, group, project, team, tasktime, taskplannedtime}) => (
                         <TaskItem
                             key={_id}
                             taskId={_id}
                             tasktitle={tasktitle}
                             duedate={duedate}
-                            groupId={group._id}
                             grouptitle={group.grouptitle}
+                            groupId={group._id}
                             projectId={project._id}
                             projecttitle={project.projecttitle}
                             teamId={team._id}
@@ -62,8 +69,8 @@ class TaskUnplanned extends Component {
                             queryType={'user'}
                             userId={user._id}
                             date={today}
-                            time={tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
-                            planTime={taskplannedtime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
+                            time={tasktime.map(({time}) => time).reduce((a, b) => (a + b), 0)}
+                            planTime={taskplannedtime.map(({time}) => time).reduce((a, b) => (a + b), 0)}
                             currentTask={currentTask ? currentTask._id : ''}
                             taskSelected={taskSelected}
                             selectTask={this.props.selectTask}
@@ -71,11 +78,10 @@ class TaskUnplanned extends Component {
                     ))
                     }
                 </Transition.Group>
-        </TaskUnplannedGroup>
+            </TaskDayGroup>
         )
     }
 }
 
 
-
-export default TaskUnplanned;
+export default TaskDay;

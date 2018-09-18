@@ -6,11 +6,11 @@ import GroupTimeCards from './GroupTimeCards'
 class GroupTimeMain extends Component {
 
     render () {
-    return(
-        <div>
-            <GroupTimeModal data={this.props.data}/>
-            <GroupTimeCards data={this.props.data}/>
-        </div>
+        return(
+            <div>
+                <GroupTimeModal data={this.props.data}/>
+                <GroupTimeCards data={this.props.data}/>
+            </div>
         )
     }
 }

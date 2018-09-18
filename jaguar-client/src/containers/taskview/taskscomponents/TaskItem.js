@@ -3,8 +3,8 @@ import { List, Divider } from 'semantic-ui-react';
 import moment from 'moment';
 import styled from 'styled-components';
 import TaskComplete from './TaskComplete'
-import TaskDetail from '../TaskDetail'
-import TaskTime from './TaskTime'
+import TaskDetail from './taskdetails/TaskDetail'
+import TaskTime from './taskdetails/TaskTime'
 import TaskComments from './TaskComments'
 import TaskActions from './TaskActions'
 
@@ -67,6 +67,7 @@ class TaskItem extends Component {
             >
                 <TaskComplete
                     _id={taskId}
+                    groupForTasksId={groupId}
                     userId={userId}
                     completeddate={completeddate}
                     updateQuery={updateQuery}

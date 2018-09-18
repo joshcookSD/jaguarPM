@@ -26,7 +26,9 @@ class ProjectList extends Component {
         teamIdForForm:'',
     };
 // getting variables to set first project on load => this parent
-    defaultProject = (defaultProjectId, defaultOrg, defualtProjectsGroups, defualtProjectTeam ) => {this.props.defualtSelectProject(defaultProjectId, defaultOrg, defualtProjectsGroups, defualtProjectTeam)};
+    defaultProject = (defaultProjectId, defaultOrg, defualtProjectsGroups, defualtProjectTeam ) => {
+        this.props.selectProject(defaultProjectId, defaultOrg, defualtProjectsGroups, defualtProjectTeam)
+    };
 // for modal setting team id to state to use as variable in form
     captureFormVariables = (teamId) =>{
         this.setState({ teamIdForForm: teamId },
@@ -97,7 +99,6 @@ class ProjectList extends Component {
                                     relaxed
                                     size='large'
                                 >
-
                                     {
                                         team.projects.map( (project, i) => {
                                         return (

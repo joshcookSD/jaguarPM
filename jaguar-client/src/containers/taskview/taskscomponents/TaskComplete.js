@@ -44,6 +44,7 @@ class TaskComplete extends Component {
     };
 
     render() {
+
         const {_id, completeddate, duedate, plandate, isComplete, group, queryType}= this.props;
         const {taskComplete} = this.state;
         const pastDue =  moment.utc(duedate).format('YYYY-MM-DD') < completeddate;
@@ -71,8 +72,6 @@ class TaskComplete extends Component {
     )
     }
 }
-
-
 
 export default graphql(completeTask,{
     name: 'complete',

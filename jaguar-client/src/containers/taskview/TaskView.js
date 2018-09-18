@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import TaskToday from '../taskview/TaskToday'
-import TaskDay from '../taskview/TaskDay'
-import TaskUnplanned from '../taskview/TaskUnplanned'
-import TaskTeam from '../taskview/TaskTeam'
+import TaskDay from './taskviewcomponents/TaskDay'
+import TaskUnplanned from './taskviewcomponents/TaskUnplanned'
+import TaskTeam from './taskviewcomponents/TaskTeam'
 import moment from 'moment';
 import decode from 'jwt-decode';
 import {Dimmer, Loader, Dropdown} from 'semantic-ui-react';
@@ -15,7 +15,7 @@ import TaskHeader from '../layout/TaskHeader';
 import ContentArea from '../layout/ContentArea';
 import GridArea from '../layout/GridArea';
 import {Section} from '../layout/Section';
-import TaskGrid from './TaskGrid';
+import TaskGridView from './TaskGridView';
 import TaskTimeView from './TaskTimeView';
 
 export const userTaskDetails = gql`
@@ -205,6 +205,7 @@ class TaskView extends Component {
                                     selectTask={this.selectTask}
                                 /></Section>
                                 {data.user.team.map((team) => (
+
                                     <Section key={team._id}>
                                         <TaskTeam
                                             teamId={team._id}
@@ -224,7 +225,7 @@ class TaskView extends Component {
                                     <div>
                                         <Dropdown placeholder='team' fluid selection options={(data.user.team || []).map(team => ({ key: team._id, text: team.teamtitle, value: team._id}))}/>
                                     </div>
-                                    <TaskGrid
+                                    <TaskGridView
                                         user={user._id}
                                         tasks={data.user.tasks}
                                         updateQuery={userTaskDetails}
