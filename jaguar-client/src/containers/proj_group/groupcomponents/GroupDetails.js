@@ -5,7 +5,6 @@ import moment from 'moment';
 import GroupProjectDropDown from './GroupProjectDropDown';
 import { Mutation } from "react-apollo";
 import {GroupFormWrapper} from '../../layout/Proj_GroupComponents.js'
-import {userTaskDetails} from "../../apollo-graphql/userQueries";
 
 class GroupDetail extends Component {
     closeTeamDropDown = () => {
@@ -32,8 +31,6 @@ class GroupDetail extends Component {
         const {
             selectedGroup,
             queryVariables,
-            userProjectGroups,
-            variables,
             userId,
             data
         } = this.props;

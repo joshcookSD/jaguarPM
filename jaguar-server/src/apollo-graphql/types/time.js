@@ -3,6 +3,7 @@ import Task from "../../models/task";
 import Group from "../../models/group";
 import Project from "../../models/project";
 import Team from "../../models/team";
+import PlannedTime from "../../models/plannedtime";
 
 const TimeType = `
     type Time {
@@ -22,6 +23,7 @@ const TimeQuery = `
     allTime: [Time]
     time(_id: String): Time
     timeByUser(user: String): [Time]
+    plannedtimebyproject(project: String): [PlannedTime]
 `;
 
 const TimeMutation = `
@@ -67,8 +69,10 @@ const TimeQueryResolver = {
     },
     timeByUser: async (parent, args, {Time}) => {
         const user = await User.findById(args.user.toString());
-        console.log(user);
         return await Time.find({user})
+    },
+    plannedtimebyproject: async (parent, args, {PlannedTime}) => {
+        return await PlannedTime.find({ project: args.project.toString() })
     },
 };
 
@@ -139,9 +143,7 @@ const TimeMutationResolver ={
 
             return newtime
         }
-
     },
-
 };
 
 export {TimeType, TimeQuery, TimeMutation, TimeQueryResolver, TimeNested, TimeMutationResolver};

@@ -17,7 +17,6 @@ import {Section} from '../layout/Section';
 import TaskGrid from './TaskGrid';
 import {userTaskDetails} from "../apollo-graphql/userQueries";
 
-
 const token = localStorage.getItem('token');
 
 class TaskPlan extends Component {

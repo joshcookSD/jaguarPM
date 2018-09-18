@@ -6,6 +6,7 @@ import PlannedTime from "../../models/plannedtime";
 import Priority from "../../models/priority";
 import Team from "../../models/team";
 import Comment from "../../models/comment";
+import Requirement from "../../models/requirement";
 
 const GroupType = `
     type Group {
@@ -43,6 +44,17 @@ const GroupMutation = `
         project: String,
         team: String,
         users: String
+    ) : CreateGroupResponse
+        createGroupFromReq(
+        grouptitle: String,
+        groupdescription: String,
+        project: String,
+        requirement: String
+        user: String,
+        duedate: Date,
+        plannedTimeIds: String
+        team: String
+        
     ) : CreateGroupResponse
     updateGroup(
         _id: String
@@ -82,7 +94,6 @@ const GroupQueryResolver = {
         return await Group.findById(args._id.toString())
     },
 };
-
     const GroupMutationResolver ={
         completeGroup: async (parent, args, {Group}) =>{
             let project = await Project.findByIdAndUpdate(
@@ -90,6 +101,55 @@ const GroupQueryResolver = {
                 {$set: {iscompleted: args.iscompleted}
                 }
             );
+        },
+        createGroupFromReq: async (parent, args, {Group, Requirement}) =>{
+
+            let group = await new Group(args).save();
+            let plannedTimeIds = args.plannedTimeIds.split(',');
+
+            if (args.team) {
+                let groupTeam = await Team.findById(args.team);
+                groupTeam.groups.push(group._id);
+                await groupTeam.save();
+            }
+
+            let user = await User.findById(args.user);
+            user.groups.push(group._id);
+
+            let project = await Project.findById(args.project);
+            project.groups.push(group._id);
+
+            await user.save();
+            await project.save();
+
+            await Requirement.findByIdAndUpdate(
+                args.requirement,
+                {
+                    $set: {
+                        // group: group._id,
+                        isApproved: true
+                    }
+                }
+            );
+
+            if(plannedTimeIds[0] !== ''){
+                await Group.findByIdAndUpdate(
+                    group._id,
+                    {
+                        $push: { groupplannedtime: {$each: plannedTimeIds } }
+                    }
+                );
+            }
+            if(plannedTimeIds[0] !== ''){
+                await PlannedTime.update(
+                    { _id : { $in : plannedTimeIds } },
+                    {$set: {group: group._id}},
+                    {"multi": true}
+                );
+            }
+            return {
+                ok: true,
+            };
         },
         createGroup: async (parent, args, { Group}) => {
             let group = await new Group(args).save();

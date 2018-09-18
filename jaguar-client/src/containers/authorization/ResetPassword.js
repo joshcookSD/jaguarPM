@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
-import { Mutation, graphql, compose } from "react-apollo";
-import { Message, Form, Button, Container, Header, Icon, Dimmer, Loader } from 'semantic-ui-react';
+import { Mutation } from "react-apollo";
+import { Form, Button, Container, Header, Dimmer, Loader } from 'semantic-ui-react';
 import Navbar from "../Navbar";
-import {getOrgByOwner, teamsByOwner, teamsByUser, updatePassword, userTaskDetails} from "../apollo-graphql/userQueries";
-import {userTeamProjects} from "../apollo-graphql/groupProjectQueries";
+import { updatePassword } from "../apollo-graphql/userQueries";
+
 
 class ResetPassword extends Component {
     state = {

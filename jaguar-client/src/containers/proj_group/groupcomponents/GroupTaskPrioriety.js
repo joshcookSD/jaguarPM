@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { Query, Mutation } from "react-apollo";
-import { Dimmer, Loader, Checkbox, Icon, Modal, Header } from 'semantic-ui-react';
+import { Mutation } from "react-apollo";
+import { Icon, Modal } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {completeTask} from "../../apollo-graphql/taskQueries";
 import { groupDetails} from "../../apollo-graphql/groupProjectQueries";
 import GroupTaskForModal from './GroupTaskForModal'
 import moment from "moment/moment";
-import {userTaskDetails} from "../../apollo-graphql/userQueries";
+
 
 const TaskDescript = styled.div`
     padding-left: 10px;
@@ -78,7 +78,6 @@ class GroupTaskPrioriety extends Component {
     render() {
 
         const {
-            userId,
             data,
             removeGroupSwitchForDefault,
             queryVariables

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Query } from "react-apollo";
 import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
 import {
     removeProjectFromTeam,
@@ -66,7 +65,6 @@ class ProjectDetail extends Component {
             duedate,
             description,
             leader,
-            projectId,
             teamChangeInput,
             teamLeaderDropDownInput
         } = this.state;

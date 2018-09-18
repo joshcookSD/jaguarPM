@@ -173,6 +173,8 @@ const NavItems = styled.div`
   
   &:hover {
     background-color: #e6fff1
+    border-radius: .28571429rem;
+    
   }
   justify-content: space-around;
 

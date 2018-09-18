@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {groupDetails, projectDetails} from "../../apollo-graphql/groupProjectQueries";
-import { Input, Form, Button, Icon, Dropdown } from 'semantic-ui-react';
+import {projectDetails} from "../../apollo-graphql/groupProjectQueries";
+import { Input, Form, Button } from 'semantic-ui-react';
 import { Mutation } from "react-apollo";
 import {createTimeProject, createPlannedTimeProject} from '../../apollo-graphql/timeQueries';
 import decode from 'jwt-decode';
@@ -16,7 +16,7 @@ class ProjectAddTimeForm extends Component {
     };
 
     render() {
-        const {  date, group, data } = this.props;
+        const {  data } = this.props;
         const { actualtime, comment, plannedTime, plannedTimecomment } = this.state;
         const token = localStorage.getItem('token');
         const { user } = decode(token);

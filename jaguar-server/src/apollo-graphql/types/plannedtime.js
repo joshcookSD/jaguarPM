@@ -2,6 +2,7 @@ import Task from "../../models/task";
 import Group from "../../models/group";
 import Project from "../../models/project";
 import User from "../../models/user";
+import Requirement from "../../models/requirement";
 import PlannedTime from "../../models/plannedtime.js";
 
 const PlannedTimeType = `
@@ -12,7 +13,8 @@ const PlannedTimeType = `
         date: Date
         task: Task
         group: Group
-        project: Project        
+        project: Project  
+        requirement: Requirement      
     }
 `;
 
@@ -39,6 +41,15 @@ const PlannedTimeMutation = `
         group: String
         task: String 
         user: String
+        project: String
+) : Time
+    createPlannedTimeRequirement(
+        time: Float!
+        date: Date
+        createdBy: String
+        user: String
+        requirement: String
+        project: String
 ) : Time
 `;
 
@@ -68,10 +79,15 @@ const PlannedTimeNested = {
     createdBy: async ({createdBy}) => {
         return (await User.findById(createdBy))
     },
+    requirement: async ({requirement}) => {
+        return (await Requirement.findById(requirement))
+    },
+
 };
 
 const PlannedTimeMutationResolver ={
     createPlannedTime: async (parent, args, { PlannedTime, Task}) => {
+
         let plan = await new PlannedTime(args).save();
         if(args.task) {
             let task = await Task.findById(args.task);
@@ -95,21 +111,32 @@ const PlannedTimeMutationResolver ={
         }
         return plan
     },
-    createPlannedTimeGroup : async (parent, {time, date, group,  task, user}, { PlannedTime, Task, User }) => {
+    createPlannedTimeGroup : async (parent, {time, date, group,  task, user, project}, { PlannedTime, Task, User }) => {
         if(task){
-            let newtime = await new PlannedTime({time, user, date, task}).save();
-            let usertime = await User.findById(user);
-            let taskTarget = await Task.findById(task);
+            let plan = await new PlannedTime({time, user, date, task, group, project}).save();
 
-            taskTarget.taskplannedtime.push(newtime._id);
-            usertime.plannedtime.push(newtime._id);
+                let newTask = await Task.findById(task);
+                newTask.taskplannedtime.push(plan._id);
+                await newTask.save();
 
-            await taskTarget.save();
-            await usertime.save();
-
-            return newtime
+            if(group) {
+                let newGroup = await Group.findById(group);
+                newGroup.groupplannedtime.push(plan._id);
+                await newGroup.save();
+            }
+            if(project) {
+                let newProject = await Project.findById(project);
+                newProject.projectplannedtime.push(plan._id);
+                await newProject.save();
+            }
+            if(user) {
+                let newUser = await User.findById(user);
+                newUser.plannedtime.push(plan._id);
+                await newUser.save();
+            }
+            return plan
         }else{
-            let newtime = await new PlannedTime({time, user, group, date}).save();
+            let newtime = await new PlannedTime({time, user, group, date, project}).save();
             let usertime = await User.findById(user);
             let grouptime = await Group.findById(group);
             console.log(grouptime);
@@ -121,7 +148,20 @@ const PlannedTimeMutationResolver ={
 
             return newtime
         }
-    }
+    },
+    createPlannedTimeRequirement: async (parent, args, { PlannedTime, Requirement }) => {
+        let plan = await new PlannedTime(args).save();
+
+        if(args.requirement){
+            await Requirement.findByIdAndUpdate(args.requirement, {
+                    $push: {
+                        requirementplannedtime: plan._id
+                    }
+                },
+                {upsert: true}
+            );
+        }
+    },
 };
 
 export {PlannedTimeType, PlannedTimeQuery, PlannedTimeMutation, PlannedTimeQueryResolver, PlannedTimeNested, PlannedTimeMutationResolver, };

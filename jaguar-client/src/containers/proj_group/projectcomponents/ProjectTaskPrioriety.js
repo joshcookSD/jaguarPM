@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import { Query, Mutation } from "react-apollo";
+import { Mutation } from "react-apollo";
 import { Dimmer, Loader, Checkbox, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {completeTask} from "../../apollo-graphql/taskQueries";
@@ -76,7 +76,6 @@ class ProjectTaskPrioriety extends Component {
         } = this.props;
 
         const {
-            projectId,
         } = this.state;
 
             return (

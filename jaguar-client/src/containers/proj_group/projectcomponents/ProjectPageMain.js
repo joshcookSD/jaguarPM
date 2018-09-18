@@ -6,7 +6,7 @@ import ProjectPagePanes from './ProjectPagePanes.js';
 import ProjectPageTabs from './ProjectPageTabs.js';
 import ProjectTaskPrioriety from './ProjectTaskPrioriety.js';
 import NavBarStatic from '../projectcomponents/NavBarStatic'
-import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import {
     Activity,
     Details,
@@ -14,20 +14,18 @@ import {
     Secondary,
     TeamPagePaneGrid
 } from '../../layout/Proj_GroupComponents.js'
-import {groupDetails} from "../../apollo-graphql/groupProjectQueries";
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
 
-
 class ProjectPageMain extends Component {
+
     componentWillUpdate(nextProps) {
         if(nextProps.selectedProject !== this.props.selectedProject) {
             this.setState({projectId: nextProps.selectedProject});
         }
-    }
-
+    };
     changeView = (view) => {
         this.setState({activePageTab: view, isSelectedPageTab: true });
     };
@@ -38,14 +36,14 @@ class ProjectPageMain extends Component {
     state = {
         projectId: '',
         activeView: '',
-        activePageTab: 'feed',
+        activePageTab: 'requirements',
         isSelectedPageTab: false,
         isSelected: false,
     };
 
     render() {
 
-        const { activePageTab, isSelectedPageTab } = this.state;
+        const { activePageTab, isSelectedPageTab, projectId } = this.state;
 
         const {
             selectedProject,
@@ -55,13 +53,11 @@ class ProjectPageMain extends Component {
             variables,
             removeProjectSwitchForDefault,
         } = this.props;
-        console.log(this.state.projectId)
 
             if(this.state.projectId){
                 return (
                 <Query query={projectDetails} variables={{_id: this.state.projectId}}>
                     {({loading, error, data}) => {
-                        console.log(data)
                         if (loading) return (
                             <div>
                                 <Dimmer active>
@@ -70,7 +66,6 @@ class ProjectPageMain extends Component {
                             </div>
                         );
                         if (error) return <p>No Project Selected</p>;
-
                         return (
                             <div className='container'>
                                 <NavBarStatic user={user}/>
@@ -86,6 +81,7 @@ class ProjectPageMain extends Component {
                                         <ProjectPagePanes
                                             data={data}
                                             activePageTab={activePageTab}
+                                            selectedProject={ projectId }
                                         />
                                     </Activity>
                                     <Details>

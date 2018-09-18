@@ -27,6 +27,11 @@ class ProjectPageTabs extends Component {
                     [
                         <Icon
                             size='large'
+                            name='list alternate outline'
+                            value='requirements'
+                        />,
+                        <Icon
+                            size='large'
                             name='feed'
                             value='feed'
                         />,

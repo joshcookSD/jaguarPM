@@ -193,6 +193,41 @@ query project($_id: String!) {
         projecttitle
         projectdescription
         plannedcompletiondate
+requirements{
+    _id
+    isApproved
+    requirementtitle
+    requirementdescription
+    duedate
+    requirementplannedtime{
+        _id
+        time
+        }
+    group{
+        _id
+        groupplannedtime{
+            _id
+        }
+        grouptime{
+            _id
+        }
+        comments{
+            _id
+        }
+        tasks{
+            _id
+            taskplannedtime{
+                _id
+            }
+            tasktime{
+                _id
+            }
+            comments{
+                _id
+            }
+        }
+    }
+}
             projectplannedtime{
             _id
           time
@@ -465,6 +500,56 @@ const createTaskByGroup = gql`
     }
 }`;
 
+const createGroupFromReq = gql`
+    mutation createGroupFromReq(
+       $grouptitle: String,
+       $groupdescription: String,
+       $project: String,
+       $requirement: String,
+       $user: String,
+       $duedate: Date,
+       $plannedTimeIds: String
+       $team: String
+    ){ createGroupFromReq(
+       grouptitle: $grouptitle 
+       groupdescription: $groupdescription 
+       project: $project 
+       requirement: $requirement
+       user: $user 
+       duedate: $duedate 
+       plannedTimeIds: $plannedTimeIds
+       team: $team
+       ){
+            ok
+            errors {
+                path
+                message
+            }
+        }
+    }
+`;
+const createRequirement = gql`
+    mutation createRequirement(
+       $requirementtitle : String
+       $requirementdescription : String
+       $project : String
+       $isApproved : Boolean
+       $duedate : Date
+       $plannedcompletiondate : Date
+       # $requirementplannedHours : Float
+    ){ createRequirement(
+        requirementtitle : $requirementtitle
+        requirementdescription : $requirementdescription
+        project : $project
+        duedate : $duedate
+        isApproved : $isApproved
+        plannedcompletiondate : $plannedcompletiondate
+        # requirementplannedHours : $requirementplannedHours
+       ){
+        requirementtitle
+        }
+    }
+`;
 export {
     userTeamProjects,
     createProject,
@@ -479,6 +564,7 @@ export {
     projectGroups,
     removeProjectFromTeam,
     removeGroupFromProject,
-    completeProject,
-    completeGroup
+    completeGroup,
+    createGroupFromReq,
+    createRequirement
 }

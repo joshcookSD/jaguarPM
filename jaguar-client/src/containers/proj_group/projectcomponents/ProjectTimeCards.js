@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import { Card, Progress, Header, Icon } from 'semantic-ui-react';
+import { Card, Progress, Header, Icon,  Dimmer, Loader, } from 'semantic-ui-react';
 import styled from 'styled-components';
+import {userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
+import {plannedtimebyproject} from "../../apollo-graphql/timeQueries";
+import { Query } from "react-apollo";
 
 const DropArrowWrapper = styled.div`
 display:flex;
@@ -30,8 +33,12 @@ class ProjectTimeCards extends Component {
 
     state = {
         taskTimeDropedDown: false,
-        taskTimeDropedDownIndex: ''
+        taskTimeDropedDownIndex: '',
+        project:'',
+        projectId:''
     };
+
+
     handleClick = (i) => {
         this.setState({taskTimeDropedDown:!this.state.taskTimeDropedDown});
         this.setState({taskTimeDropedDownIndex:i});
@@ -57,64 +64,78 @@ class ProjectTimeCards extends Component {
                 }
             </div>
         )));
-        // total task time
+
         let totalTaskTimeWorked = this.props.data.project.groups.map((group) => group.tasks.map((task) => task.tasktime.map(taskt => taskt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
-        //total group time
         let totalGroupTimeWorked = this.props.data.project.groups.map((group) => group.grouptime.map(gt => gt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
-        //total project time
         let totalProjectTimeWorked = this.props.data.project.projecttime.map(pt => pt.time).reduce((x, y) => x + y, 0);
-
-        //total task time planned
-        let totalTaskTimePlanned = this.props.data.project.groups.map((group) => group.tasks.map((task) => task.taskplannedtime.map(taskpt => taskpt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
-        //total group time planned
-        let totalGroupTimePlanned = this.props.data.project.groups.map((group) => group.groupplannedtime.map(gpt => gpt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
-        //total project time planned
-        let totalProjectTimeProject = this.props.data.project.projectplannedtime.map(ppt => ppt.time).reduce((x, y) => x + y, 0);
-
         let totalTimeForProject = totalTaskTimeWorked + totalGroupTimeWorked + totalProjectTimeWorked ;
-        let totalTimePlannedForProject = totalTaskTimePlanned+ totalGroupTimePlanned+  totalProjectTimeProject;
-        let projectHoursLeft = totalTimePlannedForProject - totalTimeForProject;
+
+
+        let totalTaskTimePlanned = this.props.data.project.groups.map((group) => group.tasks.map((task) => task.taskplannedtime.map(taskpt => taskpt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
+        let totalGroupTimePlanned = this.props.data.project.groups.map((group) => group.groupplannedtime.map(gpt => gpt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
+        let totalProjectTimeProject = this.props.data.project.projectplannedtime.map(ppt => ppt.time).reduce((x, y) => x + y, 0);
+        let requirmentPlannedTime = this.props.data.project.requirements.map(req => req.requirementplannedtime.map(rqpt => rqpt.time).reduce((x, y) => x + y, 0)).reduce((x, y) => x + y, 0);
+        let totalTimePlannedForProject = totalTaskTimePlanned + totalGroupTimePlanned + totalProjectTimeProject + requirmentPlannedTime;
 
         let groupsCompleted = ((this.props.data.project.groups.filter(group => group.iscompleted === true).length));
         let groupTotal = this.props.data.project.groups.length;
         let allTasks = ((this.props.data.project.groups || []).map(group => group.tasks.length).reduce((x, y) => x + y, 0));
         let completedTasks = ((this.props.data.project.groups || []).map(group => group.tasks.filter(task => task.iscompleted === true).length).reduce((x, y) => x + y, 0))
+
         return (
-            <div>
-                <Card.Group itemsPerRow={3}>
-                    <Card>
-                        <Card.Content textAlign='center'>
-                            <Card.Header>total project time worked</Card.Header>
-                            <Card.Description>
-                                <Header as='h2'>{totalTaskTimeWorked + totalGroupTimeWorked + totalProjectTimeWorked}</Header>
-                            </Card.Description>
-                        </Card.Content>
-                    </Card>
-                    <Card>
-                        <Card.Content textAlign='center'>
-                            <Card.Header>total project time planned</Card.Header>
-                            <Card.Description>
-                                <Header as='h2'>{totalTaskTimePlanned + totalGroupTimePlanned + totalProjectTimeProject}</Header>
-                            </Card.Description>
-                        </Card.Content>
-                    </Card>
-                    <Card>
-                        <Card.Content textAlign='center'>
-                            <Card.Header>total project hours left</Card.Header>
-                            <Card.Description>
-                                <Header as='h2'>{projectHoursLeft < 0 ? 0 : projectHoursLeft}</Header>
-                            </Card.Description>
-                        </Card.Content>
-                    </Card>
-                </Card.Group>
-                <Header as='h3'>Groups Completed</Header>
-                <Progress value={groupsCompleted} total={groupTotal} progress='ratio' />
-                <Header as='h3'>Time Used</Header>
-                <Progress value={ totalTimeForProject } total={totalTimePlannedForProject} progress='ratio' />
-                <Header as='h3'>All Tasks Completed</Header>
-                <Progress value={completedTasks} total={allTasks} progress='ratio' />
-                <div>{tasksList}</div>
-            </div>
+            <Query query={plannedtimebyproject} variables={{project: this.props.selectedProject}}>
+                { ({ loading, error, data }) => {
+                    if (loading) return (
+                        <div>
+                            <Dimmer active>
+                                <Loader/>
+                            </Dimmer>
+                        </div>
+                    );
+                    if (error) return <p>No Project Selected</p>;
+
+                    let totalPlannedProjectTime = data.plannedtimebyproject.map(ptp => ptp.time).reduce((x, y) => x + y, 0);
+                    let projectHoursLeft = totalPlannedProjectTime - totalTimeForProject;
+
+                    return (
+                        <div>
+                            <Card.Group itemsPerRow={3}>
+                                <Card>
+                                    <Card.Content textAlign='center'>
+                                        <Card.Header>total project time worked</Card.Header>
+                                        <Card.Description>
+                                            <Header as='h2'>{totalTimeForProject}</Header>
+                                        </Card.Description>
+                                    </Card.Content>
+                                </Card>
+                                <Card>
+                                    <Card.Content textAlign='center'>
+                                        <Card.Header>total project time planned</Card.Header>
+                                        <Card.Description>
+                                            <Header as='h2'>{totalPlannedProjectTime}</Header>
+                                        </Card.Description>
+                                    </Card.Content>
+                                </Card>
+                                <Card>
+                                    <Card.Content textAlign='center'>
+                                        <Card.Header>total project hours left</Card.Header>
+                                        <Card.Description>
+                                            <Header as='h2'>{projectHoursLeft < 0 ? 0 : projectHoursLeft}</Header>
+                                        </Card.Description>
+                                    </Card.Content>
+                                </Card>
+                            </Card.Group>
+                            <Header as='h3'>Groups Completed</Header>
+                            <Progress value={groupsCompleted} total={groupTotal} progress='ratio' />
+                            <Header as='h3'>Time Used</Header>
+                            <Progress value={ totalTimeForProject } total={totalTimePlannedForProject} progress='ratio' />
+                            <Header as='h3'>All Tasks Completed</Header>
+                            <Progress value={completedTasks} total={allTasks} progress='ratio' />
+                            <div>{tasksList}</div>
+                        </div>
+                    )
+                }}
+            </Query>
         )
     }
 }

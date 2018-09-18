@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import GroupDetail from '../groupcomponents/GroupDetails'
 import { Query } from "react-apollo";
-import { Dimmer, Loader, Form, Button, Card } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import decode from 'jwt-decode';
 import "./GroupPageMain.css";
 import GroupPagePanes from './GroupPagePanes.js';

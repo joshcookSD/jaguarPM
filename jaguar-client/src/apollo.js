@@ -11,6 +11,7 @@ const uri =  `${process.env.REACT_APP_SERVER_URL}/graphql`;
 const httpLink = new createFileLink({ uri: uri });
 
 const cache = new InMemoryCache({});
+
 persistCache({
     cache,
     storage: window.localStorage,

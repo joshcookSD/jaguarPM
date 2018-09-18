@@ -27,17 +27,17 @@ class ProjectView extends Component {
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { selectedProject, isSelected } = this.state;
-        return (
-            <div>
-                <AppLayout>
-                    <NavSidebar/>
-                    <MainSidebar>
-                        <ProjectList
-                            selectedProject={selectedProject}
-                            selectProject={this.selectProject}
-                            isSelected={isSelected}
-                        />
-                    </MainSidebar>
+            return (
+                <div>
+                    <AppLayout>
+                        <NavSidebar/>
+                        <MainSidebar>
+                            <ProjectList
+                                selectedProject={selectedProject}
+                                selectProject={this.selectProject}
+                                isSelected={isSelected}
+                            />
+                        </MainSidebar>
                         <ProjectPageMain
                             selectedProject={selectedProject}
                             projectDetails={projectDetails}
@@ -46,9 +46,9 @@ class ProjectView extends Component {
                             variables={variables}
                             removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
                         />
-                </AppLayout>
-            </div>
-        )
+                    </AppLayout>
+                </div>
+            )
     }
 }
 

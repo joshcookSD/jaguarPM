@@ -2,11 +2,40 @@ import React, {Component} from 'react';
 import { Query } from "react-apollo";
 import {Header, Dimmer, Loader, Modal, Icon, List, Transition, Divider} from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import { userTeamProjects} from "../../apollo-graphql/groupProjectQueries";
 import ProjectItem from './ProjectItem'
 import ProjectFormForModal from './ProjectFormForModal.js'
-
+import gql from 'graphql-tag';
 import styled from 'styled-components';
+
+const userTeamProjects = gql`
+query user($_id: String ){
+    user(_id: $_id){
+        team {
+            _id
+            teamtitle
+            organization{
+                _id
+                orgtitle
+            }
+            projects {
+                _id
+                projecttitle
+                projectdescription
+                groups{
+                    _id
+                    grouptitle
+                }
+                team {
+                    _id
+                    organization{
+                        _id
+                        orgtitle
+                    }
+                }
+            } 
+        }
+    }
+}`;
 
 const ListItemWrapper = styled.div`
     margin-bottom: 10px;    
