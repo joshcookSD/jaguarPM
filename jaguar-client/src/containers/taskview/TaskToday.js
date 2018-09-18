@@ -39,6 +39,7 @@ class TaskToday extends Component {
                 defaultteam={defaultteam}
                 updateQuery={updateQuery}
                 variables={variables}
+                queryType={'user'}
                 clearTask={this.props.selectTask}
             />
             <Transition.Group
@@ -65,6 +66,7 @@ class TaskToday extends Component {
                     completeddate={today}
                     updateQuery={updateQuery}
                     variables={variables}
+                    queryType={'user'}
                     userId={user._id}
                     date={today}
                     time={currentTask.tasktime.map(({time}) => time).reduce((a,b) => (a + b), 0)}
@@ -90,6 +92,7 @@ class TaskToday extends Component {
                             completeddate={today}
                             updateQuery={updateQuery}
                             variables={variables}
+                            queryType={'user'}
                             userId={user._id}
                             date={today}
                             time={tasktime.map(({time}) => time).reduce((a, b) => (a + b), 0)}

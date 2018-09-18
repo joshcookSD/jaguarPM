@@ -19,6 +19,25 @@ mutation signup($username: String!, $password: String!, $email: String!) {
   }
 }
 `;
+const updatePassword = gql`
+mutation updatePassword($username: String!, $newPassword: String!, $email: String!) {
+  updatePassword(username: $username, newPassword: $newPassword, email: $email) {
+        ok
+        token
+        refreshToken
+        user {
+            _id
+            email
+            username
+            profileImageUrl
+            }
+        errors {
+            path
+            message
+            }
+  }
+}
+`;
 
 const getCurrentUser = gql`
     query {
@@ -116,6 +135,14 @@ const getOrgByOwner = gql`
             _id
             teamtitle
             teamdescription
+             defaultproject{
+                _id
+                projecttitle
+                defaultgroup{
+                  grouptitle
+                  _id
+                }
+              }
             organization{
                 _id
                 orgtitle
@@ -321,208 +348,6 @@ const createTeam = gql`
         }
     }`;
 
-const userTaskDetails = gql`
-query user($_id: String ){
-    user(_id: $_id){
-        currenttask {
-            _id
-            tasktitle
-            duedate
-            iscompleted
-            group {
-                _id
-                grouptitle
-                }
-            project {
-                _id 
-                projecttitle
-                }
-            team {
-                _id
-                teamtitle
-                }
-            plandate
-            tasktime {
-                _id
-                time
-                }
-            taskplannedtime {
-                _id
-                time
-                }
-            }   
-        time{
-            _id
-            time
-            date
-            task {
-                _id
-                tasktitle
-                tasktime {
-                    time
-                }
-            }
-            group {
-                _id
-                grouptitle
-            }
-            project {
-                _id
-                projecttitle
-            }
-        }    
-        tasks {
-            _id
-            tasktitle
-            taskdescription
-            iscompleted
-            group {
-                _id
-                grouptitle
-                }
-            project {
-                _id 
-                projecttitle
-                }
-            team {
-                _id
-                teamtitle
-                }
-            plandate
-            duedate
-            tasktime {
-                _id
-                time
-                }
-            taskplannedtime {
-                _id
-                time
-                }
-            }
-        team {
-            _id
-            teamtitle
-            defaultproject {
-                _id
-                projecttitle
-                defaultgroup {
-                _id
-                grouptitle
-                tasks{
-                    _id
-                    tasktitle 
-                }
-                }
-                groups {
-                _id
-                grouptitle
-                }
-            }
-            tasks {
-                 _id
-                tasktitle
-                taskdescription
-                iscompleted
-                taskcurrentowner {
-                _id
-                username
-            }
-            group {
-                _id
-                grouptitle
-                }
-            project {
-                _id 
-                projecttitle
-                }
-            team {
-                _id
-                teamtitle
-                }
-            duedate
-            plandate
-            tasktime {
-                _id
-                time
-                }
-            taskplannedtime {
-                _id
-                time
-                }
-            }
-            projects{
-                _id
-                projecttitle
-                defaultgroup {
-                    _id
-                    grouptitle
-                    tasks{
-                        _id
-                        tasktitle 
-                    }
-                }
-                groups {
-                    _id
-                    grouptitle
-                }
-            groups{
-                _id
-                grouptitle
-                groupdescription
-                tasks {
-                 _id
-                tasktitle
-                }
-             }
-            }
-        }
-        defaultgroup{
-            _id
-            grouptitle
-            tasks {
-                 _id
-                tasktitle
-            }    
-        }
-        defaultproject{
-            _id
-            projecttitle
-            defaultgroup {
-                    _id
-                    grouptitle
-                    tasks{
-                        _id
-                        tasktitle 
-                    }
-                }
-            groups{
-                _id
-                grouptitle 
-             }    
-        }
-        defaultteam{
-            _id
-            teamtitle
-            projects{
-                _id
-                projecttitle
-                defaultgroup {
-                    _id
-                    grouptitle
-                    tasks{
-                        _id
-                        tasktitle 
-                    }
-                }
-                groups{
-                _id
-                grouptitle
-                groupdescription
-             }
-            }
-        }
-    }
-}`;
 
 const userTeams = gql`
 query user($_id: String ){
@@ -578,9 +403,9 @@ export {
     allUsers,
     teamsByOwner,
     createTeam,
-    userTaskDetails,
     userDetails,
     teamsByUser,
-    updateCurrentTask
+    updateCurrentTask,
+    updatePassword
 };
 

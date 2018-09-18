@@ -137,6 +137,7 @@ class TimeDay extends Component {
                             defaultproject={defaultproject}
                             defaultteam={defaultteam}
                             team={team}
+                            updateQuery={this.props.updateQuery}
                             onClose={this.close}
                         />
                     </Modal.Content>

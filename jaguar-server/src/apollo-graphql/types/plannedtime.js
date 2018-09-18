@@ -2,6 +2,7 @@ import Task from "../../models/task";
 import Group from "../../models/group";
 import Project from "../../models/project";
 import User from "../../models/user";
+import PlannedTime from "../../models/plannedtime.js";
 
 const PlannedTimeType = `
     type PlannedTime {
@@ -28,8 +29,17 @@ const PlannedTimeMutation = `
         createdBy: String
         task: String
         group: String
-        project: String  
+        project: String
+        userId : String
 ) : PlannedTime
+    createPlannedTimeGroup(
+        time: Float!
+        date: Date
+        createdBy: String
+        group: String
+        task: String 
+        user: String
+) : Time
 `;
 
 const PlannedTimeQueryResolver = {
@@ -78,8 +88,40 @@ const PlannedTimeMutationResolver ={
             project.projectplannedtime.push(plan._id);
             await project.save();
         }
+        if(args.createdBy) {
+            let user = await User.findById(args.createdBy);
+            user.plannedtime.push(plan._id);
+            await user.save();
+        }
         return plan
+    },
+    createPlannedTimeGroup : async (parent, {time, date, group,  task, user}, { PlannedTime, Task, User }) => {
+        if(task){
+            let newtime = await new PlannedTime({time, user, date, task}).save();
+            let usertime = await User.findById(user);
+            let taskTarget = await Task.findById(task);
+
+            taskTarget.taskplannedtime.push(newtime._id);
+            usertime.plannedtime.push(newtime._id);
+
+            await taskTarget.save();
+            await usertime.save();
+
+            return newtime
+        }else{
+            let newtime = await new PlannedTime({time, user, group, date}).save();
+            let usertime = await User.findById(user);
+            let grouptime = await Group.findById(group);
+            console.log(grouptime);
+            usertime.plannedtime.push(newtime._id);
+            grouptime.groupplannedtime.push(newtime._id);
+
+            await usertime.save();
+            await grouptime.save();
+
+            return newtime
+        }
     }
 };
 
-export {PlannedTimeType, PlannedTimeQuery, PlannedTimeMutation, PlannedTimeQueryResolver, PlannedTimeNested, PlannedTimeMutationResolver};
+export {PlannedTimeType, PlannedTimeQuery, PlannedTimeMutation, PlannedTimeQueryResolver, PlannedTimeNested, PlannedTimeMutationResolver, };

@@ -6,7 +6,6 @@ import {
     createTeam,
     teamsByOwner,
     teamsByUser,
-    userTaskDetails
 } from '../../../apollo-graphql/userQueries'
 import {userTeamProjects} from '../../../apollo-graphql/groupProjectQueries'
 import {
@@ -64,7 +63,6 @@ class TeamForm extends Component {
                                             {query: teamsByOwner, variables: {owner: userId }},
                                             {query: teamsByUser, variables: { user: userId }},
                                             {query: userTeamProjects, variables: { _id: userId }},
-                                            {query: userTaskDetails, variables: { _id: userId }},
                                         ]
                                     });
                                     this.props.handleAfterSubmit(activeView);

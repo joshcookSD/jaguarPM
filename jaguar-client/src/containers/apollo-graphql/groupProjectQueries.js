@@ -132,6 +132,10 @@ const removeProjectFromTeam = gql`
         $newDefaultProjectgroup: String
         $userId : String
         $teamsDefaultProject: String
+        $projectPlannedTime: String
+        $projectTime: String
+        $groupPlannedTime: String 
+        $groupTime: String
     ) { removeProjectFromTeam (
         projectToRemoveId : $projectToRemoveId
         projectUsersIds : $projectUsersIds
@@ -142,6 +146,10 @@ const removeProjectFromTeam = gql`
         newDefaultProjectgroup: $newDefaultProjectgroup
         userId: $userId
         teamsDefaultProject : $teamsDefaultProject
+        projectPlannedTime : $projectPlannedTime
+        projectTime: $projectTime
+        groupPlannedTime : $groupPlannedTime
+        groupTime : $groupTime
     )
         {
             teamtitle
@@ -185,6 +193,14 @@ query project($_id: String!) {
         projecttitle
         projectdescription
         plannedcompletiondate
+            projectplannedtime{
+            _id
+          time
+        }
+        projecttime{
+        _id
+          time
+        }
         duedate
             users{
                 _id
@@ -219,15 +235,40 @@ query project($_id: String!) {
                 }
             }
         groups{
-          _id
-          grouptitle
-          groupdescription
-          iscompleted
-          tasks{
             _id
-            tasktitle
+            grouptitle
+            groupdescription
             iscompleted
-          }
+              groupplannedtime{
+                  _id
+                  time
+                }
+            grouptime{
+            _id
+            time
+            }
+            tasks {
+              _id
+              iscompleted
+              tasktitle
+              taskdescription
+                  taskplannedtime{
+                    time
+                  }
+                tasktime{
+                time
+                    user{
+                    username
+                        time{
+                        time
+                        }
+                    }
+                }
+              group{
+                _id
+                }
+              __typename
+            }
         }
     }
 }`;
@@ -240,6 +281,12 @@ query group($_id: String!) {
     groupdescription
     plannedcompletiondate
     duedate
+    groupplannedtime{
+        time
+    }
+    grouptime{
+      time
+    }
     team {
       _id
       teamtitle
@@ -279,12 +326,18 @@ query group($_id: String!) {
       iscompleted
       tasktitle
       taskdescription
-      taskplannedtime{
+          taskplannedtime{
+            time
+          }
+        tasktime{
         time
-      }
-       tasktime{
-        time
-      }
+            user{
+            username
+                time{
+                time
+                }
+            }
+        }
       group{
         _id
         }

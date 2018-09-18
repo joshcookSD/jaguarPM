@@ -1,21 +1,21 @@
 import React, {Component} from 'react';
 import { Query } from "react-apollo";
-import TaskToday from '../taskview/TaskToday'
-import TaskDay from '../taskview/TaskDay'
-import TaskUnplanned from '../taskview/TaskUnplanned'
-import TaskTeam from '../taskview/TaskTeam'
+import TaskToday from '../TaskToday'
+import TaskDay from './TaskDay'
+import TaskUnplanned from './TaskUnplanned'
+import TaskTeam from './TaskTeam'
 import moment from 'moment';
 import decode from 'jwt-decode';
 import {Dimmer, Loader, Dropdown} from 'semantic-ui-react';
-import AppLayout from '../layout/AppLayout';
-import NavSidebar from '../layout/NavSidebar';
-import MainSidebar from '../layout/MainSidebar';
-import TaskHeader from '../layout/TaskHeader';
-import ContentArea from '../layout/ContentArea';
-import GridArea from '../layout/GridArea';
-import {Section} from '../layout/Section';
-import TaskGrid from './TaskGrid';
-import {userTaskDetails} from "../apollo-graphql/userQueries";
+import AppLayout from '../../layout/AppLayout';
+import NavSidebar from '../../layout/NavSidebar';
+import MainSidebar from '../../layout/MainSidebar';
+import TaskHeader from '../../layout/TaskHeader';
+import ContentArea from '../../layout/ContentArea';
+import GridArea from '../../layout/GridArea';
+import {Section} from '../../layout/Section';
+import TaskGridView from './TaskGrid';
+import {userTaskDetails} from "../../apollo-graphql/userQueries";
 
 
 const token = localStorage.getItem('token');
@@ -134,7 +134,7 @@ class TaskPlan extends Component {
                                 <div>
                                     <Dropdown text='Team' selection options={(data.user.team || []).map(team => ({ key: team._id, text: team.teamtitle, value: team._id}))}/>
                                 </div>
-                                <TaskGrid user={user._id}/>
+                                <TaskGridView user={user._id}/>
                             </GridArea>
                             }
                         </AppLayout>
