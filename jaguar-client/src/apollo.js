@@ -1,6 +1,5 @@
 
 import ApolloClient, {InMemoryCache, ApolloLink, split} from 'apollo-boost';
-import { persistCache } from 'apollo-cache-persist';
 import {getMainDefinition} from 'apollo-utilities'
 import {setContext} from 'apollo-link-context';
 import createFileLink from './createFileLink';
@@ -11,11 +10,6 @@ const uri =  `${process.env.REACT_APP_SERVER_URL}/graphql`;
 const httpLink = new createFileLink({ uri: uri });
 
 const cache = new InMemoryCache({});
-
-persistCache({
-    cache,
-    storage: window.localStorage,
-});
 
 const middlewareLink = setContext(() => ({
     headers: {

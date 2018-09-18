@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown, Dimmer, Loader } from 'semantic-ui-react'
-import { updateTaskProject } from '../../apollo-graphql/taskQueries.js';
-import { teamProjects } from '../../apollo-graphql/groupProjectQueries';
+import { updateTaskProject } from '../../../apollo-graphql/taskQueries.js';
+import { teamProjects } from '../../../apollo-graphql/groupProjectQueries';
 
 class ProjectTaskDropDown extends Component {
 

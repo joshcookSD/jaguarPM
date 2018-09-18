@@ -9,7 +9,7 @@ import MainSidebar from '../layout/MainSidebar';
 import AccountHeader from './AccountHeader';
 import CreateOrgForm from './CreateOrgForm';
 import ContentArea from '../layout/ContentArea';
-import {userDetails, userTaskDetails} from "../apollo-graphql/userQueries";
+import {userDetails} from "../apollo-graphql/userQueries";
 
 
 const token = localStorage.getItem('token');
@@ -56,7 +56,6 @@ class AccountUpdateView extends Component {
                                     defaultgroup={data.user.defaultgroup._id}
                                     defaultproject={data.user.defaultproject._id}
                                     defaultteam={data.user.defaultteam._id}
-                                    updateQuery={userTaskDetails}
                                     variables={variables}
                                 />
                             </MainSidebar>

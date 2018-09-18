@@ -5,7 +5,6 @@ import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
 import decode from "jwt-decode";
-import {userTaskDetails} from "../apollo-graphql/userQueries";
 import {projectDetails} from "../apollo-graphql/groupProjectQueries";
 const token = localStorage.getItem('token');
 
@@ -42,7 +41,6 @@ class ProjectView extends Component {
                             selectedProject={selectedProject}
                             projectDetails={projectDetails}
                             queryVariables={{_id: selectedProject}}
-                            userTaskDetails={userTaskDetails}
                             variables={variables}
                             removeProjectSwitchForDefault={this.removeProjectSwitchForDefault}
                         />

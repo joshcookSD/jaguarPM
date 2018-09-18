@@ -4,7 +4,7 @@ import { Icon, Modal } from 'semantic-ui-react';
 import GroupAddTimeForm from './GroupAddTimeForm'
 import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
-import TaskTime from '../../taskview/taskscomponents/TaskTime.js'
+import TaskTime from '../../taskview/taskscomponents/taskdetails/TaskTime.js'
 
 const ModalHeaderWrapper = styled.div`
     display: flex;

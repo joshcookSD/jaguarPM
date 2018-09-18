@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
-import moment from 'moment';
-import Table from '../components/table/Table';
-import TableHeader from '../components/table/TableHeader';
-import TableHeaderRow from '../components/table/TableHeaderRow';
-import TableHeaderCell from '../components/table/TableHeaderCell';
-import TableBody from '../components/table/TableBody';
-import TaskGridRow from './taskscomponents/TaskGridRow'
+import { graphql, compose } from "react-apollo";
+// import moment from 'moment';
+import Table from './taskgridcomponents/grid/Table';
+import TableHeader from './taskgridcomponents/grid/TableHeader';
+import TableHeaderRow from './taskgridcomponents/grid/TableHeaderRow';
+import TableHeaderCell from './taskgridcomponents/grid/TableHeaderCell';
+import TableBody from './taskgridcomponents/grid/TableBody';
+import TaskGridRow from './taskgridcomponents/TaskGridRow'
+import {updateTask} from "../apollo-graphql/taskQueries";
 
 
-class TaskGrid extends Component {
+class TaskGridView extends Component {
     state = {
         taskData: this.props.tasks,
     };
@@ -35,11 +37,20 @@ class TaskGrid extends Component {
         this.setState({taskData: arrayCopy});
     }
 
+
+
     render() {
-        const today = moment(Date.now()).format('YYYY-MM-DD');
+        // const today = moment(Date.now()).format('YYYY-MM-DD');
         const { user, updateQuery, variables } = this.props;
         const sortData = this.state.taskData;
         const headers =  [" ", "task", "description", "duedate", "plandate", "group", "project", "team", "tasktime", "taskplannedtime" ];
+
+        // const _updateTask = async () => {
+        //     await this.props.updateTask({
+        //         variables: updateVariables,
+        //         refetchQueries: [{query: updateQuery, variables: variables}]
+        //     });
+        // };
 
         return (
             <Table>
@@ -67,4 +78,8 @@ class TaskGrid extends Component {
     }
 }
 
-export default TaskGrid;
+export default compose(
+    graphql(updateTask, {
+        name: 'updateTask',
+    })
+)(TaskGridView);

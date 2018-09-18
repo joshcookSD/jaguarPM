@@ -76,7 +76,7 @@ const AsyncProject = Loadable({
     loading: Loading,
 });
 const AsyncTaskDetail = Loadable({
-    loader: () => import('./taskview/TaskDetail'),
+    loader: () => import('./taskview/taskscomponents/taskdetails/TaskDetail'),
     loading: Loading,
 });
 const AsyncTeamAdmin = Loadable({

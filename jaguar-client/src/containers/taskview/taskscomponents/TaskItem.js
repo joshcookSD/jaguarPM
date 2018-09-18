@@ -3,8 +3,8 @@ import { List, Divider } from 'semantic-ui-react';
 import moment from 'moment';
 import styled from 'styled-components';
 import TaskComplete from './TaskComplete'
-import TaskDetail from '../TaskDetail'
-import TaskTime from './TaskTime'
+import TaskDetail from './taskdetails/TaskDetail'
+import TaskTime from './taskdetails/TaskTime'
 import TaskComments from './TaskComments'
 import TaskActions from './TaskActions'
 
@@ -47,7 +47,7 @@ class TaskItem extends Component {
     };
 
     render() {
-        const {taskId, tasktitle, groupId, projectId, teamId, userId, completeddate, variables, updateQuery, duedate, plandate, projecttitle, time, planTime, currentTask} = this.props;
+        const {taskId, tasktitle, groupId, projectId, teamId, userId, completeddate, variables, updateQuery, duedate, plandate, projecttitle, time, planTime, currentTask, queryType} = this.props;
         const { timeOpen, detail, isHovering, commentOpen } = this.state;
         const active = isHovering ? '1px solid rgba(0,0,0,0.2)': 'none';
         const style = {
@@ -75,6 +75,8 @@ class TaskItem extends Component {
                     duedate={duedate}
                     plandate={plandate}
                     isComplete={false}
+                    group={groupId}
+                    queryType={queryType}
                 />
                 <List.Content style={{width: '100%'}}>
 

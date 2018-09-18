@@ -97,6 +97,38 @@ class GroupTaskPrioriety extends Component {
                                         ? <Icon name='flag checkered' />
                                         :<div>Tasks Completed : {data.group.tasks.filter(task => task.iscompleted === true).length} / {data.group.tasks.length}</div>
                                 }
+                            </ProjectTitleWrapper>
+                            <InnerGroupWrapper>
+                                { data.group.tasks.map(task =>
+                                    <TaskTitleWrapper>
+                                        <div>{task.tasktitle}</div>
+                                        {
+
+                                            (task.iscompleted === true)
+                                                ?
+                                                <div>done!</div>
+                                                :
+                                                <Checkbox
+                                                    radio
+                                                    onChange={async e => {
+                                                        e.preventDefault();
+                                                        await completeTask({
+                                                            variables: {
+                                                                _id: task._id,
+                                                                iscompleted: true,
+                                                                completeddate: today,
+                                                                groupForTasksId: task.group._id
+                                                            },
+                                                            refetchQueries:
+                                                                [
+                                                                    {query: groupDetails, variables: {_id: this.state.groupId}},
+                                                                ]
+                                                        });
+                                                    }}
+                                                />
+                                        }
+                                    </TaskTitleWrapper>
+                                )}
                                 <Modal
                                     floated='right'
                                     trigger={

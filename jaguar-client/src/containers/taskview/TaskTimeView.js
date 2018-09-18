@@ -1,10 +1,51 @@
 import React, {Component} from 'react';
+import { Query } from "react-apollo";
+import gql from 'graphql-tag';
 import moment from 'moment';
-import {Dropdown, Icon } from 'semantic-ui-react';
+import {Dropdown, Icon, Dimmer, Loader } from 'semantic-ui-react';
+import TimeDay from './timecomponents/TimeDay';
+import styled from 'styled-components';
 import TimeDay from './timecomponents/TimeDay';
 
-import styled from 'styled-components';
 
+export const userTime = gql`
+query user($_id: String ){
+    user(_id: $_id){
+        time {
+            _id
+            time
+            date
+            task {
+                _id
+                tasktitle
+            }
+            group {
+                _id
+                grouptitle
+            }
+            project {
+                _id
+                projecttitle
+            }
+            team {
+                _id
+                teamtitle
+            }
+        }
+        team {
+            _id
+            teamtitle
+            defaultproject{
+                _id
+                projecttitle
+                defaultgroup{
+                    _id
+                    grouptitle
+                }
+            }
+        }
+    }
+}`;
 
 const TimeView = styled.div`
     display: grid;
@@ -44,7 +85,7 @@ class TaskTimeView extends Component {
         for (let date = initialWeek.value; date > beginDate; date = moment(date).add(-7,'day').format('YYYY-MM-DD')){
             weekOptions.push({key: date, text: 'Week of ' + moment(date).format('MMMM Do, YYYY'), value: date})
         }
-        const { user, time, defaultgroup, defaultproject, defaultteam, team} = this.props;
+        const { user, defaultgroup, defaultproject, defaultteam, team, variables} = this.props;
         const selectedWeekArray = [];
         const showDays = includeWeekend ? moment(selectedWeek.value).add(7,'day').format('YYYY-MM-DD') : moment(selectedWeek.value).add(5,'day').format('YYYY-MM-DD');
         for (let day = selectedWeek.value; day < showDays ; day = moment(day).add(1,'day').format('YYYY-MM-DD')) {
@@ -55,49 +96,64 @@ class TaskTimeView extends Component {
         };
 
         return (
-            <TimeView>
-                <TimeHeaderRow>
-                    <Dropdown text={selectedWeek.text} scrolling floating labeled button className='icon' >
-                        <Dropdown.Menu>
-                            <Dropdown.Header content='Select Week' />
-                            {weekOptions.map((option, i) =>
-                                <Dropdown.Item
-                                    key={i}
-                                    value={option.value}
-                                    {...option}
-                                    onClick={() => this.selectWeek(option)}
-                                />)}
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    <span>include weekend:
-                        <Icon
-                            name={includeWeekend ? 'check circle' : 'square outline'}
-                            size='large'
-                            color= 'green'
-                            verticalalign='middle'
-                            style={{
-                                paddingRight: '0.5em',
-                                paddingLeft: '0.25em'
-                            }}
-                            onClick={() => _includeWeekend()}
-                        />
-                    </span>
-                </TimeHeaderRow>
+            <Query query={userTime} variables={variables}>
+                { ({ loading, error, data }) => {
+                    if (loading) return (
+                        <div>
+                            <Dimmer active>
+                                <Loader />
+                            </Dimmer>
+                        </div>);
+                    if (error) return <p>Error :(</p>;
+                    return (
+                        <TimeView>
+                            <TimeHeaderRow>
+                                <Dropdown text={selectedWeek.text} scrolling floating labeled button className='icon' >
+                                    <Dropdown.Menu>
+                                        <Dropdown.Header content='Select Week' />
+                                        {weekOptions.map((option, i) =>
+                                            <Dropdown.Item
+                                                key={i}
+                                                value={option.value}
+                                                {...option}
+                                                onClick={() => this.selectWeek(option)}
+                                            />)}
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                                <span>include weekend:
+                                    <Icon
+                                        name={includeWeekend ? 'check circle' : 'square outline'}
+                                        size='large'
+                                        color= 'green'
+                                        verticalalign='middle'
+                                        style={{
+                                            paddingRight: '0.5em',
+                                            paddingLeft: '0.25em'
+                                        }}
+                                        onClick={() => _includeWeekend()}
+                                    />
+                                </span>
+                            </TimeHeaderRow>
 
-                <TimeDayRow>
-                    {selectedWeekArray.map(day =>
-                        (<TimeDay
-                            key={day}
-                            day={day}
-                            user={user}
-                            time={time}
-                            defaultgroup={defaultgroup}
-                            defaultproject={defaultproject}
-                            defaultteam={defaultteam}
-                            team={team}
-                        />))}
-                </TimeDayRow>
-            </TimeView>
+                            <TimeDayRow>
+                                {selectedWeekArray.map(day =>
+                                    (<TimeDay
+                                        key={day}
+                                        day={day}
+                                        user={user}
+                                        time={data.user.time}
+                                        defaultgroup={defaultgroup}
+                                        defaultproject={defaultproject}
+                                        defaultteam={defaultteam}
+                                        team={data.user.team}
+                                        updateQuery={userTime}
+                                    />))}
+                            </TimeDayRow>
+                        </TimeView>
+                    )
+                }
+                }
+            </Query>
         )
     }
 }
