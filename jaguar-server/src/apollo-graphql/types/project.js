@@ -94,7 +94,6 @@ const ProjectMutationResolver ={
             });
     },
     createProject: async (parent, args, { Project }) => {
-
         let user = await User.findById(args.users);
         let projectteam = await Team.findById(args.team);
         let project = await new Project(args).save();
