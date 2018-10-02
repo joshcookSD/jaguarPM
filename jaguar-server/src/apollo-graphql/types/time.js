@@ -144,6 +144,20 @@ const TimeMutationResolver ={
             return newtime
         }
     },
+    createProjectTime:  async (parent, {time, timecomment, date, project, user}, { Time, Project, User }) => {
+        console.log(time, timecomment, date, project, user)
+        let newtime = await new Time({time, timecomment, user, project, date}).save();
+        let usertime = await User.findById(user);
+        let projecttime = await Project.findById(project);
+
+        usertime.time.push(newtime._id);
+        projecttime.projecttime.push(newtime._id);
+
+        await usertime.save();
+        await projecttime.save();
+
+        return newtime
+    }
 };
 
 export {TimeType, TimeQuery, TimeMutation, TimeQueryResolver, TimeNested, TimeMutationResolver};

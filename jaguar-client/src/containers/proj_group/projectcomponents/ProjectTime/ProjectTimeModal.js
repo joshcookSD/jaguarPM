@@ -4,7 +4,8 @@ import { Icon, Modal } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 import ProjectAddTimeForm from './ProjectAddTimeForm.js'
-
+import ProjectAddTime from "./ProjectAddTime";
+import ProjectAddPlannedTime from "./ProjectAddPlannedTime";
 
 const ModalHeaderWrapper = styled.div`
     display: flex;
@@ -24,9 +25,6 @@ class ProjectTimeModal extends Component {
 
 
     render () {
-        const {
-            data
-        } = this.props;
         return(
             <ModalHeaderWrapper>
                 <Header as='h2'>Time</Header>
@@ -50,10 +48,8 @@ class ProjectTimeModal extends Component {
                 >
                     <Modal.Header>Add Time To Project</Modal.Header>
                     <Modal.Content >
-                        <ProjectAddTimeForm
-                            data={data}
-                            onClose={this.close}
-                        />
+                        <ProjectAddTime selectedProject={this.props.selectedProject} onClose={this.close}/>
+                        <ProjectAddPlannedTime selectedProject={this.props.selectedProject} onClose={this.close}/>
                     </Modal.Content>
                 </Modal>
             </ModalHeaderWrapper>

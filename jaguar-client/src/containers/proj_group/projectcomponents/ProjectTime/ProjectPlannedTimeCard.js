@@ -25,9 +25,7 @@ class ProjectPlannedTimeCard extends Component {
                         </div>
                     );
                     if (error) return <p>No Project Selected</p>;
-
                     let totalPlannedProjectTime = data.plannedtimebyproject.map(ptp => ptp.time).reduce((x, y) => x + y, 0);
-
                     return (
                         <Card>
                             <Card.Content textAlign='center'>

@@ -119,15 +119,15 @@ class RequirementToGroup extends Component {
                                             team: data.project.team._id
                                         },
                                         update: async (store) => {
-                                        const data = store.readQuery({query: projectRequirements, variables: {_id: selectedProject}  });
-                                        let currentReq = data.project.requirements.find(requirement => requirement._id === req._id);
-                                        currentReq.isApproved = !currentReq.isApproved;
-                                        await store.writeQuery({
-                                            query: projectRequirements,
-                                            variables: {_id: selectedProject},
-                                            data: data
-                                        });
-                                    }
+                                            const data = store.readQuery({query: projectRequirements, variables: {_id: selectedProject}  });
+                                            let currentReq = data.project.requirements.find(requirement => requirement._id === req._id);
+                                            currentReq.isApproved = !currentReq.isApproved;
+                                            await store.writeQuery({
+                                                query: projectRequirements,
+                                                variables: {_id: selectedProject},
+                                                data: data
+                                            });
+                                        }
                                     });
                                 } else {
                                     alert('group for requirement already exsits')
