@@ -11,8 +11,17 @@ import {Dimmer, Loader} from 'semantic-ui-react';
 const token = localStorage.getItem('token');
 
 const tasksToday = gql`
-query user @client ($_id: String ){
+query user($_id: String ){
     user(_id: $_id){
+           defaultgroup{
+           _id
+       }
+        defaultproject{
+           _id
+       }
+        defaultteam{
+           _id
+       }
         currenttask {
             _id
             tasktitle
@@ -68,6 +77,7 @@ query user @client ($_id: String ){
                 time
                 }
             }
+        }
 }`;
 
 

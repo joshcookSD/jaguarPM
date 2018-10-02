@@ -16,7 +16,6 @@ const OrganizationType = `
         usertypes: [UserTypeOrg]
         teams: [Team]
     }
-    
     type CreateOrgResponse {
         ok: Boolean!
         organization: Organization
@@ -39,7 +38,7 @@ const OrganizationMutation = `
     addOrgUser(
         _id: String
         user: String
-    ) : Organization
+    ) : User
     removeOrgUser(
         _id: String 
         user: String
@@ -136,7 +135,7 @@ const OrganizationMutationResolver = {
         await orguser.save();
         orgs.users.push(orguser._id);
         await orgs.save();
-        return orgs
+        return orguser
     },
     removeOrgUser: async (parent, {_id, user, teamId}, {Organization}) => {
         let orgUserToRemove = await User.findById(user);
@@ -162,23 +161,11 @@ const OrganizationMutationResolver = {
 
         return orgToRemoveUserFrom
     },
-    removeTeamFromOrg: async (parent,
-                              {
-                                  teamUsers,
-                                  teamProjects,
-                                  teamGroups,
-                                  teamGroupsTasks,
-                                  teamOrgId,
-                                  teamOwnerId,
-                                  teamToDeleteId
-                              }, {Organization}) => {
-
+    removeTeamFromOrg: async (parent, {teamUsers, teamProjects, teamGroups, teamGroupsTasks, teamOrgId, teamOwnerId, teamToDeleteId}, {Organization}) => {
         let user = await User.findById({_id: teamOwnerId })
         user.projects.pull({_id: teamProjects.split() })
         user.groups.pull({_id: teamGroups.split() })
         user.team.pull({_id: teamToDeleteId })
-
-        // find org and pull team remove
         if(teamOrgId){
             await Organization.update(
                 {_id: teamOrgId },
@@ -186,29 +173,25 @@ const OrganizationMutationResolver = {
                 {multi: true}
             );
         }
-        // //find all groups and remove tasks
         if(teamGroupsTasks){
             await Task.remove(
                 {_id: {$in: teamGroupsTasks.split(',')}},
             );
         }
-        // //find all groups and remove
         if(teamGroups){
             await Group.remove(
                 {_id: {$in: teamGroups.split(',')}},
             );
         }
-        // //find all projects and remove
         if(teamProjects){
             await Project.remove(
                 {_id: {$in: teamProjects.split(',')}},
             );
         }
-        //find team and remove
             await Team.deleteOne(
                 {_id: teamToDeleteId },
             );
-    }
+        }
 };
 
 

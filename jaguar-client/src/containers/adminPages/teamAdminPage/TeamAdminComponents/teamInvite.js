@@ -3,7 +3,16 @@ import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'
 import { allUsers } from "../../../apollo-graphql/userQueries";
-import { addTeamUser } from '../../../apollo-graphql/teamOrgQueries';
+import gql from "graphql-tag";
+
+const addTeamUser = gql`
+    mutation addTeamUser( $_id: String, $user: String!) {
+      addTeamUser(user: $user, _id: $_id) {
+        _id
+        username
+        profileImageUrl
+      }
+     }`;
 
 
 class DropdownSelection extends Component {
@@ -12,7 +21,7 @@ class DropdownSelection extends Component {
         const {
             teamId,
             variables,
-            teamsByOwner
+            teamsByOwner,
         } = this.props;
 
         return (
@@ -46,11 +55,19 @@ class DropdownSelection extends Component {
                                                             _id: teamId,
                                                             user: option._id
                                                         },
-                                                        refetchQueries: [{
-                                                            query: teamsByOwner,
-                                                            variables: variables
-                                                        }]
+                                                        update: async (store, { data: newUser }) => {
+                                                            const data = store.readQuery({query: teamsByOwner, variables: variables  });
+                                                            let currentTeam = data.teamsByOwner.find(team => team._id === teamId);
+                                                            let newUserForCache = newUser.addTeamUser;
+                                                            await currentTeam.users.push(newUserForCache);
+                                                            await store.writeQuery({
+                                                                query: teamsByOwner,
+                                                                variables: variables,
+                                                                data: data
+                                                            });
+                                                        }
                                                     });
+                                                    this.props.handleAfterSubmit(teamId);
                                                 }}
                                             />
                                         )}

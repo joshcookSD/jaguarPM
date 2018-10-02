@@ -51,5 +51,5 @@ export default new ApolloClient({
     uri,
     link,
     cache,
-    clientState: {}
+    clientState: {},
 });

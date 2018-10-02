@@ -68,7 +68,7 @@ const AsyncCreateOrg = Loadable({
     loading: Loading,
 });
 const AsyncCreateTeam = Loadable({
-    loader: () => import('./adminPages/teamAdminPage/TeamAdminComponents/TeamForm'),
+    loader: () => import('./adminPages/orgAdminPage/TemplateComponents/TeamForm'),
     loading: Loading,
 });
 const AsyncProject = Loadable({

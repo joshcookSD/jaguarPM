@@ -92,6 +92,7 @@ class TaskForm extends Component {
                                         team: defaultteam
                                     },
                                     update: async (store, {data: {createTask}}) =>{
+                                        console.log(store.readQuery({query: this.props.updateQuery, variables: this.props.variables}));
                                         queryType === 'user' ? this._updateTaskUser(store, createTask) : this._updateTaskTeam(store, createTask);
                                     }
                                     });

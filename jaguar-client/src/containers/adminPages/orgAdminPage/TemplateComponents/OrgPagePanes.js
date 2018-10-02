@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import TabHeader from './OrgAdminTabHeader.js';
 import AddTeamCard from './OrgAddTeamCard.js';
 import OrgAddUserCard from './OrgAdminAddUser.js';
-import TeamForm from '../../teamAdminPage/TeamAdminComponents/TeamForm';
+import TeamForm from './TeamForm';
 import { Header } from 'semantic-ui-react';
 import './OrgPagePanes.css'
 import {
@@ -28,7 +28,7 @@ class OrgPagePanes extends Component {
     };
 
     render () {
-        const {activeView, variables, org} = this.props;
+        const {activeView, variables, data} = this.props;
         return (
             <AdminPagePaneWrapper>
                 <TabHeader
@@ -43,8 +43,9 @@ class OrgPagePanes extends Component {
                     variables={variables}
                 />
                 <OrgAddUserCard
+                    handleAfterSubmit={this.handleAfterSubmit}
                     org={activeView}
-                    orgData={org}
+                    orgData={data}
                     orgId={activeView._id}
                     variables={variables}
                     teamsToRemove={(activeView.teams || []).map((team, i) => team._id).toString()}
@@ -58,7 +59,7 @@ class OrgPagePanes extends Component {
                     <AddTeamCard
                         handleAfterSubmit={this.handleAfterSubmit}
                         org={activeView}
-                        orgData={org}
+                        orgData={data}
                         variables={variables}
                     />
                 </AddTeamWrapper>

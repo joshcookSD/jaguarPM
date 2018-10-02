@@ -24,7 +24,6 @@ const TeamType = `
         organization: Organization
         teamtime: Time
     }
-    
     type CreateTeamResponse {
         ok: Boolean!
         team: Team
@@ -47,30 +46,30 @@ const TeamMutation = `
         teamdescription: String,
         owner: String,
         organization: String!,
-    ) : CreateTeamResponse
+    ) : Team
     addTeamUser(
         _id: String
         user: String,
-    ) : Team
+    ) : User
     removeTeamUser(
         _id: String 
         user: String
         projectId: String
     ): Team
     removeProjectFromTeam(
-      projectToRemoveId: String
-      projectUsersIds: String
-      projectsTeamId: String
-      projectsGroupsTasks: String
-      projectsGroups: String
-      newDefaultProject: String
-      newDefaultProjectgroup: String   
-      userId: String   
-      teamsDefaultProject: String
-      projectPlannedTime : String
-      projectTime: String
-      groupPlannedTime: String
-      groupTime: String
+        projectToRemoveId: String
+        projectUsersIds: String
+        projectsTeamId: String
+        projectsGroupsTasks: String
+        projectsGroups: String
+        newDefaultProject: String
+        newDefaultProjectgroup: String   
+        userId: String   
+        teamsDefaultProject: String
+        projectPlannedTime : String
+        projectTime: String
+        groupPlannedTime: String
+        groupTime: String
     ): Team
 `;
 
@@ -128,112 +127,71 @@ const TeamNested = {
     }
 };
 const TeamMutationResolver = {
-    createTeam: async (parent, {teamtitle, teamdescription, owner, organization}, {Team}) => {
-        let teamuser = await User.findById(owner.toString());
-        try {
-            const err = [];
-            let teamtitleErr = await teamError(teamtitle);
-            if (teamtitleErr) {
-                err.push(teamtitleErr)
+createTeam: async (parent, {teamtitle, teamdescription, owner, organization}, {Team}) => {
+    let teamuser = await User.findById(owner.toString());
+    let newteam = await new Team({
+        teamtitle,
+        teamdescription,
+        owner,
+        organization,
+        users: teamuser._id
+    }).save();
+
+    let teamorganization = await Organization.findById(organization);
+    teamorganization.team.push(newteam._id);
+    await teamorganization.save();
+
+    let project = await new Project({
+    projecttitle: 'General',
+    projectdescription: `General Project for ${teamtitle}`,
+    team: newteam._id,
+    leader: teamuser._id,
+    users: teamuser._id
+    }).save();
+    let group = await new Group({
+    grouptitle: 'General',
+    groupdescription: `General Group`,
+    project: project._id,
+    team: newteam._id,
+    users: teamuser._id
+    }).save();
+
+    teamuser.groups.push(group._id);
+    teamuser.projects.push(project._id);
+    teamuser.team.push(newteam._id);
+    newteam.projects.push(project._id);
+    newteam.groups.push(group._id);
+    await teamuser.save();
+
+    await Project.findByIdAndUpdate(project._id, {
+            $set: {
+                defaultgroup: group._id,
+                group: group._id
             }
-            if (!err.length) {
-                let newteam = await new Team({
-                    teamtitle,
-                    teamdescription,
-                    owner,
-                    organization,
-                    users: teamuser._id
-                }).save();
-
-
-                let teamorganization = await Organization.findById(organization);
-                teamorganization.team.push(newteam._id);
-                await teamorganization.save();
-
-                //save new project to the new team w/ users
-                let project = await new Project({
-                    projecttitle: 'General',
-                    projectdescription: `General Project for ${teamtitle}`,
-                    team: newteam._id,
-                    leader: teamuser._id,
-                    users: teamuser._id
-                }).save();
-
-                //save new group to the new project and team w/users
-                let group = await new Group({
-                    grouptitle: 'General',
-                    groupdescription: `General Group`,
-                    project: project._id,
-                    team: newteam._id,
-                    users: teamuser._id
-                }).save();
-                //look at team owner push the new group id into his groups
-                teamuser.groups.push(group._id);
-                teamuser.projects.push(project._id);
-                teamuser.team.push(newteam._id);
-                newteam.projects.push(project._id)
-                newteam.groups.push(group._id)
-                await teamuser.save();
-
-                await Project.findByIdAndUpdate(project._id, {
-                        $set: {
-                            defaultgroup: group._id,
-                            group: group._id
-                        }
-                    },
-                    {upsert: true}
-                );
-                await Team.findByIdAndUpdate(newteam._id, {
-                        $set: {
-                            defaultproject: project._id,
-                            project: project._id
-                        }
-                    },
-                    {upsert: true}
-                );
-                return {
-                    ok: true,
-                    newteam,
-                };
-            } else {
-                return {
-                    ok: false,
-                    errors: err,
-                }
+        },
+        {upsert: true}
+    );
+    await Team.findByIdAndUpdate(newteam._id, {
+            $set: {
+                defaultproject: project._id,
+                project: project._id
             }
-        } catch (e) {
-            return {
-                ok: false,
-                errors: [{path: 'teamtitle', message: 'something did not go well'}]
-            }
-        }
-    },
-    addTeamUser: async (parent, {_id, user}, {Team}) => {
-        let teamuser = await User.findById(user);
-        let teams = await Team.findById(_id);
-        teamuser.team.push(teams._id);
-        await teamuser.save();
-        teams.users.push(teamuser._id);
-        await teams.save();
-        return teams
-    },
-    removeProjectFromTeam: async (parent,
-                              {
-                                  projectToRemoveId,
-                                  projectUsersIds,
-                                  projectsTeamId,
-                                  projectsGroupsTasks,
-                                  newDefaultProject,
-                                  newDefaultProjectgroup,
-                                  projectsGroups,
-                                  teamsDefaultProject,
-                                  userId,
-                                  projectPlannedTime,
-                                  projectTime,
-                                  groupPlannedTime,
-                                  groupTime
-                              }, {Team}) => {
+        },
+        {upsert: true}
+    );
 
+    return newteam
+},
+addTeamUser: async (parent, {_id, user}, {Team}) => {
+    let teamuser = await User.findById(user);
+    let teams = await Team.findById(_id);
+    teamuser.team.push(teams._id);
+    await teamuser.save();
+    teams.users.push(teamuser._id);
+    await teams.save();
+    return teamuser
+},
+    removeProjectFromTeam: async (parent, {projectToRemoveId, projectUsersIds, projectsTeamId, projectsGroupsTasks, newDefaultProject, newDefaultProjectgroup, projectsGroups, teamsDefaultProject, userId, projectPlannedTime, projectTime, groupPlannedTime, groupTime}, {Team}) => {
         const projectsGroupsTasksArray = projectsGroupsTasks.split(',');
         const projectPlannedTimeArray = projectPlannedTime.split(',');
         const projectTimeArray = projectTime.split(',');

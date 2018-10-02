@@ -1,22 +1,14 @@
 import React, {Component} from 'react';
-import GroupDetail from '../groupcomponents/GroupDetails'
+import GroupDetail from './GroupDetails/GroupDetails'
 import { Query } from "react-apollo";
 import { Dimmer, Loader } from 'semantic-ui-react';
 import decode from 'jwt-decode';
-import "./GroupPageMain.css";
 import GroupPagePanes from './GroupPagePanes.js';
 import GroupPageTabs from './GroupPageTabs.js';
 import NavBarStatic from '../projectcomponents/NavBarStatic'
-import GroupTaskPrioriety from './GroupTaskPrioriety.js';
-import {
-    Activity,
-    Details,
-    Prioriety,
-    Secondary,
-    TeamPagePaneGrid
-} from '../../layout/Proj_GroupComponents.js'
+import GroupTaskPrioriety from './GroupPriority/GroupTaskPrioriety.js';
+import {Activity, Details, Prioriety, Secondary, TeamPagePaneGrid} from '../../layout/Proj_GroupComponents.js'
 import {groupDetails} from "../../apollo-graphql/groupProjectQueries";
-
 const token = localStorage.getItem('token');
 const { user } = decode(token);
 const userId = user._id;
@@ -84,6 +76,7 @@ class GroupPageMain extends Component {
                                             <GroupPagePanes
                                                 data={data}
                                                 activePageTab={activePageTab}
+                                                selectedGroup={selectedGroup}
                                             />
                                         </Activity>
                                         <Details>

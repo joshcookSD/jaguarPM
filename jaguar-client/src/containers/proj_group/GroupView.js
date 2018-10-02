@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import GroupList from './groupcomponents/GroupList'
+import GroupList from './groupcomponents/GroupList/GroupList'
 import GroupPageMain from './groupcomponents/GroupPageMain'
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'

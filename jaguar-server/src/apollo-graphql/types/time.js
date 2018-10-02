@@ -4,7 +4,6 @@ import Group from "../../models/group";
 import Project from "../../models/project";
 import Team from "../../models/team";
 import PlannedTime from "../../models/plannedtime";
-
 const TimeType = `
     type Time {
         _id: String
@@ -18,40 +17,39 @@ const TimeType = `
         team: Team
     }
 `;
-
 const TimeQuery = `
     allTime: [Time]
     time(_id: String): Time
     timeByUser(user: String): [Time]
-    plannedtimebyproject(project: String): [PlannedTime]
+    timeByProject(project: String): [Time]
+    timeByGroup(group: String): [Time]
 `;
-
 const TimeMutation = `
-    createTimeTask(
-        time: Float
-        timecomment: String
-        date: Date
-        user: String
-        task: String
-        group: String
-        project: String
-        team: String
+createTimeTask(
+    time: Float
+    timecomment: String
+    date: Date
+    user: String
+    task: String
+    group: String
+    project: String
+    team: String
 ) : Time
-    createTimeProject(
-        time: Float
-        timecomment: String
-        date: Date
-        user: String
-        project: String
+createProjectTime(
+    time: Float
+    timecomment: String
+    date: Date
+    user: String
+    project: String
 ) : Time
-    createGroupTime(
-        time: Float
-        timecomment: String
-        date: Date
-        user: String
-        task: String
-        group: String
-        project: String
+createGroupTime(
+    time: Float
+    timecomment: String
+    date: Date
+    user: String
+    task: String
+    group: String
+    project: String
 ) : Time
 
 `;
@@ -71,8 +69,11 @@ const TimeQueryResolver = {
         const user = await User.findById(args.user.toString());
         return await Time.find({user})
     },
-    plannedtimebyproject: async (parent, args, {PlannedTime}) => {
-        return await PlannedTime.find({ project: args.project.toString() })
+    timeByProject: async (parent, args, {Time}) => {
+        return await Time.find({ project: args.project.toString() })
+    },
+    timeByGroup: async (parent, args, {Time}) => {
+        return await Time.find({ group: args.group.toString() })
     },
 };
 
@@ -95,7 +96,6 @@ const TimeNested = {
 };
 
 const TimeMutationResolver ={
-
     createTimeTask: async (parent, {time, timecomment, date, task, group, project, team, user}, { Time, Task, User }) => {
         let newtime = await new Time({time, timecomment, user, task, group, project, team, date}).save();
 
