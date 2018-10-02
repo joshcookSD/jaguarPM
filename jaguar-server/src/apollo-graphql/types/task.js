@@ -286,6 +286,7 @@ const TaskMutationResolver ={
             );
         }
         if(args.duedate != 'Invalid Date') {
+
             await Task.findByIdAndUpdate(args._id, {
                     $set: {
                         duedate: args.duedate}},

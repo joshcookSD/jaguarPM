@@ -1,62 +1,110 @@
 import React, { Component } from 'react';
-import { Query, Mutation } from "react-apollo";
-import { Dropdown, Dimmer, Loader } from 'semantic-ui-react'
-import { updateTaskTeam } from '../../../apollo-graphql/taskQueries.js';
-import { userTeams } from '../../../apollo-graphql/userQueries.js';
+import { Mutation } from "react-apollo";
+import gql from 'graphql-tag';
+import { Dropdown } from 'semantic-ui-react'
+
+const updateTaskTeam = gql`
+mutation updateTaskTeam($_id: String, $team: String, $project: String, $group: String) {
+    updateTaskTeam(_id: $_id, team: $team, project: $project, group: $group) {
+         _id
+        tasktitle
+        taskdescription
+        taskstatus
+        iscompleted
+        plandate
+        duedate
+        completeddate
+        createdAt
+        priority {
+          _id
+          priority
+        }
+        group {
+          _id
+          grouptitle
+        }
+        project {
+          _id
+          projecttitle 
+        }
+        team {
+          _id
+          teamtitle
+          users {
+            _id
+            username  
+          }
+          projects {
+            _id
+            projecttitle
+            groups {
+              _id
+              grouptitle
+            }
+          }
+        }
+        taskcurrentowner {
+          _id
+          username
+        }
+      }
+}`;
 
 class TeamTaskDropDown extends Component {
 
     render() {
         const {
+            options,
             taskId,
-            userId,
-            query,
             teamDetails,
-            variables,
         } = this.props;
-
-        const queryVariables = {_id: userId};
-
+        console.log(options);
         return (
-            <Query query={userTeams} variables={queryVariables}>
-                {({ loading, error, data }) => {
-                    if (loading) return (
-                        <div>
-                            <Dimmer active>
-                                <Loader />
-                            </Dimmer>
-                        </div>);
-                    if (error) return <p>Error :(</p>;
-                    let teamOptions = (data.user.team || []).map(team => ({ text: team.teamtitle, _id: team._id, defaultproject: team.defaultproject._id, defaultgroup: team.defaultproject.defaultgroup._id }));
-                    return (
-                        <div className="dropDownDiv">
-                            <Mutation mutation={updateTaskTeam}>
-                                {(updateTask, { data }) => (
-                                    <Dropdown text={teamDetails.teamtitle}  fluid scrolling floating labeled button className='icon'>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Header content='New Team' />
-                                            {teamOptions.map((option, i) =>
-                                                <Dropdown.Item
-                                                    key={i}
-                                                    value={option._id}
-                                                    {...option}
-                                                    onClick={async e => {
-                                                        e.preventDefault();
-                                                        this.props.closeTeam();
-                                                        await updateTask({
-                                                            variables: { _id: taskId, team: option._id, project: option.defaultproject, group: option.defaultgroup },
-                                                            refetchQueries: [{ query: query, variables: variables }]
+            <div className="dropDownDiv">
+                <Mutation mutation={updateTaskTeam}>
+                    {(updateTaskTeam) => {
+                        return (
+                            <Dropdown text={teamDetails.teamtitle}  fluid scrolling floating labeled button className='icon'>
+                                <Dropdown.Menu>
+                                    <Dropdown.Header content='New Team' />
+                                    {options.map((option, i) =>
+                                        <Dropdown.Item
+                                            key={i}
+                                            value={option._id}
+                                            text={option.teamtitle}
+                                            {...option}
+                                            onClick={ e => {
+                                                e.preventDefault();
+                                                updateTaskTeam({
+                                                    variables: {
+                                                        _id: taskId,
+                                                        team: option._id,
+                                                        project: option.defaultproject._id,
+                                                        group: option.defaultproject.defaultgroup._id
+                                                    },
+                                                    update: async (store, {data: {updateTaskTeam}}) => {
+                                                        const { task } = store.readQuery({query: this.props.updateQuery, variables: this.props.refreshVariables});
+                                                        task.team = option;
+                                                        task.project = option.defaultproject;
+                                                        task.group = option.defaultproject.defaultgroup;
+                                                        await store.writeQuery({
+                                                            query: this.props.updateQuery,
+                                                            variables: this.props.refreshVariables,
+                                                            data: { task }
                                                         });
-                                                    }}
-                                                />)}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                )}
-                            </Mutation>
-                         </div>
-                    );
-                }}
-            </Query >
+                                                    }
+                                                });
+                                                this.props.closeTeam();
+                                            }}
+                                        />
+                                    )}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        )
+                    }}
+                </Mutation>
+             </div>
+
         );
     }
 }
