@@ -17,12 +17,12 @@ const PlannedTimeType = `
         requirement: Requirement      
     }
 `;
-
 const PlannedTimeQuery = `
     allPlannedTime: [PlannedTime]
     plannedtime(_id: String): PlannedTime
+    plannedtimebyproject(project: String): [PlannedTime]
+    plannedtimebygroup(group: String): [PlannedTime]
 `;
-
 const PlannedTimeMutation = `
     createPlannedTime(
         _id: String
@@ -33,7 +33,7 @@ const PlannedTimeMutation = `
         group: String
         project: String
         userId : String
-) : PlannedTime
+    ) : PlannedTime
     createPlannedTimeGroup(
         time: Float!
         date: Date
@@ -42,7 +42,7 @@ const PlannedTimeMutation = `
         task: String 
         user: String
         project: String
-) : Time
+    ) : Time
     createPlannedTimeRequirement(
         time: Float!
         date: Date
@@ -50,7 +50,7 @@ const PlannedTimeMutation = `
         user: String
         requirement: String
         project: String
-) : Time
+    ) : Time
 `;
 
 const PlannedTimeQueryResolver = {
@@ -63,7 +63,13 @@ const PlannedTimeQueryResolver = {
     },
     plannedtime: async (parent, args, {PlannedTime}) => {
         return await PlannedTime.findById(args._id.toString())
-    }
+    },
+    plannedtimebyproject: async (parent, args, {PlannedTime}) => {
+        return await PlannedTime.find({ project: args.project.toString() })
+    },
+    plannedtimebygroup: async (parent, args, {PlannedTime}) => {
+        return await PlannedTime.find({ group: args.group.toString() })
+    },
 };
 
 const PlannedTimeNested = {

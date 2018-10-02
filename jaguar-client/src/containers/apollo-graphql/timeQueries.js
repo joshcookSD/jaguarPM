@@ -165,11 +165,20 @@ const timeByUser = gql`
 
 const plannedtimebyproject = gql`
  query plannedtimebyproject($project: String!){
-  plannedtimebyproject(project: $project) {
-   _id
-  	time
-}
-}
+      plannedtimebyproject(project: $project) {
+           _id
+            time
+        }
+ }
  `;
-export {createTaskTime, createPlannedTimeTask, createTimeProject, createPlannedTimeProject,  createPlannedTimeGroup, createGroupTime, timeByUser, createPlannedTimeRequirement, plannedtimebyproject};
+
+const timeByProject = gql`
+ query timeByProject($project: String!){
+      timeByProject(project: $project) {
+           _id
+            time
+        }
+ }
+ `;
+export {createTaskTime, createPlannedTimeTask, createTimeProject, createPlannedTimeProject,  createPlannedTimeGroup, createGroupTime, timeByUser, createPlannedTimeRequirement, plannedtimebyproject, timeByProject};
 

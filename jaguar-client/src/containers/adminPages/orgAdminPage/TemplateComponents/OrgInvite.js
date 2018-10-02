@@ -1,19 +1,85 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown } from 'semantic-ui-react'
-import { allUsers, addOrgUser } from "../../../apollo-graphql/userQueries";
+import gql from "graphql-tag";
 
+const getOrgByOwner = gql`
+    query getOrgByOwner($owner: String ){
+    getOrgByOwner(owner: $owner ){
+          _id
+      orgtitle
+      orgdescription
+    	users{
+        _id
+        username
+        profileImageUrl
+      }
+          teams{
+            _id
+            teamtitle
+            teamdescription
+             defaultproject{
+                _id
+                projecttitle
+                defaultgroup{
+                  grouptitle
+                  _id
+                }
+              }
+            organization{
+                _id
+                orgtitle
+              }
+              users{
+                _id
+                username
+                profileImageUrl
+              }
+              projects{
+                _id
+                projecttitle
+              }
+              tasks{
+                _id
+                tasktitle
+              }
+              groups{
+                _id
+                grouptitle
+                tasks{
+                _id
+                tasktitle
+                }
+              }
+        }
+          owner{
+          username
+          }
+        }
+        
+}`;
 
+const allUsers = gql `
+{
+  allUsers{
+      _id
+    username
+  }
+}
+`;
+
+const addOrgUser = gql`
+    mutation addOrgUser($_id: String $user: String) {
+        addOrgUser(_id: $_id, user: $user){
+            _id
+            username
+            profileImageUrl
+        }
+    }`;
 
 class DropdownSelection extends Component {
     render() {
-
-        const {
-            orgId,
-            variables,
-            getOrgByOwner
-        } = this.props;
-
+        const { orgId, variables } = this.props;
         return (
             <Query query={allUsers} >
                 {({ loading, error, data }) => {
@@ -45,11 +111,19 @@ class DropdownSelection extends Component {
                                                             _id: orgId,
                                                             user: option._id
                                                         },
-                                                        refetchQueries: [{
-                                                            query: getOrgByOwner,
-                                                            variables: variables
-                                                        }]
+                                                        update: async (store, { data: newUser }) => {
+                                                            const data = store.readQuery({query: getOrgByOwner, variables: variables  });
+                                                            let currentOrg = data.getOrgByOwner.find(org => org._id === orgId);
+                                                            let newUserForCache = newUser.addOrgUser;
+                                                            await currentOrg.users.push(newUserForCache);
+                                                            await store.writeQuery({
+                                                                query: getOrgByOwner,
+                                                                variables: variables,
+                                                                data: data
+                                                            });
+                                                        }
                                                     });
+                                                    this.props.handleAfterSubmit(orgId);
                                                 }}
                                             />
                                         )}

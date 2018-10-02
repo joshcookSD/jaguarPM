@@ -36,6 +36,7 @@ class ProjUserDD extends Component {
                                 teamId={teamId}
                                 teamsByOwner={teamsByOwner}
                                 variables={variables}
+                                handleAfterSubmit={this.props.handleAfterSubmit}
                             />
                             {(this.props.teamData || []).map(team => {
                                 if (team._id === this.props.team._id) {
@@ -44,22 +45,22 @@ class ProjUserDD extends Component {
                                             <UserWrapper image key={i}>
                                                 <ImageWrapper src='http://i.pravatar.cc/300' />
                                                 <NewUserCardName>{user.username}</NewUserCardName>
-                                                <DeleteUserIcon>
-                                                        <Icon
-                                                            size='large'
-                                                            name='delete'
-                                                            className='delete'
-                                                            onClick={async e => {
-                                                                e.preventDefault();
-                                                                if(loading){
-                                                                }
-                                                                await removeTeamUser({
-                                                                    variables: { _id: teamId, user: user._id, projectId: teamsToRemove },
-                                                                    refetchQueries: [{ query: teamsByOwner, variables: variables }]
-                                                                });
-                                                            }}
-                                                        />
-                                                </DeleteUserIcon>
+                                                {/*<DeleteUserIcon>*/}
+                                                        {/*<Icon*/}
+                                                            {/*size='large'*/}
+                                                            {/*name='delete'*/}
+                                                            {/*className='delete'*/}
+                                                            {/*onClick={async e => {*/}
+                                                                {/*e.preventDefault();*/}
+                                                                {/*if(loading){*/}
+                                                                {/*}*/}
+                                                                {/*await removeTeamUser({*/}
+                                                                    {/*variables: { _id: teamId, user: user._id, projectId: teamsToRemove },*/}
+                                                                    {/*refetchQueries: [{ query: teamsByOwner, variables: variables }]*/}
+                                                                {/*});*/}
+                                                            {/*}}*/}
+                                                        {/*/>*/}
+                                                {/*</DeleteUserIcon>*/}
                                             </UserWrapper>
                                         )
                                     ))

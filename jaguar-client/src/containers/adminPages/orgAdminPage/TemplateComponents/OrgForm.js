@@ -44,16 +44,16 @@ class OrgForm extends Component {
                                 });
                                 const {ok, errors,} = response.data.createOrganization;
                                 if(ok) {
-                                    alert('New Organization Created')
+                                alert('New Organization Created')
                                 } else {
-                                const err = {};
-                                errors.forEach(({ path, message }) => {
-                                    err[`${path}Error`] = message;
-                                });
-                                this.setState(err);
+                                    const err = {};
+                                    errors.forEach(({ path, message }) => {
+                                        err[`${path}Error`] = message;
+                                    });
+                                    this.setState(err);
                                 }
-                            }}>
-
+                            }}
+                        >
                             <Form.Field error={!!orgtitleError}>
                                 <i className="material-icons prefix">group_add</i>
                                 <Input

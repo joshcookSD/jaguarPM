@@ -1,9 +1,114 @@
 import React, {Component} from 'react';
 import TeamAdminPageNavTabs from './TeamAdminPageNavTabs.js';
 import TeamAdminPagePanes from "./TeamAdminPagePanes";
-import { teamsByOwner } from "../../../apollo-graphql/userQueries";
 import { Query } from "react-apollo";
 import decode from "jwt-decode";
+import gql from "graphql-tag";
+
+const teamsByOwner = gql`
+    query teamsByOwner($owner: String ){
+        teamsByOwner( owner: $owner ){
+               _id
+            teamtitle
+            teamdescription
+            owner{
+             username
+            }
+            defaultproject {
+              _id
+              projecttitle
+            }
+            users{
+              _id
+              username
+              profileImageUrl
+            }
+            projects{
+              _id
+              projecttitle
+              projectdescription
+              iscompleted
+              users{
+                _id
+              }
+              projecttime{
+                _id
+              }
+              projectplannedtime{
+                _id
+              }
+              team{
+                _id
+              }
+              tasks{
+                      _id
+                      tasktitle
+                      taskdescription
+                      tasktime{
+                        _id
+                      }
+                      taskplannedtime{
+                        _id
+                      }
+                      tasktime{
+                        _id
+                      }
+                      comments{
+                        _id
+                      }
+                    }
+                groups{
+                  _id
+                  grouptitle
+                  groupdescription
+                  iscompleted
+                  grouptime{
+                    _id
+                  }
+                  comments{
+                    _id
+                  }
+                  groupplannedtime{
+                    _id
+                  }
+                  grouptime{
+                    _id
+                  }
+                    users{
+                      _id
+                      username
+                    }
+                    tasks{
+                      _id
+                      tasktitle
+                      taskdescription
+                      tasktime{
+                        _id
+                      }
+                      taskplannedtime{
+                        _id
+                      }
+                      tasktime{
+                        _id
+                      }
+                      comments{
+                        _id
+                      }
+                    }
+                  }
+                }
+            tasks{
+              _id
+              tasktitle
+              taskdescription
+              iscompleted
+              priority{
+              priority
+              }
+            }
+        }
+    }`;
+
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
@@ -20,7 +125,7 @@ class TeamAdminMain extends Component {
         this.setState({activeView: team, isSelected: true });
     };
     handleAfterSubmit = (team) => {
-        this.setState({activeView: team, projectAdd: true});
+        this.setState({activeView: team, projectAdd: true, isSelected: false});
     };
     render() {
         const { activeView, isSelected } = this.state;

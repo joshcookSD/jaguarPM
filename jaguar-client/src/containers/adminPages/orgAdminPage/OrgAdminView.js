@@ -4,20 +4,30 @@ import TaskToday from '../../taskview/TaskToday'
 import AppLayout from '../../layout/AppLayout'
 import NavSidebar from '../../layout/NavSidebar'
 import MainSidebar from '../../layout/MainSidebar'
-import OrgPageMain from './TemplateComponents/OrgPageMain.js'
+import OrgPageMain from './OrgPageMain.js'
 import decode from "jwt-decode";
 import { Query } from "react-apollo";
 import {Dimmer, Loader} from 'semantic-ui-react';
 const token = localStorage.getItem('token');
 
 const tasksToday = gql`
-query user @client ($_id: String ){
+query user($_id: String ){
     user(_id: $_id){
+       defaultgroup{
+           _id
+       }
+        defaultproject{
+           _id
+       }
+        defaultteam{
+           _id
+       }
         currenttask {
             _id
             tasktitle
             duedate
             iscompleted
+         
             group {
                 _id
                 grouptitle
@@ -68,6 +78,7 @@ query user @client ($_id: String ){
                 time
                 }
             }
+        }
 }`;
 
 class OrgAdminView extends Component {
@@ -78,7 +89,6 @@ class OrgAdminView extends Component {
         return (
             <Query query={tasksToday} variables={variables}>
                 {({loading, error, data}) => {
-                    console.log(data)
                     if (loading) return (
                         <div>
                             <Dimmer active>

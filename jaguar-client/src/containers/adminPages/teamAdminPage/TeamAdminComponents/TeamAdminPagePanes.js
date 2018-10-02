@@ -3,7 +3,7 @@ import ProjTabHeader from "./ProjTabHeader";
 import ProjAddProjCard from "./ProjAddProjCard";
 import ProjUserDD from "./ProjAdminAddUser";
 import {teamsByOwner} from "../../../apollo-graphql/userQueries";
-import ProjectForm from '../../../proj_group/projectcomponents/ProjectForm';
+import ProjectForm from '../../../team_page/ProjectForm';
 import { Header } from 'semantic-ui-react';
 import {
     AdminPagePaneWrapper,
@@ -16,7 +16,6 @@ class TeamAdminPagePanes extends Component {
     };
 
     componentWillReceiveProps(nextProps){
-        //change state so component rerenders with new view
         if(this.props.activeView.projects !== nextProps.activeView.projects){
             this.setState({
                 projectAdded: !this.projectAdded,
@@ -47,6 +46,7 @@ class TeamAdminPagePanes extends Component {
                     activeView={activeView}
                     teamId={activeView._id}
                     variables={variables}
+                    teamsByOwner={teamsByOwner}
                 />
                 <ProjUserDD
                     team={activeView}
@@ -55,6 +55,7 @@ class TeamAdminPagePanes extends Component {
                     teamsByOwner={teamsByOwner}
                     variables={variables}
                     teamsToRemove={(activeView.projects || []).map((project, i) => project._id).toString()}
+                    handleAfterSubmit={this.handleAfterSubmit}
                 />
                 <AddTeamWrapper>
                     <div>

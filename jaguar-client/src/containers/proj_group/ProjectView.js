@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import ProjectList from './projectcomponents/ProjectList'
+import ProjectList from './projectcomponents/ProjectList/ProjectList'
 import ProjectPageMain from './projectcomponents/ProjectPageMain'
 import AppLayout from '../layout/AppLayout'
 import NavSidebar from '../layout/NavSidebar'
 import MainSidebar from '../layout/MainSidebar'
 import decode from "jwt-decode";
-import {projectDetails} from "../apollo-graphql/groupProjectQueries";
+import { projectDetails } from "../apollo-graphql/groupProjectQueries";
 const token = localStorage.getItem('token');
+
+
 
 class ProjectView extends Component {
     state = {

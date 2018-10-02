@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {
-    NavItems,
-    NavItemContainer,
-} from '../../layout/Proj_GroupComponents.js'
+import  {NavItems, NavItemContainer } from '../../layout/Proj_GroupComponents.js'
 import { Icon } from 'semantic-ui-react'
 
 

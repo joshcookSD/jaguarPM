@@ -5,13 +5,7 @@ import { Link } from 'react-router-dom';
 import {getOrgByOwner, teamsByOwner, teamsByUser} from "../../../apollo-graphql/userQueries";
 import { removeTeamFromOrg } from "../../../apollo-graphql/teamOrgQueries";
 import { Mutation } from "react-apollo";
-
-import {
-    OrgPageTeamCardWrapper,
-    NewUserCardName,
-    DeleteUserIcon,
-    AddCardWrapper
-} from '../../../layout/AdminComponents.js'
+import {OrgPageTeamCardWrapper, NewUserCardName, DeleteUserIcon, AddCardWrapper} from '../../../layout/AdminComponents.js'
 import decode from 'jwt-decode';
 import {userProjectGroups, userTeamProjects} from "../../../apollo-graphql/groupProjectQueries";
 const token = localStorage.getItem('token');

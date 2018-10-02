@@ -10,6 +10,7 @@ import AccountHeader from './AccountHeader';
 import CreateOrgForm from './CreateOrgForm';
 import ContentArea from '../layout/ContentArea';
 import {userDetails} from "../apollo-graphql/userQueries";
+import Upload from './Upload';
 
 
 const token = localStorage.getItem('token');
@@ -71,8 +72,7 @@ class AccountUpdateView extends Component {
                             {activeView === 'account' &&
                                 <ContentArea>
                                     <span>
-                                        <input type="file" onChange={this.fileSelectedHandler}/>
-                                        <button onClick={this.fileUploadHandler}>upload</button>
+                                        <Upload />
                                     </span>
                                 </ContentArea>
                             }

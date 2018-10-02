@@ -1,19 +1,12 @@
 import React, {Component} from 'react';
-import ProjectDetails from '../projectcomponents/ProjectDetails'
-import { Query } from "react-apollo";
+import ProjectDetails from './ProjectDetails/ProjectDetails'
 import decode from 'jwt-decode';
 import ProjectPagePanes from './ProjectPagePanes.js';
 import ProjectPageTabs from './ProjectPageTabs.js';
-import ProjectTaskPrioriety from './ProjectTaskPrioriety.js';
+import ProjectTaskPriorietyMain from './ProjectPriority/ProjectTaskPriorietyMain.js';
 import NavBarStatic from '../projectcomponents/NavBarStatic'
 import { Dimmer, Loader } from 'semantic-ui-react';
-import {
-    Activity,
-    Details,
-    Prioriety,
-    Secondary,
-    TeamPagePaneGrid
-} from '../../layout/Proj_GroupComponents.js'
+import {Activity, Details, Prioriety, Secondary, TeamPagePaneGrid} from '../../layout/Proj_GroupComponents.js'
 
 const token = localStorage.getItem('token');
 const { user } = decode(token);
@@ -35,7 +28,6 @@ class ProjectPageMain extends Component {
 
     state = {
         projectId: '',
-        activeView: '',
         activePageTab: 'requirements',
         isSelectedPageTab: false,
         isSelected: false,
@@ -54,64 +46,44 @@ class ProjectPageMain extends Component {
             removeProjectSwitchForDefault,
         } = this.props;
 
-            if(this.state.projectId){
-                return (
-                <Query query={projectDetails} variables={{_id: this.state.projectId}}>
-                    {({loading, error, data}) => {
-                        if (loading) return (
-                            <div>
-                                <Dimmer active>
-                                    <Loader/>
-                                </Dimmer>
-                            </div>
-                        );
-                        if (error) return <p>No Project Selected</p>;
-                        return (
-                            <div className='container'>
-                                <NavBarStatic user={user}/>
-                                <TeamPagePaneGrid>
-                                    <Secondary>
-                                        <ProjectPageTabs
-                                            changeView={this.changeView}
-                                            activePageTab={activePageTab}
-                                            isSelectedPageTab={isSelectedPageTab}
-                                        />
-                                    </Secondary>
-                                    <Activity>
-                                        <ProjectPagePanes
-                                            data={data}
-                                            activePageTab={activePageTab}
-                                            selectedProject={ projectId }
-                                        />
-                                    </Activity>
-                                    <Details>
-                                        <ProjectDetails
-                                            data={data}
-                                            userId={userId}
-                                            selectedProject={selectedProject}
-                                            projectDetails={projectDetails}
-                                            queryVariables={queryVariables}
-                                            userTaskDetails={userTaskDetails}
-                                            variables={variables}
-                                            removeProjectSwitchForDefault={removeProjectSwitchForDefault}
-                                        />
-                                    </Details>
-                                    <Prioriety>
-                                        <ProjectTaskPrioriety
-                                            data={data}
-                                            selectedProject={selectedProject}
-                                            queryVariables={queryVariables}
-                                            projectDetails={projectDetails}
-                                            // isSelected={isSelected}
-                                        />
-                                    </Prioriety>
-                                </TeamPagePaneGrid>
-                            </div>
-                        )
-                    }}
-                </Query>
-                )
-            }else { return (<div/>)}
+    if(this.state.projectId){
+        return (
+            <div className='container'>
+                <NavBarStatic user={user}/>
+                <TeamPagePaneGrid>
+                    <Secondary>
+                        <ProjectPageTabs
+                            changeView={this.changeView}
+                            activePageTab={activePageTab}
+                            isSelectedPageTab={isSelectedPageTab}
+                        />
+                    </Secondary>
+                    <Activity>
+                        <ProjectPagePanes
+                            activePageTab={activePageTab}
+                            selectedProject={ projectId }
+                        />
+                    </Activity>
+                    <Details>
+                    <ProjectDetails
+                        userId={userId}
+                        selectedProject={projectId}
+                        projectDetails={projectDetails}
+                        queryVariables={queryVariables}
+                        userTaskDetails={userTaskDetails}
+                        variables={variables}
+                        removeProjectSwitchForDefault={removeProjectSwitchForDefault}
+                    />
+                    </Details>
+                    <Prioriety>
+                        <ProjectTaskPriorietyMain
+                            selectedProject={projectId}
+                        />
+                    </Prioriety>
+                </TeamPagePaneGrid>
+            </div>
+        )
+        }else { return (<div/>)}
     }
 }
 export default ProjectPageMain;

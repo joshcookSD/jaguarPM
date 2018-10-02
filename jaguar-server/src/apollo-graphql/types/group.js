@@ -7,6 +7,7 @@ import Priority from "../../models/priority";
 import Team from "../../models/team";
 import Comment from "../../models/comment";
 import Requirement from "../../models/requirement";
+import Group from "../../models/group";
 
 const GroupType = `
     type Group {
@@ -38,47 +39,56 @@ const GroupQuery = `
 `;
 
 const GroupMutation = `
-    createGroup(
-        grouptitle: String,
-        groupdescription: String,
-        project: String,
-        team: String,
-        users: String
-    ) : CreateGroupResponse
-        createGroupFromReq(
-        grouptitle: String,
-        groupdescription: String,
-        project: String,
-        requirement: String
-        user: String,
-        duedate: Date,
-        plannedTimeIds: String
-        team: String
-        
-    ) : CreateGroupResponse
-    updateGroup(
-        _id: String
-        grouptitle: String
-        groupdescription: String
-        plannedcompletiondate: Date
-        iscompleted: Boolean
-        duedate: Date
-        targetProject : String
-        groupToChange : String
-        groupUsers : String
-        groupTeam : String
-        groupProject : String
-        groupsProjectTeam : String
-        groupUser: String
-    ) : Group
-     addGroupUser(
-        _id: String,
-        user: String,
-    ) : Group
-    completeGroup(
-        _id: String!
-        iscompleted: Boolean
-    ) : Group
+createGroup(
+    grouptitle: String,
+    groupdescription: String,
+    project: String,
+    team: String,
+    users: String
+) : CreateGroupResponse
+createGroupFromReq(
+    grouptitle: String,
+    groupdescription: String,
+    project: String,
+    requirement: String
+    user: String,
+    duedate: Date,
+    plannedTimeIds: String
+    team: String
+) : CreateGroupResponse  
+updateGroup(
+    _id: String
+    grouptitle: String
+    groupdescription: String
+    plannedcompletiondate: Date
+    iscompleted: Boolean
+    duedate: Date
+    targetProject : String
+    groupToChange : String
+    groupUsers : String
+    groupTeam : String
+    groupProject : String
+    groupsProjectTeam : String
+    groupUser: String
+) : Group  
+ addGroupUser(
+    _id: String,
+    user: String,
+ ) : Group
+completeGroup(
+    _id: String!
+    iscompleted: Boolean
+) : Group
+removeGroupFromProject(
+    groupToRemoveId: String
+    groupUsersIds: String
+    groupsTeamId: String
+    groupsProjectId: String
+    GroupsTasks: String
+    newDefaultGroupForProj: String
+    projectsDefualtGroup: String
+    userId : String
+) : Project
 `;
 
 const GroupQueryResolver = {
@@ -90,11 +100,11 @@ const GroupQueryResolver = {
         })
     },
     group: async (parent, args, {Group}) => {
-
+        console.log(args)
         return await Group.findById(args._id.toString())
     },
 };
-    const GroupMutationResolver ={
+const GroupMutationResolver ={
         completeGroup: async (parent, args, {Group}) =>{
             let project = await Project.findByIdAndUpdate(
                 args._id,
@@ -174,7 +184,6 @@ const GroupQueryResolver = {
             };
         },
         updateGroup: async (parent, args, { Group}) => {
-            console.log(args)
         if (args.tasks) {
                 await Group.findByIdAndUpdate(args.yargetproject)
         }
@@ -261,8 +270,55 @@ const GroupQueryResolver = {
             groups.users.push(groupuser._id);
             await groups.save();
             return groups
+        },
+        removeGroupFromProject: async (parent, {groupToRemoveId, groupsTeamId, groupsProjectId, newDefaultGroupForProj, projectsDefualtGroup, userId, GroupsTasks, groupUsersIds,}, {Project}) => {
+        const GroupsTasksArray = GroupsTasks.split(',');
+        await User.update(
+            {_id: {$in: groupUsersIds}},
+            {$pull: { groups : groupToRemoveId.split(',')}},
+            {multi: true}
+        );
+
+        if(groupsProjectId){
+            let GroupsProject = await Project.findById(groupsProjectId);
+            GroupsProject.groups.pull(groupToRemoveId);
+            await GroupsProject.save();
         }
-    };
+        if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
+            await Project.findByIdAndUpdate(groupsProjectId, {
+                    $set: {
+                        defaultgroup: newDefaultGroupForProj
+                    }
+                },
+                {upsert: true}
+            );
+        }
+        if(groupsTeamId){
+            await Team.update(
+                {_id: groupsTeamId },
+                { $pull: { groups: groupToRemoveId } },
+                {multi: true}
+            );
+        }
+        if(userId){
+            await User.findByIdAndUpdate(userId, {
+                    $set: {
+                        defaultgroup: newDefaultGroupForProj
+                    }
+                },
+                {new: true}
+            );
+        }
+        if(GroupsTasks[0] !== ''){
+            await Task.remove(
+                {_id: {$in: GroupsTasks.split(',')}},
+            );
+        }
+        await Group.deleteOne(
+            {_id: groupToRemoveId },
+        );
+    }
+};
 const GroupNested = {
     comments: async ({_id}) => {
         return (await Comment.find({group: _id}))
