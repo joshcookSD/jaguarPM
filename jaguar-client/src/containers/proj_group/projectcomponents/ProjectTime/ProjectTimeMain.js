@@ -12,9 +12,10 @@ class ProjectTimeMain extends Component {
     render () {
         return(
             <div>
-                <ProjectTimeModal data={this.props.data}/>
+                <ProjectTimeModal
+                    selectedProject={this.props.selectedProject}
+                />
                 <ProjectTimeCards
-                    data={this.props.data}
                     selectedProject={this.props.selectedProject}
                 />
             </div>

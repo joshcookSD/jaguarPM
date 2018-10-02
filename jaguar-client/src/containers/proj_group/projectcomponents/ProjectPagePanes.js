@@ -32,7 +32,6 @@ class ProjectPagePanes extends Component {
             return (
                 <div>
                     <ProjectTimeMain
-                    data={this.props.data}
                     selectedProject={this.props.selectedProject}
                     />
                 </div>

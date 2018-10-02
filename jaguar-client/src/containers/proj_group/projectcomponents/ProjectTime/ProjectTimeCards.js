@@ -89,13 +89,6 @@ class ProjectTimeCards extends Component {
         return (
             <Query query={projectDetails} variables={{_id: this.props.selectedProject}}>
                 {({loading, error, data}) => {
-                    // if (loading) return (
-                    //     <div>
-                    //         <Dimmer active>
-                    //             <Loader/>
-                    //         </Dimmer>
-                    //     </div>
-                    // );
                     if (error) return <p>No Project Selected</p>;
                     return (
                         <div>
