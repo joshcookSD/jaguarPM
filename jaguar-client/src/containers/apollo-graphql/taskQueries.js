@@ -255,8 +255,8 @@ mutation updateTask($_id: String, $tasktitle: String, $taskdescription: String, 
 `;
 
 const updateTaskTeam = gql`
-mutation updateTaskTeam($_id: String, $team: String, $project: String, $group: String) {
-    updateTaskTeam(_id: $_id, team: $team, project: $project, group: $group) {
+mutation updateTask($_id: String, $team: String, $project: String, $group: String) {
+    updateTask(_id: $_id, team: $team, project: $project, group: $group) {
         _id
         team {
             _id
