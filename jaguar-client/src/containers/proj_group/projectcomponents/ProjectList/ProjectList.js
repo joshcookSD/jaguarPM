@@ -94,7 +94,6 @@ class ProjectList extends Component {
                             </div>
                         );
                     if (error) return <p>Error :(</p>;
-                    console.log(data)
                     return <div>
                         { (data.user.team || []).map( team => (
                             <div key={team._id}>
