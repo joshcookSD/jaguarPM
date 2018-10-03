@@ -129,7 +129,10 @@ const TimeMutationResolver ={
             await taskTarget.save();
             await usertime.save();
 
-            return newtime
+            return {
+                newtime,
+                usertime
+            };
         }else{
             let newtime = await new Time({time, timecomment, user, group, date}).save();
             let usertime = await User.findById(user);

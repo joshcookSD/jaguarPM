@@ -3,6 +3,36 @@ import { Input, Form, Button } from 'semantic-ui-react';
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
+const groupDetails = gql`
+query group($_id: String!) {
+  group(_id: $_id) {
+    _id
+    tasks {
+      _id
+      iscompleted
+      tasktitle
+      taskdescription
+          taskplannedtime{
+            time
+          }
+        tasktime{
+        time
+            user{
+            username
+                time{
+                time
+                }
+            }
+        }
+      group{
+        _id
+        }
+      __typename
+    }
+    __typename
+  }
+}`;
+
 const createGroupTime = gql`
 mutation createGroupTime($time: Float!, $timecomment: String, $date: Date, $task:String, $user: String, $group: String) {
     createGroupTime(time: $time, timecomment:$timecomment, date: $date, task: $task, user: $user, group: $group ) {
@@ -57,7 +87,10 @@ class GroupTaskTimeModalForm extends Component {
                                                 variables: {group: selectedGroup},
                                                 data: data
                                             });
-                                        }
+                                        },
+                                        refetchQueries: [
+                                            {query: groupDetails, variables: {_id: selectedGroup} }
+                                        ]
                                     });
                                     this.setState({actualtime: '', comment: ''});
                                     this.props.onClose()
