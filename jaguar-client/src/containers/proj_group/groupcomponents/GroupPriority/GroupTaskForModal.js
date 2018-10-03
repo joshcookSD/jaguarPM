@@ -1,8 +1,55 @@
 import React, {Component} from 'react';
 import { Mutation } from "react-apollo";
 import { Input, Form, Button, Icon, Dropdown } from 'semantic-ui-react';
-import {createTask} from "../../../apollo-graphql/taskQueries";
-import {groupDetails} from "../../../apollo-graphql/groupProjectQueries";
+import gql from "graphql-tag";
+
+const groupDetails = gql`
+query group($_id: String!) {
+  group(_id: $_id) {
+    _id
+    grouptitle
+    groupdescription
+    tasks {
+      _id
+      iscompleted
+      tasktitle
+      taskdescription
+          taskplannedtime{
+            time
+          }
+        tasktime{
+        time
+            user{
+            username
+                time{
+                time
+                }
+            }
+        }
+      group{
+        _id
+        }
+      __typename
+    }
+    __typename
+  }
+}`;
+
+const createTask = gql`
+mutation createTask($tasktitle: String!, $taskcurrentowner: String, $plandate: Date, $iscompleted: Boolean!, $group:String!, $project:String!, $team: String!, $dueDate: Date, $taskdescription: String ) {
+    createTask(tasktitle: $tasktitle, taskcurrentowner: $taskcurrentowner, plandate: $plandate, iscompleted: $iscompleted, group: $group, project: $project, team: $team, dueDate: $dueDate, taskdescription: $taskdescription) {
+        group{ _id }
+        iscompleted
+        taskdescription
+        taskplannedtime{ _id }
+        tasktime{ _id }
+        tasktitle
+        _id
+       
+    }
+}
+`;
+
 
 
 class TaskForm extends Component {
@@ -22,7 +69,8 @@ class TaskForm extends Component {
             group,
             project,
             team,
-            teamUsers
+            teamUsers,
+            selectedGroup
         } = this.props;
 
         const {
@@ -40,35 +88,35 @@ class TaskForm extends Component {
                 {(createTask, {loading}) => {
                     return (
                         <div >
+
                             <Form onSubmit={async e => {
-                                    e.preventDefault();
-                                    await createTask({
-                                        variables: {
-                                            tasktitle: newTaskTitle,
-                                            taskdescription: newTaskDescription,
-                                            taskcurrentowner: selectedAssignee,
-                                            iscompleted: false,
-                                            dueDate:duedate ,
-                                            plandate,
-                                            group: group,
-                                            project: project,
-                                            team: team,
-                                        },
-                                        refetchQueries: [
-                                            { query: groupDetails, variables: {_id: group}},
-                                            // { query: userProjectGroups, variables: {_id: taskcurrentowner}},
-                                            // { query: userTaskDetails, variables: {_id: taskcurrentowner}},
-                                            // { query: projectDetails, variables: {_id: project}},
-                                        ]
-                                    });
-                                    this.setState({newTaskTitle: ""});
-                                    this.setState({newTaskDescription: ""});
-                                    this.setState({newTaskComment: ""});
-                                    this.setState({plandate: ""});
-                                    this.setState({duedate: ""});
-                                    this.setState({tasksBeenAdded: true});
-                                    this.setState({selectedAssignee: ""});
-                                }} >
+                                e.preventDefault();
+                                await createTask({
+                                    variables: {
+                                        tasktitle: newTaskTitle,
+                                        taskdescription: newTaskDescription,
+                                        taskcurrentowner: selectedAssignee,
+                                        iscompleted: false,
+                                        dueDate:duedate ,
+                                        plandate,
+                                        group: group,
+                                        project: project,
+                                        team: team,
+                                    },
+                                    update: async (store, { data: newTask }) => {
+                                        let { group } = store.readQuery({query: groupDetails, variables: {_id: selectedGroup}});
+                                        group.tasks.push(newTask.createTask);
+                                        await store.writeQuery({query: groupDetails, variables: {_id: this.props.selectedGroup}, data: {group}});
+                                    }
+                                });
+                                this.setState({newTaskTitle: ""});
+                                this.setState({newTaskDescription: ""});
+                                this.setState({newTaskComment: ""});
+                                this.setState({plandate: ""});
+                                this.setState({duedate: ""});
+                                this.setState({tasksBeenAdded: true});
+                                this.setState({selectedAssignee: ""});
+                            }} >
                                 <Form.Field>
                                     <label>task title</label>
                                         <Input
@@ -107,7 +155,6 @@ class TaskForm extends Component {
                                         />
                                 </Form.Field>
                                 </Form.Group>
-
                                 <Form.Group widths='equal'>
                                     <Form.Field>
                                         <label>assign to user</label>
@@ -143,7 +190,6 @@ class TaskForm extends Component {
                                         }
                                     </Form.Field>
                                 </Form.Group>
-
                                 <Form.Field />
                             </Form>
                         </div>
