@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import GroupTimeMain from './GroupTime/GroupTimeMain'
 
-
 class TaskView extends Component {
 
     render () {

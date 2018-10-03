@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import { Icon, Modal } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
-import TaskTime from '../../../taskview/taskscomponents/taskdetails/TaskTime.js'
 import GroupTaskTimeDropDown from "./GroupTaskTimeDropDown";
 import moment from "moment/moment";
 import GroupAddTime from './GroupAddTime'
@@ -31,6 +30,9 @@ class GroupTimeModal extends Component {
     onEnter = () => this.setState({ hovering: true });
     onExit = () => this.setState({ hovering: false });
 
+    onTaskPick = (id, tasktitle) => this.setState({selectedTask: id, selectedTaskTitle: tasktitle});
+
+
 
 
 
@@ -38,7 +40,6 @@ class GroupTimeModal extends Component {
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const { data, selectedGroup } = this.props;
         const { selectedTask,  selectedTaskTitle } = this.state;
-        let groupTasks= data.group.tasks.map(task =>  ({ text: task.tasktitle, _id: task._id}));
         let tasktime = (this.props.data.group.tasks || []).map((task) => ((task.tasktime || []).map(task => task.time).reduce((x, y) => x + y, 0)));
         tasktime = tasktime.reduce((x, y) => x + y, 0)
         //total planned hours
@@ -71,6 +72,9 @@ class GroupTimeModal extends Component {
                         <GroupTaskTimeDropDown
                             data={data}
                             onClose={this.close}
+                            selectedGroup={selectedGroup}
+                            onTaskPick={this.onTaskPick}
+
                         />
                         <GroupAddTime
                             userId={userId}

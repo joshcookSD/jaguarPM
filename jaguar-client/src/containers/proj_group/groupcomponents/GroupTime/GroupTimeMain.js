@@ -11,6 +11,7 @@ class GroupTimeMain extends Component {
                 <GroupTimeModal
                     data={this.props.data}
                     selectedGroup={this.props.selectedGroup}
+
                 />
                 <GroupTimeCards
                     data={this.props.data}
