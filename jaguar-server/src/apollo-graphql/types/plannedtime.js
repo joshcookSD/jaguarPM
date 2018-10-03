@@ -145,7 +145,6 @@ const PlannedTimeMutationResolver ={
             let newtime = await new PlannedTime({time, user, group, date, project}).save();
             let usertime = await User.findById(user);
             let grouptime = await Group.findById(group);
-            console.log(grouptime);
             usertime.plannedtime.push(newtime._id);
             grouptime.groupplannedtime.push(newtime._id);
 

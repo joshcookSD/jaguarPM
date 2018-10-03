@@ -8,7 +8,10 @@ class GroupTimeMain extends Component {
     render () {
         return(
             <div>
-                {/*<GroupTimeModal data={this.props.data}/>*/}
+                <GroupTimeModal
+                    data={this.props.data}
+                    selectedGroup={this.props.selectedGroup}
+                />
                 <GroupTimeCards
                     data={this.props.data}
                     selectedGroup={this.props.selectedGroup}

@@ -1,9 +1,7 @@
-
 import React, {Component} from 'react';
 import { Icon, Modal } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
-import ProjectAddTimeForm from './ProjectAddTimeForm.js'
 import ProjectAddTime from "./ProjectAddTime";
 import ProjectAddPlannedTime from "./ProjectAddPlannedTime";
 
