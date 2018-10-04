@@ -3,39 +3,9 @@ import { Input, Form, Button } from 'semantic-ui-react';
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
-const groupDetails = gql`
-query group($_id: String!) {
-  group(_id: $_id) {
-    _id
-    tasks {
-      _id
-      iscompleted
-      tasktitle
-      taskdescription
-          taskplannedtime{
-            time
-          }
-        tasktime{
-        time
-            user{
-            username
-                time{
-                time
-                }
-            }
-        }
-      group{
-        _id
-        }
-      __typename
-    }
-    __typename
-  }
-}`;
-
 const createGroupTime = gql`
-mutation createGroupTime($time: Float!, $timecomment: String, $date: Date, $task:String, $user: String, $group: String) {
-    createGroupTime(time: $time, timecomment:$timecomment, date: $date, task: $task, user: $user, group: $group ) {
+mutation createGroupTime($time: Float!, $timecomment: String, $date: Date, $task:String, $user: String, $group: String, $project: String) {
+    createGroupTime(time: $time, timecomment:$timecomment, date: $date, task: $task, user: $user, group: $group, project : $project ) {
         _id
         time
     }
@@ -77,10 +47,12 @@ class GroupTaskTimeModalForm extends Component {
                                             task: taskId,
                                             date: date,
                                             time: actualtime,
-                                            timecomment: comment
+                                            timecomment: comment,
+                                            project: project
                                         },
                                         update: async (store, {data: newTime}) => {
                                             const data = store.readQuery({query: timeByGroup, variables: {group: selectedGroup}  });
+                                            console.log(newTime.createGroupTime)
                                             data.timeByGroup.push(newTime.createGroupTime);
                                             await store.writeQuery({
                                                 query: timeByGroup,
@@ -88,9 +60,9 @@ class GroupTaskTimeModalForm extends Component {
                                                 data: data
                                             });
                                         },
-                                        refetchQueries: [
-                                            {query: groupDetails, variables: {_id: selectedGroup} }
-                                        ]
+                                        // refetchQueries: [
+                                        //     {query: groupDetails, variables: {_id: selectedGroup} }
+                                        // ]
                                     });
                                     this.setState({actualtime: '', comment: ''});
                                     this.props.onClose()

@@ -45,7 +45,6 @@ mutation createTask($tasktitle: String!, $taskcurrentowner: String, $plandate: D
         tasktime{ _id }
         tasktitle
         _id
-       
     }
 }
 `;
@@ -70,7 +69,8 @@ class TaskForm extends Component {
             project,
             team,
             teamUsers,
-            selectedGroup
+            selectedGroup,
+            userId
         } = this.props;
 
         const {

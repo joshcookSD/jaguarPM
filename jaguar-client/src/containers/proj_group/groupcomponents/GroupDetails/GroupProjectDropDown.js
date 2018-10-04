@@ -1,10 +1,97 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from "react-apollo";
 import { Dropdown, Dimmer, Loader } from 'semantic-ui-react'
-import { teamsById } from '../../../apollo-graphql/teamOrgQueries.js';
 import decode from "jwt-decode";
-import {userProjectGroups} from "../../../apollo-graphql/groupProjectQueries";
-import {updateGroup} from "../../../apollo-graphql/groupProjectQueries";
+import gql from "graphql-tag";
+
+const teamsById = gql`
+query teamsById($_id: String){
+  teamsById(_id: $_id) {
+    _id
+    users{
+      _id
+    }
+    projects{
+       _id
+       projecttitle
+      users{
+      _id
+      }
+      groups{
+      _id
+      }
+      team{
+        _id
+      }
+    }
+  }
+}
+`;
+
+const userProjectGroups = gql`
+    query user($_id: String ){
+    user(_id: $_id){
+       projects {
+        _id
+        projecttitle
+        projectdescription
+        team {
+            _id
+            teamtitle
+        }
+        groups {
+            _id
+            grouptitle
+            groupdescription
+            project{
+                _id
+                team{
+                    _id
+                }
+            }
+            users{
+                _id
+            }
+            team{
+            _id
+            teamtitle
+            }
+        }
+       } 
+    }
+}`;
+
+const updateGroup = gql`
+    mutation updateGroup(
+        $_id: String
+        $grouptitle: String
+        $groupdescription: String
+        $plannedcompletiondate: Date
+        $duedate: Date
+        $targetProject : String
+        $groupToChange : String
+        $groupUsers : String
+        $groupTeam : String
+        $groupProject : String
+       $groupsProjectTeam: String
+       $groupUser: String
+    ){ updateGroup(
+        _id: $_id,    
+        grouptitle: $grouptitle
+        groupdescription: $groupdescription
+        plannedcompletiondate: $plannedcompletiondate
+        duedate: $duedate
+        targetProject : $targetProject
+        groupToChange : $groupToChange
+        groupUsers : $groupUsers
+        groupTeam : $groupTeam
+        groupProject : $groupProject
+        groupsProjectTeam : $groupsProjectTeam
+        groupUser: $groupUser
+    ) {
+        grouptitle
+    }
+}`;
 
 class GroupProjectDropDown extends Component {
 
@@ -38,7 +125,8 @@ class GroupProjectDropDown extends Component {
                                         </div>
                                     );
                                     return (
-                                        <Dropdown text={'change project'}  scrolling floating labeled button className='icon'>
+                                        <div>***under construction*****</div>
+                                      /*  <Dropdown text={'change project'}   scrolling floating labeled button className='icon'>
                                             <Dropdown.Menu>
                                                 <Dropdown.Header content='New Project Leader' />
                                                 {teamOptions.map((option, i) =>
@@ -54,16 +142,31 @@ class GroupProjectDropDown extends Component {
                                                                     groupToChange: selectedGroup,
                                                                     groupProject: groupProject,
                                                                 },
-                                                                refetchQueries: [
-                                                                    { query: userProjectGroups, variables: variables },
-                                                                ]
+                                                                update: async (store) => {
+                                                                    const data = store.readQuery({query: userProjectGroups, variables: variables });
+                                                                     let oldProject =  data.user.projects.find(project => project._id === groupProject);
+                                                                     let groupArrayToPush =  oldProject.groups.filter(group => group._id === selectedGroup);
+                                                                     //will not work with current setup
+                                                                    // groupArrayToPush[0].project._id = option._id;
+
+                                                                     oldProject.groups =  oldProject.groups.filter(group => group._id !== selectedGroup);
+                                                                     let newProject =  data.user.projects.find(project => project._id === option._id);
+
+                                                                     newProject.groups.push(groupArrayToPush[0]);
+
+                                                                    await store.writeQuery({
+                                                                        query: userProjectGroups,
+                                                                        variables: variables,
+                                                                        data: data
+                                                                    });
+                                                                }
                                                             });
-                                                            await closeTeamDropDown();
+                                                            // closeTeamDropDown();
                                                         }}
                                                     />
                                                 )}
                                             </Dropdown.Menu>
-                                        </Dropdown>
+                                        </Dropdown> */
                                     )
                                 }}
                             </Mutation>

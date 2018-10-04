@@ -25,6 +25,7 @@ class ProjectTimeCard extends Component {
                         </div>
                     );
                     if (error) return <p>No Project Selected</p>;
+                    console.log(data)
                     const workedHours = data.timeByProject.map(time => time.time).reduce((x, y) => x + y, 0);
                     return (
                         <Card>
