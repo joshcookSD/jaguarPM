@@ -101,10 +101,13 @@ const TaskMutation = `
     createTaskByGroup(
         tasktitle: String,
         taskdescription: String,
+        taskcurrentowner: String,
+        plandate: Date,
+        dueDate: Date,
         iscompleted: Boolean,
-        team: String,
-        project: String,
         group: String,
+        project: String,
+        team: String
 ) : Task
 `;
 
@@ -171,7 +174,6 @@ const TaskNested = {
 };
 const TaskMutationResolver ={
     createTask: async (parent, args, { Task, User }) => {
-
         let task = await new Task(
             {
                 tasktitle : args.tasktitle,
@@ -240,36 +242,75 @@ const TaskMutationResolver ={
         }
         return task
     },
-    createTaskByGroup: async (parent, args, { Task, User, Team, Group, Project }) => {
-        let task = await new Task(args).save();
-        //if task object has current group
-        if(args.group) {
-            let groupTask = await Group.findById(args.group);
-            groupTask.tasks.push(task._id);
-            await groupTask.save();
-        }
-        if(args.project) {
-            let projectTask = await Project.findById(args.project);
-            projectTask.tasks.push(task._id);
-            await projectTask.save();
-        }
-        if(args.team) {
-            let teamTask = await Team.findById(args.team);
-            teamTask.tasks.push(task._id);
-            await teamTask.save();
-        }
-        if(args.project) {
-            let projectTask = await Project.findById(args.project);
-            projectTask.tasks.push(task._id);
-            await projectTask.save();
-        }
-        if(args.group) {
-            let groupTask = await Group.findById(args.group);
-            groupTask.tasks.push(task._id);
-            await groupTask.save();
-        }
-        return task
-    },
+    createTaskByGroup: async (parent, args, { Task, User }) => {
+            let task = await new Task(
+                {
+                    tasktitle : args.tasktitle,
+                    taskdescription: args.taskdescription,
+                    group: args.group,
+                    project: args.project,
+                    team: args.team,
+                }
+            ).save();
+
+            if(args.group) {
+                let groupForTasks = await Group.findById(args.group);
+                //go into that groups tasks and push in new tasks id
+                groupForTasks.tasks.push(task._id);
+                //save groupTask object with new task id pushed in
+                await groupForTasks.save();
+            }
+            if(args.project) {
+                let projectForTasks = await Project.findById(args.project);
+                //go into that groups tasks and push in new tasks id
+                projectForTasks.tasks.push(task._id);
+                //save groupTask object with new task id pushed in
+                await projectForTasks.save();
+            }
+            if(args.team) {
+                let teamForTasks = await Team.findById(args.team);
+                //go into that groups tasks and push in new tasks id
+                teamForTasks.tasks.push(task._id);
+                //save groupTask object with new task id pushed in
+                await teamForTasks.save();
+            }
+            if(args.taskcurrentowner){
+                let taskUser = await User.findById(args.taskcurrentowner);
+                taskUser.tasks.push(task._id);
+                await taskUser.save();
+            }
+            if(args.taskcurrentowner){
+                await Task.findByIdAndUpdate(task._id, {
+                        $set: {
+                            taskcurrentowner: args.taskcurrentowner}},
+                    {new: true}
+                );
+            }
+
+            if(args.plandate != 'Invalid Date'  ) {
+                await Task.findByIdAndUpdate(task._id, {
+                        $set: {
+                            plandate: args.plandate}},
+                    {new: true}
+                );
+            }
+            if(args.dueDate != 'Invalid Date') {
+                await Task.findByIdAndUpdate(task._id, {
+                        $set: {
+                            duedate: args.dueDate}},
+                    {new: true}
+                );
+            }
+
+            let group = await Group.findById(args.group);
+            if(group.iscompleted === true){
+                await Group.findByIdAndUpdate(
+                    group,
+                    {$set: {iscompleted: false}}
+                );
+            }
+            return task
+        },
     updateTask: async (parent, args, { Task, User }) => {
         let task = await Task.findByIdAndUpdate(args._id, {
             $set: {

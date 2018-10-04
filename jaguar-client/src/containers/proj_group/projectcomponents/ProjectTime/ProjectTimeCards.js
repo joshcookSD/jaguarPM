@@ -13,31 +13,31 @@ query project($_id: String!) {
     project(_id: $_id) {
         _id
         groups{
-        _id
-        grouptitle
-        groupdescription
-        iscompleted
-            tasks {
             _id
+            grouptitle
+            groupdescription
             iscompleted
-            tasktitle
-            taskdescription
-            taskplannedtime{
-                time
-            }
-            tasktime{
+            tasks {
+                _id
+                iscompleted
+                tasktitle
+                taskdescription
+                taskplannedtime{
+                    time
+                }
+                tasktime{
                 time
                     user{
-                    username
+                        username
                         time{
                             time
                         }
                     }
                 }
-            group{
-                _id
-            }
-            __typename
+                group{
+                    _id
+                }
+                __typename
             }
         }
     }
@@ -118,9 +118,16 @@ class ProjectTimeCards extends Component {
                                                 (group.tasks || []).map(task =>
                                                     this.state.taskTimeDropedDown && (this.state.taskTimeDropedDownIndex === i) &&
                                                     <UserTimePerTask>
-                                                        <div>{task.tasktime.map(x =>
-                                                            <div>{x.user.username}</div>)}</div>
-                                                        <div>{task.tasktime.map(x => <div>{x.time}</div>)}</div>
+                                                        <div>
+                                                            {task.tasktime.map(x =>
+                                                                <div>{x.user.username}</div>
+                                                            )}
+                                                        </div>
+                                                        <div>
+                                                            {task.tasktime.map(x =>
+                                                                <div>{x.time}</div>
+                                                            )}
+                                                        </div>
                                                     </UserTimePerTask>
                                                 )
                                             }

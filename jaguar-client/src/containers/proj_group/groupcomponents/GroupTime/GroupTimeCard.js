@@ -25,13 +25,14 @@ class GroupTimeCard extends Component {
                         </div>
                     );
                     if (error) return <p>No Project Selected</p>;
-                    const workedHours = data.timeByGroup.map(time => time.time).reduce((x, y) => x + y, 0);
+                    console.log(data)
+                    const groupHours = data.timeByGroup.map(time => time.time).reduce((x, y) => x + y, 0);
                     return (
                         <Card>
                             <Card.Content textAlign='center'>
                                 <Card.Header>total time worked</Card.Header>
                                 <Card.Description>
-                                    <Header as='h2'>{workedHours}</Header>
+                                    <Header as='h2'>{groupHours}</Header>
                                 </Card.Description>
                             </Card.Content>
                         </Card>

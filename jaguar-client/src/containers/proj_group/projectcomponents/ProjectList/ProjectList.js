@@ -75,9 +75,8 @@ class ProjectList extends Component {
         const { open } = this.state;
 
         return(
-            <Query query={userTeamProjects} variables={{_id: user._id, test: this.state.test}}>
+            <Query query={userTeamProjects} variables={{_id: user._id}}>
                 { ({ loading, error, data }) => {
-                    console.log('ran')
                     if(data.user && !this.props.isSelected) {
                         this.defaultProject(
                             data.user.team[0].projects[0]._id,

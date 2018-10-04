@@ -117,38 +117,44 @@ const TimeMutationResolver ={
 
         return newtime
     },
-    createGroupTime: async (parent, {time, timecomment, date, group, user, task}, { Time, Task, User }) => {
+    createGroupTime: async (parent, {time, timecomment, date, group, user, task, project}, { Time, Task, User, Project, Group }) => {
         if(task){
-            let newtime = await new Time({time, timecomment, user, date, task}).save();
+            let newtime = await new Time({time, timecomment, user, date, task, group ,project}).save();
             let usertime = await User.findById(user);
             let taskTarget = await Task.findById(task);
+            let grouptime = await Group.findById(group);
+            let taskProject = await Project.findById(project);
+
 
             taskTarget.tasktime.push(newtime._id);
             usertime.time.push(newtime._id);
+            grouptime.grouptime.push(newtime._id);
+            taskProject.projecttime.push(newtime._id);
 
             await taskTarget.save();
             await usertime.save();
+            await grouptime.save();
+            await taskProject.save();
 
-            return {
-                newtime,
-                usertime
-            };
+            return newtime
         }else{
-            let newtime = await new Time({time, timecomment, user, group, date}).save();
+            let newtime = await new Time({time, timecomment, user, date, group , project}).save();
             let usertime = await User.findById(user);
             let grouptime = await Group.findById(group);
+            let taskProject = await Project.findById(project);
 
             usertime.time.push(newtime._id);
             grouptime.grouptime.push(newtime._id);
+            taskProject.projecttime.push(newtime._id);
 
             await usertime.save();
             await grouptime.save();
+            await taskProject.save();
 
             return newtime
         }
     },
     createProjectTime:  async (parent, {time, timecomment, date, project, user}, { Time, Project, User }) => {
-        console.log(time, timecomment, date, project, user)
         let newtime = await new Time({time, timecomment, user, project, date}).save();
         let usertime = await User.findById(user);
         let projecttime = await Project.findById(project);

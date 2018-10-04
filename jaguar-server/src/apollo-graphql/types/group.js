@@ -88,6 +88,8 @@ removeGroupFromProject(
     newDefaultGroupForProj: String
     projectsDefualtGroup: String
     userId : String
+    taskComments : String
+    taskTimes : String
 ) : Project
 `;
 
@@ -181,82 +183,82 @@ const GroupMutationResolver ={
         return group
     },
     updateGroup: async (parent, args, { Group}) => {
-    if (args.tasks) {
+        if (args.tasks) {
             await Group.findByIdAndUpdate(args.yargetproject)
-    }
-    if (args.groupProject) {
-        await Project.findByIdAndUpdate(args.groupProject, {
-                $pull: {
-                    groups: args.groupToChange
+        }
+        if (args.groupProject) {
+            await Project.findByIdAndUpdate(args.groupProject, {
+                    $pull: {
+                        groups: args.groupToChange
+                    },
                 },
-            },
-            {new: true}
-        );
-    }
-    if (args.targetProject) {
-        await Project.findByIdAndUpdate(args.targetProject, {
-                $push: {
-                    groups: args.groupToChange
+                {new: true}
+            );
+        }
+        if (args.targetProject) {
+            await Project.findByIdAndUpdate(args.targetProject, {
+                    $push: {
+                        groups: args.groupToChange
+                    },
                 },
-            },
-            {new: true}
-        );
-    }
-    if (args.groupToChange) {
-        await Group.findByIdAndUpdate(args.groupToChange, {
-                $set: {
-                    project: args.targetProject
+                {new: true}
+            );
+        }
+        if (args.groupToChange) {
+            await Group.findByIdAndUpdate(args.groupToChange, {
+                    $set: {
+                        project: args.targetProject
+                    },
                 },
-            },
-            {new: true}
-        );
-    }
-    if (args.grouptitle) {
-        await Group.findByIdAndUpdate(args._id, {
-                $set: {
-                    grouptitle: args.grouptitle
-                }
-            },
-            {new: true}
-        );
-    }
-    if (args.groupdescription) {
-        await Group.findByIdAndUpdate(args._id, {
-                $set: {
-                    groupdescription: args.groupdescription
-                }
-            },
-            {new: true}
-        );
-    }
-    if (args.plannedcompletiondate != 'Invalid Date') {
-        await Group.findByIdAndUpdate(args._id, {
-                $set: {
-                    plannedcompletiondate: args.plannedcompletiondate
-                }
-            },
-            {new: true}
-        );
-    }
-    if (args.duedate != 'Invalid Date') {
-        await Group.findByIdAndUpdate(args._id, {
-                $set: {
-                    duedate: args.duedate
-                }
-            },
-            {new: true}
-        );
-    }
-    if (args.iscompleted != null) {
-        await Group.findByIdAndUpdate(args._id, {
-                $set: {
-                    iscompleted: args.iscompleted
-                }
-            },
-            {new: true}
-        );
-    }
-},
+                {new: true}
+            );
+        }
+        if (args.grouptitle) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        grouptitle: args.grouptitle
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.groupdescription) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        groupdescription: args.groupdescription
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.plannedcompletiondate != 'Invalid Date') {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        plannedcompletiondate: args.plannedcompletiondate
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.duedate != 'Invalid Date') {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        duedate: args.duedate
+                    }
+                },
+                {new: true}
+            );
+        }
+        if (args.iscompleted != null) {
+            await Group.findByIdAndUpdate(args._id, {
+                    $set: {
+                        iscompleted: args.iscompleted
+                    }
+                },
+                {new: true}
+            );
+        }
+    },
     addGroupUser: async (parent, {_id, user}, {Group}) => {
         //find user by id with "user id"
         let groupuser = await User.findById(user);
@@ -268,53 +270,67 @@ const GroupMutationResolver ={
         await groups.save();
         return groups
     },
-    removeGroupFromProject: async (parent, {groupToRemoveId, groupsTeamId, groupsProjectId, newDefaultGroupForProj, projectsDefualtGroup, userId, GroupsTasks, groupUsersIds,}, {Project}) => {
-    const GroupsTasksArray = GroupsTasks.split(',');
-    await User.update(
-        {_id: {$in: groupUsersIds}},
-        {$pull: { groups : groupToRemoveId.split(',')}},
-        {multi: true}
-    );
+    removeGroupFromProject: async (parent, {groupToRemoveId, groupsTeamId, groupsProjectId, newDefaultGroupForProj, projectsDefualtGroup, userId, GroupsTasks, groupUsersIds,taskComments, taskTimes }, {Project}) => {
 
-    if(groupsProjectId){
-        let GroupsProject = await Project.findById(groupsProjectId);
-        GroupsProject.groups.pull(groupToRemoveId);
-        await GroupsProject.save();
+        console.log(taskTimes)
+        // if(taskComments !== null){
+        //     await Comment.remove(
+        //         {_id: {$in: taskComments.split(',')}},
+        //     );
+        // }
+        //
+        // if(taskComments !== null){
+        //     await Comment.remove(
+        //         {_id: {$in: taskComments.split(',')}},
+        //     );
+        // }
+
+    //     const GroupsTasksArray = GroupsTasks.split(',');
+    //     await User.update(
+    //         {_id: {$in: groupUsersIds}},
+    //         {$pull: { groups : groupToRemoveId.split(',')}},
+    //         {multi: true}
+    //     );
+    //
+    //     if(groupsProjectId){
+    //         let GroupsProject = await Project.findById(groupsProjectId);
+    //         GroupsProject.groups.pull(groupToRemoveId);
+    //         await GroupsProject.save();
+    //     }
+    //     if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
+    //         await Project.findByIdAndUpdate(groupsProjectId, {
+    //                 $set: {
+    //                     defaultgroup: newDefaultGroupForProj
+    //                 }
+    //             },
+    //             {upsert: true}
+    //         );
+    //     }
+    //     if(groupsTeamId){
+    //         await Team.update(
+    //             {_id: groupsTeamId },
+    //             { $pull: { groups: groupToRemoveId } },
+    //             {multi: true}
+    //         );
+    //     }
+    //     if(userId){
+    //         await User.findByIdAndUpdate(userId, {
+    //                 $set: {
+    //                     defaultgroup: newDefaultGroupForProj
+    //                 }
+    //             },
+    //             {new: true}
+    //         );
+    //     }
+    //     if(GroupsTasks[0] !== ''){
+    //         await Task.remove(
+    //             {_id: {$in: GroupsTasks.split(',')}},
+    //         );
+    //     }
+    //     await Group.deleteOne(
+    //         {_id: groupToRemoveId },
+    //     );
     }
-    if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
-        await Project.findByIdAndUpdate(groupsProjectId, {
-                $set: {
-                    defaultgroup: newDefaultGroupForProj
-                }
-            },
-            {upsert: true}
-        );
-    }
-    if(groupsTeamId){
-        await Team.update(
-            {_id: groupsTeamId },
-            { $pull: { groups: groupToRemoveId } },
-            {multi: true}
-        );
-    }
-    if(userId){
-        await User.findByIdAndUpdate(userId, {
-                $set: {
-                    defaultgroup: newDefaultGroupForProj
-                }
-            },
-            {new: true}
-        );
-    }
-    if(GroupsTasks[0] !== ''){
-        await Task.remove(
-            {_id: {$in: GroupsTasks.split(',')}},
-        );
-    }
-    await Group.deleteOne(
-        {_id: groupToRemoveId },
-    );
-}
 };
 const GroupNested = {
     comments: async ({_id}) => {

@@ -321,7 +321,7 @@ class ProjectDetail extends Component {
                                                             teamLeaderDropDownInput: false,
                                                         })
                                                     }}>update</Button>
-                                                <ProjectDeleteButton data={data} userId={userId}/>
+                                                {/*<ProjectDeleteButton data={data} userId={userId}/>*/}
                                             </Button.Group>
                                         </Card.Content>
                                     </GroupFormWrapper>

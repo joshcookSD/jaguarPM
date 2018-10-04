@@ -33,19 +33,11 @@ class GroupTimeModal extends Component {
     onTaskPick = (id, tasktitle) => this.setState({selectedTask: id, selectedTaskTitle: tasktitle});
 
 
-
-
-
     render () {
         const today = moment(Date.now()).format('YYYY-MM-DD');
         const { data, selectedGroup } = this.props;
-        const { selectedTask,  selectedTaskTitle } = this.state;
-        let tasktime = (this.props.data.group.tasks || []).map((task) => ((task.tasktime || []).map(task => task.time).reduce((x, y) => x + y, 0)));
-        tasktime = tasktime.reduce((x, y) => x + y, 0)
-        //total planned hours
-        let taskPlannedTime = (this.props.data.group.tasks || []).map((task) => (task.taskplannedtime || []).map(tasktimes => tasktimes.time).reduce((x, y) => x + y, 0));
-        taskPlannedTime = taskPlannedTime.reduce((x, y) => x + y, 0)
-        //hours left of group
+        const { selectedTask } = this.state;
+
         return(
             <ModalHeaderWrapper>
                 <Header as='h2'>Time</Header>
@@ -83,8 +75,6 @@ class GroupTimeModal extends Component {
                             project={data.group.project._id}
                             date={today}
                             onClose={this.close}
-                            time={tasktime}
-                            planTime={taskPlannedTime}
                             selectedGroup={selectedGroup}
                         />
                         <GroupAddPlannedTime
@@ -94,8 +84,6 @@ class GroupTimeModal extends Component {
                             project={data.group.project._id}
                             date={today}
                             onClose={this.close}
-                            time={tasktime}
-                            planTime={taskPlannedTime}
                             selectedGroup={selectedGroup}
                         />
                     </Modal.Content>

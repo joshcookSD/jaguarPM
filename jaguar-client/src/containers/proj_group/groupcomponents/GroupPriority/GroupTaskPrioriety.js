@@ -45,7 +45,8 @@ class GroupTaskPrioriety extends Component {
             data,
             removeGroupSwitchForDefault,
             queryVariables,
-            selectedGroup
+            selectedGroup,
+            userId
         } = this.props;
 
         return (
@@ -88,7 +89,7 @@ class GroupTaskPrioriety extends Component {
                         </Modal.Content>
                     </Modal>
                 </ProjectTitleWrapper>
-                <GroupTaskList selectedGroup={selectedGroup}/>
+                <GroupTaskList selectedGroup={selectedGroup} userId={userId}/>
             </div>
         )
     }
