@@ -49,7 +49,7 @@ class GroupList extends Component {
         const { user } = decode(token);
         const variables = {_id: user._id};
         const { open } = this.state;
-        const {selectGroup, isSelected } = this.props;
+        const {selectGroup, isSelected, selectedGroup}  = this.props;
         return(
             <Query query={userProjectGroups} variables={variables}>
                 { ({ loading, error, data }) => {
@@ -113,8 +113,9 @@ class GroupList extends Component {
                                     >
                                         {
                                             project.groups.map((group, i) => {
+                                                console.log(selectGroup)
                                                 return (
-                                                     <ListItemWrapper style={totalGroups >= 1 ? {} : this.props.selectedProject === project._id ? {backgroundColor: '#c0eaca'} : {}}>
+                                                     <ListItemWrapper style={group._id === selectedGroup ? {backgroundColor: '#c0eaca'} : {}}>
                                                         <GroupTaskItem
                                                             key={group._id}
                                                             groupId={group._id}
