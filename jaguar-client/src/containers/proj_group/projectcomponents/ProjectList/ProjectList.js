@@ -68,8 +68,11 @@ class ProjectList extends Component {
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
 
+    mouseOver = () => this.setState({ hovering: true });
+    mouseLeave = () => this.setState({ notHovering: false });
+
     render() {
-        const {selectProject } = this.props;
+        const {selectProject, selectedProject } = this.props;
         const token = localStorage.getItem('token');
         const { user } = decode(token);
         const { open } = this.state;
@@ -132,8 +135,13 @@ class ProjectList extends Component {
                                 >
                                     {
                                          team.projects.map( (project, i) => {
+                                             console.log(project._id)
+                                             console.log(selectedProject)
                                             return (
-                                                <ListItemWrapper style={totalProjects >= 1 ? {} : this.props.selectedProject === project._id ? {backgroundColor: '#c0eaca'} : {}}>
+                                                <ListItemWrapper
+                                                    className={'listWrapper'}
+                                                    style={project._id === selectedProject ? {backgroundColor: '#c0eaca'} : {}}
+                                                >
                                                     <ProjectItem
                                                         key={i}
                                                         projectId={project._id}

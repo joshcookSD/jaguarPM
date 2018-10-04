@@ -30,6 +30,7 @@ class GroupView extends Component {
                     <NavSidebar/>
                     <MainSidebar>
                         <GroupList
+                            selectedGroup={selectedGroup}
                             isSelected={isSelected}
                             selectGroup={this.selectGroup}
                             selectProject={this.selectProject}
