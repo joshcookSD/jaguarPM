@@ -94,7 +94,9 @@ class ProjectList extends Component {
                         );
                     if (error) return <p>Error :(</p>;
                     return <div>
-                        { (data.user.team || []).map( team => (
+                        { (data.user.team || []).map( team => {
+                            const totalProjects = team.projects.length;
+                            return (
                             <div key={team._id}>
                                 <Header onClick={() => this.setState({test: !this.state.test})}>
                                     {team.teamtitle}
@@ -129,23 +131,25 @@ class ProjectList extends Component {
                                     size='large'
                                 >
                                     {
-                                        team.projects.map( (project, i) => {
-                                        return (
-                                            <ListItemWrapper style={this.props.selectedProject === project._id ? {backgroundColor : '#c0eaca'} : {}}>
-                                                <ProjectItem
-                                                    key={i}
-                                                    projectId={project._id}
-                                                    projecttitle={project.projecttitle}
-                                                    projectdescription={project.projectdescription}
-                                                    selectProject={selectProject}
-                                                />
-                                            </ListItemWrapper>
-                                        )
-                                    })}
+                                         team.projects.map( (project, i) => {
+                                            return (
+                                                <ListItemWrapper style={totalProjects >= 1 ? {} : this.props.selectedProject === project._id ? {backgroundColor: '#c0eaca'} : {}}>
+                                                    <ProjectItem
+                                                        key={i}
+                                                        projectId={project._id}
+                                                        projecttitle={project.projecttitle}
+                                                        projectdescription={project.projectdescription}
+                                                        selectProject={selectProject}
+                                                    />
+                                                </ListItemWrapper>
+                                            )
+                                        })
+                                    }
                                 </Transition.Group>
                                 <Divider />
                             </div>
-                        ))}
+                            )
+                        })}
                     </div>;
                 }}
             </Query>

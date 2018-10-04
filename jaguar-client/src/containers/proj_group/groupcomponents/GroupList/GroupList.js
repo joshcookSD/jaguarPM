@@ -12,6 +12,17 @@ const ModalGroupWrapper = styled.div`
     justify-content: space-between;
 `;
 
+const ListItemWrapper = styled.div`
+    margin-bottom: 10px;    
+    padding-left: 5px;
+    padding-right: 5px;
+    align-items: center;
+ &:hover  {
+    background-color: #c0eaca;  
+    border-radius: .28571429rem;
+  }
+`;
+
 
 const token = localStorage.getItem('token');
 
@@ -56,65 +67,70 @@ class GroupList extends Component {
                     );
                     if (error) return <p>Error :(</p>;
                     return <div>
-                        { (data.user.projects || []).map((project, i) => (
-                            <div key={project._id}>
-                                <Header >
-                                    {
-                                        <ModalGroupWrapper>
-                                            <div>
-                                                <div>{` ${project.team.teamtitle} - ${project.projecttitle}`}</div>
-                                            </div>
-                                            <div>
-                                                <Icon
-                                                    onMouseEnter={() => this.onEnter(i)}
-                                                    onMouseLeave={this.onExit}
-                                                    onClick={() => this.captureTeamId(project.team._id, project._id)}
-                                                    color={this.state.hovering && this.state.index === i ? 'blue' : 'green'}
-                                                    name='add circle'
-                                                    size='large'
-                                                />
-                                            </div>
-                                        </ModalGroupWrapper>
-                                    }
-                                </Header>
-                                <Modal open={open} onClose={this.close}>
-                                    <Modal.Header>
-                                        Create Group
-                                    </Modal.Header>
-                                    <Modal.Content>
-                                        <GroupForm
-                                            project={this.state.projectIdForForm}
-                                            team={this.state.teamIdForForm}
-                                            userId={user._id}
-                                            updateQuery={userProjectGroups}
-                                            queryVariables={variables}
-                                            onClose={this.close}/>
-                                    </Modal.Content>
-                                </Modal>
-                                <Transition.Group
-                                    as={List}
-                                    duration={200}
-                                    divided
-                                    relaxed
-                                    size='large'
-                                >
-                                    {
-                                        project.groups.map((group, i) => {
-                                            return (
-                                                <GroupTaskItem
-                                                    key={group._id}
-                                                    groupId={group._id}
-                                                    grouptitle={group.grouptitle}
-                                                    groupdescription={group.groupdescription}
-                                                    selectGroup={selectGroup}
-                                                />
-                                            )
-                                        })
-                                    }
-                                </Transition.Group>
-                                <Divider />
-                            </div>
-                        ))}
+                        { (data.user.projects || []).map((project, i) => {
+                            const totalGroups = project.groups.length;
+                            return (
+                                <div key={project._id}>
+                                    <Header >
+                                        {
+                                            <ModalGroupWrapper>
+                                                <div>
+                                                    <div>{` ${project.team.teamtitle} - ${project.projecttitle}`}</div>
+                                                </div>
+                                                <div>
+                                                    <Icon
+                                                        onMouseEnter={() => this.onEnter(i)}
+                                                        onMouseLeave={this.onExit}
+                                                        onClick={() => this.captureTeamId(project.team._id, project._id)}
+                                                        color={this.state.hovering && this.state.index === i ? 'blue' : 'green'}
+                                                        name='add circle'
+                                                        size='large'
+                                                    />
+                                                </div>
+                                            </ModalGroupWrapper>
+                                        }
+                                    </Header>
+                                    <Modal open={open} onClose={this.close}>
+                                        <Modal.Header>
+                                            Create Group
+                                        </Modal.Header>
+                                        <Modal.Content>
+                                            <GroupForm
+                                                project={this.state.projectIdForForm}
+                                                team={this.state.teamIdForForm}
+                                                userId={user._id}
+                                                updateQuery={userProjectGroups}
+                                                queryVariables={variables}
+                                                onClose={this.close}/>
+                                        </Modal.Content>
+                                    </Modal>
+                                    <Transition.Group
+                                        as={List}
+                                        duration={200}
+                                        divided
+                                        relaxed
+                                        size='large'
+                                    >
+                                        {
+                                            project.groups.map((group, i) => {
+                                                return (
+                                                     <ListItemWrapper style={totalGroups >= 1 ? {} : this.props.selectedProject === project._id ? {backgroundColor: '#c0eaca'} : {}}>
+                                                        <GroupTaskItem
+                                                            key={group._id}
+                                                            groupId={group._id}
+                                                            grouptitle={group.grouptitle}
+                                                            groupdescription={group.groupdescription}
+                                                            selectGroup={selectGroup}
+                                                        />
+                                                      </ListItemWrapper>
+                                                )
+                                            })
+                                        }
+                                    </Transition.Group>
+                                    <Divider />
+                                </div>
+                            )
+                        })}
                     </div>;
                 }}
             </Query>

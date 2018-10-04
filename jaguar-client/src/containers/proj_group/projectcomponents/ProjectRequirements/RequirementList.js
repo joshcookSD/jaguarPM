@@ -79,6 +79,7 @@ class RequirementList extends Component {
                     return (
                         (data.project.requirements || []).map((req, i) =>(
                             <div>
+                                {console.log(req)}
                                 <div
                                     style={{
                                         display: 'flex',
@@ -99,7 +100,7 @@ class RequirementList extends Component {
                                             size="large"
                                             onMouseEnter={() => this.onEnterIcon(i)}
                                             onMouseLeave={this.onExitIcon}
-                                            color={this.state.hoveringIcon && this.state.hoveringIconIndex === i ? 'green' : 'black'}
+                                            color={req.requirementplannedtime.length > 0 ? 'green' : this.state.hoveringIcon && this.state.hoveringIconIndex === i ? 'green' : 'black'}
                                             onClick={() => this.setState({timeOpen: !timeOpen, timeOpenIndex: i})}
                                         />}
                                         {!req.isApproved &&

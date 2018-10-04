@@ -1,5 +1,13 @@
 import React, {Component} from 'react';
 import { List } from 'semantic-ui-react';
+import styled from 'styled-components';
+const ListItemWrapper = styled.div`
+    display: flex;
+    margin-bottom: 10px;    
+    padding-left: 5px;
+    padding-right: 5px;
+    align-items: center;
+`;
 
 class ProjectItem extends Component {
 
@@ -10,7 +18,7 @@ class ProjectItem extends Component {
     render() {
         const {groupId, grouptitle, groupdescription} = this.props;
         return(
-            <List.Item
+            <ListItemWrapper
                 className="listItem"
                 key={groupId}
                 onClick={(e) => this.handleClick(e)}
@@ -20,7 +28,7 @@ class ProjectItem extends Component {
                     <List.Header>{grouptitle}</List.Header>
                     <List.Description>{groupdescription}</List.Description>
                 </List.Content>
-            </List.Item>
+            </ListItemWrapper>
         )
     }
 }
