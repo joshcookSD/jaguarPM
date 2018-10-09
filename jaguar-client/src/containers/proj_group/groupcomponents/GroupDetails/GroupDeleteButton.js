@@ -5,37 +5,11 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
 const removeGroupFromProject = gql`
-    mutation removeGroupFromProject(
-        $groupToRemoveId: String,
-        $groupUsersIds: String,
-        $groupsTeamId: String,
-        $groupsProjectId: String,
-        $GroupsTasks: String
-        $newDefaultGroupForProj: String
-        $projectsDefualtGroup: String
-        $userId : String
-        $taskComments : String
-        $taskTimes : String
-    ) 
-    { 
-        removeGroupFromProject (
-            groupToRemoveId : $groupToRemoveId,
-            groupUsersIds : $groupUsersIds,
-            groupsTeamId : $groupsTeamId,
-            groupsProjectId : $groupsProjectId,
-            GroupsTasks : $GroupsTasks
-            newDefaultGroupForProj : $newDefaultGroupForProj
-            projectsDefualtGroup : $projectsDefualtGroup
-            userId : $userId
-            taskComments : $taskComments
-            taskTimes : $taskTimes
-        )
-        {
-            groups{
-                _id
-            }
-        }
-    }
+mutation removeGroupFromProject($groupInput: groupDeleteInput!){
+  removeGroupFromProject(groupInput: $groupInput) {
+		projecttitle
+  }
+}
 `;
 
 const groupDetails = gql`
@@ -46,10 +20,15 @@ query group($_id: String!) {
     groupdescription
     plannedcompletiondate
     duedate
+    comments{
+      _id
+    }
     groupplannedtime{
+        _id
         time
     }
     grouptime{
+       _id
       time
     }
     team {
@@ -153,23 +132,28 @@ class GroupDetail extends Component {
                                         } else {
                                             await removeGroupFromProject({
                                                 variables: {
-                                                    groupToRemoveId: data.group._id,
-                                                    groupUsersIds: data.group.users.map((user) => user._id).toString(),
-                                                    groupsTeamId: data.group.team._id,
-                                                    groupsProjectId: data.group.project._id,
-                                                    GroupsTasks: data.group.tasks.map((task) => task._id).toString(),
-                                                    newDefaultGroupForProj: newDefualtGroupArray[0]._id,
-                                                    projectsDefualtGroup: data.group.project.defaultgroup._id,
-                                                    userId: userId,
-                                                    taskComments: data.group.tasks.map((task) => task.comments).length < 1 ? null : data.group.tasks.map(task => task.comments.map(comment => comment._id)).toString(),
-                                                    // taskTimes: data.group.tasks.map((task) => task.tasktime).length < 1 ? null : data.group.tasks.map(task => task.tasktime.map(time => time._id)).toString(),
-                                                },
-                                                refetchQueries: [
-                                                    // {query: userTaskDetails, variables: {_id: userId}},
-                                                    // {query: userProjectGroups, variables: variables},
-                                                    {query: groupDetails, variables: {_id: data.group._id}},
+                                                    groupInput: {
+                                                        _id: data.group._id,
+                                                        project: data.group.project._id,
+                                                        team: data.group.team._id,
+                                                        tasks: data.group.tasks.map((task) =>`${task._id}`),
+                                                        users: data.group.users.map((user) => `${user._id}`),
+                                                        comments: data.group.comments.map(comment => `${comment._id}`),
+                                                        grouptime: data.group.grouptime.map(gt => `${gt._id}`),
+                                                        groupplannedtime: data.group.groupplannedtime.map(gpt => `${gpt._id}`)
+                                                    }
+                                                }
+                                                    // groupToRemoveId: data.group._id,
+                                                    // groupUsersIds: data.group.users.map((user) => user._id).toString(),
+                                                    // groupsTeamId: data.group.team._id,
+                                                    // groupsProjectId: data.group.project._id,
+                                                    // GroupsTasks: data.group.tasks.map((task) => task._id).toString(),
+                                                    // newDefaultGroupForProj: newDefualtGroupArray[0]._id,
+                                                    // projectsDefualtGroup: data.group.project.defaultgroup._id,
+                                                    // userId: userId,
+                                                    // taskComments: data.group.tasks.map((task) => task.comments).length < 1 ? null : data.group.tasks.map(task => task.comments.map(comment => comment._id)).toString(),
+                                                    // // taskTimes: data.group.tasks.map((task) => task.tasktime).length < 1 ? null : data.group.tasks.map(task => task.tasktime.map(time => time._id)).toString(),
 
-                                                ]
                                             });
                                         }
                                         // this.props.removeGroupSwitchForDefault()

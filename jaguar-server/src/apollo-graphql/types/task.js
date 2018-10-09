@@ -33,6 +33,7 @@ const TaskType = `
         updatedAt: Date,
         createdAt: Date
     }
+   
 `;
 
 const TaskQuery = `
@@ -51,7 +52,7 @@ const TaskMutation = `
         taskdescription: String,
         taskcurrentowner: String,
         plandate: Date,
-        dueDate: Date,
+        dueDate: Date, 
         iscompleted: Boolean,
         group: String,
         project: String,
@@ -209,6 +210,11 @@ const TaskMutationResolver ={
             let taskUser = await User.findById(args.taskcurrentowner);
             taskUser.tasks.push(task._id);
             await taskUser.save();
+        }
+        if(args.userId){
+            let user = await User.findById(args.userId);
+            user.tasks.push(task._id);
+            await user.save();
         }
         if(args.taskcurrentowner){
             await Task.findByIdAndUpdate(task._id, {

@@ -76,6 +76,7 @@ class GroupTaskPrioriety extends Component {
                         <Modal.Header>Add Task To Group</Modal.Header>
                         <Modal.Content >
                             <GroupTaskForModal
+                                userId={userId}
                                 queryVariables={queryVariables}
                                 userName={this.props.userName}
                                 taskcurrentowner={this.props.userId}

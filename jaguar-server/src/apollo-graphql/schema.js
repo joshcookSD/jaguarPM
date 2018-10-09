@@ -51,7 +51,6 @@ const typeDefs = `
         ${CommentQuery}
     }
     type Mutation {
-  
         ${TaskMutation}
         ${UserMutation}
         ${TimeMutation}
