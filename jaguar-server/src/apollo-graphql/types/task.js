@@ -394,6 +394,9 @@ const TaskMutationResolver ={
             );
             task.taskpriorowners.push(oldtask.taskcurrentowner);
             await task.save();
+            let owner = await User.findById(args.taskcurrentowner);
+            owner.tasks.push(task._id);
+            await owner.save();
     },
     completeTask: async (parent, args, {Task}) =>{
 

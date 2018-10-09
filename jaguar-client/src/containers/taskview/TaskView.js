@@ -222,9 +222,7 @@ class TaskView extends Component {
                             </ContentArea> }
                             {activeView === 'grid' &&
                                 <GridArea>
-                                    <div>
-                                        <Dropdown placeholder='team' fluid selection options={(data.user.team || []).map(team => ({ key: team._id, text: team.teamtitle, value: team._id}))}/>
-                                    </div>
+                                        {/*<Dropdown placeholder='team' fluid selection options={(data.user.team || []).map(team => ({ key: team._id, text: team.teamtitle, value: team._id}))}/>*/}
                                     <TaskGridView
                                         user={user._id}
                                         tasks={data.user.tasks}
