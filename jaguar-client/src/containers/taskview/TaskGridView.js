@@ -11,39 +11,11 @@ import {updateTask} from "../apollo-graphql/taskQueries";
 
 
 class TaskGridView extends Component {
-    state = {
-        taskData: this.props.tasks,
-    };
-
-    componentWillReceiveProps(nextProps){
-        if(this.props.tasks !== nextProps.tasks){
-            this.setState({
-                taskData: this.props.tasks
-            });
-        }
-    }
-
-    compareBy(key) {
-        return function (a, b) {
-            if (a[key] < b[key]) return -1;
-            if (a[key] > b[key]) return 1;
-            return 0;
-        };
-    }
-
-    sortBy(key) {
-        let arrayCopy = [...this.state.taskData];
-        arrayCopy.sort(this.compareBy(key));
-        this.setState({taskData: arrayCopy});
-    }
-
-
 
     render() {
         // const today = moment(Date.now()).format('YYYY-MM-DD');
-        const { user, updateQuery, variables } = this.props;
-        const sortData = this.state.taskData;
-        const headers =  [" ", "task", "description", "duedate", "plandate", "group", "project", "team", "tasktime", "taskplannedtime" ];
+        const { user, updateQuery, variables, tasks } = this.props;
+        const headers =  [" ", "task", "description", "duedate", "plandate", "group", "project", "team"];
 
         // const _updateTask = async () => {
         //     await this.props.updateTask({
@@ -57,12 +29,12 @@ class TaskGridView extends Component {
                <TableHeader>
                <TableHeaderRow>
                    {headers.map(head =>
-                       <TableHeaderCell onClick={() => this.sortBy(head)} key={head}> {head} </TableHeaderCell>
+                       <TableHeaderCell> {head} </TableHeaderCell>
                    )}
                </TableHeaderRow>
                </TableHeader>
                 <TableBody>
-                {sortData.map((task) => (
+                {tasks.map((task) => (
                         <TaskGridRow
                             key={task._id}
                             task={task}
