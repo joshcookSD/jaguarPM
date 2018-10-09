@@ -36,8 +36,8 @@ query group($_id: String!) {
 }`;
 
 const createTask = gql`
-mutation createTask($tasktitle: String!, $taskcurrentowner: String, $plandate: Date, $iscompleted: Boolean!, $group:String!, $project:String!, $team: String!, $dueDate: Date, $taskdescription: String ) {
-    createTask(tasktitle: $tasktitle, taskcurrentowner: $taskcurrentowner, plandate: $plandate, iscompleted: $iscompleted, group: $group, project: $project, team: $team, dueDate: $dueDate, taskdescription: $taskdescription) {
+mutation createTask( $tasktitle: String!, $taskcurrentowner: String, $plandate: Date, $iscompleted: Boolean!, $group:String!, $project:String!, $team: String!, $dueDate: Date, $taskdescription: String ) {
+    createTask( tasktitle: $tasktitle, taskcurrentowner: $taskcurrentowner, plandate: $plandate, iscompleted: $iscompleted, group: $group, project: $project, team: $team, dueDate: $dueDate, taskdescription: $taskdescription) {
         group{ _id }
         iscompleted
         taskdescription
@@ -95,7 +95,7 @@ class TaskForm extends Component {
                                     variables: {
                                         tasktitle: newTaskTitle,
                                         taskdescription: newTaskDescription,
-                                        taskcurrentowner: selectedAssignee,
+                                        taskcurrentowner: userId,
                                         iscompleted: false,
                                         dueDate:duedate ,
                                         plandate,

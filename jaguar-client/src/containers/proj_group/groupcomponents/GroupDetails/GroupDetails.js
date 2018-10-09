@@ -8,37 +8,6 @@ import { Mutation } from "react-apollo";
 import {GroupFormWrapper} from '../../../layout/Proj_GroupComponents.js'
 import gql from "graphql-tag";
 
-
-const removeGroupFromProject = gql`
-    mutation removeGroupFromProject(
-        $groupToRemoveId: String,
-        $groupUsersIds: String,
-        $groupsTeamId: String,
-        $groupsProjectId: String,
-        $GroupsTasks: String
-        $newDefaultGroupForProj: String
-        $projectsDefualtGroup: String
-        $userId : String
-    ) 
-    { 
-        removeGroupFromProject (
-            groupToRemoveId : $groupToRemoveId,
-            groupUsersIds : $groupUsersIds,
-            groupsTeamId : $groupsTeamId,
-            groupsProjectId : $groupsProjectId,
-            GroupsTasks : $GroupsTasks
-            newDefaultGroupForProj : $newDefaultGroupForProj
-            projectsDefualtGroup : $projectsDefualtGroup
-            userId : $userId
-        )
-        {
-            groups{
-                _id
-            }
-        }
-    }
-`;
-
 class GroupDetail extends Component {
     closeTeamDropDown = () => {
         this.setState({groupDropDownChangeInput: false})
@@ -65,6 +34,7 @@ class GroupDetail extends Component {
             selectedGroup,
             queryVariables,
             userId,
+            variables,
             data
         } = this.props;
 

@@ -26,6 +26,17 @@ const GroupType = `
         duedate: Date
         priority: Priority
     }
+    input groupDeleteInput {
+         _id: String
+         project: String
+         team: String
+         tasks: [String]
+         users: [String]
+         comments: [String]
+         grouptime: [String]
+         groupplannedtime: [String]
+    }
+
     type CreateGroupResponse {
         ok: Boolean!
         group: Group
@@ -80,17 +91,8 @@ completeGroup(
     iscompleted: Boolean
 ) : Group
 removeGroupFromProject(
-    groupToRemoveId: String
-    groupUsersIds: String
-    groupsTeamId: String
-    groupsProjectId: String
-    GroupsTasks: String
-    newDefaultGroupForProj: String
-    projectsDefualtGroup: String
-    userId : String
-    taskComments : String
-    taskTimes : String
-) : Project
+    groupInput: groupDeleteInput!
+ ) : Project
 `;
 
 const GroupQueryResolver = {
@@ -102,7 +104,6 @@ const GroupQueryResolver = {
         })
     },
     group: async (parent, args, {Group}) => {
-        console.log(args)
         return await Group.findById(args._id.toString())
     },
 };
@@ -270,9 +271,27 @@ const GroupMutationResolver ={
         await groups.save();
         return groups
     },
-    removeGroupFromProject: async (parent, {groupToRemoveId, groupsTeamId, groupsProjectId, newDefaultGroupForProj, projectsDefualtGroup, userId, GroupsTasks, groupUsersIds,taskComments, taskTimes }, {Project}) => {
+    removeGroupFromProject: async (parent, args, {Project}) => {
 
-        console.log(taskTimes)
+        if(args.groupInput.tasks.length > 0){
+            let groupTasks = await Task.find({_id: {$in: args.groupInput.tasks}});
+            const taskCurrentOwners = (groupTasks || []).map(groupTask => groupTask.taskcurrentowner).filter(currentOwnerArr => currentOwnerArr !== undefined);
+            let taskCurrentUser = await User.find({_id: {$in: taskCurrentOwners}});
+            const currentUsersTasks = taskCurrentUser.map(taskowner => taskowner).map(tasko => tasko.tasks);
+            const currentUsersTasksFlattened = [].concat(...currentUsersTasks);
+                await User.update(
+                    {_id: {$in: taskCurrentOwners}},
+                    {$pullAll: { tasks : currentUsersTasksFlattened}},
+                    {multi: true}
+                );
+        }
+
+        // if(args.groupInput.project){
+        //     let GroupsProject = await Project.findById(args.groupInput.project);
+        //     GroupsProject.groups.pull(args.groupInput._id);
+        //     await GroupsProject.save();
+        // }
+
         // if(taskComments !== null){
         //     await Comment.remove(
         //         {_id: {$in: taskComments.split(',')}},
@@ -292,11 +311,7 @@ const GroupMutationResolver ={
     //         {multi: true}
     //     );
     //
-    //     if(groupsProjectId){
-    //         let GroupsProject = await Project.findById(groupsProjectId);
-    //         GroupsProject.groups.pull(groupToRemoveId);
-    //         await GroupsProject.save();
-    //     }
+
     //     if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
     //         await Project.findByIdAndUpdate(groupsProjectId, {
     //                 $set: {
@@ -334,6 +349,7 @@ const GroupMutationResolver ={
 };
 const GroupNested = {
     comments: async ({_id}) => {
+        console.log(_id)
         return (await Comment.find({group: _id}))
     },
     project: async ({project}) => {
