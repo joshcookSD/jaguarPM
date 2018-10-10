@@ -102,6 +102,7 @@ class GroupDetail extends Component {
             userId,
         } = this.props;
 
+
         return (
             <Query query={groupDetails} variables={{_id: selectedGroup}}>
                 {({loading, error, data}) => {
@@ -140,7 +141,11 @@ class GroupDetail extends Component {
                                                         users: data.group.users.map((user) => `${user._id}`),
                                                         comments: data.group.comments.map(comment => `${comment._id}`),
                                                         grouptime: data.group.grouptime.map(gt => `${gt._id}`),
-                                                        groupplannedtime: data.group.groupplannedtime.map(gpt => `${gpt._id}`)
+                                                        groupplannedtime: data.group.groupplannedtime.map(gpt => `${gpt._id}`),
+
+                                                        newDefaultGroupForProj: newDefualtGroupArray[0]._id,
+                                                        projectsDefualtGroup: data.group.project.defaultgroup._id,
+                                                        userId: userId,
                                                     }
                                                 }
                                                     // groupToRemoveId: data.group._id,
@@ -148,9 +153,8 @@ class GroupDetail extends Component {
                                                     // groupsTeamId: data.group.team._id,
                                                     // groupsProjectId: data.group.project._id,
                                                     // GroupsTasks: data.group.tasks.map((task) => task._id).toString(),
-                                                    // newDefaultGroupForProj: newDefualtGroupArray[0]._id,
-                                                    // projectsDefualtGroup: data.group.project.defaultgroup._id,
-                                                    // userId: userId,
+
+
                                                     // taskComments: data.group.tasks.map((task) => task.comments).length < 1 ? null : data.group.tasks.map(task => task.comments.map(comment => comment._id)).toString(),
                                                     // // taskTimes: data.group.tasks.map((task) => task.tasktime).length < 1 ? null : data.group.tasks.map(task => task.tasktime.map(time => time._id)).toString(),
 

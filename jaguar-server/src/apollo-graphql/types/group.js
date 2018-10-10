@@ -35,6 +35,11 @@ const GroupType = `
          comments: [String]
          grouptime: [String]
          groupplannedtime: [String]
+         
+         newDefaultGroupForProj: [String]
+         projectsDefualtGroup: String
+         userId: String
+        
     }
 
     type CreateGroupResponse {
@@ -272,7 +277,7 @@ const GroupMutationResolver ={
         return groups
     },
     removeGroupFromProject: async (parent, args, {Project}) => {
-
+        //remove task from current owner
         if(args.groupInput.tasks.length > 0){
             let groupTasks = await Task.find({_id: {$in: args.groupInput.tasks}});
             const taskCurrentOwners = (groupTasks || []).map(groupTask => groupTask.taskcurrentowner).filter(currentOwnerArr => currentOwnerArr !== undefined);
@@ -285,66 +290,92 @@ const GroupMutationResolver ={
                     {multi: true}
                 );
         }
+        //delete time connected to tasks
+        if(args.groupInput.tasks.length > 0){
+            let groupTasksObjArray = await Task.find({_id: {$in: args.groupInput.tasks}});
+            const arrOfarrOftimeIds = groupTasksObjArray.map(taskobj => taskobj.tasktime);
+            const arrOfallTimeIds = [].concat(...arrOfarrOftimeIds);
+                await Time.deleteMany(
+                {_id: {$in: arrOfallTimeIds}}
+            );
+        }
+        //delete plannedtime connected to tasks
+        if(args.groupInput.tasks.length > 0){
+            let groupTasksObjArray = await Task.find({_id: {$in: args.groupInput.tasks}});
+            const arrOfarrOfPlannedtimeIds = groupTasksObjArray.map(taskobj => taskobj.taskplannedtime);
+            const arrOfallPlannedTimeIds = [].concat(...arrOfarrOfPlannedtimeIds);
+                await PlannedTime.deleteMany(
+                {_id: {$in: arrOfallPlannedTimeIds}}
+            );
+        }
+        //delete comments connected to tasks
+        if(args.groupInput.tasks.length > 0){
+            let groupTasksObjArray = await Task.find({_id: {$in: args.groupInput.tasks}});
+            const arrOfarrOfCommentIds = groupTasksObjArray.map(taskobj => taskobj.comments);
+            const arrOfallCommentIds = [].concat(...arrOfarrOfCommentIds);
+                await Comment.deleteMany(
+                {_id: {$in: arrOfallCommentIds}}
+            );
+        }
+        //deleteTasks
+        if(args.groupInput.tasks.length > 0){
+            await Task.deleteMany(
+                {_id: {$in: args.groupInput.tasks}}
+            );
+        }
+        //delete grouptime
+        if(args.groupInput.grouptime.length > 0){
+            await Time.deleteMany(
+                {_id: {$in: args.groupInput.grouptime}}
+            );
+        }
+        //delete groupPlannedtime
+        if(args.groupInput.groupplannedtime.length > 0){
+                await PlannedTime.deleteMany(
+                {_id: {$in: args.groupInput.groupplannedtime}}
+            );
+        }
+        //remove group from user
+        if(args.groupInput.users.length > 0){
+            await User.update(
+                {_id: {$in: args.groupInput.users}},
+                {$pull: { groups :  args.groupInput._id}},
+                {multi: true}
+            );
+        }
+        //remove group from proj
+        await Project.update(
+            {_id: args.groupInput.project},
+            {$pull: { groups : args.groupInput._id}},
+        );
+        // remove group from team
+        await Team.update(
+            {_id: args.groupInput.team},
+            {$pull: { groups : args.groupInput._id}},
+        );
+        //delete group
+        await Group.deleteOne(
+            {_id: args.groupInput._id },
+        );
+        if(args.groupInput._id && (args.groupInput.projectsDefualtGroup === args.groupInput._id)){
+            await Project.findByIdAndUpdate(args.groupInput.project, {
+                    $set: {
+                        defaultgroup: args.groupInput.newDefaultGroupForProj[0]
+                    }
+                },
+                {upsert: true}
+            );
+        }
+        if(args.groupInput.userId){
+            await User.findByIdAndUpdate(args.groupInput.userId, {
+                    $set: {
+                        defaultgroup: args.groupInput.newDefaultGroupForProj[0]
+                    }
+                },
+                {new: true}
+            );
+        }
 
-        // if(args.groupInput.project){
-        //     let GroupsProject = await Project.findById(args.groupInput.project);
-        //     GroupsProject.groups.pull(args.groupInput._id);
-        //     await GroupsProject.save();
-        // }
-
-        // if(taskComments !== null){
-        //     await Comment.remove(
-        //         {_id: {$in: taskComments.split(',')}},
-        //     );
-        // }
-        //
-        // if(taskComments !== null){
-        //     await Comment.remove(
-        //         {_id: {$in: taskComments.split(',')}},
-        //     );
-        // }
-
-    //     const GroupsTasksArray = GroupsTasks.split(',');
-    //     await User.update(
-    //         {_id: {$in: groupUsersIds}},
-    //         {$pull: { groups : groupToRemoveId.split(',')}},
-    //         {multi: true}
-    //     );
-    //
-
-    //     if(groupToRemoveId && (projectsDefualtGroup === groupToRemoveId)){
-    //         await Project.findByIdAndUpdate(groupsProjectId, {
-    //                 $set: {
-    //                     defaultgroup: newDefaultGroupForProj
-    //                 }
-    //             },
-    //             {upsert: true}
-    //         );
-    //     }
-    //     if(groupsTeamId){
-    //         await Team.update(
-    //             {_id: groupsTeamId },
-    //             { $pull: { groups: groupToRemoveId } },
-    //             {multi: true}
-    //         );
-    //     }
-    //     if(userId){
-    //         await User.findByIdAndUpdate(userId, {
-    //                 $set: {
-    //                     defaultgroup: newDefaultGroupForProj
-    //                 }
-    //             },
-    //             {new: true}
-    //         );
-    //     }
-    //     if(GroupsTasks[0] !== ''){
-    //         await Task.remove(
-    //             {_id: {$in: GroupsTasks.split(',')}},
-    //         );
-    //     }
-    //     await Group.deleteOne(
-    //         {_id: groupToRemoveId },
-    //     );
     }
 };
 const GroupNested = {
