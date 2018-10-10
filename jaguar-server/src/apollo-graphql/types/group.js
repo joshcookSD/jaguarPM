@@ -31,10 +31,13 @@ const GroupType = `
          project: String
          team: String
          tasks: [String]
+         tasksComments: [String]
          users: [String]
          comments: [String]
          grouptime: [String]
          groupplannedtime: [String]
+         taskTime: [String]
+         taskPlannedTime: [String]
          
          newDefaultGroupForProj: [String]
          projectsDefualtGroup: String
@@ -277,6 +280,7 @@ const GroupMutationResolver ={
         return groups
     },
     removeGroupFromProject: async (parent, args, {Project}) => {
+
         //remove task from current owner
         if(args.groupInput.tasks.length > 0){
             let groupTasks = await Task.find({_id: {$in: args.groupInput.tasks}});
@@ -290,6 +294,61 @@ const GroupMutationResolver ={
                     {multi: true}
                 );
         }
+
+        //remove group comments from user
+        if(args.groupInput.comments.length > 0) {
+            await User.update(
+                {_id: args.groupInput.userId},
+                {$pullAll: {comments: args.groupInput.comments}},
+                {multi: true}
+            );
+        }
+
+        //remove task comments from user
+        if(args.groupInput.tasksComments.length > 0) {
+            await User.update(
+                {_id: args.groupInput.userId},
+                {$pull: {comments: { $in: args.groupInput.tasksComments }}},
+                {multi: true}
+            );
+        }
+
+        // remove task time from user
+        if(args.groupInput.taskTime.length > 0) {
+            await User.update(
+                {_id: args.groupInput.userId},
+                {$pull: {time: { $in: args.groupInput.taskTime }}},
+                {multi: true}
+            );
+        }
+
+        //remove task plannedtime from user
+        if(args.groupInput.taskPlannedTime.length > 0) {
+            await User.update(
+                {_id: args.groupInput.userId},
+                {$pull: {plannedtime: { $in: args.groupInput.taskPlannedTime }}},
+                {multi: true}
+            );
+        }
+
+        // remove group time from user
+        if(args.groupInput.grouptime.length > 0) {
+            await User.update(
+                {_id: args.groupInput.userId},
+                {$pull: {time: { $in: args.groupInput.grouptime }}},
+                {multi: true}
+            );
+        }
+
+        //remove group plannedtime from user
+        if(args.groupInput.groupplannedtime.length > 0) {
+            await User.update(
+                {_id: args.groupInput.userId},
+                {$pull: {plannedtime: { $in: args.groupInput.groupplannedtime }}},
+                {multi: true}
+            );
+        }
+
         //delete time connected to tasks
         if(args.groupInput.tasks.length > 0){
             let groupTasksObjArray = await Task.find({_id: {$in: args.groupInput.tasks}});
@@ -299,6 +358,7 @@ const GroupMutationResolver ={
                 {_id: {$in: arrOfallTimeIds}}
             );
         }
+
         //delete plannedtime connected to tasks
         if(args.groupInput.tasks.length > 0){
             let groupTasksObjArray = await Task.find({_id: {$in: args.groupInput.tasks}});
@@ -308,6 +368,7 @@ const GroupMutationResolver ={
                 {_id: {$in: arrOfallPlannedTimeIds}}
             );
         }
+
         //delete comments connected to tasks
         if(args.groupInput.tasks.length > 0){
             let groupTasksObjArray = await Task.find({_id: {$in: args.groupInput.tasks}});
@@ -317,24 +378,28 @@ const GroupMutationResolver ={
                 {_id: {$in: arrOfallCommentIds}}
             );
         }
-        //deleteTasks
-        if(args.groupInput.tasks.length > 0){
-            await Task.deleteMany(
-                {_id: {$in: args.groupInput.tasks}}
-            );
-        }
+
         //delete grouptime
         if(args.groupInput.grouptime.length > 0){
             await Time.deleteMany(
                 {_id: {$in: args.groupInput.grouptime}}
             );
         }
+
         //delete groupPlannedtime
         if(args.groupInput.groupplannedtime.length > 0){
                 await PlannedTime.deleteMany(
                 {_id: {$in: args.groupInput.groupplannedtime}}
             );
         }
+
+        //deleteTasks
+        if(args.groupInput.tasks.length > 0){
+            await Task.deleteMany(
+                {_id: {$in: args.groupInput.tasks}}
+            );
+        }
+
         //remove group from user
         if(args.groupInput.users.length > 0){
             await User.update(
@@ -343,20 +408,24 @@ const GroupMutationResolver ={
                 {multi: true}
             );
         }
+
         //remove group from proj
         await Project.update(
             {_id: args.groupInput.project},
             {$pull: { groups : args.groupInput._id}},
         );
+
         // remove group from team
         await Team.update(
             {_id: args.groupInput.team},
             {$pull: { groups : args.groupInput._id}},
         );
+
         //delete group
         await Group.deleteOne(
             {_id: args.groupInput._id },
         );
+
         if(args.groupInput._id && (args.groupInput.projectsDefualtGroup === args.groupInput._id)){
             await Project.findByIdAndUpdate(args.groupInput.project, {
                     $set: {
@@ -366,6 +435,7 @@ const GroupMutationResolver ={
                 {upsert: true}
             );
         }
+
         if(args.groupInput.userId){
             await User.findByIdAndUpdate(args.groupInput.userId, {
                     $set: {
