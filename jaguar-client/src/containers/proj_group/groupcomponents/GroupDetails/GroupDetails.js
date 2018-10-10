@@ -161,7 +161,7 @@ class GroupDetail extends Component {
                                                     teamInput: false,
                                                 })
                                             }}>update</Button>
-                                        {/*<GroupDeleteButton selectedGroup={selectedGroup}/>*/}
+                                        <GroupDeleteButton selectedGroup={selectedGroup} userId={userId}/>
                                     </Button.Group>
                                 </Card.Content>
                             </GroupFormWrapper>
