@@ -100,7 +100,7 @@ completeGroup(
 ) : Group
 removeGroupFromProject(
     groupInput: groupDeleteInput!
- ) : Project
+ ) : Group
 `;
 
 const GroupQueryResolver = {
@@ -279,8 +279,9 @@ const GroupMutationResolver ={
         await groups.save();
         return groups
     },
-    removeGroupFromProject: async (parent, args, {Project}) => {
-
+    removeGroupFromProject: async (parent, args, {Group}) => {
+        let group = await Group.findById(args.groupInput._id);
+        console.log(group)
         //remove task from current owner
         if(args.groupInput.tasks.length > 0){
             let groupTasks = await Task.find({_id: {$in: args.groupInput.tasks}});
@@ -408,19 +409,16 @@ const GroupMutationResolver ={
                 {multi: true}
             );
         }
-
         //remove group from proj
         await Project.update(
             {_id: args.groupInput.project},
             {$pull: { groups : args.groupInput._id}},
         );
-
         // remove group from team
         await Team.update(
             {_id: args.groupInput.team},
             {$pull: { groups : args.groupInput._id}},
         );
-
         //delete group
         await Group.deleteOne(
             {_id: args.groupInput._id },
@@ -446,6 +444,7 @@ const GroupMutationResolver ={
             );
         }
 
+        return group
     }
 };
 const GroupNested = {

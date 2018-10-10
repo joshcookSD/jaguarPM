@@ -113,7 +113,6 @@ class GroupList extends Component {
                                     >
                                         {
                                             project.groups.map((group, i) => {
-                                                console.log(selectGroup)
                                                 return (
                                                      <ListItemWrapper style={group._id === selectedGroup ? {backgroundColor: '#c0eaca'} : {}}>
                                                         <GroupTaskItem
