@@ -74,9 +74,11 @@ query group($_id: String!) {
             _id
         }
         taskplannedtime{
+        _id
             time
         }
         tasktime{
+        _id
             time
             user{
                 username
@@ -127,6 +129,15 @@ class GroupDetail extends Component {
                                 return (
                                     <Button size='small' basic color='red' onClick={async e => {
                                         e.preventDefault();
+                                        let taskCommentArray = data.group.tasks.map((task) =>task.comments.map(comment => comment._id));
+                                        const taskCommentsFlattened = [].concat(...taskCommentArray);
+
+                                        let taskTimeArray = data.group.tasks.map((task) =>task.tasktime.map(time => time._id));
+                                        const taskTimesFlattened = [].concat(...taskTimeArray);
+
+                                        let taskPlannedTimeArray = data.group.tasks.map((task) =>task.taskplannedtime.map(plannedtime => plannedtime._id));
+                                        const taskPlannedTimesFlattened = [].concat(...taskPlannedTimeArray);
+
                                         const newDefualtGroupArray = data.group.project.groups.filter(group => group._id !== data.group.project.defaultgroup._id);
                                         if (newDefualtGroupArray.length === 0) {
                                             alert('cant must have one group in each project')
@@ -138,26 +149,18 @@ class GroupDetail extends Component {
                                                         project: data.group.project._id,
                                                         team: data.group.team._id,
                                                         tasks: data.group.tasks.map((task) =>`${task._id}`),
+                                                        tasksComments: taskCommentsFlattened,
+                                                        taskTime: taskTimesFlattened,
+                                                        taskPlannedTime: taskPlannedTimesFlattened,
                                                         users: data.group.users.map((user) => `${user._id}`),
                                                         comments: data.group.comments.map(comment => `${comment._id}`),
                                                         grouptime: data.group.grouptime.map(gt => `${gt._id}`),
                                                         groupplannedtime: data.group.groupplannedtime.map(gpt => `${gpt._id}`),
-
                                                         newDefaultGroupForProj: newDefualtGroupArray[0]._id,
                                                         projectsDefualtGroup: data.group.project.defaultgroup._id,
                                                         userId: userId,
                                                     }
                                                 }
-                                                    // groupToRemoveId: data.group._id,
-                                                    // groupUsersIds: data.group.users.map((user) => user._id).toString(),
-                                                    // groupsTeamId: data.group.team._id,
-                                                    // groupsProjectId: data.group.project._id,
-                                                    // GroupsTasks: data.group.tasks.map((task) => task._id).toString(),
-
-
-                                                    // taskComments: data.group.tasks.map((task) => task.comments).length < 1 ? null : data.group.tasks.map(task => task.comments.map(comment => comment._id)).toString(),
-                                                    // // taskTimes: data.group.tasks.map((task) => task.tasktime).length < 1 ? null : data.group.tasks.map(task => task.tasktime.map(time => time._id)).toString(),
-
                                             });
                                         }
                                         // this.props.removeGroupSwitchForDefault()
