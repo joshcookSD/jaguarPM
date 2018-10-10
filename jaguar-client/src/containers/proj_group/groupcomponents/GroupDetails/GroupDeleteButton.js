@@ -3,14 +3,29 @@ import { Query } from "react-apollo";
 import { Dimmer, Loader, Button } from 'semantic-ui-react';
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import {userProjectGroups} from "../../../apollo-graphql/groupProjectQueries";
 
 const removeGroupFromProject = gql`
-mutation removeGroupFromProject($groupInput: groupDeleteInput!){
-  removeGroupFromProject(groupInput: $groupInput) {
-		projecttitle
-  }
-}
-`;
+    mutation removeGroupFromProject($groupInput: groupDeleteInput!){
+        removeGroupFromProject(groupInput: $groupInput) {
+            _id
+            grouptitle
+            groupdescription
+                project{
+                    _id
+                    team{
+                        _id
+                    }
+                }
+                users{
+                    _id
+                }
+                team{
+                    _id
+                    teamtitle
+                }
+        }
+    }`;
 
 const groupDetails = gql`
 query group($_id: String!) {
@@ -43,6 +58,7 @@ query group($_id: String!) {
         __typename
     }
     project {
+    _id
         team{
             _id
             users{
@@ -160,6 +176,17 @@ class GroupDetail extends Component {
                                                         projectsDefualtGroup: data.group.project.defaultgroup._id,
                                                         userId: userId,
                                                     }
+                                                },
+                                                update: async (store, { data: removeGroupFromProject }) => {
+                                                    const { user } = store.readQuery({query: userProjectGroups, variables:  {_id: userId}  });
+                                                    const currentProject = user.projects.filter(proj => proj._id === data.group.project._id);
+                                                    let newGroupArray = currentProject[0].groups.filter(group => group._id !== data.group._id)
+                                                    currentProject[0].groups = newGroupArray;
+                                                    await store.writeQuery({
+                                                        query: userProjectGroups,
+                                                        variables: {_id: userId},
+                                                        data: { user }
+                                                    });
                                                 }
                                             });
                                         }
