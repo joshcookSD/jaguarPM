@@ -13,6 +13,10 @@ import jwt from 'jsonwebtoken';
 import path from 'path';
 const nconf = require('nconf');
 
+ const logger = require('morgan');
+ const cookieParser = require('cookie-parser');
+ const fileUpload = require('express-fileupload');
+
 nconf.argv().env().file('keys.json');
 
 // mongoose models for graphql context
@@ -29,7 +33,6 @@ import Milestone from "./models/milestone";
 import Organization from "./models/organization";
 import Team from "./models/team";
 import Comment from "./models/comment";
-
 import { refreshTokens } from './apollo-graphql/auth';
 
 //`mongodb://localhost:27017/jaguar`
@@ -48,6 +51,7 @@ if(!isProduction){
 }
 
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
+
 if(isProduction) {
     if (nconf.get('mongoDatabase')) {
         uri = `${uri}/${nconf.get('mongoDatabase')}`;
@@ -59,9 +63,6 @@ if(isProduction) {
         console.log(uri);
     }
 }
-
-
-
 
 mongoose.set("debug", true);
 mongoose.Promise = Promise;
@@ -106,12 +107,10 @@ app.use(session({
     })
 }));
 
-
 if (!isProduction) {
     console.log('Using Dev');
     app.use('*', cors({ origin: 'http://localhost:3000' }));
 }
-
 
 const staticFiles = express.static(path.join(__dirname, '../../jaguar-client/build'));
 app.use(staticFiles);
@@ -142,7 +141,28 @@ app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(app.get('port'), function() {
+ app.use(cors());
+ app.use(bodyParser.json());
+ app.use(bodyParser.urlencoded({ extended: false }));
+ app.use(cookieParser());
+ app.use(fileUpload());
+ app.use('/src/public', express.static(__dirname + '/public'));
+
+ app.post('/upload', (req, res, next) => {
+     let imageFile = req.files.file;
+
+     imageFile.mv(`${__dirname}/public/${req.body.filename}.jpg`, function(err) {
+         if (err) {
+             return res.status(500).send(err);
+         }
+
+         res.json({file: `src/public/${req.body.filename}.jpg`});
+     });
+
+ });
+
+
+ app.listen(app.get('port'), function() {
     console.log(`Listening on ${app.get('port')}`);
 });
 

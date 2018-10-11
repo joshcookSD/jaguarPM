@@ -11,6 +11,7 @@ import CreateOrgForm from './CreateOrgForm';
 import ContentArea from '../layout/ContentArea';
 import {userDetails} from "../apollo-graphql/userQueries";
 import Upload from './Upload';
+import UpdateUserInfo from './UpdateUserInfo';
 
 
 const token = localStorage.getItem('token');
@@ -65,6 +66,7 @@ class AccountUpdateView extends Component {
 
                             {activeView === 'info' &&
                                 <ContentArea>
+                                    {/*<UpdateUserInfo />*/}
                                     <span>Update info goes here</span>
                                 </ContentArea>
                             }
