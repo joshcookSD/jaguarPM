@@ -37,12 +37,10 @@ const GroupType = `
          grouptime: [String]
          groupplannedtime: [String]
          taskTime: [String]
-         taskPlannedTime: [String]
-         
+         taskPlannedTime: [String]   
          newDefaultGroupForProj: [String]
          projectsDefualtGroup: String
          userId: String
-        
     }
 
     type CreateGroupResponse {
